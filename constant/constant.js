@@ -10,3 +10,5 @@ export const APP_COLORS = {
     white: '#fff',
     black: '#000',
 }
+
+export const BACKEND_URL = 'http://skolearn.com';

@@ -1,15 +1,25 @@
-import { View, Text, Image, TouchableHighlight, SafeAreaView, TextInput } from 'react-native';
+import { View, Text, Image, TouchableHighlight, SafeAreaView, TextInput, Linking } from 'react-native';
 import { registerStyles } from './registerStyles';
 import logo from '../../assets/logo.png';
 import { useState } from 'react';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
-import { APP_COLORS } from '../../constant/constant';
+import { APP_COLORS, BACKEND_URL } from '../../constant/constant';
 import { Checkbox } from 'react-native-paper';
 
 const Register = ({navigation}) => {
     const [state, setState] = useState({
         register: false,
-        mobile: '',
+        userName: null,
+        mobile: null,
+        email: null,
+        term: false,
+        referralCode: null,
+        errors: {
+            userName: '',
+            mobile: '',
+            email: '',
+            term: '',
+        }
     });
 
     const handlePress = (btnType)=> {
@@ -28,6 +38,8 @@ const Register = ({navigation}) => {
         </Text>
 
         <View style={registerStyles.registerContainter}>
+            <TextInput style={COMMON_STYLES.TEXT_INPUT} placeholder="Type here Name" onChangeText={(val) => handleChange(val, 'userName')} value={state.userName}/>
+
             <TextInput maxLength={10} style={COMMON_STYLES.TEXT_INPUT} placeholder="Type here Mobile" keyboardType="numeric" onChangeText= {(val) => handleChange(val, 'mobile')} value={state.mobile}/>
 
             <TextInput style={COMMON_STYLES.TEXT_INPUT} placeholder="Type here Email" onChangeText={(val) => handleChange(val, 'email')} value={state.email}/>
@@ -43,7 +55,8 @@ const Register = ({navigation}) => {
                     color={APP_COLORS.green}
                     uncheckedColor={APP_COLORS.white}
                 />
-                <Text style= {COMMON_STYLES.BODY_TEXT}>Accept Terms and conditions</Text>
+
+                <Text style={COMMON_STYLES.BODY_TEXT}>Accept <Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${BACKEND_URL}/terms`)}> Terms and Conditions</Text></Text>
             </View>
             
 

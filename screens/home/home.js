@@ -1,6 +1,7 @@
-import { View, Text, ImageBackground, TouchableHighlight, SafeAreaView } from 'react-native';
+import { View, Text, ImageBackground, TouchableHighlight, SafeAreaView, Linking } from 'react-native';
 import { homeStyles } from './homeStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
+import { BACKEND_URL } from '../../constant/constant';
 
 
 //import logo from '../../assets/logo.png';
@@ -44,7 +45,7 @@ const Home = ({navigation}) => {
                     </TouchableHighlight>
                 </View>
 
-                <Text style={homeStyles.textBody}>By Continuing you agree to the Terms and Conditions here</Text>
+                <Text style={COMMON_STYLES.BODY_TEXT}>By Continuing you agree to the<Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${BACKEND_URL}/terms`)}> Terms and Conditions</Text></Text>
           </ImageBackground>
       </SafeAreaView>
   )

@@ -18,9 +18,4 @@ export const registerStyles = StyleSheet.create({
         marginTop: '10%',
         width: '85%',
     },
-    textBody: {
-        color: APP_COLORS.white,
-        textAlign: 'center',
-        fontSize: 10,
-    }
 })

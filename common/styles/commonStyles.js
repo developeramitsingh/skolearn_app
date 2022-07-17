@@ -1,19 +1,29 @@
 import {APP_COLORS} from '../../constant/constant';
 export const COMMON_STYLES = {
+    CONTAINER: {
+        backgroundColor: APP_COLORS.black,
+        width: '100%',
+        height: '100%',
+        flex: 1,
+        paddingTop: 5,
+        paddingHorizontal: 15,
+    },
     TEXT_INPUT: {
         color: '#000',
         backgroundColor: '#fff',
         textAlign: 'center',
-        fontSize: 18,
-        paddingTop: 10,
-        paddingBottom: 10,
+        fontSize: 16,
+        paddingTop: 8,
+        paddingBottom: 8,
         borderRadius: 40,
-        marginTop: '5%',
+        marginTop: '4%',
+        marginBottom: '4%',
     },
     BTN_1: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: '8%',
+        marginTop: '4%',
+        marginBottom: '4%',
         paddingVertical: 17,
         borderRadius: 40,
         backgroundColor: APP_COLORS.yellow,
@@ -31,10 +41,39 @@ export const COMMON_STYLES = {
         fontSize: 36,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: '15%',
+        marginTop: '10%',
     },
 
     BODY_TEXT:  {
-        color: '#fff',
+        color: APP_COLORS.white,
+        fontSize: 12,
+    },
+    BODY_TITLE:  {
+        color: APP_COLORS.white,
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    BODY_TABS:  {
+        borderWidth: 1,
+        borderColor: APP_COLORS.grey,
+        borderRadius: 20,
+        paddingVertical: 5,
+        width: 95,
+    },
+    ACTIVE: {
+        backgroundColor: APP_COLORS.blue,
+    },
+    BODY_TABS_TEXT:  {
+        color: APP_COLORS.white,
+        fontSize: 14,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    LINK_TEXT: {
+        color: APP_COLORS.blue,
+        fontWeight: 'bold',
+    },
+    CENTER: {
+        textAlign: 'center',
     }
 }

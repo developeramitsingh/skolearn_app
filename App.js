@@ -3,13 +3,14 @@ import Home from './screens/home/home';
 import Login from './screens/login/login';
 import VerifyOtp from './screens/verifyOtp/verifyOtp';
 import Register from './screens/register/register';
+import Dashboard from './screens/dashboard/dashboard';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
-    <NavigationContainer>
+      <NavigationContainer>
       <Stack.Navigator screenOptions={{
         headerShown: false,
         animation: 'slide_from_right',
@@ -18,9 +19,12 @@ export default function App() {
         <Stack.Screen name="Login" component ={Login}/>
         <Stack.Screen name="Register" component ={Register}/>
         <Stack.Screen name="VerifyOtp" component ={VerifyOtp}/>
+
+        <Stack.Screen name="Dashboard" component ={Dashboard}/>
+        
       </Stack.Navigator>
+      
     </NavigationContainer>
-    
   );
 }
 

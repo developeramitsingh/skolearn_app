@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 
-const VerifyOtp = () => {
+const VerifyOtp = ({navigation}) => {
     const [state, setState] = useState({
         otp: '',
     });
@@ -15,6 +15,8 @@ const VerifyOtp = () => {
         // setState(prev => {
         //     return {...prev, [btnType]: !state[btnType] }
         // })
+        navigation.navigate('Dashboard');
+
     }
 
     const handleChange = (val) => {
