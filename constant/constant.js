@@ -12,3 +12,11 @@ export const APP_COLORS = {
 }
 
 export const BACKEND_URL = 'http://skolearn.com';
+
+export const TEST_TYPES = {
+    LIVE: 'live',
+    MY_TEST: 'mytest',
+    PRACTICE: 'practice',
+};
+
+export const TEST_CARD_COLORS = [APP_COLORS.blue, APP_COLORS.blueGreen, APP_COLORS.green, APP_COLORS.white, APP_COLORS.yellow, APP_COLORS.orange, APP_COLORS.skyBlue, APP_COLORS.blue, APP_COLORS.blueGreen, APP_COLORS.green];

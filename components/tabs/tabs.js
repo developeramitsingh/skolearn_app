@@ -3,23 +3,24 @@ import {View, TouchableHighlight, Text} from 'react-native';
 
 import { tabStyles } from './tabStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
+import * as Constant from  '../../constant/constant';
 
 const Tabs = (props) => {
     const tabs = [{
         name: 'Live Tests',
-        key: 'liveTests',
+        key: Constant.TEST_TYPES.LIVE,
     }, 
     {
         name: 'My Tests',
-        key: 'myTests',
+        key: Constant.TEST_TYPES.MY_TEST,
     },
     {
         name: 'Practice',
-        key: 'practiceTests',
+        key: Constant.TEST_TYPES.PRACTICE,
     }];
 
     const [state, setState] = useState({
-        activeTab: tabs[0].key,
+        activeTab: Constant.TEST_TYPES.LIVE,
     });
 
     const handlePress = (key)=> {
@@ -33,7 +34,7 @@ const Tabs = (props) => {
             {tabs.map(tab => {
                 return(
                     <TouchableHighlight onPress={() => handlePress(tab.key)} style={{...COMMON_STYLES.BODY_TABS, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE : {})}} key={tab.key}>
-                        <Text style={COMMON_STYLES.BODY_TABS_TEXT}>{tab.name}</Text>
+                        <Text style={{...COMMON_STYLES.BODY_TABS_TEXT, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE_TEXT : {})}}>{tab.name}</Text>
                     </TouchableHighlight>
                 )
             })}

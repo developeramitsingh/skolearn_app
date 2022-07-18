@@ -1,16 +1,17 @@
-import { View, Text, Image, TouchableHighlight, SafeAreaView, Linking } from 'react-native';
-import dashboardStyles from './dashboardStyles';
+import { SafeAreaView } from 'react-native';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
-import { BACKEND_URL } from '../../constant/constant';
-import {FontAwesome } from '@expo/vector-icons';
+import * as Constant from '../../constant/constant';
 import { useState } from 'react';
 import Tabs from '../../components/tabs/tabs';
 import StatusBar from '../../components/statusBar/statusBar';
+import LiveTestsList from '../dashboard/testLists/liveTestsList';
+import MyTestsList from '../dashboard/testLists/myTestsList';
+import PracticeTestsList from './testLists/practiceTestsList';
 
 const Dashboard = () => {
     const [state, setState] = useState({
         userName: 'Amit',
-        activeTab: 'liveTests',
+        activeTab: Constant.TEST_TYPES.LIVE,
     });
 
     const setActiveTab = (key) => {
@@ -23,6 +24,15 @@ const Dashboard = () => {
         <SafeAreaView style={COMMON_STYLES.CONTAINER}>
             <StatusBar text ={state.userName}/>
             <Tabs setActiveTab={setActiveTab}/>
+            {
+                state.activeTab === Constant.TEST_TYPES.LIVE 
+                ? <LiveTestsList/>
+                : state.activeTab === Constant.TEST_TYPES.MY_TEST
+                ? <MyTestsList/>
+                : <PracticeTestsList/>
+            
+            }
+
         </SafeAreaView>
     )
 }

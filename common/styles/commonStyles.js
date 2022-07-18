@@ -58,10 +58,13 @@ export const COMMON_STYLES = {
         borderColor: APP_COLORS.grey,
         borderRadius: 20,
         paddingVertical: 5,
-        width: 95,
+        paddingHorizontal: 15,
     },
     ACTIVE: {
-        backgroundColor: APP_COLORS.blue,
+        backgroundColor: APP_COLORS.yellow,
+    },
+    ACTIVE_TEXT: {
+        color: APP_COLORS.black,
     },
     BODY_TABS_TEXT:  {
         color: APP_COLORS.white,
@@ -75,5 +78,9 @@ export const COMMON_STYLES = {
     },
     CENTER: {
         textAlign: 'center',
+    },
+    SEPARATOR: {
+        height: 1,
+        backgroundColor: APP_COLORS.white,
     }
 }
