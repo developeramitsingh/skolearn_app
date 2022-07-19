@@ -29,5 +29,6 @@ export const ROUTES = {
     WALLET: 'Wallet',
     TESTS: 'Tests',
     HELP: 'Help',
-    VERIFY_OTP: 'VerifyOtp'
+    VERIFY_OTP: 'VerifyOtp',
+    ATTEMPT: 'Attempt',
 }

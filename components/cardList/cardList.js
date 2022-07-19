@@ -41,7 +41,7 @@ const CardList = (props) => {
 
                 <View style ={cardListStyles.ROW}>
                     <View style={cardListStyles.COL_LEFT_2}>
-                        <TouchableHighlight style= {cardListStyles.CARD_BTN}>
+                        <TouchableHighlight onPress={() => props?.handleBtnPress(item.id)} style= {cardListStyles.CARD_BTN}>
                             <Text style = {cardListStyles.CARD_BTN_TEXT}>{btnText}</Text>
                         </TouchableHighlight>
                     </View>

@@ -4,7 +4,7 @@ import CardList from '../../../components/cardList/cardList';
 import testListsStyles from './testListsStyles';
 import * as Constant from '../../../constant/constant';
 
-const MyTestsList = ()=> {
+const MyTestsList = ({navigation})=> {
     const myTestDataList = [
         {
             id: '1',
@@ -52,10 +52,14 @@ const MyTestsList = ()=> {
             expiresOn: '12/08/2022',
         }
     ];
+    const handleBtnPress = (id) => {
+        console.info({id});
+        navigation.navigate(Constant.ROUTES.ATTEMPT, { testId: id });
+    }
     return (
         <View style={{flex: 1}}>
             <Text style={testListsStyles.HEADING}>Test Completed</Text>
-            <CardList customStyle={{ flex: 1 }} dataList={myTestDataList} horizontal = {false}/>
+            <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 1 }} dataList={myTestDataList} horizontal = {false}/>
         </View>
     )   
 }

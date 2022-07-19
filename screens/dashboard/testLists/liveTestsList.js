@@ -5,7 +5,7 @@ import CardList from '../../../components/cardList/cardList';
 import testListsStyles from './testListsStyles';
 import * as Constant from '../../../constant/constant';
 
-const LiveTestsList = ()=> {
+const LiveTestsList = ({navigation})=> {
     const liveDataList = [
         {
             id: '1',
@@ -53,14 +53,19 @@ const LiveTestsList = ()=> {
             expiresOn: '12/08/2022',
         }
     ];
+
+    const handleBtnPress = (id) => {
+        console.info({id});
+        navigation.navigate(Constant.ROUTES.ATTEMPT, { testId: id });
+    }
     return (
         <View style={{flex: 1}}>
             <Text style={testListsStyles.HEADING}>Mega Scholarships</Text>
-            <CardList customStyle={{ flex: 0 }} dataList={liveDataList} horizontal = {true}/>
+            <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 0 }} dataList={liveDataList} horizontal = {true}/>
             <View style={COMMON_STYLES.SEPARATOR}></View>
 
             <Text style={testListsStyles.HEADING}>Scholarships for everyone</Text>
-            <CardList customStyle={{ flex: 1 }} dataList={liveDataList} horizontal = {false}/>
+            <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 1 }} dataList={liveDataList} horizontal = {false}/>
         </View>
     )   
 }

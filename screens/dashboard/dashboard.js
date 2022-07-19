@@ -30,10 +30,10 @@ const Dashboard = ({navigation}) => {
                 
                 {
                     state.activeTab === Constant.TEST_TYPES.LIVE 
-                    ? <LiveTestsList/>
+                    ? <LiveTestsList navigation={navigation}/>
                     : state.activeTab === Constant.TEST_TYPES.MY_TEST
-                    ? <MyTestsList/>
-                    : <PracticeTestsList/>
+                    ? <MyTestsList navigation={navigation}/>
+                    : <PracticeTestsList navigation={navigation}/>
                 
                 }
                 <FooterIconBar navigation={navigation}/>

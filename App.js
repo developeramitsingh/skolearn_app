@@ -7,6 +7,7 @@ import Dashboard from './screens/dashboard/dashboard';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as Constant from './constant/constant';
+import Attempt from './screens/attempt/attempt';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
         <Stack.Screen name={Constant.ROUTES.VERIFY_OTP} component ={VerifyOtp}/>
 
         <Stack.Screen name={Constant.ROUTES.DASHBOARD} component ={Dashboard}/>
+        <Stack.Screen name={Constant.ROUTES.ATTEMPT} component ={Attempt}/>
         
       </Stack.Navigator>
       

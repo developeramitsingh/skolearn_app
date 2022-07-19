@@ -5,7 +5,7 @@ import CardList from '../../../components/cardList/cardList';
 import testListsStyles from './testListsStyles';
 import * as Constant from '../../../constant/constant';
 
-const PracticeTestsList = ()=> {
+const PracticeTestsList = ({navigation})=> {
     const practiceTestsDataList = [
         {
             id: '1',
@@ -53,10 +53,15 @@ const PracticeTestsList = ()=> {
             expiresOn: '12/08/2022',
         }
     ];
+    const handleBtnPress = (id) => {
+        console.info({id});
+        navigation.navigate(Constant.ROUTES.ATTEMPT, { testId: id });
+    }
+    
     return (
         <View style={{flex: 1}}>
             <Text style={testListsStyles.HEADING}>Practice Tests</Text>
-            <CardList customStyle={{ flex: 1 }} dataList={practiceTestsDataList} horizontal = {false}/>
+            <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 1 }} dataList={practiceTestsDataList} horizontal = {false}/>
         </View>
     )   
 }
