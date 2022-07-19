@@ -2,10 +2,8 @@ import {APP_COLORS} from '../../constant/constant';
 export const COMMON_STYLES = {
     CONTAINER: {
         backgroundColor: APP_COLORS.black,
-        width: '100%',
-        height: '100%',
         flex: 1,
-        paddingTop: 5,
+        paddingTop: 0,
         paddingHorizontal: 15,
     },
     TEXT_INPUT: {
@@ -54,17 +52,17 @@ export const COMMON_STYLES = {
         fontWeight: 'bold',
     },
     BODY_TABS:  {
-        borderWidth: 1,
-        borderColor: APP_COLORS.grey,
+        //borderWidth: 1,
+        //borderColor: APP_COLORS.grey,
         borderRadius: 20,
-        paddingVertical: 5,
+        paddingVertical: 8,
         paddingHorizontal: 15,
     },
     ACTIVE: {
-        backgroundColor: APP_COLORS.yellow,
+        backgroundColor: APP_COLORS.black,
     },
     ACTIVE_TEXT: {
-        color: APP_COLORS.black,
+        color: APP_COLORS.white,
     },
     BODY_TABS_TEXT:  {
         color: APP_COLORS.white,
@@ -78,9 +76,21 @@ export const COMMON_STYLES = {
     },
     CENTER: {
         textAlign: 'center',
+        alignItems: 'center',
     },
     SEPARATOR: {
         height: 1,
-        backgroundColor: APP_COLORS.white,
+        backgroundColor: APP_COLORS.grey,
+    },
+    SEPARATOR_VERTICAL: {
+        width: 1,
+        backgroundColor: APP_COLORS.grey,
+    },
+    ROW: {
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        //alignItems: ''
+        paddingVertical: 5,
+        paddingHorizontal: 5,
     }
 }

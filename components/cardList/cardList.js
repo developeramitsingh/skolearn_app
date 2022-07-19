@@ -70,12 +70,9 @@ const CardList = (props) => {
             </View>
         )
     }
-    console.info({'props': props.horizontal})
+
     return (
-        <View style={ 
-            props.horizontal 
-            ? cardListStyles.LIST_HORIZONTAL 
-            : {...cardListStyles.LIST_VERTICAL, ...(props.height ? { height: props.height} : {}) }}>
+        <View style={props.customStyle}>
             <FlatList
                 data = { props.dataList || []}
                 renderItem ={renderCard}

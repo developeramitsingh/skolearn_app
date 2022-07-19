@@ -6,6 +6,7 @@ import Register from './screens/register/register';
 import Dashboard from './screens/dashboard/dashboard';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import * as Constant from './constant/constant';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -14,13 +15,13 @@ export default function App() {
       <Stack.Navigator screenOptions={{
         headerShown: false,
         animation: 'slide_from_right',
-      }} initialRouteName="Home">
-        <Stack.Screen name="Home" component ={Home}/>
-        <Stack.Screen name="Login" component ={Login}/>
-        <Stack.Screen name="Register" component ={Register}/>
-        <Stack.Screen name="VerifyOtp" component ={VerifyOtp}/>
+      }} initialRouteName={Constant.ROUTES.HOME}>
+        <Stack.Screen name={Constant.ROUTES.HOME} component ={Home}/>
+        <Stack.Screen name={Constant.ROUTES.LOGIN} component ={Login}/>
+        <Stack.Screen name={Constant.ROUTES.REGISTER} component ={Register}/>
+        <Stack.Screen name={Constant.ROUTES.VERIFY_OTP} component ={VerifyOtp}/>
 
-        <Stack.Screen name="Dashboard" component ={Dashboard}/>
+        <Stack.Screen name={Constant.ROUTES.DASHBOARD} component ={Dashboard}/>
         
       </Stack.Navigator>
       

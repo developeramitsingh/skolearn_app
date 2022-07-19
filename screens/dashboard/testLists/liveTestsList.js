@@ -54,13 +54,13 @@ const LiveTestsList = ()=> {
         }
     ];
     return (
-        <View>
+        <View style={{flex: 1}}>
             <Text style={testListsStyles.HEADING}>Mega Scholarships</Text>
-            <CardList dataList={liveDataList} horizontal = {true}/>
+            <CardList customStyle={{ flex: 0 }} dataList={liveDataList} horizontal = {true}/>
             <View style={COMMON_STYLES.SEPARATOR}></View>
 
             <Text style={testListsStyles.HEADING}>Scholarships for everyone</Text>
-            <CardList dataList={liveDataList} horizontal = {false}/>
+            <CardList customStyle={{ flex: 1 }} dataList={liveDataList} horizontal = {false}/>
         </View>
     )   
 }

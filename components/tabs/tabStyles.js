@@ -9,5 +9,8 @@ export const tabStyles = StyleSheet.create({
         justifyContent: 'space-between',
         // borderWidth: 1,
         // borderColor: '#fff',
+        backgroundColor: APP_COLORS.blue,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
     },
 })

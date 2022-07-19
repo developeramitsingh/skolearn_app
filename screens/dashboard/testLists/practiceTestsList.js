@@ -54,9 +54,9 @@ const PracticeTestsList = ()=> {
         }
     ];
     return (
-        <View>
+        <View style={{flex: 1}}>
             <Text style={testListsStyles.HEADING}>Practice Tests</Text>
-            <CardList dataList={practiceTestsDataList} horizontal = {false} height = "80%"/>
+            <CardList customStyle={{ flex: 1 }} dataList={practiceTestsDataList} horizontal = {false}/>
         </View>
     )   
 }

@@ -17,6 +17,7 @@ const cardListStyles = StyleSheet.create({
         marginRight: 10,
         paddingHorizontal: 10,
         paddingBottom: 10,
+        justifyContent: 'space-between'
     },
     CARD_VERTICAL: {
         borderRadius: 15,
@@ -24,12 +25,13 @@ const cardListStyles = StyleSheet.create({
         //marginRight: 10,
         paddingHorizontal: 10,
         paddingBottom: 10,
+        justifyContent: 'space-between'
     },
     ROW: {
         display: 'flex',
         //alignItems: 'center',
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     COL_RIGHT: {
         backgroundColor: APP_COLORS.white,

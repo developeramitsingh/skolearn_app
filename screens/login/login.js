@@ -3,6 +3,7 @@ import { loginStyles } from './loginStyles';
 import logo from '../../assets/logo.png';
 import { useState } from 'react';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
+import * as Constant from  '../../constant/constant';
 
 const Login = ({navigation}) => {
     const [state, setState] = useState({
@@ -10,9 +11,9 @@ const Login = ({navigation}) => {
         mobile: '',
     });
 
-    const handlePress = (btnType)=> {
+    const handlePress = ()=> {
         //sets color when btn pressed
-        navigation.navigate('VerifyOtp');
+        navigation.navigate(Constant.ROUTES.VERIFY_OTP);
     }
 
     const handleChange = (val) => {
@@ -28,7 +29,7 @@ const Login = ({navigation}) => {
         <View style={loginStyles.loginContainter}>
             <TextInput maxLength={10} style={COMMON_STYLES.TEXT_INPUT} placeholder="Type here Mobile" keyboardType="numeric" onChangeText= {handleChange} value={state.mobile}/>
 
-            <TouchableHighlight handlePress={() => handlePress('login')} onPressOut={() => handlePress('login')} onPressIn={() => handlePress('login')} style={COMMON_STYLES.BTN_1}>
+            <TouchableHighlight handlePress={handlePress} onPressOut={handlePress} onPressIn={handlePress} style={COMMON_STYLES.BTN_1}>
                 <Text style={COMMON_STYLES.BTN_TEXT}>Login</Text>
             </TouchableHighlight>
 
