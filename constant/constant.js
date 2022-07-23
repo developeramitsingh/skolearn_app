@@ -9,6 +9,8 @@ export const APP_COLORS = {
     light_grey: '#C1C1C1',
     white: '#fff',
     black: '#000',
+    black_opacity: '#00000050',
+    white_opacity: '#ffffff70',
 }
 
 export const BACKEND_URL = 'http://skolearn.com';
@@ -27,8 +29,11 @@ export const ROUTES = {
     LOGIN: 'Login',
     REGISTER: 'Register',
     WALLET: 'Wallet',
-    TESTS: 'Tests',
+    TEST: 'Test',
     HELP: 'Help',
     VERIFY_OTP: 'VerifyOtp',
     ATTEMPT: 'Attempt',
+    RESULT_SCREEN: 'ResultScreen',
 }
+
+export const TEST_TIME_LIMIT = 5;

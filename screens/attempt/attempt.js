@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import {FontAwesome } from '@expo/vector-icons';
+import * as Constant from '../../constant/constant';
 
 const Attempt = ({navigation, route }) => {
     const [state, setState] = useState({
@@ -16,8 +17,8 @@ const Attempt = ({navigation, route }) => {
         fee: 49,
     })
 
-    const handlePress = (btnType)=> {
-        alert('In Development, will appear in next release');
+    const handlePress = ()=> {
+        navigation.navigate(Constant.ROUTES.TEST, { testId: route?.params?.testId });
     }
 
     const handleChange = (val) => {

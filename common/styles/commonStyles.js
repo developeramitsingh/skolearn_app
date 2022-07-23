@@ -6,6 +6,12 @@ export const COMMON_STYLES = {
         paddingTop: 0,
         paddingHorizontal: 15,
     },
+    CONTAINER_LIGHT: {
+        backgroundColor: APP_COLORS.white,
+        flex: 1,
+        paddingTop: 0,
+        paddingHorizontal: 15,
+    },
     TEXT_INPUT: {
         color: '#000',
         backgroundColor: '#fff',
@@ -30,7 +36,6 @@ export const COMMON_STYLES = {
     BTN_TEXT: {
         fontSize: 16,
         fontWeight: 'bold',
-        letterSpacing: 0.25,
         color: APP_COLORS.black,
     },
 
@@ -82,6 +87,10 @@ export const COMMON_STYLES = {
         height: 1,
         backgroundColor: APP_COLORS.grey,
     },
+    SEPARATOR_WHITE: {
+        height: 1,
+        backgroundColor: APP_COLORS.white,
+    },
     SEPARATOR_VERTICAL: {
         width: 1,
         backgroundColor: APP_COLORS.grey,
@@ -92,5 +101,11 @@ export const COMMON_STYLES = {
         //alignItems: ''
         paddingVertical: 5,
         paddingHorizontal: 5,
-    }
+    },
+    DISABLED: {
+        backgroundColor: APP_COLORS.black_opacity,
+    },
+    DISABLED_TEXT: {
+        color: APP_COLORS.white_opacity,
+    },
 }

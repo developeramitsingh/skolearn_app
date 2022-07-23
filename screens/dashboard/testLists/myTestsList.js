@@ -14,6 +14,7 @@ const MyTestsList = ({navigation})=> {
             usersLimit: '500',
             listType: Constant.TEST_TYPES.MY_TEST,
             expiresOn: '12/08/2022',
+            isResultDeclared: true,
         },
         {
             id: '2',
@@ -23,6 +24,7 @@ const MyTestsList = ({navigation})=> {
             usersLimit: '500',
             listType: Constant.TEST_TYPES.MY_TEST,
             expiresOn: '12/08/2022',
+            isResultDeclared: false,
         },
         {
             id: '3',
@@ -32,6 +34,7 @@ const MyTestsList = ({navigation})=> {
             usersLimit: '500',
             listType: Constant.TEST_TYPES.MY_TEST,
             expiresOn: '12/08/2022',
+            isResultDeclared: false,
         },
         {
             id: '4',
@@ -41,6 +44,7 @@ const MyTestsList = ({navigation})=> {
             usersLimit: '500',
             listType: Constant.TEST_TYPES.MY_TEST,
             expiresOn: '12/08/2022',
+            isResultDeclared: false,
         },
         {
             id: '5',
@@ -50,11 +54,12 @@ const MyTestsList = ({navigation})=> {
             usersLimit: '500',
             listType: Constant.TEST_TYPES.MY_TEST,
             expiresOn: '12/08/2022',
+            isResultDeclared: false,
         }
     ];
     const handleBtnPress = (id) => {
         console.info({id});
-        navigation.navigate(Constant.ROUTES.ATTEMPT, { testId: id });
+        navigation.navigate(Constant.ROUTES.RESULT_SCREEN, { testId: id });
     }
     return (
         <View style={{flex: 1}}>

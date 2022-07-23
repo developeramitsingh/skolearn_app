@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {View, TouchableHighlight, Text} from 'react-native';
 
 import { tabStyles } from './tabStyles';
@@ -20,8 +20,16 @@ const Tabs = (props) => {
     }];
 
     const [state, setState] = useState({
-        activeTab: Constant.TEST_TYPES.LIVE,
+        activeTab: '',
     });
+
+    useEffect(() => {
+        if(props.activeTab) {
+            setState(prev => {
+                return { ...prev, activeTab: props.activeTab };
+            })
+        }
+    }, [props.activeTab])
 
     const handlePress = (key)=> {
         setState(prev=> {
@@ -31,6 +39,7 @@ const Tabs = (props) => {
     }
     return(
         <View style={tabStyles.SUB_CONT}>
+            {console.info({activeTabHere: state.activeTab})}
             {tabs.map(tab => {
                 return(
                     <TouchableHighlight onPress={() => handlePress(tab.key)} style={{...COMMON_STYLES.BODY_TABS, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE : {})}} key={tab.key}>

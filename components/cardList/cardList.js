@@ -3,27 +3,45 @@ import cardListStyles from "./cardListStyles";
 import {FontAwesome } from '@expo/vector-icons';
 import * as Constant from '../../constant/constant';
 import { useState } from "react";
+import { COMMON_STYLES } from "../../common/styles/commonStyles";
 
 const CardList = (props) => {
     const [state, setState] = useState({
     })
 
     const renderCard = ({item})=> {
-        const expireLabel = item.listType?.toLowerCase() ===    Constant.TEST_TYPES.LIVE
+        const listType = item.listType?.toLowerCase();
+
+        const expireLabel = listType ===  Constant.TEST_TYPES.LIVE
             ? 'Expires on'
-            : item.listType?.toLowerCase() === Constant.TEST_TYPES.MY_TEST
+            : listType === Constant.TEST_TYPES.MY_TEST
             ? 'Completed on'
             : null;
 
         const btnText =
-            item.listType?.toLowerCase() === Constant.TEST_TYPES.LIVE
+            listType === Constant.TEST_TYPES.LIVE
                 ? 'Participate'
-                : item.listType?.toLowerCase() === Constant.TEST_TYPES.MY_TEST
-                ? 'View Result'
-                : item.listType?.toLowerCase() === Constant.TEST_TYPES.PRACTICE
+                : listType === Constant.TEST_TYPES.MY_TEST
+                    ? item.isResultDeclared
+                    ? 'View Result' 
+                    : 'Result Awaited'
+                : listType === Constant.TEST_TYPES.PRACTICE
                 ? 'Practice'
                 : ''
         const color = Constant.TEST_CARD_COLORS[Math.floor(Math.random()*10)];
+
+        const btnStyle = {
+            btn: {
+                ...cardListStyles.CARD_BTN,
+                ...(listType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? COMMON_STYLES.DISABLED : {})
+            },
+            btnTxt: {
+                ...cardListStyles.CARD_BTN_TEXT,
+                ...(listType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? COMMON_STYLES.DISABLED_TEXT : {})
+            }
+        };
+
+        const isDisabled = listType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? true : false;
         return (
             <View style ={ props.horizontal ? {...cardListStyles.CARD_HORIZONTAL} : {...cardListStyles.CARD_VERTICAL, backgroundColor: color}}>
                 <View style ={cardListStyles.ROW}>
@@ -41,8 +59,8 @@ const CardList = (props) => {
 
                 <View style ={cardListStyles.ROW}>
                     <View style={cardListStyles.COL_LEFT_2}>
-                        <TouchableHighlight onPress={() => props?.handleBtnPress(item.id)} style= {cardListStyles.CARD_BTN}>
-                            <Text style = {cardListStyles.CARD_BTN_TEXT}>{btnText}</Text>
+                        <TouchableHighlight disabled={isDisabled} onPress={() => props?.handleBtnPress(item.id)} style= {btnStyle.btn}>
+                            <Text style = {btnStyle.btnTxt}>{btnText}</Text>
                         </TouchableHighlight>
                     </View>
                     { 

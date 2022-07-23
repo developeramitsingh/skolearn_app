@@ -8,6 +8,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as Constant from './constant/constant';
 import Attempt from './screens/attempt/attempt';
+import Test from './screens/test/test';
+import ResultScreen from './screens/resultScreen/resultScreen';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -24,6 +26,8 @@ export default function App() {
 
         <Stack.Screen name={Constant.ROUTES.DASHBOARD} component ={Dashboard}/>
         <Stack.Screen name={Constant.ROUTES.ATTEMPT} component ={Attempt}/>
+        <Stack.Screen name={Constant.ROUTES.TEST} component={Test}/>
+        <Stack.Screen name={Constant.ROUTES.RESULT_SCREEN} component={ResultScreen}/>
         
       </Stack.Navigator>
       
