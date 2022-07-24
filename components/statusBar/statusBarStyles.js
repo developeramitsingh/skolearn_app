@@ -15,7 +15,17 @@ const statusBarStyles = StyleSheet.create({
         fontSize: 16,
         color: '#fff',
         fontWeight: 'bold',
-    }
+    },
+    ROW: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    LABEL_TEXT: {
+        color: APP_COLORS.white,
+        fontWeight: 'bold',
+        marginRight: '10%',
+    },
 })
 
 export default statusBarStyles;
