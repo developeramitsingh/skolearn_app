@@ -21,6 +21,10 @@ const Dashboard = ({navigation, route }) => {
     },  [route?.params?.activeTab]);
 
     const setActiveTab = (key) => {
+        if(route?.params?.activeTab) {
+            route.params.activeTab = null;
+        }
+
         setState(prev => {
             return { ...prev, activeTab: key }
         })
