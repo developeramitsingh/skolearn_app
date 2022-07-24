@@ -5,7 +5,7 @@ export const APP_COLORS = {
     green: '#95F189',
     orange: '#FF991B',
     skyBlue: '#1BE1FF',
-    grey: '#333333',
+    grey: '#3D3D3D',
     light_grey: '#C1C1C1',
     white: '#fff',
     black: '#000',
@@ -35,6 +35,12 @@ export const ROUTES = {
     ATTEMPT: 'Attempt',
     RESULT_SCREEN: 'ResultScreen',
     TEST_TIMER_SCREEN: 'TestTimerScreen',
+}
+
+export const SCREENS = {
+    TEST_LIST: 'TestLists',
+    WALLET: 'Wallet',
+    HELP: 'Help',
 }
 
 export const TEST_TIME_LIMIT = 5;

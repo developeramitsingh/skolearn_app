@@ -39,6 +39,12 @@ export const COMMON_STYLES = {
         color: APP_COLORS.black,
     },
 
+    SUB_BTN_TXT: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: APP_COLORS.black,
+    },
+
     TITLE_TEXT: {
         color: '#fff',
         fontSize: 36,
@@ -54,6 +60,11 @@ export const COMMON_STYLES = {
     BODY_TITLE:  {
         color: APP_COLORS.white,
         fontSize: 16,
+        fontWeight: 'bold',
+    },
+    BODY_HEADING_1:  {
+        color: APP_COLORS.white,
+        fontSize: 32,
         fontWeight: 'bold',
     },
     BODY_TABS:  {
@@ -102,10 +113,38 @@ export const COMMON_STYLES = {
         paddingVertical: 5,
         paddingHorizontal: 5,
     },
+    ROW_CENTER: {
+        justifyContent: 'center',
+        flexDirection: 'row',
+        //alignItems: ''
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+    },
     DISABLED: {
         backgroundColor: APP_COLORS.black_opacity,
     },
     DISABLED_TEXT: {
         color: APP_COLORS.white_opacity,
+    },
+    SUB_BTN_1: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 30,
+        borderRadius: 40,
+        backgroundColor: APP_COLORS.yellow,
+    },
+    SUB_BTN_2: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 40,
+        backgroundColor: APP_COLORS.yellow,
+    },
+    SUB_BTN_TXT_2: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: APP_COLORS.black,
     },
 }
