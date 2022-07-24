@@ -79,7 +79,7 @@ const LeaderBoard = ({dataList}) => {
         <View style={leaderBoardStyles.LEATHER_BOARD_CONT_LIGHT}>
             <View style={leaderBoardStyles.BOARD_ROW}>
                 <Pressable onPress={()=>handleChangeTab(TAB_TYPE.LEATHER_BOARD)} style={{...btnStyles.btn, ...(activeTab === TAB_TYPE.LEATHER_BOARD ? btnStyles.btnActive : {})}}>
-                    <Text style={{ ...btnStyles.btnTxt, ...(activeTab === TAB_TYPE.LEATHER_BOARD ? btnStyles.btnTxtActive : {}) }}>leaderBoard</Text>
+                    <Text style={{ ...btnStyles.btnTxt, ...(activeTab === TAB_TYPE.LEATHER_BOARD ? btnStyles.btnTxtActive : {}) }}>LeaderBoard</Text>
                 </Pressable>
                 <Pressable onPress={()=>handleChangeTab('scholarshipBreakup')} style={{...btnStyles.btn, ...(activeTab === 'scholarshipBreakup' ? btnStyles.btnActive : {})}}>
                     <Text style={{ ...btnStyles.btnTxt, ...(activeTab === 'scholarshipBreakup' ? btnStyles.btnTxtActive : {}) }}>Scholarship Breakup</Text>
