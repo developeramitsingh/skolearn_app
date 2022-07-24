@@ -16,6 +16,10 @@ const Dashboard = ({navigation, route }) => {
         activeTab: route?.params?.activeTab || Constant.TEST_TYPES.LIVE,
     });
 
+    useEffect(()=> {
+
+    },  [route?.params?.activeTab]);
+
     const setActiveTab = (key) => {
         setState(prev => {
             return { ...prev, activeTab: key }
@@ -30,9 +34,12 @@ const Dashboard = ({navigation, route }) => {
             <SafeAreaView style={COMMON_STYLES.CONTAINER}>
                 
                 {
-                    state.activeTab === Constant.TEST_TYPES.LIVE 
+                    (route?.params?.activeTab === Constant.TEST_TYPES.LIVE) || 
+                    (!route?.params?.activeTab && 
+                        state.activeTab === Constant.TEST_TYPES.LIVE)
                     ? <LiveTestsList navigation={navigation}/>
-                    : state.activeTab === Constant.TEST_TYPES.MY_TEST
+                    : (route?.params?.activeTab === Constant.TEST_TYPES.MY_TEST) || 
+                        (!route?.params?.activeTab && state.activeTab === Constant.TEST_TYPES.MY_TEST)
                     ? <MyTestsList navigation={navigation}/>
                     : <PracticeTestsList navigation={navigation}/>
                 
