@@ -34,6 +34,7 @@ export const ROUTES = {
     VERIFY_OTP: 'VerifyOtp',
     ATTEMPT: 'Attempt',
     RESULT_SCREEN: 'ResultScreen',
+    TEST_TIMER_SCREEN: 'TestTimerScreen',
 }
 
 export const TEST_TIME_LIMIT = 5;

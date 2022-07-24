@@ -10,6 +10,7 @@ import * as Constant from './constant/constant';
 import Attempt from './screens/attempt/attempt';
 import Test from './screens/test/test';
 import ResultScreen from './screens/resultScreen/resultScreen';
+import TimerScreen from './screens/timerScreen/timerScreen';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
         <Stack.Screen name={Constant.ROUTES.ATTEMPT} component ={Attempt}/>
         <Stack.Screen name={Constant.ROUTES.TEST} component={Test}/>
         <Stack.Screen name={Constant.ROUTES.RESULT_SCREEN} component={ResultScreen}/>
+        <Stack.Screen name={Constant.ROUTES.TEST_TIMER_SCREEN} component={TimerScreen}/>
         
       </Stack.Navigator>
       

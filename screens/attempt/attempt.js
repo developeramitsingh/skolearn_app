@@ -18,7 +18,7 @@ const Attempt = ({navigation, route }) => {
     })
 
     const handlePress = ()=> {
-        navigation.navigate(Constant.ROUTES.TEST, { testId: route?.params?.testId });
+        navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testId: route?.params?.testId });
     }
 
     const handleChange = (val) => {
