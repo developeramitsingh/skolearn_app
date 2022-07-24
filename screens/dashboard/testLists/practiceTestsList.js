@@ -55,9 +55,9 @@ const PracticeTestsList = ({navigation})=> {
     ];
     const handleBtnPress = (id) => {
         console.info({id});
-        navigation.navigate(Constant.ROUTES.ATTEMPT, { testId: id });
+        navigation.navigate(Constant.ROUTES.TEST, { testId: id });
     }
-    
+
     return (
         <View style={{flex: 1}}>
             <Text style={testListsStyles.HEADING}>Practice Tests</Text>
