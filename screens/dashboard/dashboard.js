@@ -61,7 +61,7 @@ const Dashboard = ({navigation, route }) => {
 
     return (
         <SafeAreaView style={dashboardStyles.DASH_CONTAINER}>
-            <StatusBar text ={state.userName}/>
+            <StatusBar navigation={navigation} text ={state.userName}/>
             {
                 state.activeScreen === Constant.SCREENS.TEST_LIST 
                 ? <TestList/>

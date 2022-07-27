@@ -12,6 +12,8 @@ import Test from './screens/test/test';
 import ResultScreen from './screens/resultScreen/resultScreen';
 import TimerScreen from './screens/timerScreen/timerScreen';
 
+import Profile from './screens/profile/profile';
+
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -30,6 +32,9 @@ export default function App() {
         <Stack.Screen name={Constant.ROUTES.TEST} component={Test}/>
         <Stack.Screen name={Constant.ROUTES.RESULT_SCREEN} component={ResultScreen}/>
         <Stack.Screen name={Constant.ROUTES.TEST_TIMER_SCREEN} component={TimerScreen}/>
+
+
+        <Stack.Screen name={Constant.ROUTES.PROFILE} component={Profile}/>
         
       </Stack.Navigator>
       

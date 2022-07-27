@@ -49,7 +49,7 @@ const Attempt = ({navigation, route }) => {
 
           <View style ={COMMON_STYLES.CENTER}>
               <Text style={attemptStyles.HEADING}>
-                  {state.scholarshipTitle}:: id: {route?.params?.testId}
+                  {state.scholarshipTitle}
               </Text>
           </View>
 
@@ -69,6 +69,12 @@ const Attempt = ({navigation, route }) => {
           <View style ={COMMON_STYLES.CENTER}>
             <Text style={attemptStyles.LABEL_TEXT}>
                 The result will be announced after user participation seats get full
+            </Text>
+          </View>
+
+          <View style ={COMMON_STYLES.CENTER}>
+            <Text style={attemptStyles.NOTICE_TEXT}>
+                Your device camera and microphone will be enabled for security purpose, Please remove any headphone or headset before the test.
             </Text>
           </View>
       </SafeAreaView>

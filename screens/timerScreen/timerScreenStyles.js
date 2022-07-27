@@ -15,8 +15,8 @@ export const timerScreenStyles = StyleSheet.create({
     },
     TIMER_CONT: {
         borderRadius: 100,
-        width: 160,
-        height: 160,
+        width: 200,
+        height: 200,
         borderColor: APP_COLORS.blue,
         borderWidth: 5,
         justifyContent: 'center',
@@ -30,6 +30,7 @@ export const timerScreenStyles = StyleSheet.create({
     },
     BODY_TEXT: {
         fontWeight: 'bold',
+        textAlign: 'center',
     },
 
 });

@@ -113,6 +113,13 @@ export const COMMON_STYLES = {
         paddingVertical: 5,
         paddingHorizontal: 5,
     },
+    ROW_COLUMN: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        //alignItems: ''
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+    },
     ROW_CENTER: {
         justifyContent: 'center',
         flexDirection: 'row',

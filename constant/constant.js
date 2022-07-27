@@ -35,6 +35,8 @@ export const ROUTES = {
     ATTEMPT: 'Attempt',
     RESULT_SCREEN: 'ResultScreen',
     TEST_TIMER_SCREEN: 'TestTimerScreen',
+    PROFILE: 'Profile',
+    EDIT_PROFILE: 'EditProfile',
 }
 
 export const SCREENS = {

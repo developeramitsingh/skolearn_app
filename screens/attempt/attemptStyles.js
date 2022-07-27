@@ -20,6 +20,13 @@ export const attemptStyles = StyleSheet.create({
         color: APP_COLORS.black,
         textAlign: 'center',
     },
+
+    NOTICE_TEXT: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: 'red',
+        textAlign: 'center',
+    },
     COL_LEFT: {
         flexDirection: 'row',
     }

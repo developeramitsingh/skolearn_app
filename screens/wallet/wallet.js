@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SafeAreaView, View, Text, TouchableOpacity, FlatList } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { walletStyles } from './walletStyles';
+import ModalWindow from "../../components/modals/modalWindow";
 
 const RenderList = ({item})=> {
     return (
@@ -60,8 +61,25 @@ const Wallet = () => {
             },
         ]
     });
+
+    const [showAddMoney, setAddMoney] = useState(false);
+    const [showWithdrawMoney, setWithdrawMoney] = useState(false);
+
+    const handlePress = (actionType) => {
+        if(actionType === 'addMoney') {
+            setAddMoney(true);
+        } else if(actionType === 'withdraw') {
+            setWithdrawMoney(true);
+        }
+    };
+
+    
     return (
         <SafeAreaView style={COMMON_STYLES.CONTAINER}>
+            <ModalWindow modalVisible={showAddMoney} setModalVisible={setAddMoney} title="Add Money to Wallet" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
+
+            <ModalWindow modalVisible={showWithdrawMoney} setModalVisible={setWithdrawMoney} title="Request Widthdraw Money" btnTxt = 'Withdraw Request' placeholder='Enter Amount to withdraw'/>
+
             <View style={{...COMMON_STYLES.ROW_CENTER, marginTop: 20 }}>
                 <Text style={COMMON_STYLES.BODY_TITLE}>Total Balance</Text>
             </View>
@@ -75,11 +93,11 @@ const Wallet = () => {
             </View>
 
             <View style={COMMON_STYLES.ROW}>
-                <TouchableOpacity style={COMMON_STYLES.SUB_BTN_1}>
+                <TouchableOpacity onPress={()=>handlePress('addMoney')} style={COMMON_STYLES.SUB_BTN_1}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>Add Money</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={COMMON_STYLES.SUB_BTN_1}>
+                <TouchableOpacity onPress={()=>handlePress('withdraw')} style={COMMON_STYLES.SUB_BTN_1}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>Withdraw</Text>
                 </TouchableOpacity>
             </View>
@@ -95,7 +113,7 @@ const Wallet = () => {
                     keyExtractor ={item => item.id}
                 />
             </View>
-        </SafeAreaView>
+        </SafeAreaView>        
     )
 };
 
