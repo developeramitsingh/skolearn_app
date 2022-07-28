@@ -2,7 +2,8 @@ import { View, Modal, Text, TouchableOpacity, Image } from "react-native"
 import { useState } from 'react';
 import { modalStyles } from  './modalStyles';
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
-import {pickImage} from '../../common/functions/commonHelper';
+import { pickImage } from '../../common/functions/commonHelper';
+import { CLOSE_MODAL } from "../../constant/constant";
 
 
 const UploadModal = ({ title, modalVisible, handleModalPress, btnTxt, actionType, info }) => {
