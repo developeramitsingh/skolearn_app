@@ -26,8 +26,8 @@ export const COMMON_STYLES = {
     BTN_1: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: '4%',
-        marginBottom: '4%',
+        marginTop: '3%',
+        marginBottom: '3%',
         paddingVertical: 14,
         borderRadius: 40,
         backgroundColor: APP_COLORS.yellow,

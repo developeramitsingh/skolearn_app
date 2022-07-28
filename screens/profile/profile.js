@@ -16,6 +16,7 @@ const Profile = ({navigation}) => {
         bankAccountStatus: 'Verifing',
         panCardStatus: 'Not Uploaded',
         studentDocStatus: 'Not Uploaded',
+        totalScholarship: '10000',
     });
 
     const [showBankUploadModal, setShowBankUploadModal] = useState(false);
@@ -109,6 +110,9 @@ const Profile = ({navigation}) => {
                 </TouchableWithoutFeedback>
                 
                 <Text style={COMMON_STYLES.BODY_TITLE}>{state.userName}</Text>
+
+                <Text style={COMMON_STYLES.BODY_TEXT}>Total Scholarship Achieved: {state.totalScholarship}</Text>
+
                 <TouchableHighlight onPress={()=> setProfileEdit(!showProfileEdit)} style={[COMMON_STYLES.BTN_1, { width: '100%'}]}>
                     <Text style={COMMON_STYLES.BTN_TEXT}>Edit Profile</Text>
                 </TouchableHighlight>
