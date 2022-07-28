@@ -26,6 +26,11 @@ const statusBarStyles = StyleSheet.create({
         fontWeight: 'bold',
         marginRight: '10%',
     },
+    PROFILE_IMG: {
+        width: 26,
+        height: 26,
+        borderRadius: 50,
+    }
 })
 
 export default statusBarStyles;

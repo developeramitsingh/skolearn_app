@@ -13,7 +13,7 @@ export const profileStyles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50,
-        backgroundColor: 'white',
+        //backgroundColor: 'white',
     },
     ROW_CENTER: {
         justifyContent: 'center',
