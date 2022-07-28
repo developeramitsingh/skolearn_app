@@ -38,7 +38,7 @@ const UploadModal = ({ title, modalVisible, handleModalPress, btnTxt, actionType
                 </View>
 
                 <View style={COMMON_STYLES.ROW}>
-                    <TouchableOpacity onPress={() => handleModalPress('closeModal', !modalVisible)} style={modalStyles.BTN}>
+                    <TouchableOpacity onPress={() => handleModalPress(CLOSE_MODAL, !modalVisible)} style={modalStyles.BTN}>
                         <Text style={COMMON_STYLES.BTN_TEXT}>Close</Text>
                     </TouchableOpacity>
                 </View>

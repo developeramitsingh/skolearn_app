@@ -1,16 +1,17 @@
 import { useState } from 'react';
-import { Image, Alert, SafeAreaView, View, Text, TouchableHighlight, Pressable, ScrollView } from 'react-native';
+import { Image, Alert, SafeAreaView, View, Text, TouchableHighlight,TouchableWithoutFeedback, Pressable, ScrollView } from 'react-native';
 import { profileStyles } from './profileStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
-import { onShare, copyToClipboard } from '../../common/functions/commonHelper';
-import { APP_COLORS, ROUTES } from '../../constant/constant';
+import { onShare, copyToClipboard, pickImage } from '../../common/functions/commonHelper';
+import { APP_COLORS, ROUTES, CLOSE_MODAL } from '../../constant/constant';
 import UploadModal from '../../components/modals/uploadModal';
+import ModalWindow from '../../components/modals/modalWindow';
 
 
 const Profile = ({navigation}) => {
     const [state, setState] = useState({
         profileImg: 'https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg',
-        userName: 'Amit Singh',
+        userName: 'Test User',
         referralCode: '1dd3dgd',
         bankAccountStatus: 'Verifing',
         panCardStatus: 'Not Uploaded',
@@ -20,6 +21,7 @@ const Profile = ({navigation}) => {
     const [showBankUploadModal, setShowBankUploadModal] = useState(false);
     const [showPanUploadModal, setPanUploadModal] = useState(false);
     const [showStudentDoc, setStudentDocu] = useState(false);
+    const [showProfileEdit, setProfileEdit] = useState(false);
 
     const sharingDataLink = 'Share this app link is here https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg';
 
@@ -62,15 +64,39 @@ const Profile = ({navigation}) => {
                 return { ...prev, studentDoc: payload }
             });
             setPanUploadModal(false);
-        } else if(actionType === 'closeModal') {
+        } else if(actionType === 'updateProfile') {
+            console.log('updating student profile');
+            setState(prev => {
+                return { ...prev, userName: payload }
+            });
+            setProfileEdit(false);
+        } else if(actionType === CLOSE_MODAL) {
             setShowBankUploadModal(false);
             setPanUploadModal(false);
             setStudentDocu(false);
+            setProfileEdit(false);
+        }
+    }
+
+    const setPickedImage = async () => {
+        try {
+            console.info('select image');
+            let profileUri = await pickImage();
+            setState(prev=> {
+                return {...prev, profileImg: profileUri };
+            });
+
+            console.info('image set!');
+            console.info('calling API to update profile image...');
+        } catch (err) {
+            console.error(`error while setting up profile img: ${err}`);
         }
     }
 
     return (
         <SafeAreaView style={profileStyles.CONTAINER}>
+            <ModalWindow modalVisible={showProfileEdit} actionType='updateProfile' handleModalPress={handlePress} title="Edit User Name" btnTxt = 'Update' placeholder='Enter your user name'/>
+
             <UploadModal modalVisible={showBankUploadModal} actionType="uploadBank" handleModalPress={handlePress} title="Upload Bank Passbook/cheque/bank statement" btnTxt = 'Upload' info="Image should contain bank account number and name"/>
 
             <UploadModal modalVisible={showPanUploadModal} actionType="uploadPan" handleModalPress={handlePress} title="Upload Pan Card" btnTxt = 'Upload'/>
@@ -78,9 +104,12 @@ const Profile = ({navigation}) => {
             <UploadModal modalVisible={showStudentDoc} actionType="uploadStudentDoc" handleModalPress={handlePress} title="Upload Student Document" btnTxt = 'Upload' info="Allowed types are current year student id card or fee slip or application form or details of institute/college/school"/>
 
             <View style={profileStyles.ROW_CENTER}>
-                <Image style={profileStyles.PROFILE_IMG} source={{uri: state.profileImg}}></Image>
+                <TouchableWithoutFeedback onPress={setPickedImage}>
+                    <Image style={profileStyles.PROFILE_IMG} source={{uri: state.profileImg}}></Image>
+                </TouchableWithoutFeedback>
+                
                 <Text style={COMMON_STYLES.BODY_TITLE}>{state.userName}</Text>
-                <TouchableHighlight style={[COMMON_STYLES.BTN_1, { width: '100%'}]}>
+                <TouchableHighlight onPress={()=> setProfileEdit(!showProfileEdit)} style={[COMMON_STYLES.BTN_1, { width: '100%'}]}>
                     <Text style={COMMON_STYLES.BTN_TEXT}>Edit Profile</Text>
                 </TouchableHighlight>
             </View>

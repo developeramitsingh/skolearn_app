@@ -3,6 +3,7 @@ import { SafeAreaView, View, Text, TouchableOpacity, FlatList } from "react-nati
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { walletStyles } from './walletStyles';
 import ModalWindow from "../../components/modals/modalWindow";
+import { CLOSE_MODAL } from '../../constant/constant';
 
 const RenderList = ({item})=> {
     return (
@@ -65,20 +66,26 @@ const Wallet = () => {
     const [showAddMoney, setAddMoney] = useState(false);
     const [showWithdrawMoney, setWithdrawMoney] = useState(false);
 
-    const handlePress = (actionType) => {
+    const handlePress = (actionType, payload) => {
         if(actionType === 'addMoney') {
-            setAddMoney(true);
+            console.info('add money');
+            setAddMoney(false);
         } else if(actionType === 'withdraw') {
-            setWithdrawMoney(true);
+            console.info('withdraw');
+            setWithdrawMoney(false);
+        } else if(actionType === CLOSE_MODAL) {
+            console.info('modal closed');
+            setAddMoney(false);
+            setWithdrawMoney(false);
         }
     };
 
     
     return (
         <SafeAreaView style={COMMON_STYLES.CONTAINER}>
-            <ModalWindow modalVisible={showAddMoney} handleModalPress={setAddMoney} title="Add Money to Wallet" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
+            <ModalWindow modalVisible={showAddMoney} handleModalPress={handlePress} title="Add Money to Wallet" keyboardType='numeric' actionType= "addMoney" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
 
-            <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={setWithdrawMoney} title="Request Widthdraw Money" btnTxt = 'Request Withdraw' placeholder='Enter Amount to withdraw'/>
+            <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={handlePress} title="Request Widthdraw Money" keyboardType='numeric'  actionType= "withdraw"  btnTxt = 'Request Withdraw' placeholder='Enter Amount to withdraw'/>
 
             <View style={{...COMMON_STYLES.ROW_CENTER, marginTop: 20 }}>
                 <Text style={COMMON_STYLES.BODY_TITLE}>Total Balance</Text>
@@ -93,11 +100,11 @@ const Wallet = () => {
             </View>
 
             <View style={COMMON_STYLES.ROW}>
-                <TouchableOpacity onPress={()=>handlePress('addMoney')} style={COMMON_STYLES.SUB_BTN_1}>
+                <TouchableOpacity onPress={()=>setAddMoney(true)} style={COMMON_STYLES.SUB_BTN_1}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>Add Money</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={()=>handlePress('withdraw')} style={COMMON_STYLES.SUB_BTN_1}>
+                <TouchableOpacity onPress={()=>setWithdrawMoney(true)} style={COMMON_STYLES.SUB_BTN_1}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>Withdraw</Text>
                 </TouchableOpacity>
             </View>

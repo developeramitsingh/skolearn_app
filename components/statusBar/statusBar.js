@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 const StatusBar = ({navigation}) => {
     const [state, setState] = useState({
+        userName: 'Test user',
         profileImg: 'https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg'
     });
     const handlePress = (actionType) => {
@@ -27,7 +28,7 @@ const StatusBar = ({navigation}) => {
                             </TouchableWithoutFeedback>
                         : <FontAwesome onPress={()=> handlePress('openProfile')} name="user-circle" size={26} color="white"/>
                 }
-                <Text onPress={()=> handlePress('openProfile')} style={statusBarStyles.LABEL_TEXT}>Hi Amit</Text>
+                <Text onPress={()=> handlePress('openProfile')} style={statusBarStyles.LABEL_TEXT}>{state.userName}</Text>
                 <Ionicons onPress={()=> handlePress('openNotifications')}  name="notifications" size={26} color="white"/>
                 
             </View>

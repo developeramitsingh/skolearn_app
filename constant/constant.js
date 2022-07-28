@@ -46,3 +46,5 @@ export const SCREENS = {
 }
 
 export const TEST_TIME_LIMIT = 5;
+
+export const CLOSE_MODAL = 'closeModal';
