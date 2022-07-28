@@ -26,6 +26,7 @@ export const profileStyles = StyleSheet.create({
         marginVertical: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         borderRadius: 10,
     }
 }); 

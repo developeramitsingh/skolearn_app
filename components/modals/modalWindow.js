@@ -1,33 +1,33 @@
 import { View, Modal, Text, TouchableOpacity, TextInput } from "react-native"
 import { useState } from 'react';
-import { modalWindowStyles } from  './modalWindowStyles';
+import { modalStyles } from  './modalStyles';
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
 
-const ModalWindow = ({ title, modalVisible, setModalVisible, handleChange, userEnteredValue, btnTxt, placeholder }) => {
+const ModalWindow = ({ title, modalVisible, handleModalPress, handleChange, userEnteredValue, btnTxt, placeholder }) => {
     return(
         <Modal
             animationType="slide"
             transparent={true}
             visible={modalVisible}
         >
-            <View style={modalWindowStyles.container}>
-                <Text style={modalWindowStyles.modalTitle}>{title}</Text>
+            <View style={modalStyles.container}>
+                <Text style={modalStyles.modalTitle}>{title}</Text>
 
-                <View style={modalWindowStyles.ROW}>
+                <View style={modalStyles.ROW}>
                     <TextInput 
                         maxLength={10} 
-                        style={modalWindowStyles.TEXT_INPUT}
+                        style={modalStyles.TEXT_INPUT}
                         keyboardType="numeric"
                         placeholder={placeholder}
                         onChangeText= {handleChange} value={userEnteredValue}
                     />
-                    <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} style={modalWindowStyles.BTN}>
+                    <TouchableOpacity onPress={() => handleModalPress(!modalVisible)} style={modalStyles.BTN}>
                         <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={COMMON_STYLES.ROW}>
-                    <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} style={modalWindowStyles.BTN}>
+                    <TouchableOpacity onPress={() => handleModalPress(!modalVisible)} style={modalStyles.BTN}>
                         <Text style={COMMON_STYLES.BTN_TEXT}>Close</Text>
                     </TouchableOpacity>
                 </View>

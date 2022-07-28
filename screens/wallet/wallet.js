@@ -76,9 +76,9 @@ const Wallet = () => {
     
     return (
         <SafeAreaView style={COMMON_STYLES.CONTAINER}>
-            <ModalWindow modalVisible={showAddMoney} setModalVisible={setAddMoney} title="Add Money to Wallet" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
+            <ModalWindow modalVisible={showAddMoney} handleModalPress={setAddMoney} title="Add Money to Wallet" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
 
-            <ModalWindow modalVisible={showWithdrawMoney} setModalVisible={setWithdrawMoney} title="Request Widthdraw Money" btnTxt = 'Withdraw Request' placeholder='Enter Amount to withdraw'/>
+            <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={setWithdrawMoney} title="Request Widthdraw Money" btnTxt = 'Request Withdraw' placeholder='Enter Amount to withdraw'/>
 
             <View style={{...COMMON_STYLES.ROW_CENTER, marginTop: 20 }}>
                 <Text style={COMMON_STYLES.BODY_TITLE}>Total Balance</Text>

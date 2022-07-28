@@ -16,7 +16,7 @@ export const COMMON_STYLES = {
         color: '#000',
         backgroundColor: '#fff',
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: 14,
         paddingTop: 8,
         paddingBottom: 8,
         borderRadius: 40,
@@ -28,13 +28,13 @@ export const COMMON_STYLES = {
         justifyContent: 'center',
         marginTop: '4%',
         marginBottom: '4%',
-        paddingVertical: 17,
+        paddingVertical: 14,
         borderRadius: 40,
         backgroundColor: APP_COLORS.yellow,
     },
 
     BTN_TEXT: {
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
         color: APP_COLORS.black,
     },
@@ -59,7 +59,7 @@ export const COMMON_STYLES = {
     },
     BODY_TITLE:  {
         color: APP_COLORS.white,
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
     },
     BODY_HEADING_1:  {

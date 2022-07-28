@@ -1,20 +1,20 @@
 import { StyleSheet } from "react-native";
 import { APP_COLORS } from "../../constant/constant";
-export const modalWindowStyles = StyleSheet.create({
+export const modalStyles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "space-around",
         alignItems: "center",
         backgroundColor: APP_COLORS.black,
-        paddingTop: 100,
+        paddingTop: 70,
         paddingHorizontal: 20,
       },
       ROW: {
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'column',
         //alignItems: ''
-        borderWidth: 1,
+        //borderWidth: 1,
         //borderColor: 'white',
         width: '100%',
         height: '50%',
