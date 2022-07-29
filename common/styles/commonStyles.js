@@ -68,14 +68,15 @@ export const COMMON_STYLES = {
         fontWeight: 'bold',
     },
     BODY_TABS:  {
-        //borderWidth: 1,
-        //borderColor: APP_COLORS.grey,
+        borderWidth: 1,
+        borderColor: APP_COLORS.grey,
         borderRadius: 20,
         paddingVertical: 8,
         paddingHorizontal: 15,
     },
     ACTIVE: {
-        backgroundColor: APP_COLORS.black,
+        backgroundColor: APP_COLORS.blue,
+        borderWidth: 0, 
     },
     ACTIVE_TEXT: {
         color: APP_COLORS.white,

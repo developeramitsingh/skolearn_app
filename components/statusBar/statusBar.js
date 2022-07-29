@@ -21,6 +21,7 @@ const StatusBar = ({navigation}) => {
             <Image source={Logo} style={{height: 32, width: 100, borderRadius: 10}}/>
 
             <View style={statusBarStyles.ROW}>
+                <Text onPress={()=> handlePress('openProfile')} style={statusBarStyles.LABEL_TEXT}>Hi {state.userName}!</Text>
                 {
                     state.profileImg 
                         ? <TouchableWithoutFeedback onPress={()=> handlePress('openProfile')}>
@@ -28,8 +29,8 @@ const StatusBar = ({navigation}) => {
                             </TouchableWithoutFeedback>
                         : <FontAwesome onPress={()=> handlePress('openProfile')} name="user-circle" size={26} color="white"/>
                 }
-                <Text onPress={()=> handlePress('openProfile')} style={statusBarStyles.LABEL_TEXT}>{state.userName}</Text>
-                <Ionicons onPress={()=> handlePress('openNotifications')}  name="notifications" size={26} color="white"/>
+               
+                {/* <Ionicons onPress={()=> handlePress('openNotifications')}  name="notifications" size={26} color="white"/> */}
                 
             </View>
             

@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.shriamits454.skolearn"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,6 +30,16 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow photos permission",
+          "cameraPermission": "Allow Skolearn to open the camera",
+          "microphonePermission": true
+        }
+      ]
+    ]
   }
 }
