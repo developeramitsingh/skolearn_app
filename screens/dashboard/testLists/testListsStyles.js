@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const testListsStyles = StyleSheet.create({
     HEADING: {
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: 'bold',
         color: '#fff',
         paddingVertical: 10,
