@@ -63,7 +63,7 @@ const Attempt = ({navigation, route }) => {
             <View style ={COMMON_STYLES.ROW_CENTER}>
                 <Text>Default (English)</Text>
                 <Switch
-                    trackColor={{ false: "#767577", true: "#81b0ff" }}
+                    trackColor={{ false: Constant.APP_COLORS.blue, true: Constant.APP_COLORS.yellow }}
                     thumbColor={state.isLangHindi ? "#f5dd4b" : "#f4f3f4"}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={langSwitch}

@@ -55,7 +55,7 @@ const PracticeTestsList = ({navigation})=> {
     ];
     const handleBtnPress = (id) => {
         console.info({id});
-        navigation.navigate(Constant.ROUTES.TEST, { testId: id });
+        navigation.navigate(Constant.ROUTES.ATTEMPT, { testId: id });
     }
 
     return (
