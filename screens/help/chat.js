@@ -74,7 +74,7 @@ const Chat = () => {
 
                 <Pressable onPress= {handleSubmit} style={chatStyles.SEND_BTN_CONT}>
                     <Text style={COMMON_STYLES.BODY_TEXT}>Send</Text>
-                    <FontAwesome name="send" size={20} color={APP_COLORS.white} />
+                    <FontAwesome name="send" size={16} color={APP_COLORS.white} />
                 </Pressable>
             </View>
         </SafeAreaView>
