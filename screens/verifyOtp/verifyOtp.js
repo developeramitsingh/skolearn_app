@@ -36,7 +36,7 @@ const VerifyOtp = ({navigation}) => {
         <View style={verifyOtpStyles.verifyOtpContainter}>
             <TextInput placeholderTextColor ="#333333" style={COMMON_STYLES.TEXT_INPUT} placeholder="Type here OTP" keyboardType="numeric" onChangeText={handleChange} maxLength={6} value={state.otp}/>
 
-            <TouchableHighlight handlePress={() => handlePress()} onPressOut={() => handlePress('verifyOtp')} onPressIn={() => handlePress('verifyOtp')} style={COMMON_STYLES.BTN_1}>
+            <TouchableHighlight handlePress={() => handlePress()} onPress= {() => handlePress('verifyOtp')} onPressOut={() => handlePress('verifyOtp')} onPressIn={() => handlePress('verifyOtp')} style={COMMON_STYLES.BTN_1}>
                 <Text style={COMMON_STYLES.BTN_TEXT}>Verify</Text>
             </TouchableHighlight>
 

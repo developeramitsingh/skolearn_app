@@ -36,7 +36,7 @@ const Home = ({navigation}) => {
                 </View>
 
                 <View style={homeStyles.loginBtnContainter}>
-                    <TouchableHighlight handlePress={() => handlePress('login')} onPressOut={() => handlePress('login')} onPressIn={() => handlePress('login')} style={COMMON_STYLES.BTN_1}>
+                    <TouchableHighlight handlePress={() => handlePress('login')} onPressOut={() => handlePress('login')} onPressIn={() => handlePress('login')} onPress= {handlePress} style={COMMON_STYLES.BTN_1}>
                         <Text style={COMMON_STYLES.BTN_TEXT}>Login</Text>
                     </TouchableHighlight>
 

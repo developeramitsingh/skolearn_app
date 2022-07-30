@@ -124,7 +124,7 @@ export const COMMON_STYLES = {
     ROW_CENTER: {
         justifyContent: 'center',
         flexDirection: 'row',
-        //alignItems: ''
+        alignItems: 'center',
         paddingVertical: 5,
         paddingHorizontal: 5,
     },
