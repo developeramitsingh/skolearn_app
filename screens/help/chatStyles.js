@@ -43,7 +43,7 @@ export const chatStyles = StyleSheet.create({
         //backgroundColor: '#fff',
         fontSize: 14,
         //paddingHorizontal: 15,
-        //paddingVertical: 10,
+        paddingVertical: 10,
         width: '74%',
         //flex: 2,
         // marginTop: '4%',
@@ -70,6 +70,7 @@ export const chatStyles = StyleSheet.create({
         borderTopRightRadius : 10,
         borderTopLeftRadius : 10,
         borderBottomRightRadius : 10,
+        backgroundColor: APP_COLORS.blue,
     },
     chatMsgBlockUser: {
         alignSelf: 'flex-end',

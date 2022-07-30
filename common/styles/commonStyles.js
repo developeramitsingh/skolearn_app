@@ -57,6 +57,10 @@ export const COMMON_STYLES = {
         color: APP_COLORS.white,
         fontSize: 12,
     },
+    BODY_TEXT_BLACK:  {
+        color: APP_COLORS.black,
+        fontSize: 12,
+    },
     BODY_TITLE:  {
         color: APP_COLORS.white,
         fontSize: 14,

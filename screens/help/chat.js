@@ -12,8 +12,14 @@ const Chat = () => {
         supportUserName: 'Test name',
         isSupportOnline: true,
         userMsg: '',
-        userMsgList: [{
+        chatMsgs: [
+            {
+                txt: 'Hi, How may i help you',
+                userType: 'support',
+            },
+            {
             txt: 'Hi, i want to apply for test',
+            userType: 'user',
         }],
     });
     const [reference, setReference] = useState(null);
@@ -26,7 +32,7 @@ const Chat = () => {
 
     const handleSubmit = () => {
         setState(prev => {
-            return { ...prev, userMsg: '', userMsgList: [...prev.userMsgList, { txt: state.userMsg }]}
+            return { ...prev, userMsg: '', chatMsgs: [...prev.chatMsgs, { txt: state.userMsg, userType: 'user' }]}
         })
     }
 
@@ -47,14 +53,15 @@ const Chat = () => {
                 }}
             >
                 <Text style={chatStyles.chatMsgListHead}>Type Hi, to start the conversation</Text>
-                <View style={[chatStyles.chatMsgBlock, chatStyles.chatMsgBlockSupport]}>
-                    <Text>Hi</Text>
-                </View>
+
                 {
-                    state?.userMsgList?.map((msg,idx) => {
+                    state?.chatMsgs?.map((msg,idx) => {
+                        const isSupportUser = msg.userType === 'support';
+                        const userStyle = chatStyles.chatMsgBlockUser;
+                        const supportStyle = chatStyles.chatMsgBlockSupport;
                         return (
-                            <View key ={idx} style={[chatStyles.chatMsgBlock, chatStyles.chatMsgBlockUser]}>
-                                <Text>{msg.txt}</Text>
+                            <View key ={idx} style={[chatStyles.chatMsgBlock, isSupportUser ? supportStyle :  userStyle ]}>
+                                <Text style={ isSupportUser ? COMMON_STYLES.BODY_TEXT : COMMON_STYLES.BODY_TEXT_BLACK }>{msg.txt}</Text>
                             </View>
                         )
                     })
