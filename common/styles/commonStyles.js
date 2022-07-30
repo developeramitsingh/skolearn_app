@@ -66,6 +66,11 @@ export const COMMON_STYLES = {
         fontSize: 14,
         fontWeight: 'bold',
     },
+    BODY_TITLE_BLACK:  {
+        color: APP_COLORS.black,
+        fontSize: 14,
+        fontWeight: 'bold',
+    },
     BODY_HEADING_1:  {
         color: APP_COLORS.white,
         fontSize: 32,
@@ -114,7 +119,7 @@ export const COMMON_STYLES = {
     ROW: {
         justifyContent: 'space-between',
         flexDirection: 'row',
-        //alignItems: ''
+        alignItems: 'center',
         paddingVertical: 5,
         paddingHorizontal: 5,
     },
@@ -129,8 +134,8 @@ export const COMMON_STYLES = {
         justifyContent: 'center',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 5,
-        paddingHorizontal: 5,
+        // paddingVertical: 5,
+        // paddingHorizontal: 5,
     },
     DISABLED: {
         backgroundColor: APP_COLORS.black_opacity,

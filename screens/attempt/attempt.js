@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Touchable, Pressable, TouchableHighlight } from 'react-native';
+import { View, Text, SafeAreaView, Switch, Pressable, TouchableHighlight } from 'react-native';
 import { attemptStyles } from './attemptStyles';
 import { useState } from 'react';
 
@@ -15,13 +15,18 @@ const Attempt = ({navigation, route }) => {
         usersLimit: 500,
         expiresOn: '12/07/2022',
         fee: 49,
+        isLangHindi: false,
     })
 
     const handlePress = ()=> {
         navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testId: route?.params?.testId });
     }
 
-    const handleChange = (val) => {
+    const langSwitch = (val) => {
+        console.info(val);
+        setState(prev => {
+            return { ...prev, isLangHindi: val}
+        });
     }
   return (
       <SafeAreaView style={attemptStyles.container}>
@@ -51,6 +56,21 @@ const Attempt = ({navigation, route }) => {
               <Text style={attemptStyles.HEADING}>
                   {state.scholarshipTitle}
               </Text>
+          </View>
+
+          <View>
+            <Text style={[COMMON_STYLES.BODY_TITLE_BLACK, COMMON_STYLES.CENTER]}>Select Language</Text>
+            <View style ={COMMON_STYLES.ROW_CENTER}>
+                <Text>Default (English)</Text>
+                <Switch
+                    trackColor={{ false: "#767577", true: "#81b0ff" }}
+                    thumbColor={state.isLangHindi ? "#f5dd4b" : "#f4f3f4"}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={langSwitch}
+                    value={state.isLangHindi}
+                />
+                <Text>Hindi</Text>
+                </View>
           </View>
 
           <TouchableHighlight style ={COMMON_STYLES.BTN_1} onPress={handlePress}>
