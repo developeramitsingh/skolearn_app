@@ -5,6 +5,8 @@ import { testStyles } from './testStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS, ROUTES, TEST_TYPES, TEST_TIME_LIMIT, } from "../../constant/constant";
 
+import { Camera } from "expo-camera";
+
 const Test = ({navigation, route}) => {
     let timeTimer = useRef();
     const [time, setTime] = useState(TEST_TIME_LIMIT);
@@ -43,7 +45,60 @@ const Test = ({navigation, route}) => {
         timeFinished: false,
     });
 
+    const [hasCameraPermission, setHasCameraPermission] = useState(null);
+    const [hasMicPermission, setHasMicPermission] = useState(null);
+    const [isVideoRecording, setIsVideoRecording] = useState(false);
+    const [videoSource, setVideoSource] = useState(null);
+    const [isCameraVisible, setCameraVisible ] = useState(true);
+    const cameraRef = useRef();
+
+    const recordVideo = async () => {
+        console.info({cameraRef});
+        if (cameraRef.current) {
+            try {
+            const videoRecordPromise = cameraRef.current.recordAsync();
+            if (videoRecordPromise) {
+                setIsVideoRecording(true);
+                const data = await videoRecordPromise;
+                console.info({data});
+                const source = data.uri;
+                if (source) {
+                console.log("video source hello", source);
+                setVideoSource(source);
+                }
+            }
+            } catch (error) {
+            console.warn(error);
+            }
+        }
+    };
+    const stopVideoRecording = () => {
+        if (cameraRef.current) {
+            setIsVideoRecording(false);
+            setCameraVisible(false);
+            cameraRef.current.stopRecording();
+        }
+    };
+
+    const renderVideoRecordIndicator = () => (
+        <View style={testStyles.recordIndicatorContainer}>
+            <View style={testStyles.recordDot} />
+            <Text style={testStyles.recordTitle}>{"Recording..."}</Text>
+        </View>
+    );    
+
     useEffect(()=> {
+        console.info('useEffect here');
+        (async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync();
+            const micStatus = await Camera.requestMicrophonePermissionsAsync();
+  
+            console.info({status});
+            console.info({micStatus});
+            setHasCameraPermission(status === "granted");
+            setHasMicPermission(micStatus.status === "granted");
+            recordVideo();
+          })();
         console.info({'insdie here: useEffedct': route?.params?.previewMode})
         if (!route?.params?.previewMode) {
             timeTimer.current = timeLimitTimer();
@@ -55,7 +110,10 @@ const Test = ({navigation, route}) => {
 
         return (() => {
             clearInterval(timeTimer.current);
-            console.info('cleared timer', timeTimer?.current);           
+            console.info('cleared timer', timeTimer?.current);
+            stopVideoRecording();
+            setCameraVisible(false);
+            setIsVideoRecording(false);
         })
     }, [state.quesIdx, state.userScore, time, route?.params?.previewMode ])
 
@@ -122,6 +180,7 @@ const Test = ({navigation, route}) => {
     }
 
     const finishTest = () => {
+        stopVideoRecording();
         clearInterval(timeTimer.current);
         setState(prev => {
             return {...prev, timeFinished: true };
@@ -148,8 +207,32 @@ const Test = ({navigation, route}) => {
         );
     }
 
+    if (hasCameraPermission === null || hasMicPermission === null) {
+        return <View><Text>waiting for permission</Text></View>;
+    }
+
+    if (hasCameraPermission === false || hasMicPermission === false) {
+        return <Text style={testStyles.text}>No access to camera or microphone</Text>;
+    }
+
     return (
         <SafeAreaView style={{...testStyles.container, ...(state.timeFinished ? {justifyContent: 'center'} : {})}}>
+            { isCameraVisible &&
+                <Camera
+                    ref={cameraRef}
+                    style={testStyles.cameraContainer}
+                    type={Camera.Constants.Type.front}
+                    flashMode={Camera.Constants.FlashMode.on}
+                    //onCameraReady={onCameraReady}
+                    onMountError={(error) => {
+                        console.log("cammera error", error);
+                    }}
+                />
+            }
+
+            <View style={COMMON_STYLES.ROW}>
+                {isVideoRecording && renderVideoRecordIndicator()}
+            </View>
             {
                 state.timeFinished &&
                 finishScreen()

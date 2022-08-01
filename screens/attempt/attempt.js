@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Switch, Pressable, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Switch, TouchableHighlight } from 'react-native';
 import { attemptStyles } from './attemptStyles';
 import { useState } from 'react';
 
