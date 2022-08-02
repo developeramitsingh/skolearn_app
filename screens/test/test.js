@@ -6,6 +6,7 @@ import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS, ROUTES, TEST_TYPES, TEST_TIME_LIMIT, } from "../../constant/constant";
 
 import { Camera } from "expo-camera";
+let camera;
 
 const Test = ({navigation, route}) => {
     let timeTimer = useRef();
@@ -45,21 +46,25 @@ const Test = ({navigation, route}) => {
         timeFinished: false,
     });
 
+    //const [camera, setCameraRef] = useState(useRef());
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const [hasMicPermission, setHasMicPermission] = useState(null);
     const [isVideoRecording, setIsVideoRecording] = useState(false);
     const [videoSource, setVideoSource] = useState(null);
     const [isCameraVisible, setCameraVisible ] = useState(true);
-    const cameraRef = useRef();
 
     const recordVideo = async () => {
-        console.info({cameraRef});
-        if (cameraRef.current) {
+        console.info({ currentCam: camera});
+        if (camera) {
             try {
-            const videoRecordPromise = cameraRef.current.recordAsync();
+            console.info('starting recording...');
+            const videoRecordPromise = camera?.recordAsync();
+            console.info('starting recording promise...', videoRecordPromise);
             if (videoRecordPromise) {
                 setIsVideoRecording(true);
+                console.info('starting recording promise...2');
                 const data = await videoRecordPromise;
+                console.info('Recorded!');
                 console.info({data});
                 const source = data.uri;
                 if (source) {
@@ -68,15 +73,15 @@ const Test = ({navigation, route}) => {
                 }
             }
             } catch (error) {
-            console.warn(error);
+            console.error(`recordVideo func error: ${error}`);
             }
         }
     };
     const stopVideoRecording = () => {
-        if (cameraRef.current) {
+        if (camera) {
             setIsVideoRecording(false);
             setCameraVisible(false);
-            cameraRef.current.stopRecording();
+            camera?.stopRecording();
         }
     };
 
@@ -97,7 +102,12 @@ const Test = ({navigation, route}) => {
             console.info({micStatus});
             setHasCameraPermission(status === "granted");
             setHasMicPermission(micStatus.status === "granted");
-            recordVideo();
+
+            console.info({isVideoRecording});
+            if(status === "granted" && micStatus.status === "granted" && !isVideoRecording) {
+                console.info(`recording func called`);
+                recordVideo();
+            }
           })();
         console.info({'insdie here: useEffedct': route?.params?.previewMode})
         if (!route?.params?.previewMode) {
@@ -111,9 +121,6 @@ const Test = ({navigation, route}) => {
         return (() => {
             clearInterval(timeTimer.current);
             console.info('cleared timer', timeTimer?.current);
-            stopVideoRecording();
-            setCameraVisible(false);
-            setIsVideoRecording(false);
         })
     }, [state.quesIdx, state.userScore, time, route?.params?.previewMode ])
 
@@ -180,7 +187,9 @@ const Test = ({navigation, route}) => {
     }
 
     const finishTest = () => {
+        setIsVideoRecording(false);
         stopVideoRecording();
+        setCameraVisible(false);
         clearInterval(timeTimer.current);
         setState(prev => {
             return {...prev, timeFinished: true };
@@ -217,22 +226,6 @@ const Test = ({navigation, route}) => {
 
     return (
         <SafeAreaView style={{...testStyles.container, ...(state.timeFinished ? {justifyContent: 'center'} : {})}}>
-            { isCameraVisible &&
-                <Camera
-                    ref={cameraRef}
-                    style={testStyles.cameraContainer}
-                    type={Camera.Constants.Type.front}
-                    flashMode={Camera.Constants.FlashMode.on}
-                    //onCameraReady={onCameraReady}
-                    onMountError={(error) => {
-                        console.log("cammera error", error);
-                    }}
-                />
-            }
-
-            <View style={COMMON_STYLES.ROW}>
-                {isVideoRecording && renderVideoRecordIndicator()}
-            </View>
             {
                 state.timeFinished &&
                 finishScreen()
@@ -278,6 +271,25 @@ const Test = ({navigation, route}) => {
                     }
                 </>
             }
+
+            { isCameraVisible &&
+                <Camera
+                    ref={(ref) => {
+                        camera = ref;
+                    }}
+                    style={testStyles.cameraContainer}
+                    type={Camera.Constants.Type.front}
+                    flashMode={Camera.Constants.FlashMode.on}
+                    //onCameraReady={onCameraReady}
+                    onMountError={(error) => {
+                        console.log("cammera error", error);
+                    }}
+                />
+            }
+
+            <View style={COMMON_STYLES.ROW}>
+                {isVideoRecording && renderVideoRecordIndicator()}
+            </View>
             
         </SafeAreaView>
     )
