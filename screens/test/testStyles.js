@@ -55,16 +55,6 @@ export const testStyles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
       },
-      recordIndicatorContainer: {
-        flexDirection: "row",
-        position: "absolute",
-        top: 25,
-        alignSelf: "center",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "transparent",
-        opacity: 0.7,
-      },
       recordTitle: {
         fontSize: 14,
         color: "#ffffff",
