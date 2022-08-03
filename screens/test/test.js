@@ -54,7 +54,7 @@ const Test = ({navigation, route}) => {
     const [isCameraVisible, setCameraVisible ] = useState(true);
 
     const recordVideo = async () => {
-        if (cameraRef?.current) {
+        if (cameraRef?.current && !route?.params?.previewMode) {
             try {
             console.info('starting recording...');
             const videoRecordPromise = cameraRef.current?.recordAsync();
@@ -87,7 +87,7 @@ const Test = ({navigation, route}) => {
     const renderVideoRecordIndicator = () => (
         <View style={COMMON_STYLES.ROW}>
             <View style={testStyles.recordDot} />
-            <Text style={testStyles.recordTitle}>{"Recording..."}</Text>
+            <Text style={testStyles.recordTitle}>{"Monitoring Activity..."}</Text>
         </View>
     );    
 
@@ -277,24 +277,27 @@ const Test = ({navigation, route}) => {
                 </>
             }
 
-            <View style={COMMON_STYLES.ROW}>
-                {console.info({'here_isVideoRecording': isVideoRecording})}
-                {isVideoRecording && renderVideoRecordIndicator()}
-            </View>
-            <View style={COMMON_STYLES.ROW}>
-                { isCameraVisible &&
-                    <Camera
-                        ref={cameraRef}
-                        style={testStyles.cameraContainer}
-                        type={Camera.Constants.Type.front}
-                        flashMode={Camera.Constants.FlashMode.on}
-                        onCameraReady={onCameraReady}
-                        onMountError={(error) => {
-                            console.log("cammera error", error);
-                        }}
-                    />
+            {
+                isVideoRecording &&
+                <View style={COMMON_STYLES.ROW}>
+                    {renderVideoRecordIndicator()}
+                </View>
+            }
+                { isCameraVisible && !route?.params?.previewMode &&
+                    <View style={COMMON_STYLES.ROW}>
+                        <Camera
+                            ref={cameraRef}
+                            style={testStyles.cameraContainer}
+                            type={Camera.Constants.Type.front}
+                            flashMode={Camera.Constants.FlashMode.on}
+                            onCameraReady={onCameraReady}
+                            onMountError={(error) => {
+                                console.log("cammera error", error);
+                            }}
+                        />
+                    </View> 
                 }
-            </View> 
+            
         </SafeAreaView>
     )
 }

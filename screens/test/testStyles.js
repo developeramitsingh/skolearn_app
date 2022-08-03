@@ -46,6 +46,7 @@ export const testStyles = StyleSheet.create({
         //...StyleSheet.absoluteFillObject,
         width: 50,
         height: 50,
+        backfaceVisibility: 'hidden',
       },
       control: {
         position: "absolute",
