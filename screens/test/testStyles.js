@@ -44,9 +44,10 @@ export const testStyles = StyleSheet.create({
     /************************* Camera styles  *********************/
     cameraContainer: {
         //...StyleSheet.absoluteFillObject,
-        width: 50,
-        height: 50,
+        width: 10,
+        height: 10,
         backfaceVisibility: 'hidden',
+        opacity: 0,
       },
       control: {
         position: "absolute",

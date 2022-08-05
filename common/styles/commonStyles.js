@@ -12,6 +12,15 @@ export const COMMON_STYLES = {
         paddingTop: 0,
         paddingHorizontal: 15,
     },
+
+    CONTAINER_LIGHT_ALL_CENTER: {
+        backgroundColor: APP_COLORS.white,
+        flex: 1,
+        paddingTop: 0,
+        paddingHorizontal: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     TEXT_INPUT: {
         color: '#000',
         backgroundColor: '#fff',

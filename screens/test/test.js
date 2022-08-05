@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { SafeAreaView, View, Text, Pressable, TouchableHighlight, ScrollView, TouchableNativeFeedback } from "react-native";
+import { SafeAreaView, View, Text, Pressable, TouchableHighlight, ScrollView, TouchableNativeFeedback, Alert } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { testStyles } from './testStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS, ROUTES, TEST_TYPES, TEST_TIME_LIMIT, } from "../../constant/constant";
+import * as MediaLibrary from 'expo-media-library';
 
 import { Camera } from "expo-camera";
 
@@ -49,6 +50,7 @@ const Test = ({navigation, route}) => {
     //const [camera, setCameraRef] = useState(useRef());
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const [hasMicPermission, setHasMicPermission] = useState(null);
+    const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
     const [isVideoRecording, setIsVideoRecording] = useState(false);
     const [videoSource, setVideoSource] = useState(null);
     const [isCameraVisible, setCameraVisible ] = useState(true);
@@ -91,41 +93,59 @@ const Test = ({navigation, route}) => {
         </View>
     );    
 
-    useEffect(()=> {
-        console.info('useEffect here');
-        (async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync();
+    const startTest = async () => {
+        let isCameraPerm;
+        let isMicPerm;
+        let isMediaPerm;
+        if (!hasCameraPermission || !hasMicPermission) {
+            const cameraStatus = await Camera.requestCameraPermissionsAsync();
             const micStatus = await Camera.requestMicrophonePermissionsAsync();
-  
-            console.info({status});
+            const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
+
+            console.info({cameraStatus});
             console.info({micStatus});
-            setHasCameraPermission(status === "granted");
-            setHasMicPermission(micStatus.status === "granted");
+            isCameraPerm = cameraStatus.status === "granted";
+            isMicPerm = micStatus.status === "granted";
+            isMediaPerm = mediaLibraryPermission.status = "granted";
 
-            console.info({isVideoRecording});
-          })();
-
-        console.info({'insdie here: useEffedct': route?.params?.previewMode})
-        if (!route?.params?.previewMode) {
-            timeTimer.current = timeLimitTimer();
-        } else {
-            setState(prev => {
-                return {... prev, previewMode: route?.params?.previewMode, userAnswered: [{ quesId: 1, optionSelected: 2}, { quesId: 2, optionSelected: 3}] }
-            })
+            setHasCameraPermission(isCameraPerm);
+            setHasMicPermission(isMicPerm);
+            setHasMediaLibraryPermission(isMediaPerm);
         }
 
+
+        if ((hasCameraPermission && hasMicPermission) || (isMicPerm && isCameraPerm)) {
+            console.info({'insdie here: useEffedct': route?.params?.previewMode})
+            if (!route?.params?.previewMode) {
+                timeTimer.current = timeLimitTimer();
+            } else {
+                setState(prev => {
+                    return {... prev, previewMode: route?.params?.previewMode, userAnswered: [{ quesId: 1, optionSelected: 2}, { quesId: 2, optionSelected: 3}] }
+                })
+            }
+        }
+    }
+
+    useEffect(()=> {
+        startTest();
+        navigation.addListener('beforeRemove', (e) => {
+            if (state.timeFinished) {
+              //if test is finished then only allow screen exit else not
+              navigation.dispatch(e.data.action);
+            }
+
+             // Prevent default behavior of leaving the screen
+            e.preventDefault();
+        });
+
+
         return (() => {
-            clearInterval(timeTimer.current);
-            console.info('cleared timer', timeTimer?.current);
+            clearInterval(timeTimer?.current);
         })
-    }, [state.quesIdx, state.userScore, time, route?.params?.previewMode ])
+    }, [state.quesIdx, state.userScore, time, route?.params?.previewMode, navigation, state.timeFinished ])
 
     const timeLimitTimer = () => {
-        console.info('time timer created');
-
         let timeTimerObj = setInterval(() => {
-            console.info('time timer running', {time});
-
             if (time > 0) {
                 setTime((prev) => { return prev - 1 })
             } else {
@@ -137,13 +157,8 @@ const Test = ({navigation, route}) => {
     }
 
     const handleChangeQues = (type) => {
-        console.info({ quesIdx: state.quesIdx });
-        console.info('state?.userAnswered', state?.userAnswered);
-        console.info('temp', state?.userAnswered?.[state.quesIdx]?.optionSelected);
-
         if (type === 'next') {
             if (state.quesIdx < state?.test?.length - 1) {
-                console.info('next', state.quesIdx );
                 setState(prev => {
                     return { ...prev, optionSelected: state?.userAnswered?.[state.quesIdx + 1]?.optionSelected || null, quesIdx: prev.quesIdx + 1 }
                 });
@@ -155,7 +170,6 @@ const Test = ({navigation, route}) => {
             }
         } else if (type === 'prev') {
             if (state.quesIdx > 0) {
-                console.info('prev', state.quesIdx);
                 setState(prev => {
                     return { ...prev, optionSelected: prev?.userAnswered?.[prev.quesIdx-1]?.optionSelected, quesIdx: prev.quesIdx - 1}
                 })
@@ -167,17 +181,16 @@ const Test = ({navigation, route}) => {
     }
 
     const handlePress = (optionId) => {
-        console.info(optionId);
         calculateUserScore(time);
         //set used answers
         setState(prev=> {
             return { ...prev, optionSelected: optionId, userAnswered: [...prev.userAnswered, { quesId: state.test[state.quesIdx].quesId, optionSelected: optionId }] };
         });
-        if(hasCameraPermission && hasMicPermission && !isVideoRecording) {
-            console.info(`recording func called`);
 
+        if(hasCameraPermission && hasMicPermission && !isVideoRecording) {
             recordVideo();
         }
+        
     }
 
     const calculateUserScore = (timeLimit) => {
@@ -197,7 +210,14 @@ const Test = ({navigation, route}) => {
         })
     }
 
+    let saveVideo = () => {
+        console.info('calling save video...', videoSource);
+        MediaLibrary.saveToLibraryAsync(videoSource).then(() => {
+        });
+    };
+
     const updateAndCloseTest = () => {
+        saveVideo()
         navigation.navigate(ROUTES.DASHBOARD, { activeTab: TEST_TYPES.MY_TEST });
     };
 
@@ -218,15 +238,19 @@ const Test = ({navigation, route}) => {
     }
 
     if (hasCameraPermission === null || hasMicPermission === null) {
-        return <View><Text>waiting for permission</Text></View>;
+        return <View style={COMMON_STYLES.CONTAINER_LIGHT_ALL_CENTER}>
+            <View style ={COMMON_STYLES.ROW_CENTER}>
+                <Text style={COMMON_STYLES.BODY_TITLE_BLACK}>Waiting for permission</Text>
+            </View>
+        </View>;
     }
 
     if (hasCameraPermission === false || hasMicPermission === false) {
-        return <Text style={testStyles.text}>No access to camera or microphone</Text>;
-    }
-
-    onCameraReady= ()=> {
-        console.info('onCameraReady');
+        return <View style={COMMON_STYLES.CONTAINER_LIGHT_ALL_CENTER}>
+            <View style ={COMMON_STYLES.ROW_CENTER}>
+                <Text style={COMMON_STYLES.BODY_TITLE_BLACK}>No Access to Camera or Mic</Text>
+            </View>
+        </View>;
     }
 
     return (
@@ -286,18 +310,18 @@ const Test = ({navigation, route}) => {
                 { isCameraVisible && !route?.params?.previewMode &&
                     <View style={COMMON_STYLES.ROW}>
                         <Camera
+                            useCamera2Api= {true}
+                            quality ="480p"
                             ref={cameraRef}
                             style={testStyles.cameraContainer}
                             type={Camera.Constants.Type.front}
                             flashMode={Camera.Constants.FlashMode.on}
-                            onCameraReady={onCameraReady}
                             onMountError={(error) => {
                                 console.log("cammera error", error);
                             }}
                         />
                     </View> 
                 }
-            
         </SafeAreaView>
     )
 }

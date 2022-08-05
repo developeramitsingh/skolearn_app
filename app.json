@@ -8,7 +8,7 @@
     "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#000"
     },
     "updates": {
@@ -26,7 +26,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.shriamits454.skolearn"
+      "package": "com.shriamits454.skolearn",
+      "permissions":[
+        "CAMERA",
+        "RECORD_AUDIO",
+        "VIBRATE",
+        "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
+        "NOTIFICATIONS"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -35,8 +42,8 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow photos permission",
-          "cameraPermission": "Allow Skolearn to open the camera",
+          "photosPermission": true,
+          "cameraPermission": true,
           "microphonePermission": true
         }
       ]

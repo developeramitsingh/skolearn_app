@@ -5,7 +5,7 @@ import * as Constant from '../../constant/constant';
 import { timerScreenStyles } from './timerScreenStyles';
 
 const TimerScreen = ({navigation, route }) => {
-    const [time, setTime] = useState(5);
+    const [time, setTime] = useState(2);
 
     const timerToStartTest = () => {
         const timer = setInterval(()=>{
