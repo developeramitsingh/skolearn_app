@@ -129,7 +129,7 @@ const Test = ({navigation, route}) => {
     useEffect(()=> {
         startTest();
         navigation.addListener('beforeRemove', (e) => {
-            if (state.timeFinished) {
+            if (state.timeFinished || state.previewMode) {
               //if test is finished then only allow screen exit else not
               navigation.dispatch(e.data.action);
             }
