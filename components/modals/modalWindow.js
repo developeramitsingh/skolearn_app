@@ -22,10 +22,10 @@ const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
             transparent={true}
             visible={modalVisible}
         >
-            <View style={modalStyles.container}>
+            <View style={modalStyles.CONT_CENTER}>
                 <Text style={modalStyles.modalTitle}>{title}</Text>
 
-                <View style={modalStyles.ROW}>
+                <View style={modalStyles.ROW_SPREAD}>
                     <TextInput 
                         maxLength={maxLength ? maxLength : null } 
                         style={modalStyles.TEXT_INPUT}
@@ -33,12 +33,15 @@ const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
                         placeholder={placeholder}
                         onChangeText= {handleChange} value={state.value}
                     />
+                </View>
+
+                <View style={modalStyles.ROW_SPREAD}>
                     <TouchableOpacity onPress={() => handleModalPress(actionType, state.value)} style={modalStyles.BTN}>
                         <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={COMMON_STYLES.ROW}>
+                <View style={modalStyles.ROW_SPREAD}>
                     <TouchableOpacity onPress={() => handleModalPress(CLOSE_MODAL)} style={modalStyles.BTN}>
                         <Text style={COMMON_STYLES.BTN_TEXT}>Close</Text>
                     </TouchableOpacity>

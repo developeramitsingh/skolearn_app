@@ -2,6 +2,8 @@ import { myTicketsStyles } from './myTicketsStyles';
 import {TouchableHighlight, View, Text, ScrollView } from 'react-native'
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { useState } from 'react';
+import ModalWindow from '../../components/modals/modalTicket';
+import { CLOSE_MODAL } from '../../constant/constant';
 
 const MyTickets = () => {
     const [state, setState] = useState({
@@ -25,6 +27,17 @@ const MyTickets = () => {
         }],
     });
 
+    const [createTicketModal, setCreateTicket] = useState(false);
+
+    const handlePress = (actionType, payload) => {
+        if(actionType === 'createTicket') {
+            console.info('createTicket');
+            setCreateTicket(false);
+        } else if(actionType === CLOSE_MODAL) {
+            setCreateTicket(false);
+        }
+    };
+
     const allTickets = state.allTickets?.map(ticket => {
         return (
             <View key={ticket.id} style={COMMON_STYLES.CARD}>
@@ -46,9 +59,11 @@ const MyTickets = () => {
 
     return (
         <View style = { myTicketsStyles.CONTAINER }>
+            <ModalWindow modalVisible={createTicketModal} handleModalPress={handlePress} title="Create New Ticket" actionType= "createTicket" btnTxt = 'Create' placeholder='Enter Subject'/>
+
             <View style= {myTicketsStyles.ROW_CENTER}>
-                <TouchableHighlight style={COMMON_STYLES.SUB_BTN_2}>
-                    <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Raise a new Ticket</Text>
+                <TouchableHighlight onPress={()=> setCreateTicket(true)} style={COMMON_STYLES.SUB_BTN_1}>
+                    <Text style={COMMON_STYLES.SUB_BTN_TXT}>Raise a new Ticket</Text>
                 </TouchableHighlight>
             </View>
 

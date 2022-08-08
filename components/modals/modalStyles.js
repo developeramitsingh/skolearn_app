@@ -1,13 +1,25 @@
 import { StyleSheet } from "react-native";
 import { APP_COLORS } from "../../constant/constant";
 export const modalStyles = StyleSheet.create({
-    container: {
+      container: {
         flex: 1,
         justifyContent: "space-around",
         alignItems: "center",
         backgroundColor: APP_COLORS.black,
         paddingTop: 70,
         paddingHorizontal: 20,
+      },
+      CONT_CENTER: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: APP_COLORS.black,
+        paddingHorizontal: 20,
+      },
+      ROW_SPREAD: {
+        justifyContent: 'space-between',
+        width: '100%',
+        marginVertical: 10,
       },
       ROW: {
         justifyContent: 'space-between',
@@ -27,18 +39,30 @@ export const modalStyles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         color: APP_COLORS.white,
+        marginBottom: 20,
       },
       TEXT_INPUT: {
         //color: '#000',
         backgroundColor: APP_COLORS.white,
         textAlign: 'center',
-        fontSize: 18,
-        paddingVertical: 14,
+        fontSize: 14,
+        paddingVertical: 10,
         //paddingHorizontal: 5,
         borderRadius: 20,
         marginBottom: '8%',
         //backgroundColor: APP_COLORS.grey,
         width: '100%',
+      },
+      TEXT_INPUT_LEFT: {
+        //color: '#000',
+        backgroundColor: APP_COLORS.white,
+        fontSize: 14,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+        //marginBottom: '8%',
+        //backgroundColor: APP_COLORS.grey,
+        //width: '100%',
       },
 
       BTN: {
@@ -48,5 +72,8 @@ export const modalStyles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: APP_COLORS.yellow,
         width: '100%',
-    },
+      },
+      MULTI_TEXT: {
+        backgroundColor: 'white', minHeight: 100, maxHeight: 300, borderRadius: 10,
+      }
 });
