@@ -173,4 +173,15 @@ export const COMMON_STYLES = {
         fontWeight: 'bold',
         color: APP_COLORS.black,
     },
+    HIDE: {
+        opacity: 0,
+    },
+    CARD: {
+        borderRadius: 10,
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        marginHorizontal: 10,
+        backgroundColor: APP_COLORS.blue,
+        marginVertical: 5
+    }
 }

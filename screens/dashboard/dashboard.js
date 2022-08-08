@@ -10,7 +10,7 @@ import PracticeTestsList from './testLists/practiceTestsList';
 import FooterIconBar from '../../components/footerIconBar/footerIconBar';
 import dashboardStyles from './dashboardStyles';
 import Wallet from '../wallet/wallet';
-import Chat from '../help/chat';
+import Index from '../help/index';
 
 const Dashboard = ({navigation, route }) => {
     const [state, setState] = useState({
@@ -68,7 +68,7 @@ const Dashboard = ({navigation, route }) => {
                 ? <TestList/>
                 : state.activeScreen === Constant.SCREENS.WALLET 
                 ? <Wallet/>
-                : <Chat/>
+                : <Index/>
 
             }
             <FooterIconBar setActiveScreen ={setActiveScreen}/>
