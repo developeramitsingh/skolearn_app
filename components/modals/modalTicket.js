@@ -1,8 +1,10 @@
-import { View, Modal, Text, TouchableOpacity, TextInput } from "react-native"
+import { View, Modal, Text, TouchableOpacity, TouchableWithoutFeedback, Image, TextInput } from "react-native"
 import { useState } from 'react';
 import { modalStyles } from  './modalStyles';
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
 import { CLOSE_MODAL} from '../../constant/constant';
+import { pickImage } from '../../common/functions/commonHelper';
+import { Entypo } from '@expo/vector-icons';
 
 const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength }) => {
     const [state, setState] = useState({
@@ -16,6 +18,21 @@ const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
             return { ...prev, [key]: val, };
         })
 
+    }
+
+    const setPickedImage = async () => {
+        try {
+            console.info('select image');
+            let ticketImg = await pickImage();
+            setState(prev=> {
+                return {...prev, ticketImg: ticketImg };
+            });
+
+            console.info('image set!');
+            console.info('calling API to update profile image...');
+        } catch (err) {
+            console.error(`error while setting up image img: ${err}`);
+        }
     }
     return(
         <Modal
@@ -50,6 +67,20 @@ const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
                             scrollEnabled={true}
                         />
                     </View>
+                </View>
+
+                <View style={modalStyles.ROW_SPREAD}>
+                    <TouchableOpacity style={modalStyles.IMG_UPLOAD_PLACE} onPress={setPickedImage}>    
+                        {
+                            state.ticketImg 
+                                ? <Image style={modalStyles.IMAGE} source={{uri: state.ticketImg}}></Image>
+                                : <>
+                                    <Text style={COMMON_STYLES.BODY_TEXT}>Upload image (if Any)</Text>
+                                    <Entypo name="upload" size={24} color="white" style={{marginVertical: 10}}/>
+                                </>
+                        }
+                        
+                    </TouchableOpacity>
                 </View>
 
                 <View style={modalStyles.ROW_SPREAD}>

@@ -75,5 +75,17 @@ export const modalStyles = StyleSheet.create({
       },
       MULTI_TEXT: {
         backgroundColor: 'white', minHeight: 100, maxHeight: 300, borderRadius: 10,
+      },
+      IMAGE: {
+        width: 100,
+        height: 80,
+      },
+      IMG_UPLOAD_PLACE: {
+        borderWidth: 2,
+        borderRadius: 10,
+        paddingVertical: 5,
+        borderColor: APP_COLORS.grey,
+        justifyContent: 'center',
+        alignItems: 'center',
       }
 });

@@ -32,6 +32,7 @@ const MyTickets = () => {
     const handlePress = (actionType, payload) => {
         if(actionType === 'createTicket') {
             console.info('createTicket');
+            //call api to create ticket entry
             setCreateTicket(false);
         } else if(actionType === CLOSE_MODAL) {
             setCreateTicket(false);
