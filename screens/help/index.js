@@ -4,28 +4,30 @@ import { indexStyles } from './indexStyles';
 import { useState } from 'react';
 import Chat from './chat';
 import MyTickets from './myTickets';
-
-const TAB_TYPE = {
-    MY_TICKET: 'my-ticket',
-    LIVE_CHAT: 'live-chat',
-}
+import { HELP_TABS } from '../../constant/constant';
 
 const Index = () => {
-    const [activeTab, setActiveTab] = useState(TAB_TYPE.MY_TICKET);
+    const [activeTab, setActiveTab] = useState(HELP_TABS.MY_TICKET);
+    const [ticketId, setTicketId] = useState(null);
 
     const handleChangeTab = (tabKey) => {
         setActiveTab(tabKey);
     }
 
+    const handleOpenTicket = (ticketId) => {
+        setActiveTab(HELP_TABS.LIVE_CHAT);
+        setTicketId(ticketId);
+    }
+
     const Tabs = () => {
         return (
             <>
-                <Pressable onPress={()=>handleChangeTab(TAB_TYPE.MY_TICKET)} style={{...indexStyles.TAB_BTN, ...(activeTab === TAB_TYPE.MY_TICKET ? indexStyles.TAB_BTN_ACTIVE : {})}}>
-                        <Text style={{ ...indexStyles.TAB_BTN_TEXT, ...(activeTab === TAB_TYPE.MY_TICKET ? indexStyles.TAB_BTN_TEXT_ACTIVE : {}) }}>My Tickets</Text>
+                <Pressable onPress={()=>handleChangeTab(HELP_TABS.MY_TICKET)} style={{...indexStyles.TAB_BTN, ...(activeTab === HELP_TABS.MY_TICKET ? indexStyles.TAB_BTN_ACTIVE : {})}}>
+                        <Text style={{ ...indexStyles.TAB_BTN_TEXT, ...(activeTab === HELP_TABS.MY_TICKET ? indexStyles.TAB_BTN_TEXT_ACTIVE : {}) }}>My Tickets</Text>
                     </Pressable>
     
-                <Pressable onPress={()=>handleChangeTab(TAB_TYPE.LIVE_CHAT)} style={{...indexStyles.TAB_BTN, ...(activeTab === TAB_TYPE.LIVE_CHAT ? indexStyles.TAB_BTN_ACTIVE : {})}}>
-                    <Text style={{ ...indexStyles.TAB_BTN_TEXT, ...(activeTab === TAB_TYPE.LIVE_CHAT ? indexStyles.TAB_BTN_TEXT_ACTIVE : {}) }}>Live Chat</Text>
+                <Pressable onPress={()=>handleChangeTab(HELP_TABS.LIVE_CHAT)} style={{...indexStyles.TAB_BTN, ...(activeTab === HELP_TABS.LIVE_CHAT ? indexStyles.TAB_BTN_ACTIVE : {})}}>
+                    <Text style={{ ...indexStyles.TAB_BTN_TEXT, ...(activeTab === HELP_TABS.LIVE_CHAT ? indexStyles.TAB_BTN_TEXT_ACTIVE : {}) }}>Live Chat</Text>
                 </Pressable>
             </>
         )
@@ -38,9 +40,9 @@ const Index = () => {
             </View>
 
             {
-                activeTab === TAB_TYPE.LIVE_CHAT 
-                    ? <Chat/>
-                    : <MyTickets/>
+                activeTab === HELP_TABS.LIVE_CHAT 
+                    ? <Chat ticketId={ticketId}/>
+                    : <MyTickets handleOpenTicket={handleOpenTicket}/>
             }
         </View>
     )

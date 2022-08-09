@@ -1,6 +1,18 @@
 import {StyleSheet} from 'react-native';
 import { APP_COLORS } from '../../constant/constant';
 
+const CHAT_BORDER = {
+    SUPPORT: {
+        borderTopRightRadius : 10,
+        borderTopLeftRadius : 10,
+        borderBottomRightRadius : 10,
+    },
+    USER: {
+        borderTopRightRadius : 10,
+        borderTopLeftRadius : 10,
+        borderBottomLeftRadius : 10,
+    }
+}
 export const chatStyles = StyleSheet.create({
     CONTAINER: {
         flex: 1,
@@ -68,15 +80,29 @@ export const chatStyles = StyleSheet.create({
     },
     chatMsgBlockSupport: {
         alignSelf: 'flex-start',
-        borderTopRightRadius : 10,
-        borderTopLeftRadius : 10,
-        borderBottomRightRadius : 10,
+        ...CHAT_BORDER.SUPPORT,
         backgroundColor: APP_COLORS.blue,
     },
     chatMsgBlockUser: {
         alignSelf: 'flex-end',
-        borderTopRightRadius : 10,
-        borderTopLeftRadius : 10,
-        borderBottomLeftRadius : 10,
+        ...CHAT_BORDER.USER,
     },
+    chatImgSupport: {
+        alignSelf: 'flex-start',
+        width: 150,
+        height: 100,
+        
+        ...CHAT_BORDER.SUPPORT,
+        borderColor: APP_COLORS.blue,
+        borderWidth: 2,
+    },
+    chatImgUser: {
+        width: 150,
+        height: 100,
+        alignSelf: 'flex-end',
+        ...CHAT_BORDER.USER,
+        borderColor: APP_COLORS.white,
+        borderWidth: 2,
+    }
+
 });

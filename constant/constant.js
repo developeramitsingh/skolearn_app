@@ -45,6 +45,11 @@ export const SCREENS = {
     HELP: 'Help',
 }
 
+export const HELP_TABS = {
+    MY_TICKET: 'my-ticket',
+    LIVE_CHAT: 'live-chat',
+}
+
 export const TEST_TIME_LIMIT = 5;
 
 export const CLOSE_MODAL = 'closeModal';

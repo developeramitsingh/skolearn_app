@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, Text, KeyboardAvoidingView, TextInput, ScrollView, Pressable } from "react-native";
+import { SafeAreaView, View, Text, KeyboardAvoidingView, TextInput, ScrollView, Pressable, Image } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { chatStyles } from './chatStyles';
 import { APP_COLORS, CLOSE_MODAL } from '../../constant/constant';
 import Active from '../../components/active/active';
 import { FontAwesome } from '@expo/vector-icons';
 
-const Chat = () => {
+const Chat = ({ticketId}) => {
     //let scrollViewRef = React.useRef(null);
     const [state, setState]= useState({
         supportUserName: 'Test name',
@@ -16,11 +16,14 @@ const Chat = () => {
             {
                 txt: 'Hi, How may i help you',
                 userType: 'support',
+                img: ''
             },
             {
-            txt: 'Hi, i want to apply for test',
-            userType: 'user',
-        }],
+                txt: 'Hi, i want to apply for test',
+                userType: 'user',
+                img: 'https://engineering.fb.com/wp-content/uploads/2016/04/yearinreview.jpg'
+            }
+        ],
     });
     const [reference, setReference] = useState(null);
 
@@ -59,10 +62,20 @@ const Chat = () => {
                         const isSupportUser = msg.userType === 'support';
                         const userStyle = chatStyles.chatMsgBlockUser;
                         const supportStyle = chatStyles.chatMsgBlockSupport;
+
+                        const userChatImgStyle = chatStyles.chatImgUser;
+                        const supportChatImgStyle = chatStyles.chatImgSupport;
                         return (
-                            <View key ={idx} style={[chatStyles.chatMsgBlock, isSupportUser ? supportStyle :  userStyle ]}>
-                                <Text style={ isSupportUser ? COMMON_STYLES.BODY_TEXT : COMMON_STYLES.BODY_TEXT_BLACK }>{msg.txt}</Text>
-                            </View>
+                            <>
+                                <View key ={idx} style={[chatStyles.chatMsgBlock, isSupportUser ? supportStyle :  userStyle ]}>
+                                    <Text style={ isSupportUser ? COMMON_STYLES.BODY_TEXT : COMMON_STYLES.BODY_TEXT_BLACK }>{msg.txt}</Text>
+                                </View>
+                                {
+                                    msg.img ?
+                                    <Image source={{ uri: msg.img }} style={isSupportUser ? supportChatImgStyle : userChatImgStyle }/>
+                                    : null
+                                }
+                            </>
                         )
                     })
                 }
