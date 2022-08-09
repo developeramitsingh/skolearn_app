@@ -57,7 +57,7 @@ const cardListStyles = StyleSheet.create({
     },
     TITLE: {
         fontWeight: 'bold',
-        fontSize: 16,
+        fontSize: 14,
         color: APP_COLORS.black,
         paddingVertical: 10,
     },
@@ -69,7 +69,7 @@ const cardListStyles = StyleSheet.create({
     },
     FEE: {
         fontWeight: '900',
-        fontSize: 22,
+        fontSize: 20,
         color: APP_COLORS.black,
         textAlign: 'center',
     },
@@ -80,7 +80,7 @@ const cardListStyles = StyleSheet.create({
         borderRadius: 15,
     },
     CARD_BTN_TEXT: {
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: 'bold',
         color: APP_COLORS.white,
     }

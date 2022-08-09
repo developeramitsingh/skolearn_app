@@ -64,7 +64,7 @@ export const COMMON_STYLES = {
 
     BODY_TEXT:  {
         color: APP_COLORS.white,
-        fontSize: 10,
+        fontSize: 12,
     },
     BODY_TEXT_BLACK:  {
         color: APP_COLORS.black,
@@ -72,17 +72,17 @@ export const COMMON_STYLES = {
     },
     BODY_TITLE:  {
         color: APP_COLORS.white,
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: 'bold',
     },
     BODY_TITLE_BLACK:  {
         color: APP_COLORS.black,
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: 'bold',
     },
     BODY_HEADING_1:  {
         color: APP_COLORS.white,
-        fontSize: 32,
+        fontSize: 28,
         fontWeight: 'bold',
     },
     BODY_TABS:  {
@@ -101,7 +101,7 @@ export const COMMON_STYLES = {
     },
     BODY_TABS_TEXT:  {
         color: APP_COLORS.white,
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: 'bold',
         textAlign: 'center',
     },
