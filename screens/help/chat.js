@@ -14,11 +14,13 @@ const Chat = ({ticketId}) => {
         userMsg: '',
         chatMsgs: [
             {
+                id: 1,
                 txt: 'Hi, How may i help you',
                 userType: 'support',
                 img: ''
             },
             {
+                id: 2,
                 txt: 'Hi, i want to apply for test',
                 userType: 'user',
                 img: 'https://engineering.fb.com/wp-content/uploads/2016/04/yearinreview.jpg'
@@ -66,8 +68,8 @@ const Chat = ({ticketId}) => {
                         const userChatImgStyle = chatStyles.chatImgUser;
                         const supportChatImgStyle = chatStyles.chatImgSupport;
                         return (
-                            <>
-                                <View key ={idx} style={[chatStyles.chatMsgBlock, isSupportUser ? supportStyle :  userStyle ]}>
+                            <View key={msg.id}>
+                                <View style={[chatStyles.chatMsgBlock, isSupportUser ? supportStyle :  userStyle ]}>
                                     <Text style={ isSupportUser ? COMMON_STYLES.BODY_TEXT : COMMON_STYLES.BODY_TEXT_BLACK }>{msg.txt}</Text>
                                 </View>
                                 {
@@ -75,7 +77,7 @@ const Chat = ({ticketId}) => {
                                     <Image source={{ uri: msg.img }} style={isSupportUser ? supportChatImgStyle : userChatImgStyle }/>
                                     : null
                                 }
-                            </>
+                            </View>
                         )
                     })
                 }
