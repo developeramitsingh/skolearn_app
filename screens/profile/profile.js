@@ -113,8 +113,8 @@ const Profile = ({navigation}) => {
 
                 <Text style={COMMON_STYLES.BODY_TEXT}>Total Scholarship Achieved: {state.totalScholarship}</Text>
 
-                <TouchableHighlight onPress={()=> setProfileEdit(!showProfileEdit)} style={[COMMON_STYLES.BTN_1, { width: '100%'}]}>
-                    <Text style={COMMON_STYLES.BTN_TEXT}>Edit Profile</Text>
+                <TouchableHighlight onPress={()=> setProfileEdit(!showProfileEdit)} style={[COMMON_STYLES.SUB_BTN_1, { marginVertical: 10 }]}>
+                    <Text style={COMMON_STYLES.SUB_BTN_TXT}>Edit Profile</Text>
                 </TouchableHighlight>
             </View>
 
@@ -162,9 +162,9 @@ const Profile = ({navigation}) => {
                 </View>
             </ScrollView>
 
-            <View>
-                <TouchableHighlight onPress={() => handlePress('logout')} style={COMMON_STYLES.BTN_1}>
-                    <Text style={COMMON_STYLES.BTN_TEXT}>Logout</Text>
+            <View style={COMMON_STYLES.ROW_CENTER}>
+                <TouchableHighlight onPress={() => handlePress('logout')} style={COMMON_STYLES.SUB_BTN_1}>
+                    <Text style={COMMON_STYLES.SUB_BTN_TXT}>Logout</Text>
                 </TouchableHighlight>         
             </View>
         </SafeAreaView>
