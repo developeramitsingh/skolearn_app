@@ -57,4 +57,7 @@ export const CLOSE_MODAL = 'closeModal';
 export const ACTION_TYPES = {
     UPDATE_BANK_DETAIL : 'updateBankDetail',
     UPDATE_PAN_DETAIL : 'updatePanDetail',
+
+    CREATE_TICKET: 'createTicket',
+    OPEN_TICKET: 'openTicket',
 };

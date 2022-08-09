@@ -3,27 +3,8 @@ import { SafeAreaView, View, Text, TouchableOpacity, FlatList } from "react-nati
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { walletStyles } from './walletStyles';
 import ModalWindow from "../../components/modals/modalWindow";
-import { CLOSE_MODAL } from '../../constant/constant';
-
-const RenderList = ({item})=> {
-    return (
-        <View key={item.id} style={walletStyles.CARD}>
-            <View style={walletStyles.LEFT_COL}>
-                <Text style={COMMON_STYLES.BODY_TITLE}>{item.transactionTitle}</Text>
-                <Text style={walletStyles.CARD_TEXT}>{item.transactionTime}</Text>
-                <Text style={walletStyles.CARD_TEXT}>Reference number</Text>
-                <Text style={walletStyles.CARD_TEXT}>{item.id}</Text>
-            </View>
-
-            <View style={walletStyles.RIGHT_COL}>
-                <TouchableOpacity style={COMMON_STYLES.SUB_BTN_2}>
-                    <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Raise Tickets</Text>
-                </TouchableOpacity>
-                <Text style={walletStyles.CARD_TEXT}>{item.transactionStatus}</Text>
-            </View>
-        </View>
-    )
-};
+import ModalTicket from "../../components/modals/modalTicket";
+import { CLOSE_MODAL, ACTION_TYPES } from '../../constant/constant';
 
 const Wallet = () => {
     const [state, setState] = useState({
@@ -65,6 +46,7 @@ const Wallet = () => {
 
     const [showAddMoney, setAddMoney] = useState(false);
     const [showWithdrawMoney, setWithdrawMoney] = useState(false);
+    const [createTicketModal, setCreateTicket] = useState(false);
 
     const handlePress = (actionType, payload) => {
         if(actionType === 'addMoney') {
@@ -73,11 +55,36 @@ const Wallet = () => {
         } else if(actionType === 'withdraw') {
             console.info('withdraw');
             setWithdrawMoney(false);
-        } else if(actionType === CLOSE_MODAL) {
+        } else if(actionType === ACTION_TYPES.CREATE_TICKET) {
+            console.info('createTicket');
+            //call api to create ticket entry
+            setCreateTicket(false);
+        }  else if(actionType === CLOSE_MODAL) {
             console.info('modal closed');
             setAddMoney(false);
             setWithdrawMoney(false);
+            setCreateTicket(false);
         }
+    };
+
+    const RenderList = ({item })=> {
+        return (
+            <View key={item.id} style={walletStyles.CARD}>
+                <View style={walletStyles.LEFT_COL}>
+                    <Text style={COMMON_STYLES.BODY_TITLE}>{item.transactionTitle}</Text>
+                    <Text style={walletStyles.CARD_TEXT}>{item.transactionTime}</Text>
+                    <Text style={walletStyles.CARD_TEXT}>Reference number</Text>
+                    <Text style={walletStyles.CARD_TEXT}>{item.id}</Text>
+                </View>
+    
+                <View style={walletStyles.RIGHT_COL}>
+                    <TouchableOpacity onPress ={() => setCreateTicket(true)} style={COMMON_STYLES.SUB_BTN_2}>
+                        <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Raise Tickets</Text>
+                    </TouchableOpacity>
+                    <Text style={walletStyles.CARD_TEXT}>{item.transactionStatus}</Text>
+                </View>
+            </View>
+        )
     };
 
     
@@ -86,6 +93,8 @@ const Wallet = () => {
             <ModalWindow modalVisible={showAddMoney} handleModalPress={handlePress} title="Add Money to Wallet" keyboardType='numeric' actionType= "addMoney" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
 
             <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={handlePress} title="Request Widthdraw Money" keyboardType='numeric'  actionType= "withdraw"  btnTxt = 'Request Withdraw' placeholder='Enter Amount to withdraw'/>
+
+            <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title="Create New Ticket" actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = 'Create' placeholder='Enter Subject'/>
 
             <View style={{...COMMON_STYLES.ROW_CENTER, marginTop: 20 }}>
                 <Text style={COMMON_STYLES.BODY_TITLE}>Total Balance</Text>
