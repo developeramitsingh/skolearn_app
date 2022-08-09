@@ -3,9 +3,10 @@ import { Image, Alert, SafeAreaView, View, Text, TouchableHighlight,TouchableWit
 import { profileStyles } from './profileStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { onShare, copyToClipboard, pickImage } from '../../common/functions/commonHelper';
-import { APP_COLORS, ROUTES, CLOSE_MODAL } from '../../constant/constant';
+import { APP_COLORS, ROUTES, CLOSE_MODAL, ACTION_TYPES } from '../../constant/constant';
 import UploadModal from '../../components/modals/uploadModal';
 import ModalWindow from '../../components/modals/modalWindow';
+import ModalBankPanCard from '../../components/modals/modalBankPanCard';
 
 
 const Profile = ({navigation}) => {
@@ -23,6 +24,8 @@ const Profile = ({navigation}) => {
     const [showPanUploadModal, setPanUploadModal] = useState(false);
     const [showStudentDoc, setStudentDocu] = useState(false);
     const [showProfileEdit, setProfileEdit] = useState(false);
+    const [showBankDetailModal, setBankDetail] = useState(false);
+    const [showPanDetailModal, setPanDetail] = useState(false);
 
     const sharingDataLink = 'Share this app link is here https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg';
 
@@ -71,11 +74,25 @@ const Profile = ({navigation}) => {
                 return { ...prev, userName: payload }
             });
             setProfileEdit(false);
+        } else if(actionType === ACTION_TYPES.UPDATE_BANK_DETAIL) {
+            console.log('updating bank details', payload);
+            setState(prev => {
+                return { ...prev, bankDetail: payload }
+            });
+            setBankDetail(false);
+        } else if(actionType === ACTION_TYPES.UPDATE_PAN_DETAIL) {
+            console.log('updating pan card details', payload);
+            setState(prev => {
+                return { ...prev, panDetail: payload }
+            });
+            setPanDetail(false);
         } else if(actionType === CLOSE_MODAL) {
             setShowBankUploadModal(false);
             setPanUploadModal(false);
             setStudentDocu(false);
             setProfileEdit(false);
+            setBankDetail(false);
+            setPanDetail(false);
         }
     }
 
@@ -104,9 +121,13 @@ const Profile = ({navigation}) => {
 
             <UploadModal modalVisible={showStudentDoc} actionType="uploadStudentDoc" handleModalPress={handlePress} title="Upload Student Document" btnTxt = 'Upload' info="Allowed types are current year student id card or fee slip or application form or details of institute/college/school"/>
 
+            <ModalBankPanCard modalVisible={showBankDetailModal} actionType={ACTION_TYPES.UPDATE_BANK_DETAIL} handleModalPress={handlePress} title="Update Bank Account Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_BANK_DETAIL}/>
+
+            <ModalBankPanCard modalVisible={showPanDetailModal} actionType={ACTION_TYPES.UPDATE_PAN_DETAIL} handleModalPress={handlePress} title="Update Pan Card Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_PAN_DETAIL}/>
+
             <View style={profileStyles.ROW_CENTER}>
                 <TouchableWithoutFeedback onPress={setPickedImage}>
-                    <Image style={profileStyles.PROFILE_IMG} source={{uri: state.profileImg}}></Image>
+                    <Image style={profileStyles.PROFILE_IMG} source={{ uri: state.profileImg }}></Image>
                 </TouchableWithoutFeedback>
                 
                 <Text style={COMMON_STYLES.BODY_TITLE}>{state.userName}</Text>
@@ -136,7 +157,12 @@ const Profile = ({navigation}) => {
 
             <ScrollView>
                 <View style={profileStyles.BOX}>
-                    <Text style={COMMON_STYLES.BODY_TITLE}>Bank Account</Text>
+                    <Text style={COMMON_STYLES.BODY_TITLE}>Bank</Text>
+
+                    <TouchableHighlight onPress={()=> setBankDetail(!showBankDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                        <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
+                    </TouchableHighlight>
+
                     <TouchableHighlight onPress={()=> setShowBankUploadModal(!showBankUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
                         <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
                     </TouchableHighlight>
@@ -144,7 +170,11 @@ const Profile = ({navigation}) => {
                 </View>
 
                 <View style={profileStyles.BOX}>
-                    <Text style={COMMON_STYLES.BODY_TITLE}>Pan Card</Text>
+                    <Text style={COMMON_STYLES.BODY_TITLE}>Pancard</Text>
+
+                    <TouchableHighlight onPress={()=> setPanDetail(!showPanDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                        <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
+                    </TouchableHighlight>
 
                     <TouchableHighlight onPress={()=> setPanUploadModal(!showPanUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
                         <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>

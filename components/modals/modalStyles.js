@@ -32,6 +32,7 @@ export const modalStyles = StyleSheet.create({
         height: '50%',
         // paddingVertical: 5,
         // paddingHorizontal: 5,
+        marginVertical: 5,
       },
       modalTitle: {
         //marginBottom: 15,
@@ -49,7 +50,7 @@ export const modalStyles = StyleSheet.create({
         paddingVertical: 10,
         //paddingHorizontal: 5,
         borderRadius: 20,
-        marginBottom: '8%',
+        //marginBottom: '8%',
         //backgroundColor: APP_COLORS.grey,
         width: '100%',
       },

@@ -11,7 +11,7 @@ export const APP_COLORS = {
     black: '#000',
     black_opacity: '#00000050',
     white_opacity: '#ffffff70',
-}
+};
 
 export const BACKEND_URL = 'http://skolearn.com';
 
@@ -37,19 +37,24 @@ export const ROUTES = {
     TEST_TIMER_SCREEN: 'TestTimerScreen',
     PROFILE: 'Profile',
     EDIT_PROFILE: 'EditProfile',
-}
+};
 
 export const SCREENS = {
     TEST_LIST: 'TestLists',
     WALLET: 'Wallet',
     HELP: 'Help',
-}
+};
 
 export const HELP_TABS = {
     MY_TICKET: 'my-ticket',
     LIVE_CHAT: 'live-chat',
-}
+};
 
 export const TEST_TIME_LIMIT = 5;
 
 export const CLOSE_MODAL = 'closeModal';
+
+export const ACTION_TYPES = {
+    UPDATE_BANK_DETAIL : 'updateBankDetail',
+    UPDATE_PAN_DETAIL : 'updatePanDetail',
+};

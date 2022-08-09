@@ -37,7 +37,7 @@ const Chat = ({ticketId}) => {
 
     const handleSubmit = () => {
         setState(prev => {
-            return { ...prev, userMsg: '', chatMsgs: [...prev.chatMsgs, { txt: state.userMsg, userType: 'user' }]}
+            return { ...prev, userMsg: '', chatMsgs: [...prev.chatMsgs, { txt: state.userMsg, userType: 'user', id: Math.floor(Math.random() * 10000) }]}
         })
     }
 

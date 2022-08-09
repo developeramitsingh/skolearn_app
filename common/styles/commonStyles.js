@@ -64,7 +64,7 @@ export const COMMON_STYLES = {
 
     BODY_TEXT:  {
         color: APP_COLORS.white,
-        fontSize: 12,
+        fontSize: 10,
     },
     BODY_TEXT_BLACK:  {
         color: APP_COLORS.black,
@@ -169,7 +169,7 @@ export const COMMON_STYLES = {
         backgroundColor: APP_COLORS.yellow,
     },
     SUB_BTN_TXT_2: {
-        fontSize: 12,
+        fontSize: 10,
         fontWeight: 'bold',
         color: APP_COLORS.black,
     },
