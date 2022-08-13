@@ -56,7 +56,7 @@ const Test = ({navigation, route}) => {
     const [videoSource, setVideoSource] = useState(null);
     const [isCameraVisible, setCameraVisible ] = useState(true);
 
-    const createFormData = (uri) => {
+    const createFormData = async (uri) => {
         // Here uri means the url of the video you captured
         const form = new FormData();
         form.append("File", {
@@ -64,17 +64,29 @@ const Test = ({navigation, route}) => {
           uri: uri,
           type: "video/mp4",
         });
+        console.info('state.testId', state.testId);
         form.append('testId', state.testId);
       
+        console.info({form});/*  */
         // Now perform a post request here by adding this form in the body part of the request
         // Then you can handle the file you sent in the backend i.e server
-        userRecordingsService.createUserRecording(form);
+        console.info(`saving video api calling...`/*  */);
+        userRecordingsService.createUserRecording(form)
+        .then(data => {
+            console.debug(`done saving video`, data);
+        })
+        .catch(err => {
+            console.error('error in test saving video to server', err);
+        })
+        console.info(`saving video api called`);
     };
     const recordVideo = async () => {
         if (cameraRef?.current && !route?.params?.previewMode) {
             try {
             console.info('starting recording...');
-            const videoRecordPromise = cameraRef.current?.recordAsync();
+            const videoRecordPromise = cameraRef.current?.recordAsync({
+                quality: Camera.Constants.VideoQuality["4:3"],
+            });
             console.info('starting recording promise...', videoRecordPromise);
             if (videoRecordPromise) {
                 setIsVideoRecording(true);
@@ -84,9 +96,9 @@ const Test = ({navigation, route}) => {
                 console.info({data});
                 const source = data.uri;
                 if (source) {
-                console.log("video source hello", source);
-                createFormData(source);
-                setVideoSource(source);
+                    console.log("video source hello", source);
+                    createFormData(source);
+                    setVideoSource(source);
                 }
             }
             } catch (error) {
@@ -327,7 +339,7 @@ const Test = ({navigation, route}) => {
                     <View style={COMMON_STYLES.ROW}>
                         <Camera
                             useCamera2Api= {true}
-                            quality ="480p"
+                            ratio="1:1"
                             ref={cameraRef}
                             style={testStyles.cameraContainer}
                             type={Camera.Constants.Type.front}

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import userService from '../services/userService';
+// import userService from  '../../services/userService';
 
 class Axios {
     constructor() {}
@@ -15,7 +15,7 @@ class Axios {
 
     get(options) {
         options.method = "get";
-        options.headers = options.headers ? options.headers : this.getHeaders();
+        //options.headers = options.headers ? options.headers : this.getHeaders();
         return new Promise((resolve, reject) => {
           axios
             .get(options.url, options)
@@ -30,7 +30,7 @@ class Axios {
 
     post(options) {
         options.method = "POST";
-        options.headers = options.headers ? options.headers : this.getHeaders();
+        //options.headers = options.headers ? options.headers : this.getHeaders();
 
         options.timeout = 1000*500;
 
@@ -62,7 +62,7 @@ class Axios {
 
       patch(options) {
         options.method = "PATCH";
-        options.headers = this.getHeaders();
+        //options.headers = this.getHeaders();
         return new Promise((resolve, reject) => {
           axios(options)
             .then((response) => {
@@ -104,7 +104,7 @@ class Axios {
 
     getHeaders() {
         return {
-          Authorization: `Bearer ${userService.getToken()}`,
+          Authorization: `Bearer`,
         };
     }
 

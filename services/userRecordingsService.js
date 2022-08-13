@@ -1,4 +1,6 @@
 import {  BACKEND_URL } from '../constant/constant';
+import axios from '../common/functions/axios';
+
 class UserRecordingsService {
     static instance;
 
@@ -12,16 +14,16 @@ class UserRecordingsService {
 
      createUserRecording(data) {
         const option = {
-            url: `${BASE_URL}/user-recordings`,
+            url: `${BACKEND_URL}/user-recordings`,
             data,
         };
 
-        return axios.post(option);
+        return axios.upload(option);
     }
 
     getAllUserRecordings() {
         const option = {
-            url: `${BASE_URL}/user-recordings`,
+            url: `${BACKEND_URL}/user-recordings`,
         };
 
         return axios.get(option);
@@ -29,7 +31,7 @@ class UserRecordingsService {
 
     getRecordingById(id) {
         const option = {
-            url: `${BASE_URL}/user-recordings/${id}`,
+            url: `${BACKEND_URL}/user-recordings/${id}`,
         };
 
         return axios.get(option);

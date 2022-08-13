@@ -1,5 +1,6 @@
 
 import {  BACKEND_URL } from '../constant/constant';
+import axios from '../common/functions/axios';
 
 class UserService {
     static instance;

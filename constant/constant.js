@@ -13,7 +13,7 @@ export const APP_COLORS = {
     white_opacity: '#ffffff70',
 };
 
-export const BACKEND_URL = 'http://skolearn.com';
+export const BACKEND_URL = 'https://908f-2405-204-30ae-ca6d-c461-85c2-36cf-8803.ngrok.io';
 
 export const TEST_TYPES = {
     LIVE: 'live',

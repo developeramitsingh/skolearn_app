@@ -32,7 +32,9 @@
         "RECORD_AUDIO",
         "VIBRATE",
         "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
-        "NOTIFICATIONS"
+        "NOTIFICATIONS",
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
       ]
     },
     "web": {

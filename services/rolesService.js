@@ -1,4 +1,5 @@
 import {  BACKEND_URL } from '../constant/constant';
+import axios from '../common/functions/axios';
 class RolesService {
     static instance;
 
@@ -12,7 +13,7 @@ class RolesService {
 
      createRoles(data) {
         const option = {
-            url: `${BASE_URL}/roles`,
+            url: `${BACKEND_URL}/roles`,
             data,
         };
 
@@ -21,7 +22,7 @@ class RolesService {
 
     getAllRoles() {
         const option = {
-            url: `${BASE_URL}/roles`,
+            url: `${BACKEND_URL}/roles`,
         };
 
         return axios.get(option);
@@ -29,7 +30,7 @@ class RolesService {
 
     checkRouteAccess(path) {
         const option = {
-            url: `${BASE_URL}/checkRouteAccess?path=${path}`,
+            url: `${BACKEND_URL}/checkRouteAccess?path=${path}`,
         };
         return axios.get(option);
     }
