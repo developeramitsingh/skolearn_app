@@ -14,8 +14,8 @@ const Test = ({navigation, route}) => {
     let cameraRef = useRef();
     const [time, setTime] = useState(TEST_TIME_LIMIT);
     const [state, setState] = useState({
-        testId: 1,
-        userId: 1,
+        testId: "62f6887b7fd9289e51a463a6",
+        userId: "62f554ce0128a3d03073b3cc",
         test: [
             {
                 quesId: 1,
@@ -64,6 +64,7 @@ const Test = ({navigation, route}) => {
           uri: uri,
           type: "video/mp4",
         });
+        form.append('testId', state.testId);
       
         // Now perform a post request here by adding this form in the body part of the request
         // Then you can handle the file you sent in the backend i.e server
