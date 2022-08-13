@@ -60,7 +60,7 @@ const Test = ({navigation, route}) => {
         // Here uri means the url of the video you captured
         const form = new FormData();
         form.append("File", {
-          name: "UserRecording.mp4",
+          name: `UserRecording_testId:${state.testId}.mp4`,
           uri: uri,
           type: "video/mp4",
         });
@@ -69,7 +69,7 @@ const Test = ({navigation, route}) => {
 
         userRecordingsService.createUserRecording(form)
             .then(data => {
-                console.debug(`done saving video`, data);
+                console.debug(`done saving video`);
             })
             .catch(err => {
                 console.error('error in test saving video to server', err);
