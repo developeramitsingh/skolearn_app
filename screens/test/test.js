@@ -56,7 +56,7 @@ const Test = ({navigation, route}) => {
     const [videoSource, setVideoSource] = useState(null);
     const [isCameraVisible, setCameraVisible ] = useState(true);
 
-    const createFormData = async (uri) => {
+    const saveVideoOnServer = async (uri) => {
         // Here uri means the url of the video you captured
         const form = new FormData();
         form.append("File", {
@@ -64,22 +64,18 @@ const Test = ({navigation, route}) => {
           uri: uri,
           type: "video/mp4",
         });
-        console.info('state.testId', state.testId);
+
         form.append('testId', state.testId);
-      
-        console.info({form});/*  */
-        // Now perform a post request here by adding this form in the body part of the request
-        // Then you can handle the file you sent in the backend i.e server
-        console.info(`saving video api calling...`/*  */);
+
         userRecordingsService.createUserRecording(form)
-        .then(data => {
-            console.debug(`done saving video`, data);
-        })
-        .catch(err => {
-            console.error('error in test saving video to server', err);
-        })
-        console.info(`saving video api called`);
+            .then(data => {
+                console.debug(`done saving video`, data);
+            })
+            .catch(err => {
+                console.error('error in test saving video to server', err);
+            })
     };
+
     const recordVideo = async () => {
         if (cameraRef?.current && !route?.params?.previewMode) {
             try {
@@ -97,7 +93,7 @@ const Test = ({navigation, route}) => {
                 const source = data.uri;
                 if (source) {
                     console.log("video source hello", source);
-                    createFormData(source);
+                    saveVideoOnServer(source);
                     setVideoSource(source);
                 }
             }
