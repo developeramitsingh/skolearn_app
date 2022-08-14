@@ -11,11 +11,33 @@ import Attempt from './screens/attempt/attempt';
 import Test from './screens/test/test';
 import ResultScreen from './screens/resultScreen/resultScreen';
 import TimerScreen from './screens/timerScreen/timerScreen';
+import * as Updates from 'expo-updates' // Updates*
 
 import Profile from './screens/profile/profile';
+import { useEffect } from 'react';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
+
+  const updateThis = async () => {
+    try {
+      console.info('checking update');
+      const update = await Updates.checkForUpdateAsync();
+      console.info({update});
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync()
+        // NOTIFY USER HERE
+        Updates.reloadAsync()
+      }
+    } catch (e) {
+        // HANDLE ERROR HERE
+    }
+  }
+
+  useEffect(()=> {
+    updateThis();
+  }, [])
+  
   return (
       <NavigationContainer>
       <Stack.Navigator screenOptions={{
