@@ -17,7 +17,7 @@
     "publish-staging": "expo publish --release-channel staging",
     "publish-testing": "expo publish --release-channel testing",
     "publish-beta": "expo publish --release-channel beta",
-    "publish-prod": "expo publish --release-channel production",
+    "publish-prod": "expo publish --release-channel production"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.11",
