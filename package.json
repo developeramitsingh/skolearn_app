@@ -8,7 +8,8 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "build-apk": "eas build -p android --profile preview",
-    "buid": "eas build"
+    "buid": "eas build",
+    "publish": "expo publish"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.11",
@@ -34,5 +35,5 @@
     "@babel/core": "^7.12.9",
     "react-native-paper": "^4.12.2"
   },
-  "private": true
+  "private": false
 }
