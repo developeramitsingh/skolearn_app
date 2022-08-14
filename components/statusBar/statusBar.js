@@ -3,6 +3,7 @@ import statusBarStyles from './statusBarStyles';
 import {FontAwesome, Ionicons } from '@expo/vector-icons';
 import { ROUTES } from '../../constant/constant';
 import { useState } from 'react';
+import * as Constant from  '../../constant/constant';
 
 
 const StatusBar = ({navigation}) => {
