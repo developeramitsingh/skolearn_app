@@ -12,7 +12,7 @@
     "build-apk-testing": "eas build -p android --profile testing",
     "build-apk-beta": "eas build -p android --profile beta",
     "build-apk-prod": "eas build -p android --profile production",
-    "buid": "eas build",
+    "build": "eas build",
     "publish-dev": "expo publish --release-channel development",
     "publish-staging": "expo publish --release-channel staging",
     "publish-testing": "expo publish --release-channel testing",
