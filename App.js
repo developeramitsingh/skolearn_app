@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Home from './screens/home/home';
 import Login from './screens/login/login';
 import VerifyOtp from './screens/verifyOtp/verifyOtp';
@@ -17,27 +17,7 @@ import Profile from './screens/profile/profile';
 import { useEffect } from 'react';
 
 const Stack = createNativeStackNavigator();
-export default function App() {
-
-  const updateThis = async () => {
-    try {
-      console.info('checking update');
-      const update = await Updates.checkForUpdateAsync();
-      console.info({update});
-      if (update.isAvailable) {
-        await Updates.fetchUpdateAsync()
-        // NOTIFY USER HERE
-        Updates.reloadAsync()
-      }
-    } catch (e) {
-        // HANDLE ERROR HERE
-    }
-  }
-
-  useEffect(()=> {
-    updateThis();
-  }, [])
-  
+export default function App() {  
   return (
       <NavigationContainer>
       <Stack.Navigator screenOptions={{

@@ -17,7 +17,7 @@ const StatusBar = ({navigation}) => {
         }
     }
     return (
-        <View style={statusBarStyles.SUB_CONT}>
+        <SafeAreaView style={statusBarStyles.SUB_CONT}>
             <Image source={Logo} style={{height: 32, width: 100, borderRadius: 10}}/>
 
             <View style={statusBarStyles.ROW}>
@@ -34,7 +34,7 @@ const StatusBar = ({navigation}) => {
                 
             </View>
             
-        </View>
+        </SafeAreaView>
     )
 }
 

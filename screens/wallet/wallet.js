@@ -12,7 +12,7 @@ const Wallet = () => {
         freeTickets: 1,
         transactionList: [
             {
-                transactionTitle: '100 rupess added',
+                transactionTitle: '100 start rupess added',
                 transactionTime: new Date().toISOString().split('.')?.[0],
                 transactionStatus: 'Success',
                 id: '#38498348938948',
