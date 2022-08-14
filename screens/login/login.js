@@ -1,6 +1,5 @@
 import { View, Text, Image, TouchableHighlight, SafeAreaView, TextInput } from 'react-native';
 import { loginStyles } from './loginStyles';
-import logo from '../../assets/logo.png';
 import { useState } from 'react';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from  '../../constant/constant';
@@ -21,7 +20,7 @@ const Login = ({navigation}) => {
     }
   return (
       <SafeAreaView style={loginStyles.container}>
-       <Image style ={loginStyles.logo} source={logo}/>
+       <Image style ={loginStyles.logo} source={{ uri: Constant.ASSEST_URLS.LOGO }}/>
         <Text style={COMMON_STYLES.TITLE_TEXT}>
                 Login
         </Text>

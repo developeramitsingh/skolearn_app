@@ -1,3 +1,7 @@
+export const ASSEST_URLS = {
+    LOGO: 'https://ik.imagekit.io/nwxotnqhh/logo.png',
+};
+
 export const APP_COLORS = {
     blue: '#1E90FF',
     blueGreen: '#25B0B9',

@@ -1,6 +1,5 @@
 import { View, Text, Image, TouchableHighlight, SafeAreaView, TextInput, Linking } from 'react-native';
 import { registerStyles } from './registerStyles';
-import logo from '../../assets/logo.png';
 import { useState } from 'react';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS, BACKEND_URL } from '../../constant/constant';
@@ -32,7 +31,7 @@ const Register = ({navigation}) => {
     }
   return (
       <SafeAreaView style={registerStyles.container}>
-       <Image style ={registerStyles.logo} source={logo}/>
+       <Image style ={registerStyles.logo} source={{ uri: Constant.ASSEST_URLS.LOGO }}/>
         <Text style={COMMON_STYLES.TITLE_TEXT}>
                 Register
         </Text>

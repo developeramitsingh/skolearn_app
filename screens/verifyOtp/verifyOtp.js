@@ -1,6 +1,5 @@
 import { View, Text, Image, TouchableHighlight, SafeAreaView, TextInput } from 'react-native';
 import { verifyOtpStyles } from './verifyOtpStyles';
-import logo from '../../assets/logo.png';
 import { useState } from 'react';
 
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
@@ -28,7 +27,7 @@ const VerifyOtp = ({navigation}) => {
     }
   return (
       <SafeAreaView style={verifyOtpStyles.container}>
-       <Image style ={verifyOtpStyles.logo} source={logo}/>
+       <Image style ={verifyOtpStyles.logo} source={{ uri: Constant.ASSEST_URLS.LOGO }}/>
         <Text style={COMMON_STYLES.TITLE_TEXT}>
                 Verify OTP
         </Text>

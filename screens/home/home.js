@@ -3,8 +3,6 @@ import { homeStyles } from './homeStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { BACKEND_URL } from '../../constant/constant';
 
-
-//import logo from '../../assets/logo.png';
 import backImage from '../../assets/background.png';
 import { useState } from 'react';
 

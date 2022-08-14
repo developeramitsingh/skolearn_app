@@ -1,7 +1,6 @@
 import { View, Text, Image, TouchableWithoutFeedback, SafeAreaView, Linking } from 'react-native';
 import statusBarStyles from './statusBarStyles';
 import {FontAwesome, Ionicons } from '@expo/vector-icons';
-import Logo from '../../assets/logo.png';
 import { ROUTES } from '../../constant/constant';
 import { useState } from 'react';
 
@@ -18,7 +17,7 @@ const StatusBar = ({navigation}) => {
     }
     return (
         <SafeAreaView style={statusBarStyles.SUB_CONT}>
-            <Image source={Logo} style={{height: 32, width: 100, borderRadius: 10}}/>
+            <Image source={{ uri: Constant.ASSEST_URLS.LOGO }} style={{height: 32, width: 100, borderRadius: 10}}/>
 
             <View style={statusBarStyles.ROW}>
                 <Text onPress={()=> handlePress('openProfile')} style={statusBarStyles.LABEL_TEXT}>Hi {state.userName}!</Text>
