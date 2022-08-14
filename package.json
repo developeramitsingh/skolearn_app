@@ -1,12 +1,14 @@
 {
   "name": "skolearn",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "build-apk": "eas build -p android --profile preview",
+    "buid": "eas build"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.11",
