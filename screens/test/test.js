@@ -4,7 +4,6 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { testStyles } from './testStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS, ROUTES, TEST_TYPES, TEST_TIME_LIMIT, } from "../../constant/constant";
-import * as MediaLibrary from 'expo-media-library';
 import userRecordingsService from '../../services/userRecordingsService';
 
 import { Camera } from "expo-camera";
@@ -51,7 +50,6 @@ const Test = ({navigation, route}) => {
     //const [camera, setCameraRef] = useState(useRef());
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const [hasMicPermission, setHasMicPermission] = useState(null);
-    const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
     const [isVideoRecording, setIsVideoRecording] = useState(false);
     const [videoSource, setVideoSource] = useState(null);
     const [isCameraVisible, setCameraVisible ] = useState(true);
@@ -124,19 +122,15 @@ const Test = ({navigation, route}) => {
         if (!hasCameraPermission || !hasMicPermission) {
             const cameraStatus = await Camera.requestCameraPermissionsAsync();
             const micStatus = await Camera.requestMicrophonePermissionsAsync();
-            const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
 
             console.info({cameraStatus});
             console.info({micStatus});
             isCameraPerm = cameraStatus.status === "granted";
             isMicPerm = micStatus.status === "granted";
-            isMediaPerm = mediaLibraryPermission.status = "granted";
 
             setHasCameraPermission(isCameraPerm);
             setHasMicPermission(isMicPerm);
-            setHasMediaLibraryPermission(isMediaPerm);
         }
-
 
         if ((hasCameraPermission && hasMicPermission) || (isMicPerm && isCameraPerm)) {
             console.info({'insdie here: useEffedct': route?.params?.previewMode})
@@ -234,14 +228,7 @@ const Test = ({navigation, route}) => {
         })
     }
 
-    let saveVideo = () => {
-        console.info('calling save video...', videoSource);
-        MediaLibrary.saveToLibraryAsync(videoSource).then(() => {
-        });
-    };
-
     const updateAndCloseTest = () => {
-        saveVideo()
         navigation.navigate(ROUTES.DASHBOARD, { activeTab: TEST_TYPES.MY_TEST });
     };
 
