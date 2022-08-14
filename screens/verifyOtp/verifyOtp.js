@@ -3,6 +3,7 @@ import { verifyOtpStyles } from './verifyOtpStyles';
 import { useState } from 'react';
 
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
+import * as Constant from  '../../constant/constant';
 
 const VerifyOtp = ({navigation}) => {
     const [state, setState] = useState({

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS, BACKEND_URL } from '../../constant/constant';
 import { Checkbox } from 'react-native-paper';
+import * as Constant from  '../../constant/constant';
 
 const Register = ({navigation}) => {
     const [state, setState] = useState({
