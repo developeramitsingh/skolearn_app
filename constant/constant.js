@@ -1,3 +1,5 @@
+import * as Updates from 'expo-updates';
+import { sendAppLogService } from '../services/index';
 export const ASSEST_URLS = {
     LOGO: 'https://ik.imagekit.io/nwxotnqhh/logo.png',
 };
@@ -17,7 +19,33 @@ export const APP_COLORS = {
     white_opacity: '#ffffff70',
 };
 
-export const BACKEND_URL = 'https://908f-2405-204-30ae-ca6d-c461-85c2-36cf-8803.ngrok.io';
+export const BACKEND_URL = getEnvUrl();
+
+const PROD_URL= 'https://908f-2405-204-30ae-ca6d-c461-85c2-36cf-8803.ngrok.io';
+const STAGE_URL= 'https://908f-2405-204-30ae-ca6d-c461-85c2-36cf-8803.ngrok.io';
+const DEV_URL= 'https://908f-2405-204-30ae-ca6d-c461-85c2-36cf-8803.ngrok.io';
+const BETA_URL= 'https://908f-2405-204-30ae-ca6d-c461-85c2-36cf-8803.ngrok.io';
+
+
+function getEnvUrl() {
+  const releaseChannel = Updates.releaseChannel;
+  console.info({releaseChannel});
+  sendAppLogService.sendAppLogs({ releaseChannel });
+
+  if (releaseChannel.startsWith('prod')) {
+    // matches prod-v1, prod-v2, prod-v3
+    return { envName: 'PRODUCTION', backendUrl: PROD_URL }; // prod env settings
+  } else if (releaseChannel.startsWith('beta')) {
+    // matches staging-v1, staging-v2
+    return { envName: 'BETA', backendUrl: BETA_URL }; // stage env settings
+  } else if (releaseChannel.startsWith('staging')) {
+    // assume any other release channel is development
+    return { envName: 'STAGING', backendUrl: STAGE_URL }; // dev env settings
+  } else if (releaseChannel.startsWith('dev')) {
+    // assume any other release channel is development
+    return { envName: 'DEVELOPMENT', backendUrl: DEV_URL }; // dev env settings
+  }
+}
 
 export const TEST_TYPES = {
     LIVE: 'live',

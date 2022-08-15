@@ -15,7 +15,7 @@ import TimerScreen from './screens/timerScreen/timerScreen';
 import Profile from './screens/profile/profile';
 import { useEffect } from 'react';
 import { getFromStorage, saveToStorage } from './utils/utils';
-import { enrolledTestsService } from './services/index';
+import { enrolledTestsService, sendAppLogService } from './services/index';
 
 
 const retryFailedTestToSave = async () => {
@@ -38,12 +38,18 @@ const retryFailedTestToSave = async () => {
       try {
         await enrolledTestsService.updateEnrolledTests(resData);
       } catch(err) {
-        console.error(`error while saving data in retryFailedTestToSave: ${resData.testId}:: ${err}`);
+        const msg = `error while saving data in retryFailedTestToSave: ${resData.testId}:: ${err}`;
+        console.error(msg);
+
+        sendAppLogService.sendAppLogs({ msg });
         failedRes[resData.testId] = resData;
       }
     }
 
-    console.info(`is Pending failed res left after retry: ${Object.keys(failedRes).length ? true : false}`);
+    const msg = `is Pending failed res left after retry: ${Object.keys(failedRes).length ? true : false}`
+    console.info(msg);
+
+    sendAppLogService.sendAppLogs({ msg });
     //updating failed res for later attempt
     saveToStorage(Constant.STORAGE_KEYS.FAILED_TEST_RESPONSE, failedRes);
   } catch(err) {
