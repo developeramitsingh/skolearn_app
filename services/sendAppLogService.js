@@ -12,13 +12,19 @@ class SendAppLogService {
         return SendAppLogService.instance;
     }
 
-     sendAppLogs(data) {
-        const option = {
-            url: `${BACKEND_URL}/send-app-logs`,
-            data,
-        };
+    async sendAppLogs(data) {
+        try {
+            const option = {
+                url: `${BACKEND_URL}/send-app-logs`,
+                data,
+            };
 
-        return axios.post(option);
+            console.info({option})
+    
+            return await axios.post(option);
+        } catch (err) {
+            console.error(`error in sendAppLogs`, err);
+        }
     }
 }
 

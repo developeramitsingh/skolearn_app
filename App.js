@@ -23,7 +23,9 @@ const retryFailedTestToSave = async () => {
     console.info('retryFailedTestToSave called');
     const getAllFailedResponses = await getFromStorage(Constant.STORAGE_KEYS.FAILED_TEST_RESPONSE);
 
-    const failedTestIdLen = Object.keys(getAllFailedResponses)?.length ? true : false;
+    const failedTestIdLen = getAllFailedResponses && Object.keys(getAllFailedResponses)?.length ? true : false;
+
+    sendAppLogService.sendAppLogs({ msg: `is Pending failed res found: ${failedTestIdLen}` });
 
     console.info(`is Pending failed res found: ${failedTestIdLen}`);
 
