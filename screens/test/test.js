@@ -3,10 +3,11 @@ import { SafeAreaView, View, Text, Pressable, TouchableHighlight, ScrollView, To
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { testStyles } from './testStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
-import { APP_COLORS, ROUTES, TEST_TYPES, TEST_TIME_LIMIT, } from "../../constant/constant";
-import userRecordingsService from '../../services/userRecordingsService';
+import { APP_COLORS, ROUTES, TEST_TYPES, TEST_TIME_LIMIT, STORAGE_KEYS, } from "../../constant/constant";
+import { enrolledTestsService, userRecordingsService } from '../../services/index';
 
 import { Camera } from "expo-camera";
+import { appendToSavedStorage } from "../../utils/utils";
 
 const Test = ({navigation, route}) => {
     let timeTimer = useRef();
@@ -218,11 +219,41 @@ const Test = ({navigation, route}) => {
         });
     }
 
+    const updateScoreAndUserAnswers = async () => {
+        const score = state?.userScore?.reduce((accum, elem)=> {
+             return accum + elem 
+        }, 0) || 0;
+
+        const userQuesAns = {};
+        state?.userAnswered.forEach(userRes => {
+            userQuesAns[userRes.quesId?.toString()] = [userRes.optionSelected];
+        });
+
+        const data = {
+            score,
+            testId: `${state.testId}`,
+            userQuesAns,
+            isSubmitted: true,
+        }
+
+        console.info(data);
+
+        try {
+            await enrolledTestsService.updateEnrolledTests(data)
+        } catch (err) {
+            console.error(`error while saving userResponse data in test: ${state.testId}:: ${err}`);
+            //save the response as save api is failed and retry the api later
+            appendToSavedStorage(STORAGE_KEYS.FAILED_TEST_RESPONSE, { [data.testId]: data });
+        }
+    };
+
     const finishTest = () => {
         setIsVideoRecording(false);
         stopVideoRecording();
         setCameraVisible(false);
         clearInterval(timeTimer.current);
+        //saving the score and userAnswers
+        updateScoreAndUserAnswers();
         setState(prev => {
             return {...prev, timeFinished: true };
         })

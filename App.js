@@ -11,13 +11,53 @@ import Attempt from './screens/attempt/attempt';
 import Test from './screens/test/test';
 import ResultScreen from './screens/resultScreen/resultScreen';
 import TimerScreen from './screens/timerScreen/timerScreen';
-import * as Updates from 'expo-updates' // Updates*
 
 import Profile from './screens/profile/profile';
 import { useEffect } from 'react';
+import { getFromStorage, saveToStorage } from './utils/utils';
+import { enrolledTestsService } from './services/index';
+
+
+const retryFailedTestToSave = async () => {
+  try {
+    console.info('retryFailedTestToSave called');
+    const getAllFailedResponses = await getFromStorage(Constant.STORAGE_KEYS.FAILED_TEST_RESPONSE);
+
+    const failedTestIdLen = Object.keys(getAllFailedResponses)?.length ? true : false;
+
+    console.info(`is Pending failed res found: ${failedTestIdLen}`);
+
+    if(!failedTestIdLen) {
+      return;
+    }
+
+    const allTestResponseData = getAllFailedResponses ? Object.values(getAllFailedResponses) : [];
+
+    const failedRes = {};
+    for (const resData of allTestResponseData) {
+      try {
+        await enrolledTestsService.updateEnrolledTests(resData);
+      } catch(err) {
+        console.error(`error while saving data in retryFailedTestToSave: ${resData.testId}:: ${err}`);
+        failedRes[resData.testId] = resData;
+      }
+    }
+
+    console.info(`is Pending failed res left after retry: ${Object.keys(failedRes).length ? true : false}`);
+    //updating failed res for later attempt
+    saveToStorage(Constant.STORAGE_KEYS.FAILED_TEST_RESPONSE, failedRes);
+  } catch(err) {
+    console.error(`error in retryFailedTestToSave:: ${err}`);
+  }
+};
 
 const Stack = createNativeStackNavigator();
 export default function App() {  
+  useEffect(()=> {
+    //check for failed responses on startup
+    retryFailedTestToSave();
+  });
+
   return (
       <NavigationContainer>
       <Stack.Navigator screenOptions={{

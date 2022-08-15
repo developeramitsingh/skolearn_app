@@ -65,3 +65,7 @@ export const ACTION_TYPES = {
     CREATE_TICKET: 'createTicket',
     OPEN_TICKET: 'openTicket',
 };
+
+export const STORAGE_KEYS = {
+    FAILED_TEST_RESPONSE: 'failed-test-response',
+}
