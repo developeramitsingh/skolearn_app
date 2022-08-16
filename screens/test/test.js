@@ -233,7 +233,6 @@ const Test = ({navigation, route}) => {
             score,
             testId: `${state.testId}`,
             userQuesAns,
-            isSubmitted: true,
         }
 
         console.info(data);
