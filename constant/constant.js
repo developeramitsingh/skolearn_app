@@ -18,10 +18,10 @@ export const APP_COLORS = {
     white_opacity: '#ffffff70',
 };
 
-const PROD_URL= 'https://908f-2405-204-30ae-ca6d-c461-85c2-36cf-8803.ngrok.io';
-const STAGE_URL= 'https://908f-2405-204-30ae-ca6d-c461-85c2-36cf-8803.ngrok.io';
-const DEV_URL= 'https://908f-2405-204-30ae-ca6d-c461-85c2-36cf-8803.ngrok.io';
-const BETA_URL= 'https://908f-2405-204-30ae-ca6d-c461-85c2-36cf-8803.ngrok.io';
+const PROD_URL= 'https://e5c4-2405-204-30ae-ca6d-1b-afc7-a191-229b.ngrok.io';
+const STAGE_URL= 'https://e5c4-2405-204-30ae-ca6d-1b-afc7-a191-229b.ngrok.io';
+const DEV_URL= 'https://e5c4-2405-204-30ae-ca6d-1b-afc7-a191-229b.ngrok.io';
+const BETA_URL= 'https://e5c4-2405-204-30ae-ca6d-1b-afc7-a191-229b.ngrok.io';
 
 function getEnvUrl() {
   try {
