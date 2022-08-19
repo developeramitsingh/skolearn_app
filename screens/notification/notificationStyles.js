@@ -24,11 +24,4 @@ export const notificationStyles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 10,
     },
-
-    closeBtn: {
-        position: 'absolute',
-        alignSelf: 'flex-end',
-        right: 5,
-        top: 5,
-    }
 });
