@@ -15,7 +15,7 @@ const Notification = ({ navigation }) => {
                 title: "Result declared bhai sahab, dekho jara wahan ja kar",
                 message: 'Hello your result has been declared',
                 type: 'in-app',
-                link: '',
+                link: 'exp://192.168.43.206:19000/--/Register',
             },
             {
                 _id: '2',
@@ -23,7 +23,7 @@ const Notification = ({ navigation }) => {
                 title: "New update Available",
                 message: 'Please download the latest app from the following link\n\nImprovements\n1. New User Interface.\n2. bug fixes.',
                 type: 'in-app',
-                link: 'https://www.skolearn.in/download',
+                link: 'skolearn://register',
             }
         ],
     });

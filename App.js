@@ -19,18 +19,20 @@ import { useEffect } from 'react';
 import { getFromStorage, saveToStorage } from './utils/utils';
 import { enrolledTestsService, sendAppLogService } from './services/index';
 import 'react-native-gesture-handler';
+import * as Linking from 'expo-linking';
 
+const prefix = Linking.createURL('/');
 
 const retryFailedTestToSave = async () => {
   try {
-    console.info('retryFailedTestToSave called');
+    console.info('retryFailedTestToSave called in app.js');
     const getAllFailedResponses = await getFromStorage(Constant.STORAGE_KEYS.FAILED_TEST_RESPONSE);
 
     const failedTestIdLen = getAllFailedResponses && Object.keys(getAllFailedResponses)?.length ? true : false;
 
-    sendAppLogService.sendAppLogs({ msg: `is Pending failed res found: ${failedTestIdLen}` });
+    sendAppLogService.sendAppLogs({ msg: `is Pending Test failed res found: ${failedTestIdLen}` });
 
-    console.info(`is Pending failed res found: ${failedTestIdLen}`);
+    console.info(`is Pending Test failed res found: ${failedTestIdLen}`);
 
     if(!failedTestIdLen) {
       return;
@@ -64,13 +66,26 @@ const retryFailedTestToSave = async () => {
 
 const Stack = createNativeStackNavigator();
 export default function App() {  
+  const config = {
+    screens: {
+      Wallet: 'Wallet',
+      Home: 'Home',
+      Register: 'register',
+    },
+  };
+ 
+  const linking = {
+    prefixes: [prefix],
+    config
+  };
   useEffect(()=> {
+    sendAppLogService.sendAppLogs({ msg: linking });
     //check for failed responses on startup
     retryFailedTestToSave();
   });
 
   return (
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
       <Stack.Navigator screenOptions={{
         headerShown: false,
         animation: 'slide_from_right',
