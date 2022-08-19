@@ -18,6 +18,7 @@ import Notification from './screens/notification/notification';
 import { useEffect } from 'react';
 import { getFromStorage, saveToStorage } from './utils/utils';
 import { enrolledTestsService, sendAppLogService } from './services/index';
+import 'react-native-gesture-handler';
 
 
 const retryFailedTestToSave = async () => {

@@ -2,16 +2,20 @@ import { View, Text, Image, TouchableWithoutFeedback, SafeAreaView, Linking } fr
 import statusBarStyles from './statusBarStyles';
 import {FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ROUTES } from '../../constant/constant';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Constant from  '../../constant/constant';
 
 
-const StatusBar = ({ navigation }) => {
+const StatusBar = ({ navigation, isNewNotifi }) => {
     const [state, setState] = useState({
         userName: 'Test user',
         profileImg: false,
-        newNotification: false,
     });
+
+    useEffect(() => {
+
+    }, [isNewNotifi]);
+
     const handlePress = (actionType) => {
         if (actionType === Constant.ACTION_TYPES.OPEN_PROFILE) {
             navigation.navigate(ROUTES.PROFILE);
@@ -28,7 +32,7 @@ const StatusBar = ({ navigation }) => {
                 <FontAwesome onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_PROFILE)} name="user-circle" size={26} color="white"/>
                
                {
-                state.newNotification 
+                isNewNotifi 
                     ? <MaterialCommunityIcons style={{ marginLeft: 10 }} onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_NOTIFI)}  name="bell-badge" size={26} color={Constant.APP_COLORS.yellow}/>
                     : <MaterialCommunityIcons style={{ marginLeft: 10 }} onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_NOTIFI)}  name="bell" size={26} color={Constant.APP_COLORS.white}/>
                }

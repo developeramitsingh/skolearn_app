@@ -7,7 +7,7 @@ import { APP_COLORS, ROUTES, CLOSE_MODAL, ACTION_TYPES } from '../../constant/co
 import UploadModal from '../../components/modals/uploadModal';
 import ModalWindow from '../../components/modals/modalWindow';
 import ModalBankPanCard from '../../components/modals/modalBankPanCard';
-
+import BackBtn from '../../components/backBtn/backBtn';
 
 const Profile = ({navigation}) => {
     const [state, setState] = useState({
@@ -113,6 +113,7 @@ const Profile = ({navigation}) => {
 
     return (
         <SafeAreaView style={profileStyles.CONTAINER}>
+            <BackBtn navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
             <ModalWindow modalVisible={showProfileEdit} actionType='updateProfile' handleModalPress={handlePress} title="Edit User Name" btnTxt = 'Update' placeholder='Enter your user name'/>
 
             <UploadModal modalVisible={showBankUploadModal} actionType="uploadBank" handleModalPress={handlePress} title="Upload Bank Passbook/cheque/bank statement" btnTxt = 'Upload' info="Image should contain bank account number and name"/>

@@ -59,7 +59,7 @@ const LiveTestsList = ({navigation})=> {
         navigation.navigate(Constant.ROUTES.ATTEMPT, { testId: id });
     }
     return (
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
             <Text style={testListsStyles.HEADING}>Mega Scholarships</Text>
             <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 0 }} dataList={liveDataList} horizontal = {true}/>
             <View style={COMMON_STYLES.SEPARATOR}></View>

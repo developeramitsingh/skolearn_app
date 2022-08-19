@@ -11,16 +11,18 @@ import FooterIconBar from '../../components/footerIconBar/footerIconBar';
 import dashboardStyles from './dashboardStyles';
 import Wallet from '../wallet/wallet';
 import Index from '../help/index';
+import { getFromStorage, saveToStorage } from '../../utils/utils';
 
 const Dashboard = ({navigation, route }) => {
     const [state, setState] = useState({
         userName: 'Amit',
         activeTab: route?.params?.activeTab || Constant.TEST_TYPES.LIVE,
-        activeScreen: Constant.SCREENS.TEST_LIST
+        activeScreen: Constant.SCREENS.TEST_LIST,
+        isNewNotifi: false,
     });
 
     useEffect(()=> {
-
+        checkIfNewNotification();
     },  [route?.params?.activeTab]);
 
     const setActiveTab = (key) => {
@@ -37,6 +39,30 @@ const Dashboard = ({navigation, route }) => {
         setState(prev => {
             return { ...prev, activeScreen: screenKey }
         })
+    }
+
+    const checkIfNewNotification = async () => {
+        //fetch from local storage
+        const localAppNotiLen = await getFromStorage(Constant.STORAGE_KEYS.LOCAL_APP_NOTIFI_COUNT);
+
+        //fetch from API
+        const notifiFromDb = 4;
+        const localNotifCount = localAppNotiLen?.count ?? 0;
+
+        console.info({ localCount: localNotifCount, notifiFromDb });
+
+        if (localNotifCount < notifiFromDb) {
+            console.info('new notification found');
+            saveToStorage(Constant.STORAGE_KEYS.LOCAL_APP_NOTIFI_COUNT, { count: notifiFromDb });
+            setState((prev) => {
+                return { ...prev, isNewNotifi: true }
+            });
+        } else {
+            setState((prev) => {
+                return { ...prev, isNewNotifi: false }
+            });
+        }
+
     }
 
     const TestList = () => {
@@ -62,7 +88,7 @@ const Dashboard = ({navigation, route }) => {
 
     return (
         <SafeAreaView style={dashboardStyles.DASH_CONTAINER}>
-            <StatusBar navigation={navigation} text ={state.userName}/>
+            <StatusBar isNewNotifi={state.isNewNotifi} navigation={navigation} text ={state.userName}/>
             {
                 state.activeScreen === Constant.SCREENS.TEST_LIST 
                 ? <TestList/>

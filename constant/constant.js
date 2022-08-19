@@ -16,12 +16,13 @@ export const APP_COLORS = {
     black: '#000',
     black_opacity: '#00000050',
     white_opacity: '#ffffff70',
+    grey_opacity: '#ffffff20',
 };
 
-const PROD_URL= 'https://e5c4-2405-204-30ae-ca6d-1b-afc7-a191-229b.ngrok.io';
-const STAGE_URL= 'https://e5c4-2405-204-30ae-ca6d-1b-afc7-a191-229b.ngrok.io';
-const DEV_URL= 'https://e5c4-2405-204-30ae-ca6d-1b-afc7-a191-229b.ngrok.io';
-const BETA_URL= 'https://e5c4-2405-204-30ae-ca6d-1b-afc7-a191-229b.ngrok.io';
+const PROD_URL= 'https://f18f-2409-4050-dbc-56a0-800a-6d36-ec92-a646.ngrok.io';
+const STAGE_URL= 'https://f18f-2409-4050-dbc-56a0-800a-6d36-ec92-a646.ngrok.io';
+const DEV_URL= 'https://f18f-2409-4050-dbc-56a0-800a-6d36-ec92-a646.ngrok.io';
+const BETA_URL= 'https://f18f-2409-4050-dbc-56a0-800a-6d36-ec92-a646.ngrok.io';
 
 function getEnvUrl() {
   try {
@@ -100,6 +101,7 @@ export const ACTION_TYPES = {
 
 export const STORAGE_KEYS = {
     FAILED_TEST_RESPONSE: 'failed-test-response',
+    LOCAL_APP_NOTIFI_COUNT: 'local-app-notifi-count',
 }
 
 export const DASHBOARD_TEST_TABS = [{

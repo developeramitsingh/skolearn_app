@@ -59,7 +59,7 @@ export const COMMON_STYLES = {
         fontSize: 36,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: '10%',
+        //marginTop: '10%',
     },
 
     BODY_TEXT:  {
@@ -130,7 +130,7 @@ export const COMMON_STYLES = {
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: 5,
-        paddingHorizontal: 5,
+        paddingHorizontal: 5
     },
     ROW_COLUMN: {
         flexDirection: 'column',

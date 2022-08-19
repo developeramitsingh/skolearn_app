@@ -5,8 +5,8 @@ export const attemptStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: APP_COLORS.white,
         paddingHorizontal: 10,
-        paddingVertical: 40,
-        justifyContent: 'space-between'
+        paddingBottom: 10,
+        justifyContent: 'flex-start'
     },
     HEADING: {
         fontWeight: 'bold',
