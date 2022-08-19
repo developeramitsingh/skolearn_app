@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "skolearn",
     "name": "skolearn",
     "slug": "skolearn",
     "version": "1.0.1",
@@ -50,7 +51,6 @@
           "microphonePermission": true
         }
       ]
-    ],
-    "scheme": "skolearn"
+    ] 
   }
 }

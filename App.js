@@ -67,11 +67,18 @@ const retryFailedTestToSave = async () => {
 const Stack = createNativeStackNavigator();
 export default function App() {  
   const config = {
+    initialRouteName: 'Home',
     screens: {
-      Wallet: 'Wallet',
-      Home: 'Home',
-      Register: 'register',
-    },
+      Home: {
+        path: 'Home'
+      },
+      Register: {
+        path: 'Register'
+      },
+      Dashboard: {
+        path: 'Dashboard'
+      }
+    }
   };
  
   const linking = {

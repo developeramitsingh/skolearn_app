@@ -17,13 +17,13 @@ const Dashboard = ({navigation, route }) => {
     const [state, setState] = useState({
         userName: 'Amit',
         activeTab: route?.params?.activeTab || Constant.TEST_TYPES.LIVE,
-        activeScreen: Constant.SCREENS.TEST_LIST,
+        activeScreen: route?.params?.activeScreen || Constant.SCREENS.TEST_LIST,
         isNewNotifi: false,
     });
 
     useEffect(()=> {
         checkIfNewNotification();
-    },  [route?.params?.activeTab]);
+    },  [route?.params?.activeTab, route?.params?.activeScreen]);
 
     const setActiveTab = (key) => {
         if(route?.params?.activeTab) {
@@ -36,6 +36,9 @@ const Dashboard = ({navigation, route }) => {
     }
 
     const setActiveScreen = (screenKey) => {
+        if(route?.params?.activeScreen) {
+            route.params.activeScreen = null;
+        }
         setState(prev => {
             return { ...prev, activeScreen: screenKey }
         })
@@ -90,9 +93,11 @@ const Dashboard = ({navigation, route }) => {
         <SafeAreaView style={dashboardStyles.DASH_CONTAINER}>
             <StatusBar isNewNotifi={state.isNewNotifi} navigation={navigation} text ={state.userName}/>
             {
-                state.activeScreen === Constant.SCREENS.TEST_LIST 
+                route?.params?.activeScreen === Constant.SCREENS.TEST_LIST 
+                    || state.activeScreen === Constant.SCREENS.TEST_LIST 
                 ? <TestList/>
-                : state.activeScreen === Constant.SCREENS.WALLET 
+                : route?.params?.activeScreen === Constant.SCREENS.WALLET 
+                    || state.activeScreen === Constant.SCREENS.WALLET 
                 ? <Wallet/>
                 : <Index/>
 
