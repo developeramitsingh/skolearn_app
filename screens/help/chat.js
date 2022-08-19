@@ -1,33 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, View, Text, KeyboardAvoidingView, TextInput, ScrollView, Pressable, Image } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { chatStyles } from './chatStyles';
-import { APP_COLORS, CLOSE_MODAL } from '../../constant/constant';
+import { APP_COLORS, BACKEND_URL } from '../../constant/constant';
 import Active from '../../components/active/active';
 import { FontAwesome } from '@expo/vector-icons';
+import io from 'socket.io-client';
 
 const Chat = ({ticketId}) => {
     //let scrollViewRef = React.useRef(null);
+    const socketRef = React.useRef(null);
+
     const [state, setState]= useState({
-        supportUserName: 'Test name',
-        isSupportOnline: true,
+        supportUserName: '',
+        isSupportOnline: false,
         userMsg: '',
-        chatMsgs: [
-            {
-                id: 1,
-                txt: 'Hi, How may i help you',
-                userType: 'support',
-                img: ''
-            },
-            {
-                id: 2,
-                txt: 'Hi, i want to apply for test',
-                userType: 'user',
-                img: 'https://engineering.fb.com/wp-content/uploads/2016/04/yearinreview.jpg'
-            }
-        ],
+        userId: '123',
     });
+
+    const [messages, setMessages] = useState([
+        {
+            id: 1,
+            txt: 'Hi, How may i help you',
+            userType: 'support',
+            img: '',
+            time: '',
+            rid: '',
+        },
+        {
+            id: 2,
+            txt: 'Hi, i want to apply for test new',
+            userType: 'user',
+            img: 'https://engineering.fb.com/wp-content/uploads/2016/04/yearinreview.jpg',
+            time: '',
+            rid: '',
+        }
+    ]);
+
     const [reference, setReference] = useState(null);
+
+    useEffect(() => {
+        socketRef.current = io(BACKEND_URL);
+
+        socketRef.current.on('supportConnected', ( {supportUserName }) => {
+            console.info(`support is online`, supportUserName);
+            setState((prev) => {
+                return { ...prev, supportUserName: supportUserName, isSupportOnline: true }
+            })
+        });
+
+        socketRef.current.on('supportMessage', ({ sid, message, time, rid}) => {
+            console.info(`message recieced`, message);
+            setMessages(prev => {
+                return [ ...prev, { txt: message, userType: 'support', id: sid, time, rid }]
+            })
+        });
+
+        return () => {
+            socketRef.current?.disconnect();
+        }
+    }, []);
 
     const handleChange = (val) => {
         setState(prev=> {
@@ -36,8 +68,13 @@ const Chat = ({ticketId}) => {
     }
 
     const handleSubmit = () => {
+        socketRef.current.emit('userMessage', { userId: state.userId, message: state.userMsg })
+        setMessages(prev => {
+            return [ ...prev, { txt: state.userMsg, userType: 'user', id: Math.floor(Math.random() * 10000) }]
+        })
+
         setState(prev => {
-            return { ...prev, userMsg: '', chatMsgs: [...prev.chatMsgs, { txt: state.userMsg, userType: 'user', id: Math.floor(Math.random() * 10000) }]}
+            return { ...prev, userMsg: '' }
         })
     }
 
@@ -60,7 +97,7 @@ const Chat = ({ticketId}) => {
                 <Text style={chatStyles.chatMsgListHead}>Type Hi, to start the conversation</Text>
 
                 {
-                    state?.chatMsgs?.map((msg,idx) => {
+                    messages?.map((msg,idx) => {
                         const isSupportUser = msg.userType === 'support';
                         const userStyle = chatStyles.chatMsgBlockUser;
                         const supportStyle = chatStyles.chatMsgBlockSupport;
@@ -68,7 +105,7 @@ const Chat = ({ticketId}) => {
                         const userChatImgStyle = chatStyles.chatImgUser;
                         const supportChatImgStyle = chatStyles.chatImgSupport;
                         return (
-                            <View key={msg.id}>
+                            <View key={msg.id} style={{ marginBottom: 10 }}>
                                 <View style={[chatStyles.chatMsgBlock, isSupportUser ? supportStyle :  userStyle ]}>
                                     <Text style={ isSupportUser ? COMMON_STYLES.BODY_TEXT : COMMON_STYLES.BODY_TEXT_BLACK }>{msg.txt}</Text>
                                 </View>

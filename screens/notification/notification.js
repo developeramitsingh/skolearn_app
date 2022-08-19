@@ -86,7 +86,6 @@ const Notification = ({ navigation }) => {
                         </View>
 
                         <View style={notificationStyles.ROW}>
-                            
                             <Text style={[COMMON_STYLES.BODY_TEXT, { lineHeight: 17 } ]}>{notification.message}</Text>
                         </View>
 
