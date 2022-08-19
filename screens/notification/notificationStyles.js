@@ -14,7 +14,7 @@ export const notificationStyles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         paddingHorizontal: 10,
-        paddingVertical: 2,
+        paddingVertical: 5,
     },
     ROW_CENTER: {
         justifyContent: 'center',
@@ -24,4 +24,11 @@ export const notificationStyles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 10,
     },
+
+    closeBtn: {
+        position: 'absolute',
+        alignSelf: 'flex-end',
+        right: 5,
+        top: 5,
+    }
 });
