@@ -42,7 +42,7 @@ const Dashboard = ({navigation, route }) => {
     const TestList = () => {
         return (
             <>
-                <Tabs activeTab = {route?.params?.activeTab || state.activeTab} setActiveTab={setActiveTab}/>
+                <Tabs tabList = { Constant.DASHBOARD_TEST_TABS } activeTab = {route?.params?.activeTab || state.activeTab} setActiveTab={setActiveTab}/>
                 <View style={COMMON_STYLES.CONTAINER}>
                     {
                         (route?.params?.activeTab === Constant.TEST_TYPES.LIVE) || 

@@ -74,17 +74,13 @@ export const ROUTES = {
     TEST_TIMER_SCREEN: 'TestTimerScreen',
     PROFILE: 'Profile',
     EDIT_PROFILE: 'EditProfile',
+    NOTIFICATION: 'notification',
 };
 
 export const SCREENS = {
     TEST_LIST: 'TestLists',
     WALLET: 'Wallet',
     HELP: 'Help',
-};
-
-export const HELP_TABS = {
-    MY_TICKET: 'my-ticket',
-    LIVE_CHAT: 'live-chat',
 };
 
 export const TEST_TIME_LIMIT = 5;
@@ -97,8 +93,41 @@ export const ACTION_TYPES = {
 
     CREATE_TICKET: 'createTicket',
     OPEN_TICKET: 'openTicket',
+
+    OPEN_PROFILE: 'openProfile',
+    OPEN_NOTIFI: 'openNotification',
 };
 
 export const STORAGE_KEYS = {
     FAILED_TEST_RESPONSE: 'failed-test-response',
 }
+
+export const DASHBOARD_TEST_TABS = [{
+  name: 'Live Tests',
+  key: TEST_TYPES.LIVE,
+}, 
+{
+  name: 'My Tests',
+  key: TEST_TYPES.MY_TEST,
+},
+{
+  name: 'Practice',
+  key: TEST_TYPES.PRACTICE,
+}];
+
+
+export const HELP_TAB_TYPE = {
+  MY_TICKET: 'my-ticket',
+  LIVE_CHAT: 'live-chat',
+};
+
+export const HELP_TABS = [
+  {
+    name: 'My Tickets',
+    key: HELP_TAB_TYPE.MY_TICKET,
+  }, 
+  {
+    name: 'Live Chat',
+    key: HELP_TAB_TYPE.LIVE_CHAT,
+  }, 
+];

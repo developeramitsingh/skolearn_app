@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { APP_COLORS } from '../../constant/constant';
 const dashboardStyles = StyleSheet.create({
     DASH_CONTAINER: {
-        backgroundColor: APP_COLORS.black,
+        backgroundColor: APP_COLORS.grey,
         flex: 1,
     },
     SUB_CONT: {

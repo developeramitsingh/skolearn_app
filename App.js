@@ -13,6 +13,8 @@ import ResultScreen from './screens/resultScreen/resultScreen';
 import TimerScreen from './screens/timerScreen/timerScreen';
 
 import Profile from './screens/profile/profile';
+import Notification from './screens/notification/notification';
+
 import { useEffect } from 'react';
 import { getFromStorage, saveToStorage } from './utils/utils';
 import { enrolledTestsService, sendAppLogService } from './services/index';
@@ -85,6 +87,7 @@ export default function App() {
 
 
         <Stack.Screen name={Constant.ROUTES.PROFILE} component={Profile}/>
+        <Stack.Screen name={Constant.ROUTES.NOTIFICATION} component={Notification}/>
         
       </Stack.Navigator>
       

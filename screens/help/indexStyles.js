@@ -6,6 +6,7 @@ export const indexStyles = StyleSheet.create({
     CONTAINER: {
         flex: 1,
         alignItems: 'center',
+        backgroundColor: APP_COLORS.black,
     },
     ROW: {
         justifyContent: 'space-between',
