@@ -16,6 +16,7 @@ const Chat = ({ticketId}) => {
         isSupportOnline: false,
         userMsg: '',
         userId: '123',
+        supportUserId: '',
     });
 
     const [messages, setMessages] = useState([
@@ -42,18 +43,25 @@ const Chat = ({ticketId}) => {
     useEffect(() => {
         socketRef.current = io(BACKEND_URL);
 
-        socketRef.current.on('supportConnected', ( {supportUserName }) => {
-            console.info(`support is online`, supportUserName);
-            setState((prev) => {
-                return { ...prev, supportUserName: supportUserName, isSupportOnline: true }
-            })
+        socketRef.current.on('supportConnected', ( {supportUserName, supportUserId }, callBack) => {
+            console.info(`support is online`, {supportUserName}, { supportUserId });
+
+            if (!state.supportUserId) {
+                setState((prev) => {
+                    return { ...prev, supportUserName: supportUserName, supportUserId, isSupportOnline: true }
+                })
+            }
+
+            callBack("Support is online acknowledgement recieved by user");
         });
 
-        socketRef.current.on('supportMessage', ({ sid, message, time, rid}) => {
+        socketRef.current.on('supportMessage', ({ sid, message, time, rid}, callBack) => {
             console.info(`message recieced`, message);
             setMessages(prev => {
                 return [ ...prev, { txt: message, userType: 'support', id: sid, time, rid }]
             })
+
+            callBack('Message recieved by user');
         });
 
         return () => {
@@ -68,7 +76,8 @@ const Chat = ({ticketId}) => {
     }
 
     const handleSubmit = () => {
-        socketRef.current.emit('userMessage', { userId: state.userId, message: state.userMsg })
+        socketRef.current.emit('userMessage', { userId: state.userId, message: state.userMsg, supportUserId: state.supportUserId })
+
         setMessages(prev => {
             return [ ...prev, { txt: state.userMsg, userType: 'user', id: Math.floor(Math.random() * 10000) }]
         })
