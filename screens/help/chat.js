@@ -15,7 +15,7 @@ const Chat = ({ticketId}) => {
         supportUserName: '',
         isSupportOnline: false,
         userMsg: '',
-        userId: '123',
+        userId: '1212',
         supportUserId: '',
     });
 
@@ -55,7 +55,7 @@ const Chat = ({ticketId}) => {
             callBack("Support is online acknowledgement recieved by user");
         });
 
-        socketRef.current.on('supportMessage', ({ sid, message, time, rid}, callBack) => {
+        socketRef.current.on('supportMessageAgent'+state.supportUserId, ({ sid, message, time, rid}, callBack) => {
             console.info(`message recieced`, message);
             setMessages(prev => {
                 return [ ...prev, { txt: message, userType: 'support', id: sid, time, rid }]
@@ -63,6 +63,13 @@ const Chat = ({ticketId}) => {
 
             callBack('Message recieved by user');
         });
+
+        socketRef.current.on('supportDisconnectAgent'+state.supportUserId, ()=> {
+            setState((prev) => {
+                return { ...prev, supportUserId: null, isSupportOnline: false, supportUserName: null }
+            })
+        })
+       
 
         return () => {
             socketRef.current?.disconnect();
