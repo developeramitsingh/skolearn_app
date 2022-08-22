@@ -24,6 +24,7 @@ import * as Linking from 'expo-linking';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { Text, View, Button, Platform } from 'react-native';
+import { handleLinkOpen } from './common/functions/commonHelper';
 
 const prefix = Linking.createURL('/');
 
@@ -206,6 +207,7 @@ async function registerForPushNotificationsAsync() {
   return token;
 }
 
+//get the push token and subscribe the push service
 const initNotificationSetup = (notificationListener, responseListener, setExpoPushToken, setNotification) => {
   registerForPushNotificationsAsync().then(token => {
     //set the token in state;
@@ -217,12 +219,15 @@ const initNotificationSetup = (notificationListener, responseListener, setExpoPu
   // This listener is fired whenever a notification is received while the app is foregrounded
   notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
     setNotification(notification);
-    console.info({'foreGroundListener': notification });
+    //console.info(notification);
   });
 
   // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
   responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-    console.info({ 'responseListener': response })
+    //handle click of notificaton by user
+    if (response?.notification?.request?.content) {
+      handleClickNotification(response.notification.request.content);
+    }
   });
 }
 
@@ -231,6 +236,7 @@ const removeNotificationListeners = (notificationListener, responseListener) => 
   Notifications.removeNotificationSubscription(responseListener.current);
 }
 
+//save expo push token to local and on server
 const saveExpoToken = async (_expoToken) => {
   const expoKey = Constant.STORAGE_KEYS.EXPO_USER_PUSH_TOKEN;
   const tempExpoKey = Constant.STORAGE_KEYS.TEMP_EXPO_PUSH_TOKEN;
@@ -267,5 +273,19 @@ const saveExpoToken = async (_expoToken) => {
     sendAppLogService.sendAppLogs({ msg: logMsg });
     //save token for later use while registering the user
     saveToStorage(tempExpoKey, _expoToken);
+  }
+}
+
+const handleClickNotification = (notificationContent) => {
+  const data = notificationContent?.data;
+
+  //if link type is internal screen then navigate to it
+  if (data?.type === Constant.NOTIFICATION_DATA_KEYS.ROUTE) {
+    console.info(`notificaton data type: ${data.type}`);
+    const routeName = data.link;
+    const props = data.props;
+
+    //open the link internaly
+    handleLinkOpen(navigation, routeName, props);
   }
 }
