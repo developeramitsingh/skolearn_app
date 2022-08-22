@@ -138,3 +138,7 @@ export const HELP_TABS = [
     key: HELP_TAB_TYPE.LIVE_CHAT,
   }, 
 ];
+
+export const NOTIFICATION_DATA_KEYS = {
+  ROUTE: 'route'
+}

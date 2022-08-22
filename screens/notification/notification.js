@@ -5,7 +5,7 @@ import { APP_COLORS, ROUTES } from '../../constant/constant';
 import { notificationStyles } from './notificationStyles';
 import {  Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler';
 import BackBtn from '../../components/backBtn/backBtn';
-import { sendAppLogService } from '../../services';
+import { handleLinkOpen } from '../../common/functions/commonHelper';
 
 const Notification = ({ navigation }) => {
     const [state, setState] = useState({
@@ -42,28 +42,6 @@ const Notification = ({ navigation }) => {
         })
     }
 
-    const handleLinkOpen = (link, linkProps) => {
-        try {
-            sendAppLogService.sendAppLogs({ msg: `openinin link: ${link}` });
-            
-            const finalProps = {};
-
-            const propsData = linkProps?.split(';') || [];
-
-            for (const prop of propsData) {
-                const [key, value] = prop?.split('=') || [];
-                finalProps[key] = value;
-            }
-            
-            console.info({finalProps});
-            navigation.navigate(link, { ...finalProps });
-            sendAppLogService.sendAppLogs({ msg: `opened link: ${link}` });
-        } catch(err) {
-            sendAppLogService.sendAppLogs({ msg: err });
-        }
-        
-    }
-
     const renderLeftAction = () =>{
         return (
             <View style={[COMMON_STYLES.CARD, { backgroundColor: APP_COLORS.grey_opacity, width: '100%'}]}>
@@ -92,7 +70,7 @@ const Notification = ({ navigation }) => {
                         {
                             notification.link 
                             ? <View style={notificationStyles.ROW}>
-                                <TouchableOpacity onPress={ ()=> handleLinkOpen(notification.link, notification.props)} style={COMMON_STYLES.SUB_BTN_2}>
+                                <TouchableOpacity onPress={ ()=> handleLinkOpen(navigation, notification.link, notification.props)} style={COMMON_STYLES.SUB_BTN_2}>
                                     <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Go to Link</Text>
                                 </TouchableOpacity>
                             </View>

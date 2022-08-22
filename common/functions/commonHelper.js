@@ -1,6 +1,7 @@
 import { Share } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import * as ImagePicker from 'expo-image-picker';
+import { sendAppLogService } from '../../services';
 
 export const onShare = async (sharingData) => {
     try {
@@ -49,3 +50,24 @@ export const pickImage = async () => {
 
   return uri;
 };
+
+export const handleLinkOpen = (navigation, link, linkProps) => {
+  try {
+      sendAppLogService.sendAppLogs({ msg: `openinin link: ${link}` });
+      
+      const finalProps = {};
+
+      const propsData = linkProps?.split(';') || [];
+
+      for (const prop of propsData) {
+          const [key, value] = prop?.split('=') || [];
+          finalProps[key] = value;
+      }
+      
+      console.info({finalProps});
+      navigation.navigate(link, { ...finalProps });
+      sendAppLogService.sendAppLogs({ msg: `opened link: ${link}` });
+  } catch(err) {
+      sendAppLogService.sendAppLogs({ msg: err });
+  }
+}
