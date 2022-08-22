@@ -21,11 +21,6 @@ import { enrolledTestsService, sendAppLogService, userService } from './services
 import 'react-native-gesture-handler';
 import * as Linking from 'expo-linking';
 
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
-import { Text, View, Button, Platform } from 'react-native';
-import { handleLinkOpen } from './common/functions/commonHelper';
-
 const prefix = Linking.createURL('/');
 
 const retryFailedTestToSave = async () => {
@@ -71,25 +66,9 @@ const retryFailedTestToSave = async () => {
 
 const Stack = createNativeStackNavigator();
 
-//push notification functions
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true,
-  }),
-});
+
 
 export default function App() {  
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
-
-  //this holds the notification alerts
-  const notificationListener = useRef();
-
-  //this holds responses if user clicks on notification
-  const responseListener = useRef();
-
   const config = {
     initialRouteName: 'Home',
     screens: {
@@ -114,13 +93,6 @@ export default function App() {
     sendAppLogService.sendAppLogs({ msg: linking });
     //check for failed responses on startup
     retryFailedTestToSave();
-
-    //--------------push notification setup ---------------------------//
-    initNotificationSetup(notificationListener, responseListener, setExpoPushToken, setNotification);
-    
-    return () => {
-      removeNotificationListeners(notificationListener, responseListener);
-    };
   });
 
   return (
@@ -154,138 +126,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-// Can use this function below, OR use Expo's Push Notification Tool-> https://expo.dev/notifications
-async function sendPushNotification(expoPushToken) {
-  const message = {
-    to: expoPushToken,
-    sound: 'default',
-    title: 'Original Title',
-    body: 'And here is the body!',
-    data: { someData: 'goes here' },
-  };
-
-  await fetch('https://exp.host/--/api/v2/push/send', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Accept-encoding': 'gzip, deflate',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(message),
-  });
-}
-
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Device.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
-
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
-
-  return token;
-}
-
-//get the push token and subscribe the push service
-const initNotificationSetup = (notificationListener, responseListener, setExpoPushToken, setNotification) => {
-  registerForPushNotificationsAsync().then(token => {
-    //set the token in state;
-    setExpoPushToken(token);
-    //save the token in local storage and on server
-    saveExpoToken(token);
-  });
-
-  // This listener is fired whenever a notification is received while the app is foregrounded
-  notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-    setNotification(notification);
-    //console.info(notification);
-  });
-
-  // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-  responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-    //handle click of notificaton by user
-    if (response?.notification?.request?.content) {
-      handleClickNotification(response.notification.request.content);
-    }
-  });
-}
-
-const removeNotificationListeners = (notificationListener, responseListener) => {
-  Notifications.removeNotificationSubscription(notificationListener.current);
-  Notifications.removeNotificationSubscription(responseListener.current);
-}
-
-//save expo push token to local and on server
-const saveExpoToken = async (_expoToken) => {
-  const expoKey = Constant.STORAGE_KEYS.EXPO_USER_PUSH_TOKEN;
-  const tempExpoKey = Constant.STORAGE_KEYS.TEMP_EXPO_PUSH_TOKEN;
-
-  const existingExpoToken = await getFromStorage(expoKey);
-  const userId = await getFromStorage(Constant.STORAGE_KEYS.USER_ID);
-  const tempExpoToken = await getFromStorage(tempExpoKey);
-
-  console.info({tempExpoToken, existingExpoToken, userId});
-  sendAppLogService.sendAppLogs({ msg: {tempExpoToken, existingExpoToken, userId} });
-  
-  //if token is not found and user is logged in or regisered then save the token
-  if (!existingExpoToken && userId) {
-    const logMsg = `expo push token is not saved, saving now:: userId ${userId}::${existingExpoToken}`;
-    console.info(logMsg);
-    sendAppLogService.sendAppLogs({ msg: logMsg });
-
-    saveToStorage(expoKey, _expoToken);
-    userService.updateUser({ id: userId, expoPushToken: _expoToken });
-
-  } else if (existingExpoToken && userId && existingExpoToken !== _expoToken?.toString()) {
-    /* if token is found but not matching with new token and
-      user is loggedIn or regisered then save the token
-    */
-    const logMsg = `expo push token is not matching:: userId ${userId}::${JSON.stringify({ existingExpoToken, _expoToken })}`;
-    console.info(logMsg);
-    sendAppLogService.sendAppLogs({ msg: logMsg });
-
-    saveToStorage(expoKey, _expoToken);
-    userService.updateUser({ id: userId, expoPushToken: _expoToken });
-  } else if (!tempExpoToken) {
-    const logMsg = `expo temp push token is not saved, saving now`;
-    console.info(logMsg);
-    sendAppLogService.sendAppLogs({ msg: logMsg });
-    //save token for later use while registering the user
-    saveToStorage(tempExpoKey, _expoToken);
-  }
-}
-
-const handleClickNotification = (notificationContent) => {
-  const data = notificationContent?.data;
-
-  //if link type is internal screen then navigate to it
-  if (data?.type === Constant.NOTIFICATION_DATA_KEYS.ROUTE) {
-    console.info(`notificaton data type: ${data.type}`);
-    const routeName = data.link;
-    const props = data.props;
-
-    //open the link internaly
-    handleLinkOpen(navigation, routeName, props);
-  }
-}
