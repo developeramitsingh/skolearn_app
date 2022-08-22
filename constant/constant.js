@@ -19,10 +19,10 @@ export const APP_COLORS = {
     grey_opacity: '#ffffff20',
 };
 
-const PROD_URL= 'https://f18f-2409-4050-dbc-56a0-800a-6d36-ec92-a646.ngrok.io';
-const STAGE_URL= 'https://f18f-2409-4050-dbc-56a0-800a-6d36-ec92-a646.ngrok.io';
-const DEV_URL= 'https://f18f-2409-4050-dbc-56a0-800a-6d36-ec92-a646.ngrok.io';
-const BETA_URL= 'https://f18f-2409-4050-dbc-56a0-800a-6d36-ec92-a646.ngrok.io';
+const PROD_URL= 'https://61d7-2409-4050-dbc-56a0-b5a4-4b30-60ab-215.ngrok.io';
+const STAGE_URL= 'https://61d7-2409-4050-dbc-56a0-b5a4-4b30-60ab-215.ngrok.io';
+const DEV_URL= 'https://61d7-2409-4050-dbc-56a0-b5a4-4b30-60ab-215.ngrok.io';
+const BETA_URL= 'https://61d7-2409-4050-dbc-56a0-b5a4-4b30-60ab-215.ngrok.io';
 
 function getEnvUrl() {
   try {
@@ -102,6 +102,11 @@ export const ACTION_TYPES = {
 export const STORAGE_KEYS = {
     FAILED_TEST_RESPONSE: 'failed-test-response',
     LOCAL_APP_NOTIFI_COUNT: 'local-app-notifi-count',
+
+    USER_TOKEN: 'user-token',
+    USER_ID: 'user-id',
+    EXPO_USER_PUSH_TOKEN: 'expo-user-push-token',
+    TEMP_EXPO_PUSH_TOKEN: 'temp-expo-push-token',
 }
 
 export const DASHBOARD_TEST_TABS = [{

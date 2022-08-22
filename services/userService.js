@@ -22,6 +22,15 @@ class UserService {
         return axios.post(option);
     }
 
+    updateUser(data) {
+        const option = {
+            url: `${BACKEND_URL}/users`,
+            data,
+        };
+
+        return axios.put(option);
+    }
+
     login(data) {
         const option = {
             url: `${BACKEND_URL}/login`,
