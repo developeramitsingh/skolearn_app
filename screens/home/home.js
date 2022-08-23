@@ -169,9 +169,14 @@ async function registerForPushNotificationsAsync() {
       userService.updateUser({ id: userId, expoPushToken: _expoToken });
     } else if (existingExpoToken && userId) {
       const getUser =  await userService.getUserById(userId);
-  
-      if (!getUser?.data?.expoPushToken) {
+      const savedServerToken = getUser?.data?.expoPushToken?.toString();
+
+      if (!savedServerToken) {
         const logMsg = `server expo push token not found then updating on server:: userId ${userId}::${JSON.stringify({ existingExpoToken, _expoToken })}`;
+        console.info(logMsg);
+        userService.updateUser({ id: userId, expoPushToken: _expoToken });
+      } else if(savedServerToken !== _expoToken) {
+        const logMsg = `server expo push token not matched hence updating on server:: userId ${userId}::${JSON.stringify({ existingExpoToken, _expoToken })}`;
         console.info(logMsg);
         userService.updateUser({ id: userId, expoPushToken: _expoToken });
       }
