@@ -17,7 +17,7 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { Text, Button, Platform } from 'react-native';
 import { handleLinkOpen } from '../../common/functions/commonHelper';
-import { sendAppLogService } from '../../services';
+import { sendAppLogService, userService } from '../../services';
 
 //push notification functions
 Notifications.setNotificationHandler({
@@ -29,9 +29,6 @@ Notifications.setNotificationHandler({
 });
 
 const Dashboard = ({navigation, route }) => {
-    const [expoPushToken, setExpoPushToken] = useState('');
-    const [notification, setNotification] = useState(false);
-
     //this holds the notification alerts
     const notificationListener = useRef();
 
@@ -47,7 +44,7 @@ const Dashboard = ({navigation, route }) => {
     useEffect(()=> {
         checkIfNewNotification();
         //--------------push notification setup ---------------------------//
-        initNotificationSetup(notificationListener, responseListener, setExpoPushToken, setNotification, navigation);
+        initNotificationSetup(notificationListener, responseListener, navigation);
         
         return () => {
             removeNotificationListeners(notificationListener, responseListener);
@@ -191,18 +188,16 @@ async function sendPushNotification(expoPushToken) {
   }
   
   //get the push token and subscribe the push service
-  const initNotificationSetup = (notificationListener, responseListener, setExpoPushToken, setNotification, navigation) => {
+  const initNotificationSetup = (notificationListener, responseListener, navigation) => {
     registerForPushNotificationsAsync().then(token => {
-      //set the token in state;
-      setExpoPushToken(token);
       //save the token in local storage and on server
       saveExpoToken(token);
     });
   
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
-      //console.info(notification);
+      //setNotification(notification);
+      console.info(notification);
     });
   
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
@@ -222,14 +217,11 @@ async function sendPushNotification(expoPushToken) {
   //save expo push token to local and on server
   const saveExpoToken = async (_expoToken) => {
     const expoKey = Constant.STORAGE_KEYS.EXPO_USER_PUSH_TOKEN;
-    const tempExpoKey = Constant.STORAGE_KEYS.TEMP_EXPO_PUSH_TOKEN;
-  
     const existingExpoToken = await getFromStorage(expoKey);
-    const userId = await getFromStorage(Constant.STORAGE_KEYS.USER_ID);
-    const tempExpoToken = await getFromStorage(tempExpoKey);
+    const userId = await getFromStorage(Constant.STORAGE_KEYS.USER_ID) || '62fa249d4417d040e30571e3';
   
-    console.info({tempExpoToken, existingExpoToken, userId});
-    sendAppLogService.sendAppLogs({ msg: {tempExpoToken, existingExpoToken, userId} });
+    console.info({ existingExpoToken, userId});
+    sendAppLogService.sendAppLogs({ msg: { existingExpoToken, userId} });
     
     //if token is not found and user is logged in or regisered then save the token
     if (!existingExpoToken && userId) {
@@ -238,7 +230,7 @@ async function sendPushNotification(expoPushToken) {
       sendAppLogService.sendAppLogs({ msg: logMsg });
   
       saveToStorage(expoKey, _expoToken);
-      userService.updateUser({ id: userId, expoPushToken: _expoToken });
+      userService.updateUser({ id: userId, expoPushToken: _expoToken }).then(res => console.info('sercie updated', res));
   
     } else if (existingExpoToken && userId && existingExpoToken !== _expoToken?.toString()) {
       /* if token is found but not matching with new token and
@@ -250,12 +242,14 @@ async function sendPushNotification(expoPushToken) {
   
       saveToStorage(expoKey, _expoToken);
       userService.updateUser({ id: userId, expoPushToken: _expoToken });
-    } else if (!tempExpoToken) {
-      const logMsg = `expo temp push token is not saved, saving now`;
-      console.info(logMsg);
-      sendAppLogService.sendAppLogs({ msg: logMsg });
-      //save token for later use while registering the user
-      saveToStorage(tempExpoKey, _expoToken);
+    } else if (existingExpoToken && userId) {
+      const getUser =  await userService.getUserById(userId);
+
+      if (!getUser?.data?.expoPushToken) {
+        const logMsg = `server expo push token not found then updating on server:: userId ${userId}::${JSON.stringify({ existingExpoToken, _expoToken })}`;
+        console.info(logMsg);
+        userService.updateUser({ id: userId, expoPushToken: _expoToken });
+      }
     }
   }
   

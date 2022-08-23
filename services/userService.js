@@ -22,6 +22,14 @@ class UserService {
         return axios.post(option);
     }
 
+    getUserById(id) {
+        const option = {
+            url: `${BACKEND_URL}/users/${id}`,
+        };
+
+        return axios.get(option);
+    }
+
     updateUser(data) {
         const option = {
             url: `${BACKEND_URL}/users`,
