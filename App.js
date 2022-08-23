@@ -66,8 +66,6 @@ const retryFailedTestToSave = async () => {
 
 const Stack = createNativeStackNavigator();
 
-
-
 export default function App() {  
   const config = {
     initialRouteName: 'Home',
