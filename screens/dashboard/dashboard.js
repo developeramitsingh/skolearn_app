@@ -19,10 +19,23 @@ const Dashboard = ({navigation, route }) => {
         activeTab: route?.params?.activeTab || Constant.TEST_TYPES.LIVE,
         activeScreen: route?.params?.activeScreen || Constant.SCREENS.TEST_LIST,
         isNewNotifi: false,
+        user: route?.params?.user
     });
 
     useEffect(()=> {
         checkIfNewNotification();
+
+        navigation.addListener('beforeRemove', (e) => {
+            const skipCase = action?.payload?.name === "Home" && action?.source?.startsWith('Profile')
+            if (!route?.params?.user || skipCase) {
+              //if test is finished then only allow screen exit else not
+              navigation.dispatch(e.data.action);
+            }
+
+             // Prevent default behavior of leaving the screen
+            e.preventDefault();
+        });
+
     },  [route?.params?.activeTab, route?.params?.activeScreen]);
 
     const setActiveTab = (key) => {
