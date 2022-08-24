@@ -26,17 +26,17 @@ const Login = ({navigation}) => {
             const data = await userService.login({ mobile: state.mobile });
             // enable login button
             setState((prev) => { return {...prev, disabled: false, error: '' }});
-            console.info({data: data.data.token });
+            console.info({data: data.data.otpToken });
 
             //save the otp token to storage
-            saveToStorage(Constant.STORAGE_KEYS.OTP_TOKEN, { otpToken: data?.data?.token });
+            saveToStorage(Constant.STORAGE_KEYS.OTP_TOKEN, data?.data?.otpToken);
 
             //navigate to verity otp page
-            navigation.navigate(Constant.ROUTES.VERIFY_OTP);
+            navigation.navigate(Constant.ROUTES.VERIFY_OTP, { requestType: 'login' });
             
         } catch (err) {
             console.error(`error while login`, err);
-            const msg = err.response?.data?.message;
+            const msg = err?.response?.data?.message;
             setState((prev) => { return {...prev, error: msg, disabled: false }});
         }
     }

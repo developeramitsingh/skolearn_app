@@ -34,7 +34,20 @@ const Home = ({navigation}) => {
     useEffect(()=> {
         //--------------push notification setup ---------------------------//
         initNotificationSetup(notificationListener, responseListener, navigation);
-            
+        
+        (async ()=> {
+          try {
+            const user = await userService.getLoggedInUser();
+            if (user?.data) {
+              console.info(`user is logged in`);
+              console.info(user?.data);
+              navigation.navigate(Constant.ROUTES.DASHBOARD, { user: user.data });
+            }
+          } catch (err) {
+            console.error(`error while getting token or user: ${err}`);
+          }
+        })();
+        
         return () => {
             removeNotificationListeners(notificationListener, responseListener);
         };

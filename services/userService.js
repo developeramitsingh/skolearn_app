@@ -1,6 +1,7 @@
 
-import {  BACKEND_URL } from '../constant/constant';
+import {  BACKEND_URL, STORAGE_KEYS } from '../constant/constant';
 import axios from '../common/functions/axios';
+import { getFromStorage } from '../utils/utils';
 
 class UserService {
     static instance;
@@ -48,6 +49,19 @@ class UserService {
         return axios.post(option);
     }
 
+    async verifyOtp(data) {
+        const otpToken = await getFromStorage(STORAGE_KEYS.OTP_TOKEN);
+        const option = {
+            url: `${BACKEND_URL}/verifyotp`,
+            data,
+            headers: {
+                'Authorization': `Bearer ${otpToken}`
+            }
+        };
+
+        return axios.post(option);
+    }
+
      getAllUsers() {
         const option = {
             url: `${BACKEND_URL}/users`,
@@ -56,23 +70,13 @@ class UserService {
         return axios.get(option);
     }
 
-    doAfterLogin(encodedToken) {
-        const decodedToken = jwt.decode(encodedToken, { complete: true });
 
-        localStorage.setItem("token", encodedToken);
-        localStorage.setItem("user", JSON.stringify(decodedToken.payload))
+    getLoggedInUser() {
+        const option = {
+            url: `${BACKEND_URL}/logged-in-user`,
+        };
 
-        return decodedToken.payload;
-    }
-
-    getUser() {
-        let user  = localStorage.getItem('user');
-
-        if (user) {
-            user = JSON.parse(user);
-        }
-
-        return user;
+        return axios.get(option);
     }
 
     getRoleKey() {
@@ -83,16 +87,6 @@ class UserService {
         }
 
         return user?.roleId?.roleKey;
-    }
-
-    getUserStoreIds() {
-        let user  = localStorage.getItem('user');
-
-        if (user) {
-            user = JSON.parse(user);
-        }
-
-        return user?.stores;
     }
 
     getToken() {
