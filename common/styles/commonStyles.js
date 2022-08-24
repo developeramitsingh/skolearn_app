@@ -197,6 +197,15 @@ export const COMMON_STYLES = {
     ERROR_TXT: {
         color: APP_COLORS.red,
         alignSelf: 'center'
-    }
+    },
+    LOADER_CONT: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        zIndex: 1,
+      },
 
 }

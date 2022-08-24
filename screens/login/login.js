@@ -5,6 +5,7 @@ import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from  '../../constant/constant';
 import userService from '../../services/userService';
 import { saveToStorage } from '../../utils/utils';
+import Loader from '../../components/loader/loader';
 
 const Login = ({navigation}) => {
     const [state, setState] = useState({
@@ -12,6 +13,7 @@ const Login = ({navigation}) => {
         mobile: '',
         disabled: true,
         error: '',
+        isLoading: false,
     });
 
     const handlePress = async ()=> {
@@ -21,11 +23,11 @@ const Login = ({navigation}) => {
         }
 
         // disable login button
-        setState((prev) => { return {...prev, disabled: true }});
+        setState((prev) => { return {...prev, disabled: true, isLoading: true }});
         try {
             const data = await userService.login({ mobile: state.mobile });
             // enable login button
-            setState((prev) => { return {...prev, disabled: false, error: '' }});
+            setState((prev) => { return {...prev, disabled: false, error: '', isLoading: false }});
             console.info({data: data.data.otpToken });
 
             //save the otp token to storage
@@ -37,7 +39,7 @@ const Login = ({navigation}) => {
         } catch (err) {
             console.error(`error while login`, err);
             const msg = err?.response?.data?.message;
-            setState((prev) => { return {...prev, error: msg, disabled: false }});
+            setState((prev) => { return {...prev, error: msg, disabled: false, isLoading: false  }});
         }
     }
 
@@ -52,6 +54,7 @@ const Login = ({navigation}) => {
     }
   return (
       <SafeAreaView style={loginStyles.container}>
+        <Loader isLoading={state.isLoading}/>
        <Image style ={loginStyles.logo} source={{ uri: Constant.ASSEST_URLS.LOGO }}/>
         <Text style={[COMMON_STYLES.TITLE_TEXT, COMMON_STYLES.MARGIN_TOP]}>
                 Login

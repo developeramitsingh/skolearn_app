@@ -26,6 +26,7 @@ const Dashboard = ({navigation, route }) => {
         checkIfNewNotification();
 
         navigation.addListener('beforeRemove', (e) => {
+            const action = e.data.action;
             const skipCase = action?.payload?.name === "Home" && action?.source?.startsWith('Profile')
             if (!route?.params?.user || skipCase) {
               //if test is finished then only allow screen exit else not

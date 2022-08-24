@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ImageBackground, TouchableHighlight, SafeAreaView, Linking, ActivityIndicator } from 'react-native';
+import { View, Text, ImageBackground, TouchableHighlight, SafeAreaView, Linking } from 'react-native';
 import { homeStyles } from './homeStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from '../../constant/constant';
@@ -12,6 +12,8 @@ import { handleLinkOpen } from '../../common/functions/commonHelper';
 
 import { getFromStorage, saveToStorage } from '../../utils/utils';
 import { sendAppLogService, userService } from '../../services/index';
+
+import Loader from '../../components/loader/loader';
 
 //push notification functions
 Notifications.setNotificationHandler({
@@ -70,30 +72,9 @@ const Home = ({navigation}) => {
         }
     }
 
-    const styles = StyleSheet.create({
-      container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        zIndex: 1,
-      },
-      horizontal: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 10,
-      },
-    });
   return (
       <SafeAreaView style={homeStyles.container}>
-          {
-            isLoading &&
-              <View style={styles.container}>
-                <ActivityIndicator animating={true} size="large" color={Constant.APP_COLORS.yellow} />
-              </View>
-          }
+          <Loader isLoading={isLoading}/>
           <ImageBackground source={backImage} style={homeStyles.backImage}>
             <View style ={homeStyles.tagLineView}>
                 <Text style={homeStyles.tagLine}>
