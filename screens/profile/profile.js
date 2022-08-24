@@ -3,11 +3,12 @@ import { Image, Alert, SafeAreaView, View, Text, TouchableHighlight,TouchableWit
 import { profileStyles } from './profileStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { onShare, copyToClipboard, pickImage } from '../../common/functions/commonHelper';
-import { APP_COLORS, ROUTES, CLOSE_MODAL, ACTION_TYPES } from '../../constant/constant';
+import { APP_COLORS, ROUTES, CLOSE_MODAL, ACTION_TYPES, SHARE_TEXT } from '../../constant/constant';
 import UploadModal from '../../components/modals/uploadModal';
 import ModalWindow from '../../components/modals/modalWindow';
 import ModalBankPanCard from '../../components/modals/modalBankPanCard';
 import BackBtn from '../../components/backBtn/backBtn';
+import { userService } from '../../services';
 
 const Profile = ({navigation}) => {
     const [state, setState] = useState({
@@ -27,11 +28,9 @@ const Profile = ({navigation}) => {
     const [showBankDetailModal, setBankDetail] = useState(false);
     const [showPanDetailModal, setPanDetail] = useState(false);
 
-    const sharingDataLink = 'Share this app link is here https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg';
-
     const handlePress =(actionType, payload) => {
-        if(actionType === 'logout') {
-            navigation.navigate(ROUTES.HOME)
+        if (actionType === 'logout') {
+            userService.dologout(navigation);
         } else if(actionType === 'onReferralCodeCopy') {
             copyToClipboard(state.referralCode);
             Alert.alert(
@@ -42,7 +41,7 @@ const Profile = ({navigation}) => {
                 ]
               );
         } else if(actionType === 'onLinkCopy') {
-            copyToClipboard(sharingDataLink);
+            copyToClipboard(SHARE_TEXT);
             Alert.alert(
                 '',
                 "Sharing link Copied!",
@@ -141,7 +140,7 @@ const Profile = ({navigation}) => {
             </View>
 
             <View style={profileStyles.ROW_CENTER}>
-                <TouchableHighlight onPress={()=>onShare(sharingDataLink)} style={[COMMON_STYLES.BTN_1, { width: '100%'}]}>
+                <TouchableHighlight onPress={()=>onShare(SHARE_TEXT)} style={[COMMON_STYLES.BTN_1, { width: '100%'}]}>
                     <Text style={COMMON_STYLES.BTN_TEXT}>Refer and get 1 free ticket</Text>
                 </TouchableHighlight>
 

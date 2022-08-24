@@ -31,22 +31,26 @@ const Home = ({navigation}) => {
         register: false,
     });
 
+    const checkIfUserLoggedIn = async () => {
+      try {
+          const user = await userService.getLoggedInUser();
+
+          if (user?.data) {
+            console.info(`user is logged in`);
+            console.info(user?.data);
+            navigation.navigate(Constant.ROUTES.DASHBOARD, { user: user.data });
+          }
+      } catch(err) {
+        console.error(`error in checkIfUserLoggedIn: ${err}`);
+      }
+    }
+
     useEffect(()=> {
         //--------------push notification setup ---------------------------//
         initNotificationSetup(notificationListener, responseListener, navigation);
         
-        (async ()=> {
-          try {
-            const user = await userService.getLoggedInUser();
-            if (user?.data) {
-              console.info(`user is logged in`);
-              console.info(user?.data);
-              navigation.navigate(Constant.ROUTES.DASHBOARD, { user: user.data });
-            }
-          } catch (err) {
-            console.error(`error while getting token or user: ${err}`);
-          }
-        })();
+        //check if user is already logged in
+        checkIfUserLoggedIn();
         
         return () => {
             removeNotificationListeners(notificationListener, responseListener);
@@ -156,7 +160,7 @@ async function registerForPushNotificationsAsync() {
   const saveExpoToken = async (_expoToken) => {
     const expoKey = Constant.STORAGE_KEYS.EXPO_USER_PUSH_TOKEN;
     const existingExpoToken = await getFromStorage(expoKey);
-    const userId = await getFromStorage(Constant.STORAGE_KEYS.USER_ID) || '62fa249d4417d040e30571e3';
+    const userId = await getFromStorage(Constant.STORAGE_KEYS.USER_ID);
   
     console.info({ existingExpoToken, userId});
     sendAppLogService.sendAppLogs({ msg: { existingExpoToken, _expoToken, userId} });

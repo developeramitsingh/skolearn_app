@@ -1,7 +1,7 @@
 
-import {  BACKEND_URL, STORAGE_KEYS } from '../constant/constant';
+import {  BACKEND_URL, ROUTES, STORAGE_KEYS } from '../constant/constant';
 import axios from '../common/functions/axios';
-import { getFromStorage } from '../utils/utils';
+import { getFromStorage, saveToStorage } from '../utils/utils';
 
 class UserService {
     static instance;
@@ -107,9 +107,12 @@ class UserService {
         }
     }
 
-    dologout() {
-        localStorage.clear();
-        historyState.history.push("/login");
+    dologout(navigation) {
+        saveToStorage(STORAGE_KEYS.USER, null);
+        saveToStorage(STORAGE_KEYS.USER_TOKEN, null);
+        saveToStorage(STORAGE_KEYS.USER_ID, null);
+
+        navigation.navigate(ROUTES.HOME);
     }
 }
 

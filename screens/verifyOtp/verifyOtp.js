@@ -29,11 +29,20 @@ const VerifyOtp = ({navigation, route }) => {
             setState((prev) => { return {...prev, disabled: false, error: '' }});
             console.info({data: data.data });
 
+            const user = JSON.parse(JSON.stringify(data?.data?.data));
+
+            console.info({ user });
+
             //save the otp token to storage
             saveToStorage(Constant.STORAGE_KEYS.USER_TOKEN, data?.data?.token);
+            //save the userId to storage
+            saveToStorage(Constant.STORAGE_KEYS.USER_ID, user?._id);
 
-            //navigate to verity otp page
-            navigation.navigate(Constant.ROUTES.DASHBOARD, { user: data?.data?.data  });
+            //save the userId to storage
+            saveToStorage(Constant.STORAGE_KEYS.USER, user);
+
+            //navigate to verify otp page
+            navigation.navigate(Constant.ROUTES.DASHBOARD, { user });
             
         } catch (err) {
             console.error(`error while login`, err);

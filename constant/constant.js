@@ -107,6 +107,8 @@ export const STORAGE_KEYS = {
     OTP_TOKEN: 'otp-token',
     USER_TOKEN: 'user-token',
     USER_ID: 'user-id',
+    USER: 'user',
+
     EXPO_USER_PUSH_TOKEN: 'expo-user-push-token',
     TEMP_EXPO_PUSH_TOKEN: 'temp-expo-push-token',
 }
@@ -144,3 +146,5 @@ export const HELP_TABS = [
 export const NOTIFICATION_DATA_KEYS = {
   ROUTE: 'route'
 }
+
+export const SHARE_TEXT = 'Share this app link is here https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg'
