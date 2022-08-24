@@ -17,12 +17,13 @@ export const APP_COLORS = {
     black_opacity: '#00000050',
     white_opacity: '#ffffff70',
     grey_opacity: '#ffffff20',
+    red: '#fc0303',
 };
 
-const PROD_URL= 'https://61d7-2409-4050-dbc-56a0-b5a4-4b30-60ab-215.ngrok.io';
-const STAGE_URL= 'https://61d7-2409-4050-dbc-56a0-b5a4-4b30-60ab-215.ngrok.io';
-const DEV_URL= 'https://61d7-2409-4050-dbc-56a0-b5a4-4b30-60ab-215.ngrok.io';
-const BETA_URL= 'https://61d7-2409-4050-dbc-56a0-b5a4-4b30-60ab-215.ngrok.io';
+const PROD_URL= 'https://eeac-2409-4050-2e3c-b4b6-f53e-6456-7e66-9bc7.ngrok.io';
+const STAGE_URL= 'https://eeac-2409-4050-2e3c-b4b6-f53e-6456-7e66-9bc7.ngrok.io';
+const DEV_URL= 'https://eeac-2409-4050-2e3c-b4b6-f53e-6456-7e66-9bc7.ngrok.io';
+const BETA_URL= 'https://eeac-2409-4050-2e3c-b4b6-f53e-6456-7e66-9bc7.ngrok.io';
 
 function getEnvUrl() {
   try {
@@ -103,6 +104,7 @@ export const STORAGE_KEYS = {
     FAILED_TEST_RESPONSE: 'failed-test-response',
     LOCAL_APP_NOTIFI_COUNT: 'local-app-notifi-count',
 
+    OTP_TOKEN: 'otp-token',
     USER_TOKEN: 'user-token',
     USER_ID: 'user-id',
     EXPO_USER_PUSH_TOKEN: 'expo-user-push-token',

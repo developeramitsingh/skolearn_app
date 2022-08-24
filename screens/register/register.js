@@ -33,7 +33,7 @@ const Register = ({navigation}) => {
   return (
       <SafeAreaView style={registerStyles.container}>
        <Image style ={registerStyles.logo} source={{ uri: Constant.ASSEST_URLS.LOGO }}/>
-        <Text style={COMMON_STYLES.TITLE_TEXT}>
+        <Text style={[COMMON_STYLES.TITLE_TEXT, COMMON_STYLES.MARGIN_TOP]}>
                 Register
         </Text>
 

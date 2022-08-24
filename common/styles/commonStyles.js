@@ -62,6 +62,10 @@ export const COMMON_STYLES = {
         //marginTop: '10%',
     },
 
+    MARGIN_TOP: {
+        marginTop: '10%',
+    },
+
     BODY_TEXT:  {
         color: APP_COLORS.white,
         fontSize: 12,
@@ -183,5 +187,16 @@ export const COMMON_STYLES = {
         marginHorizontal: 10,
         backgroundColor: APP_COLORS.blue,
         marginVertical: 5
+    },
+    DISABLED_BTN: {
+        backgroundColor: APP_COLORS.grey,
+    },
+    DISABLED_TXT: {
+        color: APP_COLORS.white,
+    },
+    ERROR_TXT: {
+        color: APP_COLORS.red,
+        alignSelf: 'center'
     }
+
 }

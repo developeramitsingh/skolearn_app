@@ -29,7 +29,7 @@ const VerifyOtp = ({navigation}) => {
   return (
       <SafeAreaView style={verifyOtpStyles.container}>
        <Image style ={verifyOtpStyles.logo} source={{ uri: Constant.ASSEST_URLS.LOGO }}/>
-        <Text style={COMMON_STYLES.TITLE_TEXT}>
+        <Text style={[COMMON_STYLES.TITLE_TEXT, COMMON_STYLES.MARGIN_TOP]}>
                 Verify OTP
         </Text>
 
