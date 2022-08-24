@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, TouchableHighlight, SafeAreaView, Linking } from 'react-native';
+import { StyleSheet, View, Text, ImageBackground, TouchableHighlight, SafeAreaView, Linking, ActivityIndicator } from 'react-native';
 import { homeStyles } from './homeStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from '../../constant/constant';
@@ -26,10 +26,8 @@ const Home = ({navigation}) => {
     const notificationListener = useRef();
     //this holds responses if user clicks on notification
     const responseListener = useRef();
-    const [state, setState] = useState({
-        login: false,
-        register: false,
-    });
+    
+    const [isLoading, setLoading] = useState(true);
 
     const checkIfUserLoggedIn = async () => {
       try {
@@ -43,6 +41,8 @@ const Home = ({navigation}) => {
       } catch(err) {
         console.error(`error in checkIfUserLoggedIn: ${err}`);
       }
+
+      setLoading(false);
     }
 
     useEffect(()=> {
@@ -69,27 +69,50 @@ const Home = ({navigation}) => {
             navigation.navigate('Register');
         }
     }
+
+    const styles = StyleSheet.create({
+      container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        zIndex: 1,
+      },
+      horizontal: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 10,
+      },
+    });
   return (
       <SafeAreaView style={homeStyles.container}>
+          {
+            isLoading &&
+              <View style={styles.container}>
+                <ActivityIndicator animating={true} size="large" color={Constant.APP_COLORS.yellow} />
+              </View>
+          }
           <ImageBackground source={backImage} style={homeStyles.backImage}>
-                <View style ={homeStyles.tagLineView}>
-                    <Text style={homeStyles.tagLine}>
-                        India's First Scholarship Platform
-                    </Text>
-                </View>
+            <View style ={homeStyles.tagLineView}>
+                <Text style={homeStyles.tagLine}>
+                    India's First Scholarship Platform
+                </Text>
+            </View>
 
-                <View style={homeStyles.loginBtnContainter}>
-                    <TouchableHighlight handlePress={() => handlePress('login')} onPressOut={() => handlePress('login')} onPressIn={() => handlePress('login')} onPress= {handlePress} style={COMMON_STYLES.BTN_1}>
-                        <Text style={COMMON_STYLES.BTN_TEXT}>Login</Text>
-                    </TouchableHighlight>
+            <View style={homeStyles.loginBtnContainter}>
+                <TouchableHighlight handlePress={() => handlePress('login')} onPressOut={() => handlePress('login')} onPressIn={() => handlePress('login')} onPress= {handlePress} style={COMMON_STYLES.BTN_1}>
+                    <Text style={COMMON_STYLES.BTN_TEXT}>Login</Text>
+                </TouchableHighlight>
 
-                    <TouchableHighlight handlePress={() => handlePress('register')} onPressOut={() => handlePress('register')} onPressIn={() => handlePress('register')} style={COMMON_STYLES.BTN_1}>
-                        <Text style={COMMON_STYLES.BTN_TEXT}>Register</Text>
-                    </TouchableHighlight>
-                </View>
+                <TouchableHighlight handlePress={() => handlePress('register')} onPressOut={() => handlePress('register')} onPressIn={() => handlePress('register')} style={COMMON_STYLES.BTN_1}>
+                    <Text style={COMMON_STYLES.BTN_TEXT}>Register</Text>
+                </TouchableHighlight>
+            </View>
 
-                <Text style={COMMON_STYLES.BODY_TEXT}>By Continuing you agree to the<Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${Constant.BACKEND_URL}/terms`)}> Terms and Conditions</Text></Text>
-          </ImageBackground>
+            <Text style={COMMON_STYLES.BODY_TEXT}>By Continuing you agree to the<Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${Constant.BACKEND_URL}/terms`)}> Terms and Conditions</Text></Text>
+        </ImageBackground>
       </SafeAreaView>
   )
 }
