@@ -5,7 +5,7 @@ export const profileStyles = StyleSheet.create({
     CONTAINER: {
         backgroundColor: APP_COLORS.black,
         flex: 1,
-        paddingTop: 40,
+        //paddingTop: 40,
         paddingHorizontal: 10,
         justifyContent: 'space-between',
     },

@@ -1,6 +1,6 @@
-import { View, Text, Image, TouchableWithoutFeedback, SafeAreaView, Linking } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import statusBarStyles from './statusBarStyles';
-import {FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import {FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ROUTES } from '../../constant/constant';
 import { useEffect, useState } from 'react';
 import * as Constant from  '../../constant/constant';
@@ -24,7 +24,7 @@ const StatusBar = ({ navigation, isNewNotifi }) => {
         }
     }
     return (
-        <SafeAreaView style={statusBarStyles.SUB_CONT}>
+        <View style={statusBarStyles.SUB_CONT}>
             <Image source={{ uri: Constant.ASSEST_URLS.LOGO }} style={{height: 32, width: 100, borderRadius: 10}}/>
 
             <View style={statusBarStyles.ROW}>
@@ -38,7 +38,7 @@ const StatusBar = ({ navigation, isNewNotifi }) => {
                }
             </View>
             
-        </SafeAreaView>
+        </View>
     )
 }
 
