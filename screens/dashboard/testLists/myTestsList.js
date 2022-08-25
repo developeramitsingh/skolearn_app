@@ -9,7 +9,7 @@ const MyTestsList = ({navigation})=> {
         {
             id: '1',
             title: '1000 Rupees Scholarship',
-            entryFee: '49',
+            entryFee: '10',
             usersJoined: '100',
             usersLimit: '500',
             listType: Constant.TEST_TYPES.MY_TEST,
@@ -19,7 +19,7 @@ const MyTestsList = ({navigation})=> {
         {
             id: '2',
             title: '2000 Rupees Scholarship',
-            entryFee: '49',
+            entryFee: '11',
             usersJoined: '100',
             usersLimit: '500',
             listType: Constant.TEST_TYPES.MY_TEST,
@@ -29,7 +29,7 @@ const MyTestsList = ({navigation})=> {
         {
             id: '3',
             title: '3000 Rupees Scholarship',
-            entryFee: '49',
+            entryFee: '1',
             usersJoined: '100',
             usersLimit: '500',
             listType: Constant.TEST_TYPES.MY_TEST,
@@ -39,7 +39,7 @@ const MyTestsList = ({navigation})=> {
         {
             id: '4',
             title: '4000 Rupees Scholarship',
-            entryFee: '49',
+            entryFee: '2',
             usersJoined: '100',
             usersLimit: '500',
             listType: Constant.TEST_TYPES.MY_TEST,

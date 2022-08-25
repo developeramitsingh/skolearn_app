@@ -13,7 +13,7 @@ const Chat = ({ticketId}) => {
 
     const [state, setState]= useState({
         supportUserName: '',
-        isSupportOnline: false,
+        isSupportOnline: true,
         userMsg: '',
         userId: '123',
         supportUserId: '',
@@ -32,7 +32,7 @@ const Chat = ({ticketId}) => {
             id: 2,
             txt: 'Hi, i want to apply for test new',
             userType: 'user',
-            img: 'https://engineering.fb.com/wp-content/uploads/2016/04/yearinreview.jpg',
+            img: '',
             time: '',
             rid: '',
         }
@@ -90,7 +90,7 @@ const Chat = ({ticketId}) => {
     return (
         <SafeAreaView style={chatStyles.CONTAINER}>
             <View style={chatStyles.statusBar}>
-                <Text style={COMMON_STYLES.BODY_TITLE}>{state.supportUserName ? state.supportUserName + ' Available' : 'Offline'}</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE}>{state.supportUserName ? state.supportUserName + ' Available' : 'Available'}</Text>
                 <Active isActive={state.isSupportOnline}/>
             </View>
 

@@ -5,6 +5,7 @@ export const ASSEST_URLS = {
 
 export const APP_COLORS = {
     blue: '#1E90FF',
+    appBlue: '#11249d', 
     blueGreen: '#25B0B9',
     yellow: '#FFD81B',
     green: '#95F189',
@@ -20,10 +21,10 @@ export const APP_COLORS = {
     red: '#fc0303',
 };
 
-const PROD_URL= 'https://eeac-2409-4050-2e3c-b4b6-f53e-6456-7e66-9bc7.ngrok.io';
-const STAGE_URL= 'https://eeac-2409-4050-2e3c-b4b6-f53e-6456-7e66-9bc7.ngrok.io';
-const DEV_URL= 'https://eeac-2409-4050-2e3c-b4b6-f53e-6456-7e66-9bc7.ngrok.io';
-const BETA_URL= 'https://eeac-2409-4050-2e3c-b4b6-f53e-6456-7e66-9bc7.ngrok.io';
+const PROD_URL= 'https://246a-2409-4050-2e3c-b4b6-79e2-4dd2-aa09-ef3a.ngrok.io';
+const STAGE_URL= 'https://246a-2409-4050-2e3c-b4b6-79e2-4dd2-aa09-ef3a.ngrok.io';
+const DEV_URL= 'https://246a-2409-4050-2e3c-b4b6-79e2-4dd2-aa09-ef3a.ngrok.io';
+const BETA_URL= 'https://246a-2409-4050-2e3c-b4b6-79e2-4dd2-aa09-ef3a.ngrok.io';
 
 function getEnvUrl() {
   try {
