@@ -13,7 +13,7 @@ const Chat = ({ticketId}) => {
 
     const [state, setState]= useState({
         supportUserName: '',
-        isSupportOnline: true,
+        isSupportOnline: false,
         userMsg: '',
         userId: '123',
         supportUserId: '',
@@ -90,7 +90,7 @@ const Chat = ({ticketId}) => {
     return (
         <SafeAreaView style={chatStyles.CONTAINER}>
             <View style={chatStyles.statusBar}>
-                <Text style={COMMON_STYLES.BODY_TITLE}>{state.supportUserName ? state.supportUserName + ' Available' : 'Available'}</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE}>{state.supportUserName ? state.supportUserName + ' Available' : 'Offline'}</Text>
                 <Active isActive={state.isSupportOnline}/>
             </View>
 
