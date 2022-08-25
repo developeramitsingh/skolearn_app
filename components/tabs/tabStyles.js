@@ -5,13 +5,13 @@ export const tabStyles = StyleSheet.create({
     SUB_CONT: {
         flexDirection: 'row',
         //marginTop: '3%',
-        marginBottom: '2%',
+        //marginBottom: '2%',
         justifyContent: 'space-around',
         width: '100%',
         // borderWidth: 1,
         // borderColor: '#fff',
-        backgroundColor: APP_COLORS.grey,
-        paddingVertical: 5,
+        backgroundColor: APP_COLORS.appBlue,
+        paddingVertical: 10,
         paddingHorizontal: 10,
     },
 })

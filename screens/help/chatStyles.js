@@ -29,7 +29,7 @@ export const chatStyles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 5,
         paddingHorizontal: 5,
-        backgroundColor: APP_COLORS.blue
+        backgroundColor: APP_COLORS.yellow
     },
     chatMsgListHead: {
         textAlign: 'center',
@@ -37,7 +37,7 @@ export const chatStyles = StyleSheet.create({
         marginBottom: 10,
     },
     chatMsgList: {
-        backgroundColor: APP_COLORS.black,
+        backgroundColor: APP_COLORS.white,
         flex: 1,
         padding: 10,
     },
@@ -45,15 +45,15 @@ export const chatStyles = StyleSheet.create({
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#fff',
-        borderRadius: 20,
+        backgroundColor: APP_COLORS.white,
+        borderWidth: 0.5,
+        borderColor: APP_COLORS.light_grey,
         paddingHorizontal: 10,
         paddingVertical: 5,
-        marginHorizontal: 10,
+        //marginHorizontal: 10,
     },
     TEXT_INPUT: {
-        color: '#000',
-        //backgroundColor: '#fff',
+        color: APP_COLORS.appBlue,
         fontSize: 14,
         //paddingHorizontal: 15,
         paddingVertical: 5,
@@ -69,11 +69,11 @@ export const chatStyles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingVertical: 10,
         paddingHorizontal: 10,
-        backgroundColor: APP_COLORS.blue,
+        backgroundColor: APP_COLORS.yellow,
         borderRadius: 20,
     },
     chatMsgBlock: {
-        backgroundColor: APP_COLORS.white,
+        backgroundColor: APP_COLORS.appBlue,
         paddingHorizontal: 10,
         paddingVertical: 10,
         marginVertical: 5,

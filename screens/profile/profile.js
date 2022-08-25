@@ -130,9 +130,9 @@ const Profile = ({navigation}) => {
                     <Image style={profileStyles.PROFILE_IMG} source={{ uri: state.profileImg }}></Image>
                 </TouchableWithoutFeedback>
                 
-                <Text style={COMMON_STYLES.BODY_TITLE}>{state.userName}</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>{state.userName}</Text>
 
-                <Text style={COMMON_STYLES.BODY_TEXT}>Total Scholarship Achieved: {state.totalScholarship}</Text>
+                <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>Total Scholarship Achieved: {state.totalScholarship}</Text>
 
                 <TouchableHighlight onPress={()=> setProfileEdit(!showProfileEdit)} style={[COMMON_STYLES.SUB_BTN_1, { marginVertical: 10 }]}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>Edit Profile</Text>
@@ -145,7 +145,7 @@ const Profile = ({navigation}) => {
                 </TouchableHighlight>
 
                 <View style={[COMMON_STYLES.ROW, { marginVertical: 10 }]}>
-                    <Text style={COMMON_STYLES.BODY_TITLE}>Referral Code: {state.referralCode}  </Text>
+                    <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Referral Code: {state.referralCode}  </Text>
                     <Pressable  onPress={()=> handlePress('onReferralCodeCopy')} style={[COMMON_STYLES.SUB_BTN_2, { backgroundColor: APP_COLORS.light_grey}]}>
                         <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Copy</Text>
                     </Pressable>
@@ -192,7 +192,7 @@ const Profile = ({navigation}) => {
                 </View>
             </ScrollView>
 
-            <View style={COMMON_STYLES.ROW_CENTER}>
+            <View style={[COMMON_STYLES.ROW_CENTER, { marginBottom: 10}]}>
                 <TouchableHighlight onPress={() => handlePress('logout')} style={COMMON_STYLES.SUB_BTN_1}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>Logout</Text>
                 </TouchableHighlight>         

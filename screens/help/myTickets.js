@@ -44,7 +44,7 @@ const MyTickets = ({handleOpenTicket}) => {
 
     const allTickets = state.allTickets?.map(ticket => {
         return (
-            <Pressable key={ticket.id} style={COMMON_STYLES.CARD} onPress={()=>handlePress(ACTION_TYPES.OPEN_TICKET, ticket.id)}>
+            <Pressable elevation={5} key={ticket.id} style={COMMON_STYLES.CARD} onPress={()=>handlePress(ACTION_TYPES.OPEN_TICKET, ticket.id)}>
                 <View style={myTicketsStyles.ROW}>
                     <Text style={COMMON_STYLES.BODY_TITLE}>{ticket.ticketSubject}</Text>
                     <Text style={COMMON_STYLES.BODY_TEXT}>{ticket.status}</Text>

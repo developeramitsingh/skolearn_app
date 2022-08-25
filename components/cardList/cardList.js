@@ -43,7 +43,7 @@ const CardList = (props) => {
 
         const isDisabled = listType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? true : false;
         return (
-            <View style ={ props.horizontal ? {...cardListStyles.CARD_HORIZONTAL} : {...cardListStyles.CARD_VERTICAL, backgroundColor: color}}>
+            <View elevation={5} style ={ props.horizontal ? {...cardListStyles.CARD_HORIZONTAL} : {...cardListStyles.CARD_VERTICAL, backgroundColor: color, }}>
                 <View style ={cardListStyles.ROW}>
                     <View style={cardListStyles.COL_LEFT}>
                         <Text style={cardListStyles.TITLE}>{item.title}</Text>
@@ -96,6 +96,8 @@ const CardList = (props) => {
                 renderItem ={renderCard}
                 keyExtractor ={item => item.id}
                 horizontal = {props.horizontal ? true : false }
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
             />
         </View>
         

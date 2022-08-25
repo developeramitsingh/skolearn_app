@@ -1,7 +1,13 @@
 import {APP_COLORS} from '../../constant/constant';
 export const COMMON_STYLES = {
     CONTAINER: {
-        backgroundColor: APP_COLORS.black,
+        backgroundColor: APP_COLORS.white,
+        flex: 1,
+        paddingTop: 0,
+        paddingHorizontal: 15,
+    },
+    CONTAINER_BLUE: {
+        backgroundColor: APP_COLORS.appBlue,
         flex: 1,
         paddingTop: 0,
         paddingHorizontal: 15,
@@ -67,6 +73,10 @@ export const COMMON_STYLES = {
     },
 
     BODY_TEXT:  {
+        color: APP_COLORS.appBlue,
+        fontSize: 12,
+    },
+    BODY_TEXT_WHITE:  {
         color: APP_COLORS.white,
         fontSize: 12,
     },
@@ -75,6 +85,11 @@ export const COMMON_STYLES = {
         fontSize: 12,
     },
     BODY_TITLE:  {
+        color: APP_COLORS.appBlue,
+        fontSize: 12,
+        fontWeight: 'bold',
+    },
+    BODY_TITLE_WHITE:  {
         color: APP_COLORS.white,
         fontSize: 12,
         fontWeight: 'bold',
@@ -85,23 +100,28 @@ export const COMMON_STYLES = {
         fontWeight: 'bold',
     },
     BODY_HEADING_1:  {
+        color: APP_COLORS.appBlue,
+        fontSize: 28,
+        fontWeight: 'bold',
+    },
+    BODY_HEADING_1_WHITE:  {
         color: APP_COLORS.white,
         fontSize: 28,
         fontWeight: 'bold',
     },
     BODY_TABS:  {
-        borderWidth: 1,
-        borderColor: APP_COLORS.grey,
+        borderWidth: 0.5,
+        borderColor: APP_COLORS.white,
         borderRadius: 20,
         paddingVertical: 8,
         paddingHorizontal: 15,
     },
     ACTIVE: {
-        backgroundColor: APP_COLORS.blue,
+        backgroundColor: APP_COLORS.yellow,
         borderWidth: 0, 
     },
     ACTIVE_TEXT: {
-        color: APP_COLORS.white,
+        color: APP_COLORS.black,
     },
     BODY_TABS_TEXT:  {
         color: APP_COLORS.white,
@@ -119,7 +139,7 @@ export const COMMON_STYLES = {
     },
     SEPARATOR: {
         height: 1,
-        backgroundColor: APP_COLORS.grey,
+        backgroundColor: APP_COLORS.light_grey,
     },
     SEPARATOR_WHITE: {
         height: 1,
@@ -185,7 +205,7 @@ export const COMMON_STYLES = {
         paddingHorizontal: 5,
         paddingVertical: 5,
         marginHorizontal: 10,
-        backgroundColor: APP_COLORS.blue,
+        backgroundColor: APP_COLORS.white,
         marginVertical: 5
     },
     DISABLED_BTN: {

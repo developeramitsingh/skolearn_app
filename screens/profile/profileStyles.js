@@ -3,7 +3,7 @@ import {APP_COLORS} from '../../constant/constant';
 
 export const profileStyles = StyleSheet.create({
     CONTAINER: {
-        backgroundColor: APP_COLORS.black,
+        backgroundColor: APP_COLORS.appBlue,
         flex: 1,
         //paddingTop: 40,
         paddingHorizontal: 10,
@@ -22,7 +22,7 @@ export const profileStyles = StyleSheet.create({
     BOX: {
         paddingVertical: 10,
         paddingHorizontal: 10,
-        backgroundColor: APP_COLORS.grey,
+        backgroundColor: APP_COLORS.light_grey,
         marginVertical: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',

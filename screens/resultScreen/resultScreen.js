@@ -5,6 +5,7 @@ import * as Constant from '../../constant/constant';
 import {resultScreenStyles} from './resultScreenStyles';
 
 import LeaderBoard from '../../components/leaderBoard/leaderBoard';
+import BackBtn from "../../components/backBtn/backBtn";
 
 const ResultScreen = ({navigation, testId}) => {
     const [state, setState] = useState({
@@ -89,6 +90,7 @@ const ResultScreen = ({navigation, testId}) => {
 
     return (
         <SafeAreaView style={resultScreenStyles.CONTAINER}>
+            <BackBtn navigation={navigation} routeToGo={Constant.ROUTES.DASHBOARD}/>
             <View style={resultScreenStyles.ROW}>
                 <Text style={resultScreenStyles.LABEL_TEXT}>Participant Joined: <Text>{state.testData.usersJoined + '/'} {state.testData.usersLimit}</Text>
                 </Text>

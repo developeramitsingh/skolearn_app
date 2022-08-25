@@ -58,7 +58,7 @@ const Notification = ({ navigation }) => {
                     renderLeftActions={renderLeftAction}
                     onSwipeableLeftOpen={() => handleDelete(notification._id)}
                 >
-                    <View key={notification._id} style={[COMMON_STYLES.CARD, { backgroundColor: APP_COLORS.grey}]}>
+                    <View key={notification._id} style={[COMMON_STYLES.CARD]}>
                         <View style={notificationStyles.ROW}>
                             <Text style={COMMON_STYLES.BODY_TITLE}>{notification.title}</Text>
                         </View>
@@ -83,10 +83,10 @@ const Notification = ({ navigation }) => {
     });
 
     return (
-        <SafeAreaView style={COMMON_STYLES.CONTAINER}>
+        <SafeAreaView style={COMMON_STYLES.CONTAINER_BLUE}>
             <BackBtn navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
             <View style={[COMMON_STYLES.ROW_CENTER, { marginBottom: 10 }]}>
-                <Text style={COMMON_STYLES.BODY_HEADING_1}>Notifications</Text>
+                <Text style={COMMON_STYLES.BODY_HEADING_1_WHITE}>Notifications</Text>
             </View>
 
             <ScrollView style={notificationStyles.CONTAINER}>

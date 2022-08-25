@@ -92,7 +92,7 @@ const Home = ({navigation}) => {
                 </TouchableHighlight>
             </View>
 
-            <Text style={COMMON_STYLES.BODY_TEXT}>By Continuing you agree to the<Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${Constant.BACKEND_URL}/terms`)}> Terms and Conditions</Text></Text>
+            <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>By Continuing you agree to the<Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${Constant.BACKEND_URL}/terms`)}> Terms and Conditions</Text></Text>
         </ImageBackground>
       </SafeAreaView>
   )

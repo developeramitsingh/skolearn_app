@@ -69,7 +69,7 @@ const Wallet = () => {
 
     const RenderList = ({item })=> {
         return (
-            <View key={item.id} style={walletStyles.CARD}>
+            <View elevation={5} key={item.id} style={walletStyles.CARD}>
                 <View style={walletStyles.LEFT_COL}>
                     <Text style={COMMON_STYLES.BODY_TITLE}>{item.transactionTitle}</Text>
                     <Text style={walletStyles.CARD_TEXT}>{item.transactionTime}</Text>
@@ -127,6 +127,8 @@ const Wallet = () => {
                     data = { state.transactionList || []}
                     renderItem ={RenderList}
                     keyExtractor ={item => item.id}
+                    showsVerticalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={false}
                 />
             </View>
         </SafeAreaView>        

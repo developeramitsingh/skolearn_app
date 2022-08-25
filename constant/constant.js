@@ -5,7 +5,7 @@ export const ASSEST_URLS = {
 
 export const APP_COLORS = {
     blue: '#1E90FF',
-    appBlue: '#11249d', 
+    appBlue: '#222957', 
     blueGreen: '#25B0B9',
     yellow: '#FFD81B',
     green: '#95F189',
