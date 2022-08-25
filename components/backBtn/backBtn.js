@@ -8,7 +8,7 @@ const BackBtn = ({ navigation, routeToGo, color="white" }) => {
     }
 
     return (
-        <TouchableOpacity onPress={handleBack} style={[COMMON_STYLES.ROW, { marginTop: '10%' }]}>
+        <TouchableOpacity onPress={handleBack} style={COMMON_STYLES.ROW}>
             <AntDesign name="arrowleft" size={28} color={color} />
         </TouchableOpacity>
     )
