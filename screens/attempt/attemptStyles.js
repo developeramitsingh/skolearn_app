@@ -9,20 +9,17 @@ export const attemptStyles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     HEADING: {
-        fontWeight: 'bold',
         fontSize: 24,
         color: APP_COLORS.black,
         textAlign: 'center',
     },
     LABEL_TEXT: {
-        fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 12,
         color: APP_COLORS.black,
         textAlign: 'center',
     },
 
     NOTICE_TEXT: {
-        fontWeight: 'bold',
         fontSize: 14,
         color: 'red',
         textAlign: 'center',
