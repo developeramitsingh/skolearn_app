@@ -108,7 +108,7 @@ const Wallet = () => {
                 <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Free Tickets {state.freeTickets}</Text>
             </View>
 
-            <View style={COMMON_STYLES.ROW}>
+            <View style={[COMMON_STYLES.ROW, { marginTop: 10 }]}>
                 <TouchableOpacity onPress={()=>setAddMoney(true)} style={COMMON_STYLES.SUB_BTN_1}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>Add Money</Text>
                 </TouchableOpacity>

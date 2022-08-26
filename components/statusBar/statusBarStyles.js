@@ -9,7 +9,8 @@ const statusBarStyles = StyleSheet.create({
         // borderColor: '#fff',
         backgroundColor: APP_COLORS.appBlue,
         paddingHorizontal: 10,
-        paddingVertical: 5,
+        paddingTop: 10,
+        paddingBottom: 5,
     },
 
     STATUS_BAR_TEXT: {
