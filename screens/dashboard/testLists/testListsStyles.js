@@ -9,6 +9,20 @@ const testListsStyles = StyleSheet.create({
         padding: 10,
         borderRadius: 20,
         textAlign: 'center',
+    },
+    HEADING_WHITE: {
+        fontSize: 14,
+        //fontWeight: 'bold',
+        color: APP_COLORS.white,
+        padding: 10,
+        borderRadius: 20,
+        textAlign: 'center',
+    },
+    BACK_PANEL: {
+        flex: 1, 
+        backgroundColor: APP_COLORS.white, 
+        borderTopLeftRadius: 20, 
+        borderTopRightRadius: 20 
     }
 })
 

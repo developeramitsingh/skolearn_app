@@ -4,7 +4,7 @@ import { APP_COLORS } from '../../constant/constant';
 export const walletStyles = StyleSheet.create({
     CONTAINER: {
         flex: 1,
-        backgroundColor: APP_COLORS.back,
+        backgroundColor: APP_COLORS.white,
         paddingHorizontal: 20,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
@@ -12,11 +12,10 @@ export const walletStyles = StyleSheet.create({
     },
     CARD: {
         backgroundColor: APP_COLORS.white,
-        borderWidth: 0.5,
+        borderBottomWidth: 0.5,
         borderColor: APP_COLORS.light_grey,
         flex: 1,
         borderRadius: 10,
-        paddingHorizontal: 10,
         paddingVertical: 5,
         flexDirection: 'row',
         flexWrap: 'nowrap',

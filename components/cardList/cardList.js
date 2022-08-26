@@ -28,7 +28,6 @@ const CardList = (props) => {
                 : listType === Constant.TEST_TYPES.PRACTICE
                 ? 'Practice'
                 : ''
-        const color = Constant.TEST_CARD_COLORS[Math.floor(Math.random()*10)];
 
         const btnStyle = {
             btn: {
@@ -43,7 +42,7 @@ const CardList = (props) => {
 
         const isDisabled = listType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? true : false;
         return (
-            <View style ={ props.horizontal ? {...cardListStyles.CARD_HORIZONTAL} : {...cardListStyles.CARD_VERTICAL, backgroundColor: color, }}>
+            <View style ={ props.horizontal ? {...cardListStyles.CARD_HORIZONTAL} : {...cardListStyles.CARD_VERTICAL, backgroundColor: Constant.APP_COLORS.white, }}>
                 <View style ={cardListStyles.ROW}>
                     <View style={cardListStyles.COL_LEFT}>
                         <Text style={cardListStyles.TITLE}>{item.title}</Text>

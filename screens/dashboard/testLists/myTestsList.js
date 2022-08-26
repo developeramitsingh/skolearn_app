@@ -3,6 +3,7 @@ import CardList from '../../../components/cardList/cardList';
 
 import testListsStyles from './testListsStyles';
 import * as Constant from '../../../constant/constant';
+import { COMMON_STYLES } from '../../../common/styles/commonStyles';
 
 const MyTestsList = ({navigation})=> {
     const myTestDataList = [
@@ -62,8 +63,9 @@ const MyTestsList = ({navigation})=> {
         navigation.navigate(Constant.ROUTES.RESULT_SCREEN, { testId: id });
     }
     return (
-        <View style={{flex: 1}}>
+        <View style={testListsStyles.BACK_PANEL}>
             <Text style={testListsStyles.HEADING}>Test Completed</Text>
+            <View style={[COMMON_STYLES.SEPARATOR, { marginHorizontal: 15 }]}></View>
             <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 1 }} dataList={myTestDataList} horizontal = {false}/>
         </View>
     )   

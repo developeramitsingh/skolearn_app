@@ -108,11 +108,11 @@ const LiveTestsList = ({navigation})=> {
     }
     return (
         <View style={{ flex: 1 }}>
-            <Text style={testListsStyles.HEADING}>Mega Scholarships</Text>
+            <Text style={testListsStyles.HEADING_WHITE}>Mega Scholarships</Text>
             <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 0 }} dataList={megaliveDataList} horizontal = {true}/>
             <View style={COMMON_STYLES.SEPARATOR}></View>
 
-            <Text style={testListsStyles.HEADING}>Scholarships for everyone</Text>
+            <Text style={testListsStyles.HEADING_WHITE}>Scholarships for everyone</Text>
             <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 1, backgroundColor: Constant.APP_COLORS.white, paddingTop: 5, borderTopLeftRadius: 20, borderTopRightRadius: 20 }} dataList={liveDataList} horizontal = {false}/>
         </View>
     )   

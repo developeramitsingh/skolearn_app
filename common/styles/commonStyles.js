@@ -136,7 +136,7 @@ export const COMMON_STYLES = {
     },
     SEPARATOR: {
         height: 1,
-        backgroundColor: APP_COLORS.white,
+        backgroundColor: APP_COLORS.light_grey,
     },
     SEPARATOR_WHITE: {
         height: 1,

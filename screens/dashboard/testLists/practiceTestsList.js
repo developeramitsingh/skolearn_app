@@ -59,8 +59,9 @@ const PracticeTestsList = ({navigation})=> {
     }
 
     return (
-        <View style={{flex: 1}}>
+        <View style={testListsStyles.BACK_PANEL}>
             <Text style={testListsStyles.HEADING}>Practice Tests</Text>
+            <View style={[COMMON_STYLES.SEPARATOR, { marginHorizontal: 15 }]}></View>
             <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 1 }} dataList={practiceTestsDataList} horizontal = {false}/>
         </View>
     )   

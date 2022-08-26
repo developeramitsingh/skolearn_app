@@ -89,7 +89,7 @@ const Wallet = () => {
 
     
     return (
-        <SafeAreaView style={COMMON_STYLES.CONTAINER_LIGHT}>
+        <SafeAreaView style={COMMON_STYLES.CONTAINER}>
             <ModalWindow modalVisible={showAddMoney} handleModalPress={handlePress} title="Add Money to Wallet" keyboardType='numeric' actionType= "addMoney" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
 
             <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={handlePress} title="Request Widthdraw Money" keyboardType='numeric'  actionType= "withdraw"  btnTxt = 'Request Withdraw' placeholder='Enter Amount to withdraw'/>
@@ -97,15 +97,15 @@ const Wallet = () => {
             <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title="Create New Ticket" actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = 'Create' placeholder='Enter Subject'/>
 
             <View style={{...COMMON_STYLES.ROW_CENTER, marginTop: 20 }}>
-                <Text style={COMMON_STYLES.BODY_TITLE}>Total Balance</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Total Balance</Text>
             </View>
 
             <View style={COMMON_STYLES.ROW_CENTER}>
-                <Text style={COMMON_STYLES.BODY_HEADING_1}>{state.walletBalance} Rs.</Text>
+                <Text style={COMMON_STYLES.BODY_HEADING_1_WHITE}>{state.walletBalance} Rs.</Text>
             </View>
 
             <View style={COMMON_STYLES.ROW_CENTER}>
-                <Text style={COMMON_STYLES.BODY_TITLE}>Free Tickets {state.freeTickets}</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Free Tickets {state.freeTickets}</Text>
             </View>
 
             <View style={COMMON_STYLES.ROW}>
