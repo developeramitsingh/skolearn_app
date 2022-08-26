@@ -1,7 +1,7 @@
 import {APP_COLORS} from '../../constant/constant';
 export const COMMON_STYLES = {
     CONTAINER: {
-        backgroundColor: APP_COLORS.white,
+        backgroundColor: APP_COLORS.back,
         flex: 1,
         paddingTop: 0,
         paddingHorizontal: 15,
@@ -206,6 +206,8 @@ export const COMMON_STYLES = {
         paddingVertical: 5,
         marginHorizontal: 10,
         backgroundColor: APP_COLORS.white,
+        borderColor: APP_COLORS.light_grey,
+        borderWidth: 0.5,
         marginVertical: 5
     },
     DISABLED_BTN: {
@@ -227,5 +229,14 @@ export const COMMON_STYLES = {
         position: 'absolute',
         zIndex: 1,
       },
+      BOX_SHADOW: {
+        shadowColor: '#000000',
+        shadowOffset: {
+        width: 10,
+        height: 5
+        },
+        shadowRadius: 15,
+        shadowOpacity: 1.0
+    }
 
 }

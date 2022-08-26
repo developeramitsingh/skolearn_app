@@ -21,18 +21,13 @@ const cardListStyles = StyleSheet.create({
     },
     CARD_VERTICAL: {
         borderRadius: 15,
-        marginVertical: 10,
+        borderColor: APP_COLORS.light_grey,
+        borderWidth: 0.5,
+        marginVertical: 5,
         marginHorizontal: 5,
         paddingHorizontal: 10,
         paddingBottom: 10,
         justifyContent: 'space-between',
-        shadowColor: '#000000',
-        shadowOffset: {
-        width: 0,
-        height: 3
-        },
-        shadowRadius: 5,
-        shadowOpacity: 1.0
     },
     ROW: {
         display: 'flex',

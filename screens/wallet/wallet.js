@@ -69,7 +69,7 @@ const Wallet = () => {
 
     const RenderList = ({item })=> {
         return (
-            <View elevation={5} key={item.id} style={walletStyles.CARD}>
+            <View key={item.id} style={walletStyles.CARD}>
                 <View style={walletStyles.LEFT_COL}>
                     <Text style={COMMON_STYLES.BODY_TITLE}>{item.transactionTitle}</Text>
                     <Text style={walletStyles.CARD_TEXT}>{item.transactionTime}</Text>
@@ -89,7 +89,7 @@ const Wallet = () => {
 
     
     return (
-        <SafeAreaView style={COMMON_STYLES.CONTAINER}>
+        <SafeAreaView style={COMMON_STYLES.CONTAINER_LIGHT}>
             <ModalWindow modalVisible={showAddMoney} handleModalPress={handlePress} title="Add Money to Wallet" keyboardType='numeric' actionType= "addMoney" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
 
             <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={handlePress} title="Request Widthdraw Money" keyboardType='numeric'  actionType= "withdraw"  btnTxt = 'Request Withdraw' placeholder='Enter Amount to withdraw'/>

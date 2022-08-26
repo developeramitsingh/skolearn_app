@@ -14,6 +14,7 @@ export const APP_COLORS = {
     grey: '#3D3D3D',
     light_grey: '#C1C1C1',
     white: '#fff',
+    back: '#f0f0f0',
     black: '#000',
     black_opacity: '#00000050',
     white_opacity: '#ffffff70',
@@ -61,7 +62,7 @@ export const TEST_TYPES = {
     PRACTICE: 'practice',
 };
 
-export const TEST_CARD_COLORS = [APP_COLORS.blue, APP_COLORS.blueGreen, APP_COLORS.green, APP_COLORS.white, APP_COLORS.yellow, APP_COLORS.orange, APP_COLORS.skyBlue, APP_COLORS.blue, APP_COLORS.blueGreen, APP_COLORS.green];
+export const TEST_CARD_COLORS = [APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white,APP_COLORS.white];
 
 export const ROUTES = {
     HOME: 'Home',
