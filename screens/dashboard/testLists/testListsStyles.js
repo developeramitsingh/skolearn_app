@@ -22,7 +22,8 @@ const testListsStyles = StyleSheet.create({
         flex: 1, 
         backgroundColor: APP_COLORS.white, 
         borderTopLeftRadius: 20, 
-        borderTopRightRadius: 20 
+        borderTopRightRadius: 20,
+        paddingTop: 5,
     }
 })
 

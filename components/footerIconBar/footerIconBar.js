@@ -23,19 +23,19 @@ const FooterIconBar = ({ setActiveScreen }) => {
     return (
         <View style ={[COMMON_STYLES.ROW, footerIconBarStyles.FOOTER_BAR]}>
             <Pressable onPress={()=> handlePress(SCREENS.TEST_LIST)} style={footerIconBarStyles.TABS_BTN}>
-                <FontAwesome name="home" size={28} color={ activeTab === SCREENS.TEST_LIST ? APP_COLORS.appBlue : APP_COLORS.light_grey }/>
+                <FontAwesome name="home" size={28} color={ activeTab === SCREENS.TEST_LIST ? APP_COLORS.appBlue : APP_COLORS.lightBlue }/>
                 <Text style={COMMON_STYLES.BODY_TEXT}>Home</Text>
             </Pressable>
             
 
             <Pressable onPress={()=> handlePress(SCREENS.WALLET)} style={footerIconBarStyles.TABS_BTN}>
-                <Entypo name="wallet" size={28} color={ activeTab === SCREENS.WALLET ? APP_COLORS.appBlue : APP_COLORS.light_grey }/>
+                <Entypo name="wallet" size={28} color={ activeTab === SCREENS.WALLET ? APP_COLORS.appBlue : APP_COLORS.lightBlue }/>
                 <Text style={COMMON_STYLES.BODY_TEXT}>Wallet</Text>
             </Pressable>
             
 
             <Pressable onPress={()=> handlePress(SCREENS.HELP)} style={footerIconBarStyles.TABS_BTN}>
-                <AntDesign name="customerservice" size={28} color={ activeTab === SCREENS.HELP ? APP_COLORS.appBlue : APP_COLORS.light_grey }/>
+                <AntDesign name="customerservice" size={28} color={ activeTab === SCREENS.HELP ? APP_COLORS.appBlue : APP_COLORS.lightBlue }/>
                 <Text style={COMMON_STYLES.BODY_TEXT}>Help</Text>
             </Pressable>
             

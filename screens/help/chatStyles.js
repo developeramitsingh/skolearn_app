@@ -46,11 +46,12 @@ export const chatStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: APP_COLORS.white,
-        borderWidth: 0.5,
-        borderColor: APP_COLORS.light_grey,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: APP_COLORS.appBlue,
         paddingHorizontal: 10,
         paddingVertical: 5,
-        //marginHorizontal: 10,
+        margin: 10,
     },
     TEXT_INPUT: {
         color: APP_COLORS.appBlue,
@@ -73,7 +74,7 @@ export const chatStyles = StyleSheet.create({
         borderRadius: 20,
     },
     chatMsgBlock: {
-        backgroundColor: APP_COLORS.appBlue,
+        backgroundColor: APP_COLORS.blueGreen,
         paddingHorizontal: 10,
         paddingVertical: 10,
         marginVertical: 5,
@@ -81,7 +82,7 @@ export const chatStyles = StyleSheet.create({
     chatMsgBlockSupport: {
         alignSelf: 'flex-start',
         ...CHAT_BORDER.SUPPORT,
-        backgroundColor: APP_COLORS.blue,
+        backgroundColor: APP_COLORS.grey,
     },
     chatMsgBlockUser: {
         alignSelf: 'flex-end',

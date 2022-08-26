@@ -11,6 +11,7 @@ export const APP_COLORS = {
     green: '#95F189',
     orange: '#FF991B',
     skyBlue: '#1BE1FF',
+    lightBlue: '#bedbfa',
     grey: '#3D3D3D',
     light_grey: '#C1C1C1',
     white: '#fff',

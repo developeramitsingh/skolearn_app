@@ -113,7 +113,7 @@ const LiveTestsList = ({navigation})=> {
             <View style={COMMON_STYLES.SEPARATOR}></View>
 
             <Text style={testListsStyles.HEADING_WHITE}>Scholarships for everyone</Text>
-            <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 1, backgroundColor: Constant.APP_COLORS.white, paddingTop: 5, borderTopLeftRadius: 20, borderTopRightRadius: 20 }} dataList={liveDataList} horizontal = {false}/>
+            <CardList handleBtnPress = {handleBtnPress} customStyle={testListsStyles.BACK_PANEL} dataList={liveDataList} horizontal = {false}/>
         </View>
     )   
 }
