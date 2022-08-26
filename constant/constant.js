@@ -14,7 +14,7 @@ export const APP_COLORS = {
     grey: '#3D3D3D',
     light_grey: '#C1C1C1',
     white: '#fff',
-    back: '#f0f0f0',
+    back: '#e3e3e3',
     black: '#000',
     black_opacity: '#00000050',
     white_opacity: '#ffffff70',

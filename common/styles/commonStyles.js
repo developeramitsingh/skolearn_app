@@ -50,20 +50,17 @@ export const COMMON_STYLES = {
 
     BTN_TEXT: {
         fontSize: 14,
-        fontWeight: 'bold',
         color: APP_COLORS.black,
     },
 
     SUB_BTN_TXT: {
         fontSize: 14,
-        fontWeight: 'bold',
         color: APP_COLORS.black,
     },
 
     TITLE_TEXT: {
         color: '#fff',
         fontSize: 36,
-        fontWeight: 'bold',
         textAlign: 'center',
         //marginTop: '10%',
     },
@@ -87,27 +84,27 @@ export const COMMON_STYLES = {
     BODY_TITLE:  {
         color: APP_COLORS.appBlue,
         fontSize: 12,
-        fontWeight: 'bold',
+        
     },
     BODY_TITLE_WHITE:  {
         color: APP_COLORS.white,
         fontSize: 12,
-        fontWeight: 'bold',
+        
     },
     BODY_TITLE_BLACK:  {
         color: APP_COLORS.black,
         fontSize: 12,
-        fontWeight: 'bold',
+        
     },
     BODY_HEADING_1:  {
         color: APP_COLORS.appBlue,
         fontSize: 28,
-        fontWeight: 'bold',
+        
     },
     BODY_HEADING_1_WHITE:  {
         color: APP_COLORS.white,
         fontSize: 28,
-        fontWeight: 'bold',
+        
     },
     BODY_TABS:  {
         borderWidth: 0.5,
@@ -126,12 +123,12 @@ export const COMMON_STYLES = {
     BODY_TABS_TEXT:  {
         color: APP_COLORS.white,
         fontSize: 12,
-        fontWeight: 'bold',
+        
         textAlign: 'center',
     },
     LINK_TEXT: {
         color: APP_COLORS.blue,
-        fontWeight: 'bold',
+        
     },
     CENTER: {
         textAlign: 'center',
@@ -139,7 +136,7 @@ export const COMMON_STYLES = {
     },
     SEPARATOR: {
         height: 1,
-        backgroundColor: APP_COLORS.light_grey,
+        backgroundColor: APP_COLORS.white,
     },
     SEPARATOR_WHITE: {
         height: 1,
@@ -194,7 +191,7 @@ export const COMMON_STYLES = {
     },
     SUB_BTN_TXT_2: {
         fontSize: 10,
-        fontWeight: 'bold',
+        
         color: APP_COLORS.black,
     },
     HIDE: {

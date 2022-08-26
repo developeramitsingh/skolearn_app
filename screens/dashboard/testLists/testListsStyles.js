@@ -3,10 +3,12 @@ import { APP_COLORS } from '../../../constant/constant';
 
 const testListsStyles = StyleSheet.create({
     HEADING: {
-        fontSize: 16,
-        fontWeight: 'bold',
+        fontSize: 14,
+        //fontWeight: 'bold',
         color: APP_COLORS.appBlue,
-        paddingVertical: 10,
+        padding: 10,
+        borderRadius: 20,
+        textAlign: 'center',
     }
 })
 
