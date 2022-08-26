@@ -203,8 +203,8 @@ export const COMMON_STYLES = {
         paddingVertical: 5,
         marginHorizontal: 10,
         backgroundColor: APP_COLORS.white,
-        borderColor: APP_COLORS.light_grey,
-        borderWidth: 0.5,
+        borderBottomColor: APP_COLORS.light_grey,
+        borderBottomWidth: 0.5,
         marginVertical: 5
     },
     DISABLED_BTN: {
@@ -227,13 +227,10 @@ export const COMMON_STYLES = {
         zIndex: 1,
       },
       BOX_SHADOW: {
-        shadowColor: '#000000',
-        shadowOffset: {
-        width: 10,
-        height: 5
-        },
-        shadowRadius: 15,
-        shadowOpacity: 1.0
-    }
-
+        shadowColor: '#000',  
+        elevation: 30,  
+        shadowOffset:{width:0, height: 0},  
+        shadowOpacity:1,  
+        shadowRadius: 5,  
+    },
 }

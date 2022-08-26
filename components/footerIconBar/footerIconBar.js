@@ -21,7 +21,7 @@ const FooterIconBar = ({ setActiveScreen }) => {
         }
     }
     return (
-        <View elevation={5} style ={[COMMON_STYLES.ROW, footerIconBarStyles.FOOTER_BAR]}>
+        <View style ={[COMMON_STYLES.ROW, footerIconBarStyles.FOOTER_BAR]}>
             <Pressable onPress={()=> handlePress(SCREENS.TEST_LIST)} style={footerIconBarStyles.TABS_BTN}>
                 <FontAwesome name="home" size={28} color={ activeTab === SCREENS.TEST_LIST ? APP_COLORS.appBlue : APP_COLORS.light_grey }/>
                 <Text style={COMMON_STYLES.BODY_TEXT}>Home</Text>

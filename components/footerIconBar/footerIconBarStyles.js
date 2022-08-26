@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS } from '../../constant/constant';
 
 export const footerIconBarStyles = StyleSheet.create({
@@ -8,5 +9,6 @@ export const footerIconBarStyles = StyleSheet.create({
     },
     FOOTER_BAR: {
         backgroundColor: APP_COLORS.white,
+        ...COMMON_STYLES.BOX_SHADOW,
     }
 })
