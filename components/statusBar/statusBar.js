@@ -41,7 +41,7 @@ const StatusBar = ({ navigation, isNewNotifi }) => {
         <>
             {
                 isDrawerOpen ?
-                <Drawer setDrawer={setDrawer} userName={state.userName}/>
+                <Drawer navigation={navigation} setDrawer={setDrawer} userName={state.userName}/>
                 : null
             }
 

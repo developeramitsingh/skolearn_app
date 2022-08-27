@@ -1,20 +1,42 @@
-import { ScrollView, Text, View, Image } from "react-native"
+import { ScrollView, Text, View, Image, NativeModules,
+    LayoutAnimation,
+    TouchableHighlight,
+    Pressable, } from "react-native"
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
 import { drawerStyles } from './drawerStyles';
 import * as Constant from '../../constant/constant';
 import {FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import BackBtn from '../../components/backBtn/backBtn';
+import { useEffect, useRef, useState } from "react";
+
+const { UIManager } = NativeModules;
+
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const Drawer = ({navigation, userName, setDrawer }) => {
+    const [state, setState] = useState({
+        drawerRight: -230,
+    })
+
+    useEffect(() => {
+        LayoutAnimation.easeInEaseOut();
+        setState((prev) => {
+            return { ...prev, drawerRight: 0 }
+        })
+    }, []);
+
     const handlePress = (actionType) => {
+        setDrawer(false);
         if (actionType === Constant.ACTION_TYPES.OPEN_PROFILE) {
-            
+            navigation.navigate(Constant.ROUTES.PROFILE);
         } else if (actionType === Constant.ACTION_TYPES.OPEN_NOTIFI) {
-            navigation.navigate(ROUTES.NOTIFICATION);
+            navigation.navigate(Constant.ROUTES.NOTIFICATION);
         }
     }
+
     return (
-        <View style={drawerStyles.DRAWER_CONT}>
+        <View elevation={10} style={[drawerStyles.DRAWER_CONT, { right: state?.drawerRight }]}>
             <View style={COMMON_STYLES.ROW_LEFT}>
                 <BackBtn color={Constant.APP_COLORS.appBlue} handler={()=> setDrawer(false)}/>
                 <Text style={COMMON_STYLES.BODY_TEXT}>Welcome <Text style={COMMON_STYLES.ACTIVE_USER_TEXT}>{userName}</Text></Text>
@@ -23,13 +45,13 @@ const Drawer = ({navigation, userName, setDrawer }) => {
             <ScrollView>
                 <View style={COMMON_STYLES.CARD}>
                     <View style={COMMON_STYLES.CARD}>
-                        <View style={COMMON_STYLES.ROW_LEFT}>
-                            <FontAwesome onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_PROFILE)} name="user-circle" size={20} color={Constant.APP_COLORS.appBlue}/>
+                        <Pressable onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_PROFILE)} style={COMMON_STYLES.ROW_LEFT} >
+                            <FontAwesome name="user-circle" size={20} color={Constant.APP_COLORS.appBlue}/>
 
                             <Text style={[COMMON_STYLES.BTN_TEXT, COMMON_STYLES.MARGIN_LEFT]}>
                                 Profile
                             </Text>
-                        </View>
+                        </Pressable>
                     </View>
                     
                     <View style={COMMON_STYLES.CARD}>

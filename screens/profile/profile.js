@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Image, Alert, SafeAreaView, View, Text, TouchableHighlight,TouchableWithoutFeedback, Pressable, ScrollView } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Image, Alert, SafeAreaView, View, Text, TouchableHighlight,TouchableWithoutFeedback, Pressable, ScrollView, BackHandler } from 'react-native';
 import { profileStyles } from './profileStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { onShare, copyToClipboard, pickImage } from '../../common/functions/commonHelper';
@@ -27,6 +27,21 @@ const Profile = ({navigation}) => {
     const [showProfileEdit, setProfileEdit] = useState(false);
     const [showBankDetailModal, setBankDetail] = useState(false);
     const [showPanDetailModal, setPanDetail] = useState(false);
+
+
+    useEffect(() => {
+        const backAction = () => {
+            navigation.navigate(ROUTES.DASHBOARD);
+            return true;
+          };
+      
+          const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+          );
+      
+          return () => backHandler.remove();
+    }, []);
 
     const handlePress =(actionType, payload) => {
         if (actionType === 'logout') {

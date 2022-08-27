@@ -26,6 +26,7 @@ const Dashboard = ({navigation, route }) => {
         checkIfNewNotification();
 
         navigation.addListener('beforeRemove', (e) => {
+            console.info(`beforeRemove called in dashboard`);
             const action = e.data.action;
             const skipCase = action?.payload?.name === "Home" && action?.source?.startsWith('Profile')
             if (!route?.params?.user || skipCase) {
