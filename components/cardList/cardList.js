@@ -9,61 +9,67 @@ const CardList = (props) => {
     const [state, setState] = useState({
     })
 
-    const renderCard = ({item})=> {
-        const listType = item.listType?.toLowerCase();
+    const renderCard = ({item})=> {        
+        const testType = item.testType?.toLowerCase();
 
-        const expireLabel = listType ===  Constant.TEST_TYPES.LIVE
-            ? 'Expires on'
-            : listType === Constant.TEST_TYPES.MY_TEST
+        const difficultiLevel = testType ===  Constant.TEST_TYPES.LIVE
+            ? 'Difficulty Level'
+            : testType === Constant.TEST_TYPES.MY_TEST
             ? 'Completed on'
             : null;
 
+        const difficultiLevelVal = testType ===  Constant.TEST_TYPES.LIVE
+            ? item.difficultiLevel
+            : testType === Constant.TEST_TYPES.MY_TEST
+            ? item.userCompletedOn
+            : null;
+
         const btnText =
-            listType === Constant.TEST_TYPES.LIVE
+            testType === Constant.TEST_TYPES.LIVE
                 ? 'Participate'
-                : listType === Constant.TEST_TYPES.MY_TEST
+                : testType === Constant.TEST_TYPES.MY_TEST
                     ? item.isResultDeclared
                     ? 'View Result' 
                     : 'Result Awaited'
-                : listType === Constant.TEST_TYPES.PRACTICE
+                : testType === Constant.TEST_TYPES.PRACTICE
                 ? 'Practice'
                 : ''
 
         const btnStyle = {
             btn: {
                 ...cardListStyles.CARD_BTN,
-                ...(listType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? COMMON_STYLES.DISABLED : {})
+                ...(testType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? COMMON_STYLES.DISABLED : {})
             },
             btnTxt: {
                 ...cardListStyles.CARD_BTN_TEXT,
-                ...(listType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? COMMON_STYLES.DISABLED_TEXT : {})
+                ...(testType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? COMMON_STYLES.DISABLED_TEXT : {})
             }
         };
 
-        const isDisabled = listType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? true : false;
+        const isDisabled = testType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? true : false;
         return (
-            <View style ={ props.horizontal ? {...cardListStyles.CARD_HORIZONTAL} : {...cardListStyles.CARD_VERTICAL, backgroundColor: Constant.APP_COLORS.white, }}>
+            <View key={item._id} style ={ props.horizontal ? {...cardListStyles.CARD_HORIZONTAL} : {...cardListStyles.CARD_VERTICAL, backgroundColor: Constant.APP_COLORS.white, }}>
                 <View style ={cardListStyles.ROW}>
                     <View style={cardListStyles.COL_LEFT}>
-                        <Text style={cardListStyles.TITLE}>{item.title}</Text>
+                        <Text style={cardListStyles.TITLE}>{item.testName}</Text>
                     </View>
                     { 
-                        expireLabel &&
+                        difficultiLevel &&
                         <View style={cardListStyles.COL_RIGHT}>
-                            <Text style={cardListStyles.LABEL_TEXT}>{expireLabel}</Text>
-                            <Text style={cardListStyles.LABEL_TEXT}>{item.expiresOn}</Text>
+                            <Text style={cardListStyles.LABEL_TEXT}>{difficultiLevel}</Text>
+                            <Text style={cardListStyles.LABEL_TEXT_BODY}>{difficultiLevelVal}</Text>
                         </View>
                     }
                 </View>
 
                 <View style ={cardListStyles.ROW}>
                     <View style={cardListStyles.COL_LEFT_2}>
-                        <TouchableHighlight disabled={isDisabled} onPress={() => props?.handleBtnPress(item.id)} style= {btnStyle.btn}>
+                        <TouchableHighlight disabled={isDisabled} onPress={() => props?.handleBtnPress(item._id)} style= {btnStyle.btn}>
                             <Text style = {btnStyle.btnTxt}>{btnText}</Text>
                         </TouchableHighlight>
                     </View>
                     { 
-                        [Constant.TEST_TYPES.LIVE, Constant.TEST_TYPES.MY_TEST].includes(item.listType?.toLowerCase()) &&
+                        [Constant.TEST_TYPES.LIVE, Constant.TEST_TYPES.MY_TEST].includes(item.testType?.toLowerCase()) &&
                         <View style={cardListStyles.COL_RIGHT_2}>
                             <View>
                                 <Text style={cardListStyles.LABEL_TEXT}>Entry Fee</Text>
@@ -93,7 +99,7 @@ const CardList = (props) => {
             <FlatList
                 data = { props.dataList || []}
                 renderItem ={renderCard}
-                keyExtractor ={item => item.id}
+                keyExtractor ={item => item._id}
                 horizontal = {props.horizontal ? true : false }
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}

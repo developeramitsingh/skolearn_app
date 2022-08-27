@@ -36,7 +36,7 @@ const cardListStyles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     COL_RIGHT: {
-        backgroundColor: APP_COLORS.light_grey,
+        backgroundColor: APP_COLORS.lightBlue,
         paddingHorizontal: 5,
         justifyContent: 'center',
         maxHeight: 40,
@@ -64,6 +64,11 @@ const cardListStyles = StyleSheet.create({
     },
     LABEL_TEXT: {
         
+        fontSize: 8,
+        color: APP_COLORS.appBlue,
+        textAlign: 'center',
+    },
+    LABEL_TEXT_BODY: {
         fontSize: 10,
         color: APP_COLORS.appBlue,
         textAlign: 'center',
