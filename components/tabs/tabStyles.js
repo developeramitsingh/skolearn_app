@@ -11,7 +11,8 @@ export const tabStyles = StyleSheet.create({
         // borderWidth: 1,
         // borderColor: '#fff',
         backgroundColor: APP_COLORS.appBlue,
-        paddingVertical: 15,
+        paddingTop: 10,
+        paddingBottom: 10,
         paddingHorizontal: 10,
     },
 })
