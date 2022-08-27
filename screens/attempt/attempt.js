@@ -1,6 +1,6 @@
-import { View, Text, Alert, SafeAreaView, Switch, TouchableHighlight } from 'react-native';
+import { View, Text, Alert, SafeAreaView, Switch, TouchableHighlight, BackHandler } from 'react-native';
 import { attemptStyles } from './attemptStyles';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import {FontAwesome } from '@expo/vector-icons';
@@ -38,6 +38,21 @@ const Attempt = ({navigation, route }) => {
 
         
     }
+
+    useEffect(()=> {
+        const backAction = () => {
+            console.info(`backAction called in attempt screen`);
+            navigation.navigate(Constant.ROUTES.DASHBOARD);
+            return true;
+          };
+      
+          const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+          );
+      
+          return () => backHandler.remove();
+    }, []);
 
     const langSwitch = (val) => {
         console.info(val);
