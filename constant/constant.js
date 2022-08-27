@@ -1,4 +1,7 @@
 import * as Updates from 'expo-updates';
+
+export const APP_VERSION = '1.0.0';
+
 export const ASSEST_URLS = {
     LOGO: 'https://ik.imagekit.io/nwxotnqhh/logo.png',
 };

@@ -127,6 +127,16 @@ const Drawer = ({navigation, userName, setDrawer }) => {
                         </Text>
                     </View>
                 </View>
+
+                <View style={COMMON_STYLES.CARD}>
+                    <View style={COMMON_STYLES.CARD}>
+                        <View style={COMMON_STYLES.ROW_LEFT}>
+                            <Text style={COMMON_STYLES.BODY_TEXT}>
+                                App Version: {Constant.APP_VERSION}
+                            </Text>
+                        </View>
+                    </View>
+                </View>
             </ScrollView>
         </View>
     )
