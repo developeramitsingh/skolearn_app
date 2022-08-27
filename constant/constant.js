@@ -21,6 +21,7 @@ export const APP_COLORS = {
     white_opacity: '#ffffff70',
     grey_opacity: '#ffffff20',
     red: '#fc0303',
+    lightGrey2: '#f7f7f7',
 };
 
 const PROD_URL= 'https://skolearn.herokuapp.com/';

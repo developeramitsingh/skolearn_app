@@ -68,6 +68,9 @@ export const COMMON_STYLES = {
     MARGIN_TOP: {
         marginTop: '10%',
     },
+    MARGIN_LEFT: {
+        marginLeft: '10%',
+    },
 
     BODY_TEXT:  {
         color: APP_COLORS.appBlue,
@@ -153,9 +156,23 @@ export const COMMON_STYLES = {
         paddingVertical: 5,
         paddingHorizontal: 5
     },
+    ROW_LEFT: {
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 5,
+        paddingHorizontal: 5
+    },
     ROW_COLUMN: {
         flexDirection: 'column',
         alignItems: 'center',
+        //alignItems: ''
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+    },
+    ROW_COLUMN_LEFT: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
         //alignItems: ''
         paddingVertical: 5,
         paddingHorizontal: 5,
@@ -226,11 +243,14 @@ export const COMMON_STYLES = {
         position: 'absolute',
         zIndex: 1,
       },
-      BOX_SHADOW: {
+    BOX_SHADOW: {
         shadowColor: '#000',  
         elevation: 30,  
         shadowOffset:{width:0, height: 0},  
         shadowOpacity:1,  
         shadowRadius: 5,  
     },
+    ACTIVE_USER_TEXT: {
+        fontWeight: 'bold',
+    }
 }
