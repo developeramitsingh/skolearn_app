@@ -8,7 +8,7 @@ const statusBarStyles = StyleSheet.create({
         // borderWidth: 1,
         // borderColor: '#fff',
         backgroundColor: APP_COLORS.appBlue,
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
         paddingTop: 10,
         paddingBottom: 5,
     },
@@ -22,6 +22,8 @@ const statusBarStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        width: '35%',
+        paddingHorizontal: 10,
     },
     LABEL_TEXT: {
         color: APP_COLORS.white,

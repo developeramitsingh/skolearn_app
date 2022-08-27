@@ -28,14 +28,15 @@ const StatusBar = ({ navigation, isNewNotifi }) => {
             <Image source={{ uri: Constant.ASSEST_URLS.LOGO }} style={{height: 32, width: 100, borderRadius: 10}}/>
 
             <View style={statusBarStyles.ROW}>
-                <Text onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_PROFILE)} style={statusBarStyles.LABEL_TEXT}>Hi {state.userName}!</Text>
+                {
+                    isNewNotifi 
+                        ? <MaterialCommunityIcons style={{ marginLeft: 10 }} onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_NOTIFI)}  name="bell-badge" size={26} color={Constant.APP_COLORS.yellow}/>
+                        : <MaterialCommunityIcons style={{ marginLeft: 10 }} onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_NOTIFI)}  name="bell" size={26} color={Constant.APP_COLORS.white}/>
+               }
+                {/* <Text onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_PROFILE)} style={statusBarStyles.LABEL_TEXT}>Hi {state.userName}!</Text> */}
                 <FontAwesome onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_PROFILE)} name="user-circle" size={26} color="white"/>
                
-               {
-                isNewNotifi 
-                    ? <MaterialCommunityIcons style={{ marginLeft: 10 }} onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_NOTIFI)}  name="bell-badge" size={26} color={Constant.APP_COLORS.yellow}/>
-                    : <MaterialCommunityIcons style={{ marginLeft: 10 }} onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_NOTIFI)}  name="bell" size={26} color={Constant.APP_COLORS.white}/>
-               }
+               
             </View>
             
         </View>
