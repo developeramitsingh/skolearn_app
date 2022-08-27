@@ -61,6 +61,11 @@ function getEnvUrl() {
 
 export const BACKEND_URL = getEnvUrl()?.backendUrl;
 
+export const PAGES_LINK = {
+  ABOUT_US: `${BACKEND_URL}/admin`
+}
+
+
 export const TEST_TYPES = {
     LIVE: 'live',
     MY_TEST: 'mytest',
@@ -84,7 +89,8 @@ export const ROUTES = {
     TEST_TIMER_SCREEN: 'TestTimerScreen',
     PROFILE: 'Profile',
     EDIT_PROFILE: 'EditProfile',
-    NOTIFICATION: 'notification',
+    NOTIFICATION: 'Notification',
+    WEB_VIEW: 'WebView'
 };
 
 export const SCREENS = {
@@ -106,6 +112,14 @@ export const ACTION_TYPES = {
 
     OPEN_PROFILE: 'openProfile',
     OPEN_NOTIFI: 'openNotification',
+
+    OPEN_ABOUT_US: 'openAboutUs',
+    OPEN_FAQ: 'openFaq',
+    OPEN_TERMS_POLICY: 'openTermsPolicy',
+    OPEN_PRIVACY_POLICY: 'openPrivacyPolicy',
+    OPEN_REFUND_POLICY: 'openRefundPolicy',
+    OPEN_HOW_TO_GET_SCHOLARSHIP: 'openHowToGetScholarship',
+
 };
 
 export const STORAGE_KEYS = {
