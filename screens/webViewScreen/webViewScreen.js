@@ -1,7 +1,7 @@
 import { WebView } from 'react-native-webview';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { View, BackHandler } from 'react-native';
-import { ROUTES } from '../../constant/constant';
+import { APP_COLORS, ROUTES } from '../../constant/constant';
 import BackBtn from '../../components/backBtn/backBtn';
 import { useEffect } from 'react';
 
@@ -22,8 +22,8 @@ const WebViewScreen = ({ navigation, route}) => {
     }, []);
 
     return (
-        <View style={COMMON_STYLES.CONTAINER}>
-            <BackBtn navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
+        <View style={COMMON_STYLES.CONTAINER_LIGHT}>
+            <BackBtn color={APP_COLORS.appBlue} navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
             <WebView 
                 source={{ uri: route?.params?.webViewUrl }}
             />    
