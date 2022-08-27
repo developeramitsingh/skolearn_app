@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView, Switch, TouchableHighlight } from 'react-native';
+import { View, Text, Alert, SafeAreaView, Switch, TouchableHighlight } from 'react-native';
 import { attemptStyles } from './attemptStyles';
 import { useState } from 'react';
 
@@ -20,7 +20,23 @@ const Attempt = ({navigation, route }) => {
     })
 
     const handlePress = ()=> {
-        navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testId: route?.params?.testId });
+        const alertMsg= 'We need to use camera and microphone for security and transparency purpose, Please remove any headphone or headset before the test.';
+        
+        Alert.alert('Test Requirements', alertMsg, [
+            {
+                text: 'Cancel Attempt', onPress: () => {
+                    console.info(`cancelled`);
+                }
+            },
+            {
+                text: 'Ok To Proceed', onPress: () => {
+                    navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testId: route?.params?.testId });
+                }
+            },
+            
+        ])
+
+        
     }
 
     const langSwitch = (val) => {
