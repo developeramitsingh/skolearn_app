@@ -12,14 +12,14 @@ const CardList = (props) => {
     const renderCard = ({item})=> {        
         const testType = item.testType?.toLowerCase();
 
-        const difficultiLevel = testType ===  Constant.TEST_TYPES.LIVE
+        const difficultyLevel = testType ===  Constant.TEST_TYPES.LIVE
             ? 'Difficulty Level'
             : testType === Constant.TEST_TYPES.MY_TEST
             ? 'Completed on'
             : null;
 
         const difficultiLevelVal = testType ===  Constant.TEST_TYPES.LIVE
-            ? item.difficultiLevel
+            ? item.difficultyLevel
             : testType === Constant.TEST_TYPES.MY_TEST
             ? item.userCompletedOn
             : null;
@@ -54,9 +54,9 @@ const CardList = (props) => {
                         <Text style={cardListStyles.TITLE}>{item.testName}</Text>
                     </View>
                     { 
-                        difficultiLevel &&
+                        difficultyLevel &&
                         <View style={cardListStyles.COL_RIGHT}>
-                            <Text style={cardListStyles.LABEL_TEXT}>{difficultiLevel}</Text>
+                            <Text style={cardListStyles.LABEL_TEXT}>{difficultyLevel}</Text>
                             <Text style={cardListStyles.LABEL_TEXT_BODY}>{difficultiLevelVal}</Text>
                         </View>
                     }
@@ -84,7 +84,7 @@ const CardList = (props) => {
                                 
                                 <View>
                                     <Text style={cardListStyles.LABEL_TEXT}>Users Joined</Text>
-                                    <Text style={cardListStyles.LABEL_TEXT}>{item.usersJoined}/{item.usersLimit}</Text>
+                                    <Text style={cardListStyles.LABEL_TEXT}>{item.userEnrolled}/{item.userSeats}</Text>
                                 </View>
                             </View>    
                         </View>
