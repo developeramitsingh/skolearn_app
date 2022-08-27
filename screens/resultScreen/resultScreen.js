@@ -1,6 +1,6 @@
-import { SafeAreaView, View, Text, TouchableHighlight, TouchableNativeFeedback, Pressable } from "react-native";
+import { SafeAreaView, View, Text, TouchableHighlight, BackHandler } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
-import {useState} from  'react';
+import {useEffect, useState} from  'react';
 import * as Constant from '../../constant/constant';
 import {resultScreenStyles} from './resultScreenStyles';
 
@@ -83,6 +83,21 @@ const ResultScreen = ({navigation, testId}) => {
             scholarship: 10000
         },]
     });
+
+    useEffect(()=> {
+        const backAction = () => {
+            console.info(`backAction called in result screen`);
+            navigation.navigate(Constant.ROUTES.DASHBOARD);
+            return true;
+          };
+      
+          const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+          );
+      
+          return () => backHandler.remove();
+    }, []);
 
     const handlePress = ()=>{
         navigation.navigate(Constant.ROUTES.TEST, { previewMode: true, istestId: state.testData.id });
