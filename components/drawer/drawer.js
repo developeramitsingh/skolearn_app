@@ -111,7 +111,7 @@ const Drawer = ({navigation, userName, setDrawer }) => {
 
                     <View style={COMMON_STYLES.CARD}>
                         <Pressable onPress= {()=> handlePress(Constant.ACTION_TYPES.LOGOUT)} style={COMMON_STYLES.ROW_LEFT}>
-                            <FontAwesome name="money" size={20} color={Constant.APP_COLORS.appBlue}/>
+                            <MaterialIcons name="logout" size={20} color={Constant.APP_COLORS.appBlue} />
 
                             <Text style={[COMMON_STYLES.BTN_TEXT, COMMON_STYLES.MARGIN_LEFT]}>
                                 Logout

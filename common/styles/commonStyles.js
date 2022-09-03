@@ -252,5 +252,17 @@ export const COMMON_STYLES = {
     },
     ACTIVE_USER_TEXT: {
         fontWeight: 'bold',
+    },
+    DROPDOWN: {
+        width: 80, 
+        //height: 50,
+        borderWidth: 0,
+        borderRadius: 30,
+        padding: 0,
+        margin: 0,
+    },
+    DROPDOWN_BOX: {
+      borderWidth: 0.5,
+      borderColor: APP_COLORS.light_grey
     }
 }
