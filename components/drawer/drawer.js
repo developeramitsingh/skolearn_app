@@ -8,6 +8,7 @@ import * as Constant from '../../constant/constant';
 import {FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import BackBtn from '../../components/backBtn/backBtn';
 import { useEffect, useRef, useState } from "react";
+import { userService } from '../../services';
 
 const { UIManager } = NativeModules;
 
@@ -32,6 +33,8 @@ const Drawer = ({navigation, userName, setDrawer }) => {
             navigation.navigate(Constant.ROUTES.PROFILE);
         } else if (actionType === Constant.ACTION_TYPES.OPEN_ABOUT_US) {
             navigation.navigate(Constant.ROUTES.WEB_VIEW, { webViewUrl: Constant.PAGES_LINK.ABOUT_US });
+        } else if (actionType === Constant.ACTION_TYPES.LOGOUT) {
+            userService.dologout(navigation, { calledFrom: 'drawer' });
         }
     }
 
@@ -102,6 +105,16 @@ const Drawer = ({navigation, userName, setDrawer }) => {
 
                             <Text style={[COMMON_STYLES.BTN_TEXT, COMMON_STYLES.MARGIN_LEFT]}>
                                 Refund Policy
+                            </Text>
+                        </Pressable>
+                    </View>
+
+                    <View style={COMMON_STYLES.CARD}>
+                        <Pressable onPress= {()=> handlePress(Constant.ACTION_TYPES.LOGOUT)} style={COMMON_STYLES.ROW_LEFT}>
+                            <FontAwesome name="money" size={20} color={Constant.APP_COLORS.appBlue}/>
+
+                            <Text style={[COMMON_STYLES.BTN_TEXT, COMMON_STYLES.MARGIN_LEFT]}>
+                                Logout
                             </Text>
                         </Pressable>
                     </View>

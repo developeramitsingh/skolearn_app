@@ -44,9 +44,7 @@ const Profile = ({navigation}) => {
     }, []);
 
     const handlePress =(actionType, payload) => {
-        if (actionType === 'logout') {
-            userService.dologout(navigation);
-        } else if(actionType === 'onReferralCodeCopy') {
+        if(actionType === 'onReferralCodeCopy') {
             copyToClipboard(state.referralCode);
             Alert.alert(
                 '',
@@ -206,12 +204,6 @@ const Profile = ({navigation}) => {
                     <Text style={COMMON_STYLES.BODY_TEXT}>{state.studentDocStatus}</Text>
                 </View>
             </ScrollView>
-
-            <View style={[COMMON_STYLES.ROW_CENTER, { marginBottom: 10}]}>
-                <TouchableHighlight onPress={() => handlePress('logout')} style={COMMON_STYLES.SUB_BTN_1}>
-                    <Text style={COMMON_STYLES.SUB_BTN_TXT}>Logout</Text>
-                </TouchableHighlight>         
-            </View>
         </SafeAreaView>
     )
 }

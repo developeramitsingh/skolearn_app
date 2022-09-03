@@ -79,20 +79,6 @@ class UserService {
         return axios.get(option);
     }
 
-    getRoleKey() {
-        let user  = localStorage.getItem('user');
-
-        if (user) {
-            user = JSON.parse(user);
-        }
-
-        return user?.roleId?.roleKey;
-    }
-
-    getToken() {
-        return localStorage.getItem('token');
-    }
-
     async checkDoLogin(path) {
         try {
           if (path) {
@@ -107,12 +93,12 @@ class UserService {
         }
     }
 
-    dologout(navigation) {
+    dologout(navigation, params) {
         saveToStorage(STORAGE_KEYS.USER, null);
         saveToStorage(STORAGE_KEYS.USER_TOKEN, null);
         saveToStorage(STORAGE_KEYS.USER_ID, null);
 
-        navigation.navigate(ROUTES.HOME);
+        navigation.navigate(ROUTES.HOME, params);
     }
 }
 

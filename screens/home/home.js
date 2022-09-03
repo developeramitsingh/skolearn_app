@@ -33,12 +33,13 @@ const Home = ({navigation}) => {
 
     const checkIfUserLoggedIn = async () => {
       try {
-          const user = await userService.getLoggedInUser();
+          //const user = await userService.getLoggedInUser();
+          const user  = await getFromStorage(Constant.STORAGE_KEYS.USER);
 
-          if (user?.data) {
+          if (user) {
             console.info(`user is logged in`);
-            console.info(user?.data);
-            navigation.navigate(Constant.ROUTES.DASHBOARD, { user: user.data });
+            console.info(user);
+            navigation.navigate(Constant.ROUTES.DASHBOARD, { user });
           }
       } catch(err) {
         console.error(`error in checkIfUserLoggedIn: ${err}`);

@@ -37,10 +37,10 @@ const VerifyOtp = ({navigation, route }) => {
             //save the userId to storage
             saveToStorage(Constant.STORAGE_KEYS.USER_ID, user?._id);
 
-            //save the userId to storage
+            //save the user to storage
             saveToStorage(Constant.STORAGE_KEYS.USER, user);
 
-            //navigate to verify otp page
+            //navigate to dashboard page
             navigation.navigate(Constant.ROUTES.DASHBOARD, { user });
             
         } catch (err) {

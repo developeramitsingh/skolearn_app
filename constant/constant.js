@@ -28,9 +28,9 @@ export const APP_COLORS = {
 };
 
 const PROD_URL= 'https://skolearn.herokuapp.com/';
-const STAGE_URL= 'https://skolearn.herokuapp.com';
-const DEV_URL= 'https://246a-2409-4050-2e3c-b4b6-79e2-4dd2-aa09-ef3a.ngrok.io';
-const BETA_URL= 'https://skolearn.herokuapp.com/';
+const STAGE_URL= 'https://82da-2409-4050-e19-7f82-a963-c069-9a2a-67ea.in.ngrok.io';
+const DEV_URL= 'https://82da-2409-4050-e19-7f82-a963-c069-9a2a-67ea.in.ngrok.io';
+const BETA_URL= 'https://82da-2409-4050-e19-7f82-a963-c069-9a2a-67ea.in.ngrok.io';
 
 function getEnvUrl() {
   try {
@@ -119,7 +119,7 @@ export const ACTION_TYPES = {
     OPEN_PRIVACY_POLICY: 'openPrivacyPolicy',
     OPEN_REFUND_POLICY: 'openRefundPolicy',
     OPEN_HOW_TO_GET_SCHOLARSHIP: 'openHowToGetScholarship',
-
+    LOGOUT: 'logout',
 };
 
 export const STORAGE_KEYS = {

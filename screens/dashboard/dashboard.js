@@ -28,7 +28,8 @@ const Dashboard = ({navigation, route }) => {
         navigation.addListener('beforeRemove', (e) => {
             console.info(`beforeRemove called in dashboard`);
             const action = e.data.action;
-            const skipCase = action?.payload?.name === "Home" && action?.source?.startsWith('Profile')
+            console.info(action);
+            const skipCase = action?.payload?.name === "Home" && action?.payload?.params?.calledFrom === 'drawer'
             if (!route?.params?.user || skipCase) {
               //if test is finished then only allow screen exit else not
               navigation.dispatch(e.data.action);
