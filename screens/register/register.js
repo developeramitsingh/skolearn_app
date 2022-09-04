@@ -49,7 +49,7 @@ const Register = ({navigation}) => {
                 userName: state.userName,
                 mobile: state.mobile,
                 email: state.email,
-                referralCode: state.referralCode,
+                ...(state.referralCode && { referralCode: state.referralCode }),
                 dob: `${state.day}/${state.month}/${state.year}`,
             };
 
