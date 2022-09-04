@@ -1,11 +1,11 @@
 import { View, Text, Image, TouchableHighlight, Pressable,SafeAreaView, TextInput, Linking } from 'react-native';
 import { registerStyles } from './registerStyles';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS, BACKEND_URL } from '../../constant/constant';
 import { Checkbox } from 'react-native-paper';
 import * as Constant from  '../../constant/constant';
-import userService from '../../services/userService';
+import { userService, rolesService } from '../../services/index';
 import { saveToStorage } from '../../utils/utils';
 import Loader from '../../components/loader/loader';
 import { checkAndGetIfErrorFound, checkValidEmail } from '../../common/functions/commonHelper';
@@ -40,17 +40,45 @@ const Register = ({navigation}) => {
     const [dayOpen, setDayOpen] = useState(false);
     const [monthOpen, setMonthOpen] = useState(false);
     const [yearOpen, setYearOpen] = useState(false);
+    const [roleIdVal, setRoleId] = useState(null);
+
+
+    const getRoleId = async () => {
+        let roleId;
+
+        const roles = await rolesService.getRolesByQuery('{  "roleKey" : "UA" }', '["_id"]');
+
+        console.info({roles});
+
+        if (roles?.data) {
+            roleId = roles.data[0]["_id"]
+            setRoleId(roleId);
+        }
+
+        return roleId;
+    }
+
+    useEffect(() => {
+        getRoleId();
+        
+    }, [])
 
     const handlePress = async (btnType)=> {
         // disable login button
         setState((prev) => { return {...prev, disabled: true, isLoading: true }});
         try {
+            const roleId = roleIdVal;
+            if (!roleId) {
+                roleId = await getRoleId();
+            }
+
             const requestBody = {
                 userName: state.userName,
                 mobile: state.mobile,
                 email: state.email,
                 ...(state.referralCode && { referralCode: state.referralCode }),
                 dob: `${state.day}/${state.month}/${state.year}`,
+                roleId
             };
 
             console.info({requestBody});
@@ -65,9 +93,7 @@ const Register = ({navigation}) => {
             //navigate to verity otp page
             navigation.navigate(Constant.ROUTES.VERIFY_OTP, { requestType: 'register' });
         } catch (err) {
-            console.error(`error while register`, err.response);
-            console.error(`error while register`, err.data);
-            console.error(`error while register`, err.message);
+            console.error(`error while register`, err);
             const msg = err?.response?.data?.message;
             setState((prev) => { return {...prev, error: msg, disabled: false, isLoading: false  }});
         }
@@ -155,7 +181,8 @@ const Register = ({navigation}) => {
                     containerStyle={COMMON_STYLES.DROPDOWN}
                     style={COMMON_STYLES.DROPDOWN}
                     textStyle={{
-                      fontSize: 10                    }}
+                      fontSize: 10                    
+                    }}
                     placeholder="Day"
                     placeholderStyle={{
                       color: "grey",
