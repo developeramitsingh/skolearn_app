@@ -65,7 +65,9 @@ const Register = ({navigation}) => {
             //navigate to verity otp page
             navigation.navigate(Constant.ROUTES.VERIFY_OTP, { requestType: 'register' });
         } catch (err) {
-            console.error(`error while register`, err);
+            console.error(`error while register`, err.response);
+            console.error(`error while register`, err.data);
+            console.error(`error while register`, err.message);
             const msg = err?.response?.data?.message;
             setState((prev) => { return {...prev, error: msg, disabled: false, isLoading: false  }});
         }
