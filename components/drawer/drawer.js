@@ -15,7 +15,7 @@ const { UIManager } = NativeModules;
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
-const Drawer = ({navigation, userName, setDrawer }) => {
+const Drawer = ({navigation, setDrawer, user }) => {
     const [state, setState] = useState({
         drawerRight: -230,
     })
@@ -23,14 +23,15 @@ const Drawer = ({navigation, userName, setDrawer }) => {
     useEffect(() => {
         LayoutAnimation.easeInEaseOut();
         setState((prev) => {
+            
             return { ...prev, drawerRight: 0 }
         })
-    }, []);
+    }, [user]);
 
     const handlePress = (actionType) => {
         setDrawer(false);
         if (actionType === Constant.ACTION_TYPES.OPEN_PROFILE) {
-            navigation.navigate(Constant.ROUTES.PROFILE);
+            navigation.navigate(Constant.ROUTES.PROFILE, { user });
         } else if (actionType === Constant.ACTION_TYPES.OPEN_ABOUT_US) {
             navigation.navigate(Constant.ROUTES.WEB_VIEW, { webViewUrl: Constant.PAGES_LINK.ABOUT_US });
         } else if (actionType === Constant.ACTION_TYPES.LOGOUT) {
@@ -42,7 +43,7 @@ const Drawer = ({navigation, userName, setDrawer }) => {
         <View elevation={10} style={[drawerStyles.DRAWER_CONT, { right: state?.drawerRight }]}>
             <View style={COMMON_STYLES.ROW_LEFT}>
                 <BackBtn color={Constant.APP_COLORS.appBlue} handler={()=> setDrawer(false)}/>
-                <Text style={COMMON_STYLES.BODY_TEXT}>Welcome <Text style={COMMON_STYLES.ACTIVE_USER_TEXT}>{userName}</Text></Text>
+                <Text style={COMMON_STYLES.BODY_TEXT}>Welcome <Text style={COMMON_STYLES.ACTIVE_USER_TEXT}>{user?.userName}</Text></Text>
             </View>
 
             <ScrollView>

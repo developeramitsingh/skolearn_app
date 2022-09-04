@@ -71,6 +71,9 @@ class UserService {
     }
 
 
+    async getStoredUser() {
+        return await getFromStorage(STORAGE_KEYS.USER);
+    }
     getLoggedInUser() {
         const option = {
             url: `${BACKEND_URL}/logged-in-user`,

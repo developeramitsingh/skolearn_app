@@ -7,9 +7,8 @@ import * as Constant from  '../../constant/constant';
 import Drawer from '../../components/drawer/drawer';
 
 
-const StatusBar = ({ navigation, isNewNotifi }) => {
+const StatusBar = ({ navigation, isNewNotifi, user }) => {
     const [state, setState] = useState({
-        userName: 'Test user',
         profileImg: false,
     });
 
@@ -28,7 +27,7 @@ const StatusBar = ({ navigation, isNewNotifi }) => {
       
           return () => backHandler.remove();
 
-    }, [isNewNotifi]);
+    }, [isNewNotifi, user]);
 
     const handlePress = (actionType) => {
         if (actionType === 'openDrawer') {
@@ -41,7 +40,7 @@ const StatusBar = ({ navigation, isNewNotifi }) => {
         <>
             {
                 isDrawerOpen ?
-                <Drawer navigation={navigation} setDrawer={setDrawer} userName={state.userName}/>
+                <Drawer navigation={navigation} setDrawer={setDrawer} user={user}/>
                 : null
             }
 

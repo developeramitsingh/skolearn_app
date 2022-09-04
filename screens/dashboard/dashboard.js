@@ -12,18 +12,26 @@ import dashboardStyles from './dashboardStyles';
 import Wallet from '../wallet/wallet';
 import Index from '../help/index';
 import { saveToStorage, getFromStorage } from '../../utils/utils';
+import { userService } from '../../services';
 
 const Dashboard = ({navigation, route }) => {
     const [state, setState] = useState({
-        userName: 'Amit',
         activeTab: route?.params?.activeTab || Constant.TEST_TYPES.LIVE,
         activeScreen: route?.params?.activeScreen || Constant.SCREENS.TEST_LIST,
         isNewNotifi: false,
         user: route?.params?.user
     });
 
+    const getUser = async () => {
+        const user = await userService.getStoredUser()
+        setState((prev) => {
+            return {...prev, user };
+        })
+    }
+
     useEffect(()=> {
         checkIfNewNotification();
+        getUser();
 
         navigation.addListener('beforeRemove', (e) => {
             console.info(`beforeRemove called in dashboard`);
@@ -39,7 +47,7 @@ const Dashboard = ({navigation, route }) => {
             e.preventDefault();
         });
 
-    },  [route?.params?.activeTab, route?.params?.activeScreen]);
+    },  [route?.params?.activeTab, route?.params?.activeScreen, route?.params?.user]);
 
     const setActiveTab = (key) => {
         if(route?.params?.activeTab) {
@@ -107,7 +115,7 @@ const Dashboard = ({navigation, route }) => {
 
     return (
         <SafeAreaView style={dashboardStyles.DASH_CONTAINER}>
-            <StatusBar isNewNotifi={state.isNewNotifi} navigation={navigation} text ={state.userName}/>
+            <StatusBar isNewNotifi={state.isNewNotifi} navigation={navigation} user ={ route?.params?.user || state.user}/>
             {
                 route?.params?.activeScreen === Constant.SCREENS.TEST_LIST 
                     || state.activeScreen === Constant.SCREENS.TEST_LIST 

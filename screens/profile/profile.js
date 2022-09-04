@@ -8,13 +8,12 @@ import UploadModal from '../../components/modals/uploadModal';
 import ModalWindow from '../../components/modals/modalWindow';
 import ModalBankPanCard from '../../components/modals/modalBankPanCard';
 import BackBtn from '../../components/backBtn/backBtn';
-import { userService } from '../../services';
 
-const Profile = ({navigation}) => {
+const Profile = ({navigation, route}) => {
     const [state, setState] = useState({
         profileImg: 'https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg',
-        userName: 'Test User',
-        referralCode: '1dd3dgd',
+        userName: route?.params?.user?.userName,
+        referralCode: route?.params?.user?.referralCode,
         bankAccountStatus: 'Verifing',
         panCardStatus: 'Not Uploaded',
         studentDocStatus: 'Not Uploaded',
@@ -41,7 +40,7 @@ const Profile = ({navigation}) => {
           );
       
           return () => backHandler.remove();
-    }, []);
+    }, [route?.params?.user]);
 
     const handlePress =(actionType, payload) => {
         if(actionType === 'onReferralCodeCopy') {
@@ -143,7 +142,7 @@ const Profile = ({navigation}) => {
                     <Image style={profileStyles.PROFILE_IMG} source={{ uri: state.profileImg }}></Image>
                 </TouchableWithoutFeedback>
                 
-                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>{state.userName}</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Hi {route?.params?.user?.userName}</Text>
 
                 <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>Total Scholarship Achieved: {state.totalScholarship}</Text>
 
@@ -158,7 +157,7 @@ const Profile = ({navigation}) => {
                 </TouchableHighlight>
 
                 <View style={[COMMON_STYLES.ROW, { marginVertical: 10 }]}>
-                    <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Referral Code: {state.referralCode}  </Text>
+                    <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Referral Code: {route?.params?.user?.referralCode}  </Text>
                     <Pressable  onPress={()=> handlePress('onReferralCodeCopy')} style={[COMMON_STYLES.SUB_BTN_2, { backgroundColor: APP_COLORS.light_grey}]}>
                         <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Copy</Text>
                     </Pressable>
