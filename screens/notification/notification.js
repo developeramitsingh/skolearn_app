@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SafeAreaView, View, Text, ScrollView, Linking, TouchableOpacity } from 'react-native';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS, ROUTES } from '../../constant/constant';
@@ -6,36 +6,37 @@ import { notificationStyles } from './notificationStyles';
 import {  Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler';
 import BackBtn from '../../components/backBtn/backBtn';
 import { handleLinkOpen } from '../../common/functions/commonHelper';
+import { notificationsService } from '../../services';
 
 const Notification = ({ navigation }) => {
     const [state, setState] = useState({
-        notifications: [
-            {
-                _id: '1',
-                userId: '',
-                title: "Result declared bhai sahab, dekho jara wahan ja kar",
-                message: 'Hello your result has been declared',
-                type: 'in-app',
-                link: 'Dashboard',
-                props: 'activeScreen=TestLists;activeTab=mytest'
-            },
-            {
-                _id: '2',
-                userId: '',
-                title: "Paise kamm hai wallet me",
-                message: 'Jayo aur add karo jaldi',
-                type: 'in-app',
-                link: 'Dashboard',
-                props: 'activeScreen=Wallet'
-            },
-        ],
+        notifications: [],
     });
+
+    const getUserNotifications = async () => {
+        try {
+            const notifications = await notificationsService.getAllNotifications('{ "isRead": false }');
+            console.info({notifications});
+            if (notifications?.data) {
+                setState((prev) => {
+                    return { ...prev, notifications: notifications.data }
+                });
+            }
+        } catch (err) {
+            console.error(`error in getUserNotification: ${err}`);
+        }        
+    }
+
+    useEffect(() => {
+        getUserNotifications();
+    }, [])
 
     const handleDelete = (id) => {
         console.info({id});
-        const restNotif = state.notifications.filter((elem => elem._id !== id ));
+        const restNotif = state?.notifications?.filter((elem => elem._id !== id ));
 
         //call the set read notification API here
+        notificationsService.updateNotification({ _id: id, isRead: true })
 
         setState((prev) => {
             return { ...prev, notifications: restNotif }

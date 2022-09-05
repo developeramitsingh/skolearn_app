@@ -12,7 +12,7 @@ import dashboardStyles from './dashboardStyles';
 import Wallet from '../wallet/wallet';
 import Index from '../help/index';
 import { saveToStorage, getFromStorage } from '../../utils/utils';
-import { userService } from '../../services';
+import { userService, notificationsService } from '../../services';
 
 const Dashboard = ({navigation, route }) => {
     const [state, setState] = useState({
@@ -69,18 +69,21 @@ const Dashboard = ({navigation, route }) => {
     }
 
     const checkIfNewNotification = async () => {
+        console.info(`checkIfNewNotification called`);
         //fetch from local storage
         const localAppNotiLen = await getFromStorage(Constant.STORAGE_KEYS.LOCAL_APP_NOTIFI_COUNT);
 
         //fetch from API
-        const notifiFromDb = 4;
+        const notifiFromDb = await notificationsService.getAllNotifications();
         const localNotifCount = localAppNotiLen?.count ?? 0;
 
-        console.info({ localCount: localNotifCount, notifiFromDb });
+        console.info({ localCount: localNotifCount, notifiFromDb: notifiFromDb?.data });
 
-        if (localNotifCount < notifiFromDb) {
+        const dbNotifiLen = notifiFromDb?.data?.length;
+
+        if (localNotifCount < dbNotifiLen) {
             console.info('new notification found');
-            saveToStorage(Constant.STORAGE_KEYS.LOCAL_APP_NOTIFI_COUNT, { count: notifiFromDb });
+            saveToStorage(Constant.STORAGE_KEYS.LOCAL_APP_NOTIFI_COUNT, { count: dbNotifiLen });
             setState((prev) => {
                 return { ...prev, isNewNotifi: true }
             });
