@@ -14,7 +14,7 @@ const cardListStyles = StyleSheet.create({
         backgroundColor: APP_COLORS.yellow,
         borderRadius: 15,
         marginVertical: 5,
-        marginRight: 5,
+        marginRight: 0,
         paddingHorizontal: 10,
         paddingBottom: 10,
         justifyContent: 'space-between',

@@ -11,11 +11,11 @@ const Attempt = ({navigation, route }) => {
     const [state, setState] = useState({
         walletMoney: '150',
         freeTickets: 1,
-        scholarshipTitle: '10000 Rupees Scholarship',
-        usersJoined: 100,
-        usersLimit: 500,
-        expiresOn: '12/07/2022',
-        fee: 49,
+        testName: '',
+        userEnrolled: 0,
+        userSeats: 0,
+        expireOn: '',
+        entryFee: 0,
         isLangHindi: false,
     })
 
@@ -34,12 +34,16 @@ const Attempt = ({navigation, route }) => {
                 }
             },
             
-        ])
-
-        
+        ]);   
     }
 
     useEffect(()=> {
+        if(route?.params?.test) {
+            setState((prev) => {
+                return { ...prev, ...route.params.test }
+            })
+        }
+
         const backAction = () => {
             console.info(`backAction called in attempt screen`);
             navigation.navigate(Constant.ROUTES.DASHBOARD);
@@ -52,7 +56,7 @@ const Attempt = ({navigation, route }) => {
           );
       
           return () => backHandler.remove();
-    }, []);
+    }, [route?.params?.test]);
 
     const langSwitch = (val) => {
         console.info(val);
@@ -72,13 +76,13 @@ const Attempt = ({navigation, route }) => {
                         </View>
                         <View>
                             <Text style={attemptStyles.LABEL_TEXT}>Users Joined</Text>
-                            <Text style={attemptStyles.LABEL_TEXT}>{state.usersJoined}/{state.usersLimit}</Text>
+                            <Text style={attemptStyles.LABEL_TEXT}>{state.userEnrolled}/{state.userSeats}</Text>
                         </View>
                     </View>
 
                     <View style={attemptStyles.COL_RIGHT}>
                         <Text style={attemptStyles.LABEL_TEXT}>Expires On</Text>
-                        <Text style={attemptStyles.LABEL_TEXT}>{state.expiresOn}</Text>
+                        <Text style={attemptStyles.LABEL_TEXT}>{state.expireOn}</Text>
                     </View>
             </View>
 
@@ -89,7 +93,7 @@ const Attempt = ({navigation, route }) => {
 
             <View style ={COMMON_STYLES.CENTER}>
                 <Text style={attemptStyles.HEADING}>
-                    {state.scholarshipTitle}
+                    {state.testName}
                 </Text>
             </View>
 
@@ -113,7 +117,7 @@ const Attempt = ({navigation, route }) => {
             </TouchableHighlight>
 
             <View style ={COMMON_STYLES.CENTER}>
-                <Text style={attemptStyles.LABEL_TEXT}>Entry fee {state.fee} Rupees</Text>
+                <Text style={attemptStyles.LABEL_TEXT}>Entry entryFee {state.entryFee} Rupees</Text>
                 <Text style={attemptStyles.LABEL_TEXT}>or 1 Ticket</Text>
             </View>
 

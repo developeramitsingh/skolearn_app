@@ -74,7 +74,7 @@ const Dashboard = ({navigation, route }) => {
         const localAppNotiLen = await getFromStorage(Constant.STORAGE_KEYS.LOCAL_APP_NOTIFI_COUNT);
 
         //fetch from API
-        const notifiFromDb = await notificationsService.getAllNotifications();
+        const notifiFromDb = await notificationsService.getAllNotifications('{ "isRead": false }');
         const localNotifCount = localAppNotiLen?.count ?? 0;
 
         console.info({ localCount: localNotifCount, notifiFromDb: notifiFromDb?.data });

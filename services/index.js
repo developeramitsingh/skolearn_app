@@ -4,6 +4,7 @@ import userRecordingsService from './userRecordingsService';
 import userService from './userService';
 import sendAppLogService from './sendAppLogService';
 import notificationsService from './notificationsService';
+import testService from './testService';
 
 export {
     enrolledTestsService,
@@ -11,5 +12,6 @@ export {
     userRecordingsService,
     userService,
     sendAppLogService,
-    notificationsService
+    notificationsService,
+    testService
 }
