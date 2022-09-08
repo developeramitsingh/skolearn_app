@@ -35,7 +35,22 @@ const Attempt = ({navigation, route }) => {
             },
             {
                 text: 'Ok To Proceed', onPress: async () => {
-                    const testId = route?.params?.test?._id;
+                    const test = route?.params?.test;
+
+                    console.info({state});
+                    console.info({test});
+
+                    if (+state.walletMoney < +test.entryFee && !state.freeTickets) {
+                        Alert.alert('Warning', 'Wallet Money is insufficient, please add money', [
+                            {
+                                text: 'Close', onPress: () => {}
+                            },
+                        ]);
+
+                        return;
+                    }
+
+                    const testId = test?._id;
                     const seatAvailableStatus = await testService.getEnrolledSeatStatus(testId);
 
                     //if seats not available then exit
@@ -48,6 +63,15 @@ const Attempt = ({navigation, route }) => {
 
                         return;
                     }
+
+                    if (state.freeTickets) {
+                        const ticket = +state.freeTickets - 1;
+                        freeTicketsService.updateFreeTickets({ freeTickets: ticket });
+                    } else if (state.walletMoney) {
+                        const balance = +state.walletMoney - +state.entryFee;
+                        walletService.updateWallet({ balance });
+                    }
+
 
                     testService.incrementEnrolledCount(testId);
                     navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testId });
