@@ -24,7 +24,19 @@ const Attempt = ({navigation, route }) => {
     const [isLoading, setLoading] = useState(false);
 
     const handlePress = async ()=> {
+        const test = route?.params?.test;
+
         //check wallet or free ticket if has then allow else not
+        if (+state.walletMoney < +test.entryFee && !state.freeTickets) {
+            Alert.alert('Notice', 'Wallet Money is insufficient, please add money', [
+                {
+                    text: 'Close', onPress: () => {}
+                },
+            ]);
+
+            return;
+        }
+
         const alertMsg= 'We need to use camera and microphone for security and transparency purpose, Please remove any headphone or headset before the test.';
         
         Alert.alert('Test Requirements', alertMsg, [
@@ -35,21 +47,6 @@ const Attempt = ({navigation, route }) => {
             },
             {
                 text: 'Ok To Proceed', onPress: async () => {
-                    const test = route?.params?.test;
-
-                    console.info({state});
-                    console.info({test});
-
-                    if (+state.walletMoney < +test.entryFee && !state.freeTickets) {
-                        Alert.alert('Warning', 'Wallet Money is insufficient, please add money', [
-                            {
-                                text: 'Close', onPress: () => {}
-                            },
-                        ]);
-
-                        return;
-                    }
-
                     const testId = test?._id;
                     const seatAvailableStatus = await testService.getEnrolledSeatStatus(testId);
 
@@ -64,6 +61,7 @@ const Attempt = ({navigation, route }) => {
                         return;
                     }
 
+                    //deduct the money or free ticket
                     if (state.freeTickets) {
                         const ticket = +state.freeTickets - 1;
                         freeTicketsService.updateFreeTickets({ freeTickets: ticket });
@@ -73,8 +71,10 @@ const Attempt = ({navigation, route }) => {
                     }
 
 
+                    //increment the user enrolled count
                     testService.incrementEnrolledCount(testId);
-                    navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testId });
+                    //navigate to timer screen for test attempt
+                    navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testId, test });
                 }
             },
             
