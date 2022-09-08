@@ -61,6 +61,14 @@ class TestService {
 
         return axios.put(option);   
     }
+
+    generateTestQues(query) {
+        const option = {
+            url: `${BACKEND_URL}/generate-test?query=${query}`,
+        };
+
+        return axios.get(option);  
+    }
     
 }
 

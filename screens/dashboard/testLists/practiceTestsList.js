@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableHighlight, SafeAreaView, Linking } from 'react-native';
+import { View, Text } from 'react-native';
 import { COMMON_STYLES } from '../../../common/styles/commonStyles';
 import CardList from '../../../components/cardList/cardList';
 
@@ -56,7 +56,7 @@ const PracticeTestsList = ({navigation})=> {
             <Loader isLoading={isLoading}/>
             <Text style={testListsStyles.HEADING}>Practice Tests</Text>
             <View style={[COMMON_STYLES.SEPARATOR, { marginHorizontal: 15 }]}></View>
-            <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 1 }} dataList={practiceTestsData} horizontal = {false}/>
+            <CardList testType={ Constant.TEST_TYPES.PRACTICE }  handleBtnPress = {handleBtnPress} customStyle={{ flex: 1 }} dataList={practiceTestsData} horizontal = {false}/>
         </View>
     )   
 }

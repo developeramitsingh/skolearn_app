@@ -83,11 +83,11 @@ const LiveTestsList = ({navigation})=> {
         <View style={{ flex: 1 }}>
             <Loader isLoading={isLoading}/>
             <Text style={testListsStyles.HEADING_WHITE}>Mega Scholarships</Text>
-            <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 0 }} dataList={megaliveDataList} horizontal = {true}/>
+            <CardList testType={ Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={{ flex: 0 }} dataList={megaliveDataList} horizontal = {true}/>
             <View style={COMMON_STYLES.SEPARATOR}></View>
 
             <Text style={testListsStyles.HEADING_WHITE}>Scholarships for everyone</Text>
-            <CardList handleBtnPress = {handleBtnPress} customStyle={testListsStyles.BACK_PANEL} dataList={liveDataList} horizontal = {false}/>
+            <CardList testType={ Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={testListsStyles.BACK_PANEL} dataList={liveDataList} horizontal = {false}/>
         </View>
     )   
 }

@@ -20,8 +20,8 @@ const MyTestsList = ({navigation})=> {
             const tests = await enrolledTestsService.getAllEnrolledTests();
 
             setLoading(false);
-            if (tests?.data?.data) {
-                setMyTestsList(tests.data.data);
+            if (tests?.data) {
+                setMyTestsList(tests.data);
                 
             }
         } catch (err) {
@@ -44,7 +44,7 @@ const MyTestsList = ({navigation})=> {
             <View style={[COMMON_STYLES.SEPARATOR, { marginHorizontal: 15 }]}></View>
             {
                 myTestsList?.length 
-                  ? <CardList handleBtnPress = {handleBtnPress} customStyle={{ flex: 1 }} dataList={myTestsList} horizontal = {false}/>
+                  ? <CardList testType={ Constant.TEST_TYPES.MY_TEST } handleBtnPress = {handleBtnPress} customStyle={{ flex: 1 }} dataList={myTestsList} horizontal = {false}/>
                   : <Text style= {[COMMON_STYLES.BODY_TEXT, { marginTop: 10, textAlign: 'center'}]}>No Test Appeared, Please attempt the test</Text>
             }
             

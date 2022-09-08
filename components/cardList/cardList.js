@@ -10,7 +10,7 @@ const CardList = (props) => {
     })
 
     const renderCard = ({item})=> {        
-        const testType = item.testType?.toLowerCase();
+        const testType = props?.testType?.toLowerCase();
 
         const difficultyLevel = testType ===  Constant.TEST_TYPES.LIVE
             ? 'Difficulty Level'
@@ -69,7 +69,7 @@ const CardList = (props) => {
                         </TouchableHighlight>
                     </View>
                     { 
-                        [Constant.TEST_TYPES.LIVE, Constant.TEST_TYPES.MY_TEST].includes(item.testType?.toLowerCase()) &&
+                        [Constant.TEST_TYPES.LIVE, Constant.TEST_TYPES.MY_TEST].includes(props?.testType?.toLowerCase()) &&
                         <View style={cardListStyles.COL_RIGHT_2}>
                             <View>
                                 <Text style={cardListStyles.LABEL_TEXT}>Entry Fee</Text>
