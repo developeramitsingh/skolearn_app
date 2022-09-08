@@ -5,6 +5,9 @@ import userService from './userService';
 import sendAppLogService from './sendAppLogService';
 import notificationsService from './notificationsService';
 import testService from './testService';
+import questionBankService from './questionBankService';
+import walletService from './walletService';
+import freeTicketsService from './freeTicketsService';
 
 export {
     enrolledTestsService,
@@ -13,5 +16,8 @@ export {
     userService,
     sendAppLogService,
     notificationsService,
-    testService
+    testService,
+    questionBankService,
+    walletService,
+    freeTicketsService
 }

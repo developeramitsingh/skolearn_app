@@ -6,20 +6,25 @@ import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import {FontAwesome } from '@expo/vector-icons';
 import * as Constant from '../../constant/constant';
 import BackBtn from '../../components/backBtn/backBtn';
+import testService from '../../services/testService';
+import { freeTicketsService, walletService } from '../../services';
+import Loader from '../../components/loader/loader';
 
 const Attempt = ({navigation, route }) => {
     const [state, setState] = useState({
-        walletMoney: '150',
-        freeTickets: 1,
+        walletMoney: 0,
+        freeTickets: 0,
         testName: '',
         userEnrolled: 0,
         userSeats: 0,
         expireOn: '',
         entryFee: 0,
         isLangHindi: false,
-    })
+    });
+    const [isLoading, setLoading] = useState(false);
 
-    const handlePress = ()=> {
+    const handlePress = async ()=> {
+        //check wallet or free ticket if has then allow else not
         const alertMsg= 'We need to use camera and microphone for security and transparency purpose, Please remove any headphone or headset before the test.';
         
         Alert.alert('Test Requirements', alertMsg, [
@@ -29,12 +34,62 @@ const Attempt = ({navigation, route }) => {
                 }
             },
             {
-                text: 'Ok To Proceed', onPress: () => {
-                    navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testId: route?.params?.testId });
+                text: 'Ok To Proceed', onPress: async () => {
+                    const testId = route?.params?.test?._id;
+                    const seatAvailableStatus = await testService.getEnrolledSeatStatus(testId);
+
+                    //if seats not available then exit
+                    if (!seatAvailableStatus?.data?.isSeatAvailable) {
+                        Alert.alert('Info', 'Test seats full!. please attempt another test.', [
+                            {
+                                text: 'Close', onPress: () => {}
+                            },
+                        ])
+
+                        return;
+                    }
+
+                    testService.incrementEnrolledCount(testId);
+                    navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testId });
                 }
             },
             
         ]);   
+    }
+
+    const getWalletBalance = async () => {
+        try {
+            const walletData = await walletService.getWalletBalance();
+
+            if (walletData?.data) {
+                setState((prev) => {
+                    return { ...prev, walletMoney: walletData.data.balance || 0 }
+                })
+            }
+        } catch (err) {
+            console.error(`error in getWalletBalance: ${err}`);
+        }
+    }
+
+    const getFreeTickets = async () => {
+        try {
+            const freeTickets = await freeTicketsService.getFreeTickets();
+
+            if (freeTickets?.data) {
+                setState((prev) => {
+                    return { ...prev, freeTickets: freeTickets.data.freeTickets || 0 }
+                })
+            }
+        } catch (err) {
+            console.error(`error in getWalletBalance: ${err}`);
+        }
+    }
+
+    const fetchInitialData = async () => {
+        setLoading(true);
+        await getWalletBalance();
+        await getFreeTickets();
+        setLoading(false);
     }
 
     useEffect(()=> {
@@ -43,6 +98,8 @@ const Attempt = ({navigation, route }) => {
                 return { ...prev, ...route.params.test }
             })
         }
+
+        fetchInitialData();
 
         const backAction = () => {
             console.info(`backAction called in attempt screen`);
@@ -66,6 +123,7 @@ const Attempt = ({navigation, route }) => {
     }
   return (
       <SafeAreaView style={attemptStyles.container}>
+        <Loader isLoading={isLoading}/>
         <BackBtn navigation={navigation} routeToGo={Constant.ROUTES.DASHBOARD} color={Constant.APP_COLORS.black}/>
 
         <View style={[attemptStyles.container, { justifyContent: 'space-between' } ]}>
@@ -86,7 +144,7 @@ const Attempt = ({navigation, route }) => {
                     </View>
             </View>
 
-            <View style ={COMMON_STYLES.CENTER}>
+            <View style ={[COMMON_STYLES.CENTER, attemptStyles.highLightArea]}>
                 <Text style={attemptStyles.LABEL_TEXT}>Wallet: {state.walletMoney} Rupees</Text>
                 <Text style={attemptStyles.LABEL_TEXT}>Free Tickets: {state.freeTickets}</Text>
             </View>
@@ -116,8 +174,8 @@ const Attempt = ({navigation, route }) => {
                 <Text style = {COMMON_STYLES.BTN_TEXT}>Attempt</Text>
             </TouchableHighlight>
 
-            <View style ={COMMON_STYLES.CENTER}>
-                <Text style={attemptStyles.LABEL_TEXT}>Entry entryFee {state.entryFee} Rupees</Text>
+            <View style ={[COMMON_STYLES.CENTER, attemptStyles.highLightArea]}>
+                <Text style={attemptStyles.LABEL_TEXT}>Entry fee {state.entryFee} Rupees</Text>
                 <Text style={attemptStyles.LABEL_TEXT}>or 1 Ticket</Text>
             </View>
 

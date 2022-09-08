@@ -71,7 +71,7 @@ const LiveTestsList = ({navigation})=> {
         if (data.isActive) {
             navigation.navigate(Constant.ROUTES.ATTEMPT, { test: data });
         } else {
-            Alert.alert('Info', 'Test seats full!', [
+            Alert.alert('Info', 'Test seats full!. please attempt another test.', [
                 {
                     text: 'Close', onPress: () => {}
                 },

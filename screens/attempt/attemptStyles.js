@@ -26,5 +26,13 @@ export const attemptStyles = StyleSheet.create({
     },
     COL_LEFT: {
         flexDirection: 'row',
+    },
+    highLightArea: {
+        borderWidth: 1,
+        borderColor: APP_COLORS.yellow,
+        borderRadius: 30,
+        paddingVertical: 5,
+        width: 250,
+        alignSelf: 'center'
     }
 })

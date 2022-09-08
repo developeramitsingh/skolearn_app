@@ -29,7 +29,7 @@ export const APP_COLORS = {
 
 const PROD_URL= 'https://skolearn.herokuapp.com';
 const STAGE_URL= 'https://skolearn.herokuapp.com';
-const DEV_URL= 'https://0257-2409-4050-ebe-938-2020-5373-59e-a94.in.ngrok.io';
+const DEV_URL= 'https://d69a-2405-204-3099-865-59ec-d101-c1a-e112.in.ngrok.io';
 const BETA_URL= 'https://skolearn.herokuapp.com';
 
 function getEnvUrl() {
