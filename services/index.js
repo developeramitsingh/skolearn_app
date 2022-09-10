@@ -8,6 +8,7 @@ import testService from './testService';
 import questionBankService from './questionBankService';
 import walletService from './walletService';
 import freeTicketsService from './freeTicketsService';
+import paymentGatewayService from './paymentGatewayService';
 
 export {
     enrolledTestsService,
@@ -19,5 +20,6 @@ export {
     testService,
     questionBankService,
     walletService,
-    freeTicketsService
+    freeTicketsService,
+    paymentGatewayService
 }

@@ -125,7 +125,7 @@ const Dashboard = ({navigation, route }) => {
                 ? <TestList/>
                 : route?.params?.activeScreen === Constant.SCREENS.WALLET 
                     || state.activeScreen === Constant.SCREENS.WALLET 
-                ? <Wallet/>
+                ? <Wallet userId ={ route?.params?.user?._id || state.user?._id}/>
                 : <Index/>
 
             }

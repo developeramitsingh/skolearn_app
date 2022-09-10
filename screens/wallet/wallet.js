@@ -1,15 +1,17 @@
-import { useState } from "react";
-import { SafeAreaView, View, Text, TouchableOpacity, FlatList } from "react-native";
+import { useEffect, useState } from "react";
+import { SafeAreaView, View, Text, TouchableOpacity, FlatList, Alert } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { walletStyles } from './walletStyles';
 import ModalWindow from "../../components/modals/modalWindow";
 import ModalTicket from "../../components/modals/modalTicket";
-import { CLOSE_MODAL, ACTION_TYPES } from '../../constant/constant';
+import { CLOSE_MODAL, ACTION_TYPES, APP_ENV, ENVS, PAYTM_MERCHANT_ID, PAYTMENT_CALLBACK_BACKEND } from '../../constant/constant';
+import AllInOneSDKManager from 'paytm_allinone_react-native';
+import { paymentGatewayService, sendAppLogService, walletService } from "../../services";
 
-const Wallet = () => {
+const Wallet = ({ userId }) => {
     const [state, setState] = useState({
-        walletBalance: 100,
-        freeTickets: 1,
+        walletBalance: 0,
+        freeTickets: 0,
         transactionList: [
             {
                 transactionTitle: '100 start rupess added',
@@ -44,14 +46,126 @@ const Wallet = () => {
         ]
     });
 
+    const [walletBalance, setWalletBalance] = useState(0);
+    const [transactionList, setTransactionList] = useState([]);
+    const [orderId, setOrderId] = useState(null);
+    const [userUserId, setUserId] = useState(null);
     const [showAddMoney, setAddMoney] = useState(false);
     const [showWithdrawMoney, setWithdrawMoney] = useState(false);
     const [createTicketModal, setCreateTicket] = useState(false);
 
-    const handlePress = (actionType, payload) => {
-        if(actionType === 'addMoney') {
-            console.info('add money');
+    useEffect(() => {
+        if (userId && !userUserId) {
+          setUserId(userId);
+        }
+    }, [userId]);
+
+    const showErrorAlert = () => {
+        Alert.alert('Warning', `An error occured please try again.`, [
+            {
+                text: 'close', 'onPress': () => {}
+            }
+        ]);
+    }
+
+    const showAlert = (msg) => {
+        Alert.alert('Info', msg, [
+            {
+                text: 'close', 'onPress': () => {}
+            }
+        ]);
+    }
+    
+    const generateOrderId = () => {
+        const r = Math.random() * new Date().getMilliseconds();
+
+        const id = 'TRANS' + userUserId + '_' +
+            (1 + Math.floor(r % 2000) + 10000) +
+            'b' +
+            (Math.floor(r % 100000) + 10000);
+
+        setOrderId(id);
+
+        return id;
+    };
+
+    const addMoney = async (amount) => {
+        try {
+            const orderId = generateOrderId();
+            const mid = PAYTM_MERCHANT_ID;
+            const callbackUrl = PAYTMENT_CALLBACK_BACKEND;
+            const isStaging = APP_ENV !== ENVS.PROD ? true : false;
+
+            const logs = { orderId, amount, isStaging, callbackUrl, mid };
+            console.info(logs);
+            sendAppLogService.sendAppLogs({ msg: `Addmoney logs`, logs });
+
+            const getTokenData = await paymentGatewayService.getTxnToken({ orderId, amount });
+
+            if (!getTokenData.data.success) {
+                showErrorAlert();
+
+                return;
+            }
+
+
+            const resBody = getTokenData?.data?.data?.body;
+            const txnToken =  resBody?.txnToken;
+
+            console.info({txnToken});
+            sendAppLogService.sendAppLogs({ txnToken });
+
+            if (!txnToken) {
+                showErrorAlert();
+
+                return;
+            }
+
+            const transData = await AllInOneSDKManager.startTransaction(
+                orderId,
+                mid,
+                txnToken,
+                amount,
+                callbackUrl,
+                isStaging,
+                false,
+                'skolearn://'
+            );
+
+            sendAppLogService.sendAppLogs({ msg: transData?.data });
+            //if success
+            if (transData?.data?.STATUS === 'TXN_SUCCESS') {
+                //call the verify status api
+                const paymentStatus = await paymentGatewayService.verifyTxnStatus({ orderId });
+
+                //send logs to backend
+                sendAppLogService.sendAppLogs({ totalAmount, paymentStatus: paymentStatus?.data });
+
+                if (paymentStatus?.data?.data?.isPaymentSuccess) {
+                    //call the wallet update api
+                    const totalAmount = +state.walletBalance + parseInt(amount, 2);
+
+                    sendAppLogService.sendAppLogs({ totalAmount, userUserId });
+                    walletService.updateWallet({ userId: userUserId, balance: totalAmount });
+                    // show success transaction alert
+                    showAlert(`Transaction successfull!`);
+                } else {
+                    showAlert(`Transaction successfull! However we are still verifying your payment from bank. We will notify once done`);
+                }
+            } else {
+                showAlert(`Transaction Failed!`);
+            }
+
             setAddMoney(false);
+        } catch (err) {
+            console.error(`error in addmoney: ${err}`);
+            showErrorAlert();
+        }
+    }
+    const handlePress = (actionType, payload) => {
+        if (actionType === 'addMoney') {
+            console.info('add money');
+            addMoney(payload)
         } else if(actionType === 'withdraw') {
             console.info('withdraw');
             setWithdrawMoney(false);
