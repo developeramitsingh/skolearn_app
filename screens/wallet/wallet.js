@@ -91,7 +91,7 @@ const Wallet = ({ userId }) => {
             txnAmount: amount,
             isSuccess: false,
             status: TXN_STATUS.INITIATED,
-            txnTitle: `Adding ${amount} in wallet`,
+            txnTitle: `Adding ${amount} Rs. in wallet`,
             txnType: TXN_TYPE.ADD_MONEY, 
             txnDate: new Date().toISOString()
         }
@@ -107,7 +107,7 @@ const Wallet = ({ userId }) => {
     const updateSuccessTransaction = (transDataBody, amount, orderId) => {
         const updateTransaction = {
             orderId,
-            txnTitle: `Added ${amount} in wallet`,
+            txnTitle: `Added ${amount} Rs. in wallet`,
             userId: userUserId,
             status: TXN_STATUS.SUCCESS,
             paytmTxnStatus: transDataBody?.STATUS,
@@ -137,6 +137,7 @@ const Wallet = ({ userId }) => {
 
     const addMoney = async (amount) => {
         try {
+            setLoading(true);
             const orderId = generateOrderId(userUserId);
             setOrderId(orderId);
             const mid = PAYTM_MERCHANT_ID;
@@ -148,6 +149,7 @@ const Wallet = ({ userId }) => {
             sendAppLogService.sendAppLogs({ msg: `Addmoney logs`, logs });
 
             const getTokenData = await paymentGatewayService.getTxnToken({ orderId, amount });
+            setLoading(false);
 
             if (!getTokenData.data.success) {
                 showAlert('An Error Occured, Please try again', 'Error');
@@ -224,6 +226,7 @@ const Wallet = ({ userId }) => {
 
             setAddMoney(false);
         } catch (err) {
+            setLoading(false);
             console.error(`error in addmoney: ${err}`);
             sendAppLogService.sendAppLogs({ errorMsg: `error in add money payment gateway::err:: ${err}` });
 
