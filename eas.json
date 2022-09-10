@@ -21,6 +21,7 @@
       "releaseChannel": "beta"
     },
     "production": {
+      "distribution": "internal",
       "releaseChannel": "production"
     }
   },

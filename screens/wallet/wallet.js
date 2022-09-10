@@ -104,7 +104,7 @@ const Wallet = ({ userId }) => {
             });
     }
 
-    const updateSuccessTransaction = (transDataBody) => {
+    const updateSuccessTransaction = (transDataBody, amount, orderId) => {
         const updateTransaction = {
             orderId,
             txnTitle: `Added ${amount} in wallet`,
@@ -135,7 +135,7 @@ const Wallet = ({ userId }) => {
 
     const addMoney = async (amount) => {
         try {
-            const orderId = generateOrderId();
+            const orderId = generateOrderId(userUserId);
             setOrderId(orderId);
             const mid = PAYTM_MERCHANT_ID;
             const callbackUrl = PAYTMENT_CALLBACK_BACKEND;
@@ -201,14 +201,14 @@ const Wallet = ({ userId }) => {
                 }
 
                 //call the wallet update api
-                const totalAmount = +walletBalance + parseInt(amount, 2);
+                const totalAmount = +walletBalance + Number(amount);
 
-                sendAppLogService.sendAppLogs({ totalAmount, userUserId });
+                sendAppLogService.sendAppLogs({ totalAmount, amount: Number(amount), walletBalance, userId: userUserId });
 
                 //call the success update transaction api
-                updateSuccessTransaction(transDataBody);
+                updateSuccessTransaction(transDataBody, amount);
 
-                sendAppLogService.sendAppLogs({ 'msg': 'updating walled', data: { userUserId, totalAmount } });
+                sendAppLogService.sendAppLogs({ 'msg': 'updating wallet', data: { userId: userUserId, totalAmount } });
                 //update the wallet balance
                 walletService.updateWallet({ userId: userUserId, balance: totalAmount });
 
