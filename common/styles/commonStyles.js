@@ -1,7 +1,13 @@
 import {APP_COLORS} from '../../constant/constant';
 export const COMMON_STYLES = {
     CONTAINER: {
-        backgroundColor: APP_COLORS.black,
+        backgroundColor: APP_COLORS.back,
+        flex: 1,
+        paddingTop: 0,
+        paddingHorizontal: 15,
+    },
+    CONTAINER_BLUE: {
+        backgroundColor: APP_COLORS.appBlue,
         flex: 1,
         paddingTop: 0,
         paddingHorizontal: 15,
@@ -44,25 +50,33 @@ export const COMMON_STYLES = {
 
     BTN_TEXT: {
         fontSize: 14,
-        fontWeight: 'bold',
         color: APP_COLORS.black,
     },
 
     SUB_BTN_TXT: {
         fontSize: 14,
-        fontWeight: 'bold',
         color: APP_COLORS.black,
     },
 
     TITLE_TEXT: {
         color: '#fff',
         fontSize: 36,
-        fontWeight: 'bold',
         textAlign: 'center',
         //marginTop: '10%',
     },
 
+    MARGIN_TOP: {
+        marginTop: '10%',
+    },
+    MARGIN_LEFT: {
+        marginLeft: '10%',
+    },
+
     BODY_TEXT:  {
+        color: APP_COLORS.appBlue,
+        fontSize: 12,
+    },
+    BODY_TEXT_WHITE:  {
         color: APP_COLORS.white,
         fontSize: 12,
     },
@@ -71,43 +85,53 @@ export const COMMON_STYLES = {
         fontSize: 12,
     },
     BODY_TITLE:  {
+        color: APP_COLORS.appBlue,
+        fontSize: 12,
+        
+    },
+    BODY_TITLE_WHITE:  {
         color: APP_COLORS.white,
         fontSize: 12,
-        fontWeight: 'bold',
+        
     },
     BODY_TITLE_BLACK:  {
         color: APP_COLORS.black,
         fontSize: 12,
-        fontWeight: 'bold',
+        
     },
     BODY_HEADING_1:  {
+        color: APP_COLORS.appBlue,
+        fontSize: 28,
+        
+    },
+    BODY_HEADING_1_WHITE:  {
         color: APP_COLORS.white,
         fontSize: 28,
-        fontWeight: 'bold',
+        
     },
     BODY_TABS:  {
-        borderWidth: 1,
-        borderColor: APP_COLORS.grey,
+        borderWidth: 0.5,
+        borderColor: APP_COLORS.white,
         borderRadius: 20,
         paddingVertical: 8,
         paddingHorizontal: 15,
     },
     ACTIVE: {
-        backgroundColor: APP_COLORS.blue,
+        backgroundColor: APP_COLORS.yellow,
         borderWidth: 0, 
     },
     ACTIVE_TEXT: {
-        color: APP_COLORS.white,
+        color: APP_COLORS.black,
     },
     BODY_TABS_TEXT:  {
         color: APP_COLORS.white,
         fontSize: 12,
-        fontWeight: 'bold',
+        
         textAlign: 'center',
     },
     LINK_TEXT: {
         color: APP_COLORS.blue,
-        fontWeight: 'bold',
+        
     },
     CENTER: {
         textAlign: 'center',
@@ -115,7 +139,7 @@ export const COMMON_STYLES = {
     },
     SEPARATOR: {
         height: 1,
-        backgroundColor: APP_COLORS.grey,
+        backgroundColor: APP_COLORS.light_grey,
     },
     SEPARATOR_WHITE: {
         height: 1,
@@ -132,9 +156,23 @@ export const COMMON_STYLES = {
         paddingVertical: 5,
         paddingHorizontal: 5
     },
+    ROW_LEFT: {
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 5,
+        paddingHorizontal: 5
+    },
     ROW_COLUMN: {
         flexDirection: 'column',
         alignItems: 'center',
+        //alignItems: ''
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+    },
+    ROW_COLUMN_LEFT: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
         //alignItems: ''
         paddingVertical: 5,
         paddingHorizontal: 5,
@@ -170,7 +208,7 @@ export const COMMON_STYLES = {
     },
     SUB_BTN_TXT_2: {
         fontSize: 10,
-        fontWeight: 'bold',
+        
         color: APP_COLORS.black,
     },
     HIDE: {
@@ -181,7 +219,50 @@ export const COMMON_STYLES = {
         paddingHorizontal: 5,
         paddingVertical: 5,
         marginHorizontal: 10,
-        backgroundColor: APP_COLORS.blue,
+        backgroundColor: APP_COLORS.white,
+        borderBottomColor: APP_COLORS.light_grey,
+        borderBottomWidth: 0.5,
         marginVertical: 5
+    },
+    DISABLED_BTN: {
+        backgroundColor: APP_COLORS.grey,
+    },
+    DISABLED_TXT: {
+        color: APP_COLORS.white,
+    },
+    ERROR_TXT: {
+        color: APP_COLORS.red,
+        alignSelf: 'center'
+    },
+    LOADER_CONT: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        zIndex: 1,
+      },
+    BOX_SHADOW: {
+        shadowColor: '#000',  
+        elevation: 30,  
+        shadowOffset:{width:0, height: 0},  
+        shadowOpacity:1,  
+        shadowRadius: 5,  
+    },
+    ACTIVE_USER_TEXT: {
+        fontWeight: 'bold',
+    },
+    DROPDOWN: {
+        width: 80, 
+        //height: 50,
+        borderWidth: 0,
+        borderRadius: 30,
+        padding: 0,
+        margin: 0,
+    },
+    DROPDOWN_BOX: {
+      borderWidth: 0.5,
+      borderColor: APP_COLORS.light_grey
     }
 }

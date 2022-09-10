@@ -6,16 +6,16 @@ export const registerStyles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        backgroundColor: APP_COLORS.black,
+        backgroundColor: APP_COLORS.back,
     },
     logo: {
-        marginTop: '20%',
+        marginTop: '5%',
         borderRadius: 10,
         width: 200,
         height: 60,
     },
     registerContainter: {
-        marginTop: '10%',
+        marginTop: '5%',
         width: '85%',
     },
 })

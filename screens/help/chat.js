@@ -32,7 +32,7 @@ const Chat = ({ticketId}) => {
             id: 2,
             txt: 'Hi, i want to apply for test new',
             userType: 'user',
-            img: 'https://engineering.fb.com/wp-content/uploads/2016/04/yearinreview.jpg',
+            img: '',
             time: '',
             rid: '',
         }
@@ -102,7 +102,7 @@ const Chat = ({ticketId}) => {
             </View>
 
             
-            <ScrollView style={chatStyles.chatMsgList} 
+            <ScrollView showsVerticalScrollIndicator={false} style={chatStyles.chatMsgList} 
                 ref={(ref) => {
                     setReference(ref);
                   }}
@@ -123,7 +123,7 @@ const Chat = ({ticketId}) => {
                         return (
                             <View key={msg.id} style={{ marginBottom: 10 }}>
                                 <View style={[chatStyles.chatMsgBlock, isSupportUser ? supportStyle :  userStyle ]}>
-                                    <Text style={ isSupportUser ? COMMON_STYLES.BODY_TEXT : COMMON_STYLES.BODY_TEXT_BLACK }>{msg.txt}</Text>
+                                    <Text style={ isSupportUser ? COMMON_STYLES.BODY_TEXT_WHITE : COMMON_STYLES.BODY_TEXT_WHITE }>{msg.txt}</Text>
                                 </View>
                                 {
                                     msg.img ?

@@ -1,28 +1,43 @@
 import * as Updates from 'expo-updates';
+
+export const APP_VERSION = '1.0.0';
+
 export const ASSEST_URLS = {
     LOGO: 'https://ik.imagekit.io/nwxotnqhh/logo.png',
 };
 
 export const APP_COLORS = {
     blue: '#1E90FF',
+    appBlue: '#222957', 
     blueGreen: '#25B0B9',
     yellow: '#FFD81B',
     green: '#95F189',
     orange: '#FF991B',
     skyBlue: '#1BE1FF',
+    lightBlue: '#bedbfa',
     grey: '#3D3D3D',
     light_grey: '#C1C1C1',
     white: '#fff',
+    back: '#222957',
     black: '#000',
     black_opacity: '#00000050',
     white_opacity: '#ffffff70',
     grey_opacity: '#ffffff20',
+    red: '#fc0303',
+    lightGrey2: '#f7f7f7',
 };
 
+<<<<<<< HEAD
 const PROD_URL= 'https://f741-43-239-207-152.in.ngrok.io';
 const STAGE_URL= 'https://f741-43-239-207-152.in.ngrok.io';
 const DEV_URL= 'https://f741-43-239-207-152.in.ngrok.io';
 const BETA_URL= 'https://f741-43-239-207-152.in.ngrok.io';
+=======
+const PROD_URL= 'https://skolearn.herokuapp.com';
+const STAGE_URL= 'https://skolearn.herokuapp.com';
+const DEV_URL= 'https://d69a-2405-204-3099-865-59ec-d101-c1a-e112.in.ngrok.io';
+const BETA_URL= 'https://skolearn.herokuapp.com';
+>>>>>>> 10f09cf2153ed42582b1591d50f5e88d1471d00e
 
 function getEnvUrl() {
   try {
@@ -42,7 +57,7 @@ function getEnvUrl() {
       // assume any other release channel is development
       return { envName: 'DEVELOPMENT', backendUrl: DEV_URL };
     } else {
-      return { envName: 'DEFAULT', backendUrl: STAGE_URL };
+      return { envName: 'DEFAULT', backendUrl: DEV_URL };
     }
   } catch (err) {
     console.error(err);
@@ -53,13 +68,19 @@ function getEnvUrl() {
 
 export const BACKEND_URL = getEnvUrl()?.backendUrl;
 
+export const PAGES_LINK = {
+  ABOUT_US: `${BACKEND_URL}/admin`
+}
+
+
 export const TEST_TYPES = {
     LIVE: 'live',
     MY_TEST: 'mytest',
     PRACTICE: 'practice',
 };
 
-export const TEST_CARD_COLORS = [APP_COLORS.blue, APP_COLORS.blueGreen, APP_COLORS.green, APP_COLORS.white, APP_COLORS.yellow, APP_COLORS.orange, APP_COLORS.skyBlue, APP_COLORS.blue, APP_COLORS.blueGreen, APP_COLORS.green];
+//export const TEST_CARD_COLORS = [APP_COLORS.green, APP_COLORS.blue, APP_COLORS.blueGreen, APP_COLORS.yellow, APP_COLORS.orange, APP_COLORS.skyBlue, APP_COLORS.light_grey, APP_COLORS.back];
+export const TEST_CARD_COLORS = [APP_COLORS.white, APP_COLORS.white, APP_COLORS.white, APP_COLORS.white, APP_COLORS.white, APP_COLORS.white, APP_COLORS.white, APP_COLORS.white];
 
 export const ROUTES = {
     HOME: 'Home',
@@ -75,7 +96,8 @@ export const ROUTES = {
     TEST_TIMER_SCREEN: 'TestTimerScreen',
     PROFILE: 'Profile',
     EDIT_PROFILE: 'EditProfile',
-    NOTIFICATION: 'notification',
+    NOTIFICATION: 'Notification',
+    WEB_VIEW: 'WebView'
 };
 
 export const SCREENS = {
@@ -97,14 +119,25 @@ export const ACTION_TYPES = {
 
     OPEN_PROFILE: 'openProfile',
     OPEN_NOTIFI: 'openNotification',
+
+    OPEN_ABOUT_US: 'openAboutUs',
+    OPEN_FAQ: 'openFaq',
+    OPEN_TERMS_POLICY: 'openTermsPolicy',
+    OPEN_PRIVACY_POLICY: 'openPrivacyPolicy',
+    OPEN_REFUND_POLICY: 'openRefundPolicy',
+    OPEN_HOW_TO_GET_SCHOLARSHIP: 'openHowToGetScholarship',
+    LOGOUT: 'logout',
 };
 
 export const STORAGE_KEYS = {
     FAILED_TEST_RESPONSE: 'failed-test-response',
     LOCAL_APP_NOTIFI_COUNT: 'local-app-notifi-count',
 
+    OTP_TOKEN: 'otp-token',
     USER_TOKEN: 'user-token',
     USER_ID: 'user-id',
+    USER: 'user',
+
     EXPO_USER_PUSH_TOKEN: 'expo-user-push-token',
     TEMP_EXPO_PUSH_TOKEN: 'temp-expo-push-token',
 }
@@ -142,3 +175,5 @@ export const HELP_TABS = [
 export const NOTIFICATION_DATA_KEYS = {
   ROUTE: 'route'
 }
+
+export const SHARE_TEXT = 'Share this app link is here https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg'

@@ -13,19 +13,21 @@ const cardListStyles = StyleSheet.create({
     CARD_HORIZONTAL: {
         backgroundColor: APP_COLORS.yellow,
         borderRadius: 15,
-        marginVertical: 10,
-        marginRight: 10,
+        marginVertical: 5,
+        marginRight: 0,
         paddingHorizontal: 10,
         paddingBottom: 10,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     CARD_VERTICAL: {
         borderRadius: 15,
-        marginVertical: 10,
-        //marginRight: 10,
+        borderBottomColor: APP_COLORS.light_grey,
+        borderBottomWidth: 0.5,
+        marginVertical: 5,
+        marginHorizontal: 5,
         paddingHorizontal: 10,
         paddingBottom: 10,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     ROW: {
         display: 'flex',
@@ -34,10 +36,12 @@ const cardListStyles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     COL_RIGHT: {
-        backgroundColor: APP_COLORS.white,
+        backgroundColor: APP_COLORS.lightBlue,
         paddingHorizontal: 5,
         justifyContent: 'center',
         maxHeight: 40,
+        borderBottomEndRadius: 5,
+        borderBottomLeftRadius: 5,
     },
     COL_RIGHT_2: {
         flexDirection: 'row',
@@ -53,35 +57,36 @@ const cardListStyles = StyleSheet.create({
     COL_LEFT: {
         maxWidth: '70%',
     },
-    COL_LEFT_2: {
-    },
     TITLE: {
-        fontWeight: 'bold',
         fontSize: 14,
-        color: APP_COLORS.black,
+        color: APP_COLORS.appBlue,
         paddingVertical: 10,
     },
     LABEL_TEXT: {
-        fontWeight: 'bold',
-        fontSize: 10,
-        color: APP_COLORS.black,
+        
+        fontSize: 8,
+        color: APP_COLORS.appBlue,
         textAlign: 'center',
     },
-    FEE: {
-        fontWeight: '900',
+    LABEL_TEXT_BODY: {
+        fontSize: 10,
+        color: APP_COLORS.appBlue,
+        textAlign: 'center',
+    },
+    FEE: {        
         fontSize: 20,
-        color: APP_COLORS.black,
+        color: APP_COLORS.appBlue,
         textAlign: 'center',
     },
     CARD_BTN: {
-        backgroundColor: APP_COLORS.black,
+        backgroundColor: APP_COLORS.appBlue,
         paddingHorizontal: 15,
         paddingVertical: 8,
         borderRadius: 15,
     },
     CARD_BTN_TEXT: {
         fontSize: 12,
-        fontWeight: 'bold',
+        
         color: APP_COLORS.white,
     }
 

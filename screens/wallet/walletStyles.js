@@ -4,12 +4,18 @@ import { APP_COLORS } from '../../constant/constant';
 export const walletStyles = StyleSheet.create({
     CONTAINER: {
         flex: 1,
+        backgroundColor: APP_COLORS.white,
+        paddingHorizontal: 20,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        marginTop: 10,
     },
     CARD: {
-        backgroundColor: APP_COLORS.grey,
+        backgroundColor: APP_COLORS.white,
+        borderBottomWidth: 0.5,
+        borderColor: APP_COLORS.light_grey,
         flex: 1,
         borderRadius: 10,
-        paddingHorizontal: 10,
         paddingVertical: 5,
         flexDirection: 'row',
         flexWrap: 'nowrap',
@@ -17,8 +23,8 @@ export const walletStyles = StyleSheet.create({
         marginVertical: 5,
     },
     CARD_TEXT: {
-        color: APP_COLORS.white,
-        fontSize: 12,
+        color: APP_COLORS.appBlue,
+        fontSize: 10,
         marginVertical: 2,
     },
     LEFT_COL: {

@@ -6,7 +6,7 @@ export const loginStyles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        backgroundColor: APP_COLORS.black,
+        backgroundColor: APP_COLORS.appBlue,
     },
     logo: {
         marginTop: '20%',

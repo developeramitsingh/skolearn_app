@@ -7,6 +7,7 @@ export const myTicketsStyles = StyleSheet.create({
         flex: 1,
         //alignItems: 'center',
         width: '100%',
+        backgroundColor: APP_COLORS.white
     },
     ROW: {
         justifyContent: 'space-between',

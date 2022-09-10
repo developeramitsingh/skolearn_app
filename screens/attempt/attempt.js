@@ -1,27 +1,143 @@
-import { View, Text, StyleSheet, SafeAreaView, Switch, TouchableHighlight } from 'react-native';
+import { View, Text, Alert, SafeAreaView, Switch, TouchableHighlight, BackHandler } from 'react-native';
 import { attemptStyles } from './attemptStyles';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import {FontAwesome } from '@expo/vector-icons';
 import * as Constant from '../../constant/constant';
 import BackBtn from '../../components/backBtn/backBtn';
+import testService from '../../services/testService';
+import { freeTicketsService, walletService } from '../../services';
+import Loader from '../../components/loader/loader';
 
 const Attempt = ({navigation, route }) => {
     const [state, setState] = useState({
-        walletMoney: '150',
-        freeTickets: 1,
-        scholarshipTitle: '10000 Rupees Scholarship',
-        usersJoined: 100,
-        usersLimit: 500,
-        expiresOn: '12/07/2022',
-        fee: 49,
+        walletMoney: 0,
+        freeTickets: 0,
+        testName: '',
+        userEnrolled: 0,
+        userSeats: 0,
+        expireOn: '',
+        entryFee: 0,
         isLangHindi: false,
-    })
+    });
+    const [isLoading, setLoading] = useState(false);
 
-    const handlePress = ()=> {
-        navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testId: route?.params?.testId });
+    const handlePress = async ()=> {
+        const test = route?.params?.test;
+
+        //check wallet or free ticket if has then allow else not
+        if (+state.walletMoney < +test.entryFee && !state.freeTickets) {
+            Alert.alert('Notice', 'Wallet Money is insufficient, please add money', [
+                {
+                    text: 'Close', onPress: () => {}
+                },
+            ]);
+
+            return;
+        }
+
+        const alertMsg= 'We need to use camera and microphone for security and transparency purpose, Please remove any headphone or headset before the test.';
+        
+        Alert.alert('Test Requirements', alertMsg, [
+            {
+                text: 'Cancel Attempt', onPress: () => {
+                    console.info(`cancelled`);
+                }
+            },
+            {
+                text: 'Ok To Proceed', onPress: async () => {
+                    const testId = test?._id;
+                    const seatAvailableStatus = await testService.getEnrolledSeatStatus(testId);
+
+                    //if seats not available then exit
+                    if (!seatAvailableStatus?.data?.isSeatAvailable) {
+                        Alert.alert('Info', 'Test seats full!. please attempt another test.', [
+                            {
+                                text: 'Close', onPress: () => {}
+                            },
+                        ])
+
+                        return;
+                    }
+
+                    //deduct the money or free ticket
+                    if (state.freeTickets) {
+                        const ticket = +state.freeTickets - 1;
+                        freeTicketsService.updateFreeTickets({ freeTickets: ticket });
+                    } else if (state.walletMoney) {
+                        const balance = +state.walletMoney - +state.entryFee;
+                        walletService.updateWallet({ balance });
+                    }
+
+
+                    //increment the user enrolled count
+                    testService.incrementEnrolledCount(testId);
+                    //navigate to timer screen for test attempt
+                    navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { data: { lang: state.isisLangHindi ? 'hindi' : 'english', testId } });
+                }
+            },
+            
+        ]);   
     }
+
+    const getWalletBalance = async () => {
+        try {
+            const walletData = await walletService.getWalletBalance();
+
+            if (walletData?.data) {
+                setState((prev) => {
+                    return { ...prev, walletMoney: walletData.data.balance || 0 }
+                })
+            }
+        } catch (err) {
+            console.error(`error in getWalletBalance: ${err}`);
+        }
+    }
+
+    const getFreeTickets = async () => {
+        try {
+            const freeTickets = await freeTicketsService.getFreeTickets();
+
+            if (freeTickets?.data) {
+                setState((prev) => {
+                    return { ...prev, freeTickets: freeTickets.data.freeTickets || 0 }
+                })
+            }
+        } catch (err) {
+            console.error(`error in getWalletBalance: ${err}`);
+        }
+    }
+
+    const fetchInitialData = async () => {
+        setLoading(true);
+        await getWalletBalance();
+        await getFreeTickets();
+        setLoading(false);
+    }
+
+    useEffect(()=> {
+        if(route?.params?.test) {
+            setState((prev) => {
+                return { ...prev, ...route.params.test }
+            })
+        }
+
+        fetchInitialData();
+
+        const backAction = () => {
+            console.info(`backAction called in attempt screen`);
+            navigation.navigate(Constant.ROUTES.DASHBOARD);
+            return true;
+          };
+      
+          const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+          );
+      
+          return () => backHandler.remove();
+    }, [route?.params?.test]);
 
     const langSwitch = (val) => {
         console.info(val);
@@ -31,6 +147,7 @@ const Attempt = ({navigation, route }) => {
     }
   return (
       <SafeAreaView style={attemptStyles.container}>
+        <Loader isLoading={isLoading}/>
         <BackBtn navigation={navigation} routeToGo={Constant.ROUTES.DASHBOARD} color={Constant.APP_COLORS.black}/>
 
         <View style={[attemptStyles.container, { justifyContent: 'space-between' } ]}>
@@ -41,24 +158,24 @@ const Attempt = ({navigation, route }) => {
                         </View>
                         <View>
                             <Text style={attemptStyles.LABEL_TEXT}>Users Joined</Text>
-                            <Text style={attemptStyles.LABEL_TEXT}>{state.usersJoined}/{state.usersLimit}</Text>
+                            <Text style={attemptStyles.LABEL_TEXT}>{state.userEnrolled}/{state.userSeats}</Text>
                         </View>
                     </View>
 
                     <View style={attemptStyles.COL_RIGHT}>
                         <Text style={attemptStyles.LABEL_TEXT}>Expires On</Text>
-                        <Text style={attemptStyles.LABEL_TEXT}>{state.expiresOn}</Text>
+                        <Text style={attemptStyles.LABEL_TEXT}>{state.expireOn}</Text>
                     </View>
             </View>
 
-            <View style ={COMMON_STYLES.CENTER}>
+            <View style ={[COMMON_STYLES.CENTER, attemptStyles.highLightArea]}>
                 <Text style={attemptStyles.LABEL_TEXT}>Wallet: {state.walletMoney} Rupees</Text>
                 <Text style={attemptStyles.LABEL_TEXT}>Free Tickets: {state.freeTickets}</Text>
             </View>
 
             <View style ={COMMON_STYLES.CENTER}>
                 <Text style={attemptStyles.HEADING}>
-                    {state.scholarshipTitle}
+                    {state.testName}
                 </Text>
             </View>
 
@@ -81,8 +198,8 @@ const Attempt = ({navigation, route }) => {
                 <Text style = {COMMON_STYLES.BTN_TEXT}>Attempt</Text>
             </TouchableHighlight>
 
-            <View style ={COMMON_STYLES.CENTER}>
-                <Text style={attemptStyles.LABEL_TEXT}>Entry fee {state.fee} Rupees</Text>
+            <View style ={[COMMON_STYLES.CENTER, attemptStyles.highLightArea]}>
+                <Text style={attemptStyles.LABEL_TEXT}>Entry fee {state.entryFee} Rupees</Text>
                 <Text style={attemptStyles.LABEL_TEXT}>or 1 Ticket</Text>
             </View>
 

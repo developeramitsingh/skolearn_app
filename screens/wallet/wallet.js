@@ -97,18 +97,18 @@ const Wallet = () => {
             <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title="Create New Ticket" actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = 'Create' placeholder='Enter Subject'/>
 
             <View style={{...COMMON_STYLES.ROW_CENTER, marginTop: 20 }}>
-                <Text style={COMMON_STYLES.BODY_TITLE}>Total Balance</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Total Balance</Text>
             </View>
 
             <View style={COMMON_STYLES.ROW_CENTER}>
-                <Text style={COMMON_STYLES.BODY_HEADING_1}>{state.walletBalance} Rs.</Text>
+                <Text style={COMMON_STYLES.BODY_HEADING_1_WHITE}>{state.walletBalance} Rs.</Text>
             </View>
 
             <View style={COMMON_STYLES.ROW_CENTER}>
-                <Text style={COMMON_STYLES.BODY_TITLE}>Free Tickets {state.freeTickets}</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Free Tickets {state.freeTickets}</Text>
             </View>
 
-            <View style={COMMON_STYLES.ROW}>
+            <View style={[COMMON_STYLES.ROW, { marginTop: 10 }]}>
                 <TouchableOpacity onPress={()=>setAddMoney(true)} style={COMMON_STYLES.SUB_BTN_1}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>Add Money</Text>
                 </TouchableOpacity>
@@ -127,6 +127,8 @@ const Wallet = () => {
                     data = { state.transactionList || []}
                     renderItem ={RenderList}
                     keyExtractor ={item => item.id}
+                    showsVerticalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={false}
                 />
             </View>
         </SafeAreaView>        

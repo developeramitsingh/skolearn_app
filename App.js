@@ -20,6 +20,7 @@ import { getFromStorage, saveToStorage } from './utils/utils';
 import { enrolledTestsService, sendAppLogService, userService } from './services/index';
 import 'react-native-gesture-handler';
 import * as Linking from 'expo-linking';
+import WebViewScreen from './screens/webViewScreen/webViewScreen';
 
 const prefix = Linking.createURL('/');
 
@@ -65,8 +66,6 @@ const retryFailedTestToSave = async () => {
 };
 
 const Stack = createNativeStackNavigator();
-
-
 
 export default function App() {  
   const config = {
@@ -115,6 +114,8 @@ export default function App() {
 
         <Stack.Screen name={Constant.ROUTES.PROFILE} component={Profile}/>
         <Stack.Screen name={Constant.ROUTES.NOTIFICATION} component={Notification}/>
+
+        <Stack.Screen name={Constant.ROUTES.WEB_VIEW} component={WebViewScreen}/>
         
       </Stack.Navigator>
     </NavigationContainer>

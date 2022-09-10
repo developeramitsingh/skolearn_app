@@ -28,6 +28,16 @@ class RolesService {
         return axios.get(option);
     }
 
+    getRolesByQuery(query, attribs) {
+        const option = {
+            url: `${BACKEND_URL}/roles?query=${query}&attribs=${attribs}`,
+        };
+
+        console.info(option);
+
+        return axios.get(option);   
+    }
+
     checkRouteAccess(path) {
         const option = {
             url: `${BACKEND_URL}/checkRouteAccess?path=${path}`,

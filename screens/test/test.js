@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { SafeAreaView, View, Text, Pressable, TouchableHighlight, ScrollView, TouchableNativeFeedback, Alert } from "react-native";
+import { SafeAreaView, View, Text, TouchableHighlight, ScrollView } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { testStyles } from './testStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
@@ -14,32 +14,6 @@ const Test = ({navigation, route}) => {
     let cameraRef = useRef();
     const [time, setTime] = useState(TEST_TIME_LIMIT);
     const [state, setState] = useState({
-        testId: "62f6887b7fd9289e51a463a6",
-        userId: "62f554ce0128a3d03073b3cc",
-        test: [
-            {
-                quesId: 1,
-                question: 'When did the India get freedom?',
-                options: [
-                    { id: 1, text: '1950'},
-                    { id: 2, text: '1947'},
-                    { id: 3, text: '1933'},
-                    { id: 4, text: '1945'},
-                ],
-                ans: [2],
-            },
-            {
-                quesId: 2,
-                question: 'When did the Nehru become Prime Minister?',
-                options: [
-                    { id: 1, text: '1950'},
-                    { id: 2, text: '1947'},
-                    { id: 3, text: '1933'},
-                    { id: 4, text: '1945'},
-                ],
-                ans: [1],
-            },
-        ],
         quesIdx: 0,
         userAnswered: [],
         optionSelected: false,
@@ -48,6 +22,7 @@ const Test = ({navigation, route}) => {
         timeFinished: false,
     });
 
+    const [testQuesData, setTestQuesData] = useState([]);
     //const [camera, setCameraRef] = useState(useRef());
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const [hasMicPermission, setHasMicPermission] = useState(null);
@@ -59,12 +34,12 @@ const Test = ({navigation, route}) => {
         // Here uri means the url of the video you captured
         const form = new FormData();
         form.append("File", {
-          name: `UserRecording_testId:${state.testId}.mp4`,
+          name: `UserRecording_testId:${route?.params?.testId}.mp4`,
           uri: uri,
           type: "video/mp4",
         });
 
-        form.append('testId', state.testId);
+        form.append('testId', route?.params?.testId);
 
         userRecordingsService.createUserRecording(form)
             .then(data => {
@@ -146,7 +121,10 @@ const Test = ({navigation, route}) => {
     }
 
     useEffect(()=> {
-        startTest();
+        if (route?.params?.testQues) {
+            setTestQuesData(route.params.testQues);
+            startTest();
+        }
         navigation.addListener('beforeRemove', (e) => {
             if (state.timeFinished || state.previewMode) {
               //if test is finished then only allow screen exit else not
@@ -177,7 +155,7 @@ const Test = ({navigation, route}) => {
 
     const handleChangeQues = (type) => {
         if (type === 'next') {
-            if (state.quesIdx < state?.test?.length - 1) {
+            if (state.quesIdx < testQuesData?.length - 1) {
                 setState(prev => {
                     return { ...prev, optionSelected: state?.userAnswered?.[state.quesIdx + 1]?.optionSelected || null, quesIdx: prev.quesIdx + 1 }
                 });
@@ -200,10 +178,10 @@ const Test = ({navigation, route}) => {
     }
 
     const handlePress = (optionId) => {
-        calculateUserScore(time);
+        const userScore = calculateUserScore(time, optionId);
         //set used answers
         setState(prev=> {
-            return { ...prev, optionSelected: optionId, userAnswered: [...prev.userAnswered, { quesId: state.test[state.quesIdx].quesId, optionSelected: optionId }] };
+            return { ...prev, userScore: [...prev.userScore, userScore], optionSelected: optionId, userAnswered: [...prev.userAnswered, { quesId: testQuesData[state.quesIdx]._id, optionSelected: optionId }] };
         });
 
         if(hasCameraPermission && hasMicPermission && !isVideoRecording) {
@@ -212,11 +190,23 @@ const Test = ({navigation, route}) => {
         
     }
 
-    const calculateUserScore = (timeLimit) => {
-        const userScore = timeLimit * 10;
-        setState(prev => {
-            return { ...prev, userScore: [...prev.userScore, userScore]};
-        });
+    const calculateUserScore = (timeLimit, optionId) => {
+        const currentQues = testQuesData[state.quesIdx];
+        console.info({currentQues});
+
+        const answers = currentQues['answers'];
+
+        console.info({answers});
+        console.info({optionId});
+
+        let userScore = 0;
+        if (answers?.includes(+optionId)) {
+            userScore = timeLimit * 10;
+        }
+
+        console.info({userScore});
+
+        return userScore;
     }
 
     const updateScoreAndUserAnswers = async () => {
@@ -231,7 +221,7 @@ const Test = ({navigation, route}) => {
 
         const data = {
             score,
-            testId: `${state.testId}`,
+            testId: `${route?.params?.testId}`,
             userQuesAns,
         }
 
@@ -240,7 +230,7 @@ const Test = ({navigation, route}) => {
         try {
             await enrolledTestsService.updateEnrolledTests(data)
         } catch (err) {
-            console.error(`error while saving userResponse data in test: ${state.testId}:: ${err}`);
+            console.error(`error while saving userResponse data in test: ${route?.params?.testId}:: ${err}`);
             //save the response as save api is failed and retry the api later
             appendToSavedStorage(STORAGE_KEYS.FAILED_TEST_RESPONSE, { [data.testId]: data });
         }
@@ -313,15 +303,15 @@ const Test = ({navigation, route}) => {
 
                     <View style={COMMON_STYLES.ROW}>
                         <Text style={testStyles.QUES_TEXT}>
-                            {state?.test?.[state.quesIdx]?.question}
+                            {testQuesData?.[state.quesIdx]?.rubric}
                         </Text>
                     </View>
 
                     <ScrollView showsVerticalScrollIndicator ={true} style={testStyles.OPTION_CONT}>
-                        {state?.test?.[state.quesIdx]?.options?.map(option => {
+                        {testQuesData?.[state.quesIdx]?.options?.map((option, idx) => {
                             return (
-                                <TouchableHighlight disabled={state.optionSelected ? true : false} onPress={() => handlePress(option.id)} style ={{...COMMON_STYLES.BTN_1, ...(state.optionSelected === option.id ? COMMON_STYLES.DISABLED : {})}} id={option.id} key={option.id}>
-                                    <Text style={{...COMMON_STYLES.BTN_TEXT, ...(state.optionSelected === option.id ? COMMON_STYLES.DISABLED_TEXT : {})}} key={option.id}>{option.text}</Text>
+                                <TouchableHighlight disabled={state.optionSelected ? true : false} onPress={() => handlePress(idx + 1)} style ={{...COMMON_STYLES.BTN_1, ...(state.optionSelected === (idx+1) ? COMMON_STYLES.DISABLED : {})}} id={idx+1} key={idx+1}>
+                                    <Text style={{...COMMON_STYLES.BTN_TEXT, ...(state.optionSelected === (idx + 1) ? COMMON_STYLES.DISABLED_TEXT : {})}} key={idx+1}>{option}</Text>
                                 </TouchableHighlight>
                             )
                         })}
@@ -334,7 +324,7 @@ const Test = ({navigation, route}) => {
                                 <MaterialCommunityIcons name="arrow-left" size={38} color={APP_COLORS.white} />
                             </TouchableHighlight>
 
-                            <TouchableHighlight disabled={state.quesIdx === state.test?.length - 1 ? true : false} onPress={()=> handleChangeQues('next')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === state.test?.length - 1 ? COMMON_STYLES.DISABLED : {})}}>
+                            <TouchableHighlight disabled={state.quesIdx === testQuesData?.length - 1 ? true : false} onPress={()=> handleChangeQues('next')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === testQuesData?.length - 1 ? COMMON_STYLES.DISABLED : {})}}>
                                 <MaterialCommunityIcons name="arrow-right" size={38} color={APP_COLORS.white} />
                             </TouchableHighlight>
                         </View>

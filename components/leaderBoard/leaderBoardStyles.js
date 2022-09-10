@@ -3,13 +3,6 @@ import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS } from '../../constant/constant';
 
 export const leaderBoardStyles = StyleSheet.create({
-    CONTAINER: {
-        flex: 1,
-        backgroundColor: APP_COLORS.grey,
-        paddingHorizontal: 10,
-        paddingTop: 40,
-        paddingBottom: 10,
-    },
     LEATHER_BOARD_CONT_LIGHT: {
         marginTop: 10,
         flex: 1,
@@ -53,12 +46,12 @@ export const leaderBoardStyles = StyleSheet.create({
         textAlign: 'center',
     },
     TAB_BTN_ACTIVE: {
-        borderBottomColor: APP_COLORS.black,
+        borderBottomColor: APP_COLORS.appBlue,
         borderBottomWidth: 4,
-        backgroundColor: APP_COLORS.blue
+        backgroundColor: APP_COLORS.yellow
     },
     TAB_BTN_TEXT_ACTIVE: {
-        color: APP_COLORS.white,
+        color: APP_COLORS.appBlue,
     },
     BODY_LEFT_COL: {
         justifyContent: 'space-between',

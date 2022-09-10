@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { Image, Alert, SafeAreaView, View, Text, TouchableHighlight,TouchableWithoutFeedback, Pressable, ScrollView } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Image, Alert, SafeAreaView, View, Text, TouchableHighlight,TouchableWithoutFeedback, Pressable, ScrollView, BackHandler } from 'react-native';
 import { profileStyles } from './profileStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { onShare, copyToClipboard, pickImage } from '../../common/functions/commonHelper';
-import { APP_COLORS, ROUTES, CLOSE_MODAL, ACTION_TYPES } from '../../constant/constant';
+import { APP_COLORS, ROUTES, CLOSE_MODAL, ACTION_TYPES, SHARE_TEXT } from '../../constant/constant';
 import UploadModal from '../../components/modals/uploadModal';
 import ModalWindow from '../../components/modals/modalWindow';
 import ModalBankPanCard from '../../components/modals/modalBankPanCard';
 import BackBtn from '../../components/backBtn/backBtn';
 
-const Profile = ({navigation}) => {
+const Profile = ({navigation, route}) => {
     const [state, setState] = useState({
         profileImg: 'https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg',
-        userName: 'Test User',
-        referralCode: '1dd3dgd',
+        userName: route?.params?.user?.userName,
+        referralCode: route?.params?.user?.referralCode,
         bankAccountStatus: 'Verifing',
         panCardStatus: 'Not Uploaded',
         studentDocStatus: 'Not Uploaded',
@@ -27,12 +27,23 @@ const Profile = ({navigation}) => {
     const [showBankDetailModal, setBankDetail] = useState(false);
     const [showPanDetailModal, setPanDetail] = useState(false);
 
-    const sharingDataLink = 'Share this app link is here https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg';
+
+    useEffect(() => {
+        const backAction = () => {
+            navigation.navigate(ROUTES.DASHBOARD);
+            return true;
+          };
+      
+          const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+          );
+      
+          return () => backHandler.remove();
+    }, [route?.params?.user]);
 
     const handlePress =(actionType, payload) => {
-        if(actionType === 'logout') {
-            navigation.navigate(ROUTES.HOME)
-        } else if(actionType === 'onReferralCodeCopy') {
+        if(actionType === 'onReferralCodeCopy') {
             copyToClipboard(state.referralCode);
             Alert.alert(
                 '',
@@ -42,7 +53,7 @@ const Profile = ({navigation}) => {
                 ]
               );
         } else if(actionType === 'onLinkCopy') {
-            copyToClipboard(sharingDataLink);
+            copyToClipboard(SHARE_TEXT);
             Alert.alert(
                 '',
                 "Sharing link Copied!",
@@ -131,9 +142,9 @@ const Profile = ({navigation}) => {
                     <Image style={profileStyles.PROFILE_IMG} source={{ uri: state.profileImg }}></Image>
                 </TouchableWithoutFeedback>
                 
-                <Text style={COMMON_STYLES.BODY_TITLE}>{state.userName}</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Hi {route?.params?.user?.userName}</Text>
 
-                <Text style={COMMON_STYLES.BODY_TEXT}>Total Scholarship Achieved: {state.totalScholarship}</Text>
+                <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>Total Scholarship Achieved: {state.totalScholarship}</Text>
 
                 <TouchableHighlight onPress={()=> setProfileEdit(!showProfileEdit)} style={[COMMON_STYLES.SUB_BTN_1, { marginVertical: 10 }]}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>Edit Profile</Text>
@@ -141,12 +152,12 @@ const Profile = ({navigation}) => {
             </View>
 
             <View style={profileStyles.ROW_CENTER}>
-                <TouchableHighlight onPress={()=>onShare(sharingDataLink)} style={[COMMON_STYLES.BTN_1, { width: '100%'}]}>
+                <TouchableHighlight onPress={()=>onShare(SHARE_TEXT)} style={[COMMON_STYLES.BTN_1, { width: '100%'}]}>
                     <Text style={COMMON_STYLES.BTN_TEXT}>Refer and get 1 free ticket</Text>
                 </TouchableHighlight>
 
                 <View style={[COMMON_STYLES.ROW, { marginVertical: 10 }]}>
-                    <Text style={COMMON_STYLES.BODY_TITLE}>Referral Code: {state.referralCode}  </Text>
+                    <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Referral Code: {route?.params?.user?.referralCode}  </Text>
                     <Pressable  onPress={()=> handlePress('onReferralCodeCopy')} style={[COMMON_STYLES.SUB_BTN_2, { backgroundColor: APP_COLORS.light_grey}]}>
                         <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Copy</Text>
                     </Pressable>
@@ -192,12 +203,6 @@ const Profile = ({navigation}) => {
                     <Text style={COMMON_STYLES.BODY_TEXT}>{state.studentDocStatus}</Text>
                 </View>
             </ScrollView>
-
-            <View style={COMMON_STYLES.ROW_CENTER}>
-                <TouchableHighlight onPress={() => handlePress('logout')} style={COMMON_STYLES.SUB_BTN_1}>
-                    <Text style={COMMON_STYLES.SUB_BTN_TXT}>Logout</Text>
-                </TouchableHighlight>         
-            </View>
         </SafeAreaView>
     )
 }

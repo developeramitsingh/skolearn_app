@@ -4,7 +4,7 @@ import { APP_COLORS } from '../../constant/constant';
 export const testStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: APP_COLORS.grey,
+        backgroundColor: APP_COLORS.appBlue,
         paddingHorizontal: 10,
         paddingTop: 40,
         paddingBottom: 10,

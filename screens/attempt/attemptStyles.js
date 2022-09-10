@@ -9,25 +9,30 @@ export const attemptStyles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     HEADING: {
-        fontWeight: 'bold',
         fontSize: 24,
         color: APP_COLORS.black,
         textAlign: 'center',
     },
     LABEL_TEXT: {
-        fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 12,
         color: APP_COLORS.black,
         textAlign: 'center',
     },
 
     NOTICE_TEXT: {
-        fontWeight: 'bold',
         fontSize: 14,
         color: 'red',
         textAlign: 'center',
     },
     COL_LEFT: {
         flexDirection: 'row',
+    },
+    highLightArea: {
+        borderWidth: 1,
+        borderColor: APP_COLORS.yellow,
+        borderRadius: 30,
+        paddingVertical: 5,
+        width: 250,
+        alignSelf: 'center'
     }
 })
