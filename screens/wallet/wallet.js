@@ -71,7 +71,7 @@ const Wallet = ({ userId }) => {
         }
 
         fetchInitialData();
-    }, [userId]);
+    }, [userId, walletBalance]);
 
     const showAlert = (msg, type) => {
         Alert.alert(type, msg, [
@@ -124,6 +124,8 @@ const Wallet = ({ userId }) => {
             txnType: TXN_TYPE.ADD_MONEY,
             txnId: transDataBody.TXNID,
         }
+
+        sendAppLogService.sendAppLogs({ updateTransaction });
         //update the transaction status by order id
         transactionService.updateTransaction(updateTransaction)
             .catch(err => {
