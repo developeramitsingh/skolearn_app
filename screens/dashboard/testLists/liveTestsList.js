@@ -8,11 +8,10 @@ import { useEffect, useState } from 'react';
 import { testService } from '../../../services/index';
 import Loader from '../../../components/loader/loader';
 
-const LiveTestsList = ({navigation})=> {
+const LiveTestsList = ({navigation, userId })=> {
     const [megaliveDataList, setMegaLiveTestList] = useState([]);
     const [liveDataList, setLiveTestList] = useState([]);
     const [isLoading, setLoading] = useState(false);
-
 
     const getMegaLiveDataList = async () => {
         try {
@@ -69,7 +68,8 @@ const LiveTestsList = ({navigation})=> {
         console.info({ isActve: data.isActive ,userEnrolled: data.userEnrolled, userSeats: data.userSeats });
 
         if (data.isActive) {
-            navigation.navigate(Constant.ROUTES.ATTEMPT, { test: data });
+            console.info('here in live userId', userId);
+            navigation.navigate(Constant.ROUTES.ATTEMPT, { test: data, userId });
         } else {
             Alert.alert('Info', 'Test seats full!. please attempt another test.', [
                 {

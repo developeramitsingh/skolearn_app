@@ -104,11 +104,11 @@ const Dashboard = ({navigation, route }) => {
                         (route?.params?.activeTab === Constant.TEST_TYPES.LIVE) || 
                         (!route?.params?.activeTab && 
                             state.activeTab === Constant.TEST_TYPES.LIVE)
-                        ? <LiveTestsList navigation={navigation}/>
+                        ? <LiveTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation}/>
                         : (route?.params?.activeTab === Constant.TEST_TYPES.MY_TEST) || 
                             (!route?.params?.activeTab && state.activeTab === Constant.TEST_TYPES.MY_TEST)
-                        ? <MyTestsList navigation={navigation}/>
-                        : <PracticeTestsList navigation={navigation}/>
+                        ? <MyTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation}/>
+                        : <PracticeTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation}/>
                     
                     }
                 </View>
@@ -118,6 +118,7 @@ const Dashboard = ({navigation, route }) => {
 
     return (
         <SafeAreaView style={dashboardStyles.DASH_CONTAINER}>
+            { console.info("indashobard userId", route?.params?.user?._id || state.user?._id) }
             <StatusBar isNewNotifi={state.isNewNotifi} navigation={navigation} user ={ route?.params?.user || state.user}/>
             {
                 route?.params?.activeScreen === Constant.SCREENS.TEST_LIST 

@@ -30,10 +30,12 @@ export const walletStyles = StyleSheet.create({
     LEFT_COL: {
         flexDirection: 'column',
         alignItems: 'flex-start',
+        width: '60%',
     },
     RIGHT_COL: {
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        width: '40%',
     },
 });

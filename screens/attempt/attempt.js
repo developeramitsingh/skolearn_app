@@ -7,12 +7,13 @@ import {FontAwesome } from '@expo/vector-icons';
 import * as Constant from '../../constant/constant';
 import BackBtn from '../../components/backBtn/backBtn';
 import testService from '../../services/testService';
-import { freeTicketsService, walletService } from '../../services';
+import { freeTicketsService, sendAppLogService, transactionService, walletService } from '../../services';
 import Loader from '../../components/loader/loader';
 import { generateOrderId } from '../../utils/utils';
 
 const Attempt = ({navigation, route }) => {
     const [state, setState] = useState({
+        userId: '',
         walletMoney: 0,
         freeTickets: 0,
         testName: '',
@@ -32,9 +33,15 @@ const Attempt = ({navigation, route }) => {
     }
 
     useEffect(()=> {
-        if(route?.params?.test) {
+        if(route?.params?.test && !state.testName) {
             setState((prev) => {
                 return { ...prev, ...route.params.test }
+            })
+        }
+
+        if (route?.params?.userId && !state.userId) {
+            setState((prev) => {
+                return { ...prev, userId: route?.params?.userId }
             })
         }
 
@@ -52,21 +59,26 @@ const Attempt = ({navigation, route }) => {
           );
       
           return () => backHandler.remove();
-    }, [route?.params?.test]);
+    }, [route?.params?.test, route?.params?.userId]);
 
     const createTransaction = (amount, txnTitle, txnType) => {
-        console.info('createTransaction called');
+        const userIdStr = route?.params?.userId || state.userId;
+        console.info('createTransaction called', userIdStr);
+        const orderId = generateOrderId(userIdStr);
         // if success then create a transaction entry
         const txnBody = {
-            orderId: generateOrderId(),
-            txnAmount: amount,
+            orderId,
+            txnAmount: `${amount}`,
             isSuccess: true,
             status: Constant.TXN_STATUS.SUCCESS,
             txnTitle,
-            txnType, 
+            txnType,
+            txnId: route?.params?.test?._id,
             txnDate: new Date().toISOString()
         }
-        console.info({ txnBody });
+        console.info({ orderId, txnBody });
+        sendAppLogService.sendAppLogs({ msg: 'txnBody in create Txn of attempt', orderId, txnBody });
+
         transactionService.createTransaction(txnBody)
             .catch(err => {
                 const erroMsg = `error in createTransaction for attempt: ${err}`;
@@ -79,7 +91,7 @@ const Attempt = ({navigation, route }) => {
         const test = route?.params?.test;
         const entryFee = +state.entryFee;
         const walletMoney = +state.walletMoney;
-        const freeTickets = state.freeTickets;
+        const freeTickets = +state.freeTickets;
 
         //check wallet or free ticket if has then allow else not
         if (walletMoney < entryFee && !freeTickets) {
@@ -128,7 +140,7 @@ const Attempt = ({navigation, route }) => {
                         const balance = walletMoney - entryFee;
                         walletService.updateWallet({ balance });
 
-                        const txnTitle = `${entryFee} Rs. from wallet deducted for attempting the test`;
+                        const txnTitle = `${entryFee} Rs. deducted from wallet for attempting the test`;
                         createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.WALLET_DEDUCTED_FOR_TEST);
                     }
 
