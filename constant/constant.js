@@ -186,4 +186,16 @@ export const NOTIFICATION_DATA_KEYS = {
   ROUTE: 'route'
 }
 
-export const SHARE_TEXT = 'Share this app link is here https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg'
+export const SHARE_TEXT = 'Share this app link is here https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg';
+
+export const TXN_STATUS = {
+  SUCCESS: 'success',
+  FAILED: 'failed',
+  INITIATED: 'initiated',
+  PENDING: 'pending'
+}
+
+export const TXN_TYPE = {
+  ADD_MONEY: 'addMoney',
+  WITHDRAWAL: 'withdrawal'
+}

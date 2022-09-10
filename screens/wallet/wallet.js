@@ -4,49 +4,13 @@ import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { walletStyles } from './walletStyles';
 import ModalWindow from "../../components/modals/modalWindow";
 import ModalTicket from "../../components/modals/modalTicket";
-import { CLOSE_MODAL, ACTION_TYPES, APP_ENV, ENVS, PAYTM_MERCHANT_ID, PAYTMENT_CALLBACK_BACKEND } from '../../constant/constant';
+import { CLOSE_MODAL, ACTION_TYPES, APP_ENV, ENVS, PAYTM_MERCHANT_ID, PAYTMENT_CALLBACK_BACKEND, TXN_TYPE, TXN_STATUS } from '../../constant/constant';
 import AllInOneSDKManager from 'paytm_allinone_react-native';
-import { paymentGatewayService, sendAppLogService, walletService } from "../../services";
+import { paymentGatewayService, sendAppLogService, transactionService, walletService } from "../../services";
 
 const Wallet = ({ userId }) => {
-    const [state, setState] = useState({
-        walletBalance: 0,
-        freeTickets: 0,
-        transactionList: [
-            {
-                transactionTitle: '100 start rupess added',
-                transactionTime: new Date().toISOString().split('.')?.[0],
-                transactionStatus: 'Success',
-                id: '#38498348938948',
-            },
-            {
-                transactionTitle: '200 rupess added',
-                transactionTime: new Date().toISOString().split('.')?.[0],
-                transactionStatus: 'Success',
-                id: '#384983333938948',
-            },
-            {
-                transactionTitle: '49 rupess added',
-                transactionTime: new Date().toISOString().split('.')?.[0],
-                transactionStatus: 'Success',
-                id: '#384498333938948',
-            },
-            {
-                transactionTitle: '50 rupess added',
-                transactionTime: new Date().toISOString().split('.')?.[0],
-                transactionStatus: 'Success',
-                id: '#3849835333938948',
-            },
-            {
-                transactionTitle: '100 rupess added',
-                transactionTime: new Date().toISOString().split('.')?.[0],
-                transactionStatus: 'Success',
-                id: '#3298333938948',
-            },
-        ]
-    });
-
     const [walletBalance, setWalletBalance] = useState(0);
+    const [freeTickets, setFreeTickets] = useState(0);
     const [transactionList, setTransactionList] = useState([]);
     const [orderId, setOrderId] = useState(null);
     const [userUserId, setUserId] = useState(null);
@@ -89,6 +53,57 @@ const Wallet = ({ userId }) => {
         return id;
     };
 
+    const createTransaction = (amount, orderId) => {
+        console.info('createTransaction called');
+        // if success then create a transaction entry
+        const txnBody = {
+            orderId,
+            userUserId,
+            mid: PAYTM_MERCHANT_ID,
+            txnAmount: amount,
+            isSuccess: false,
+            status: TXN_STATUS.INITIATED,
+            txnTitle: `Adding ${amount} in wallet`,
+            txnType: TXN_TYPE.ADD_MONEY, 
+            txnDate: new Date().toISOString()
+        }
+        console.info({ txnBody });
+        transactionService.createTransaction(txnBody)
+            .catch(err => {
+                const erroMsg = `error in createTransaction for init txn paytm: ${err}`;
+                console.error(erroMsg);
+                sendAppLogService.sendAppLogs({ erroMsg })
+            });
+    }
+
+    const updateSuccessTransaction = (paytmTxnStatus, transDataBody) => {
+        const updateTransaction = {
+            orderId,
+            userUserId,
+            status: TXN_STATUS.SUCCESS,
+            paytmTxnStatus,
+            isSuccess: true,
+            bankName: transDataBody.BANKNAME,
+            bankTxnId: transDataBody.BANKTXNID,
+            txnAmount: transDataBody.txnAmount,
+            currency: transDataBody.CURRENCY,
+            gatwayName: transDataBody.GATEWAYNAME,
+            paymentMode: transDataBody.PAYMENTMODE,
+            respCode: transDataBody.RESPCODE,
+            respMsg: transDataBody.RESPMSG,
+            txnDate: transDataBody.TXNDATE,
+            txnType: TXN_TYPE.ADD_MONEY,
+            txnId: transDataBody.TXNID,
+        }
+        //update the transaction status by order id
+        transactionService.updateTransaction(updateTransaction)
+            .catch(err => {
+                const erroMsg = `error in updateTransaction for init txn paytm: ${err}`;
+                console.error(erroMsg);
+                sendAppLogService.sendAppLogs({ erroMsg })
+            });
+    }
+
     const addMoney = async (amount) => {
         try {
             const orderId = generateOrderId();
@@ -121,6 +136,9 @@ const Wallet = ({ userId }) => {
                 return;
             }
 
+            //call create transaction api
+            createTransaction(amount, orderId);
+
             const transData = await AllInOneSDKManager.startTransaction(
                 orderId,
                 mid,
@@ -133,25 +151,39 @@ const Wallet = ({ userId }) => {
             );
 
             sendAppLogService.sendAppLogs({ msg: transData?.data });
+
+            const transDataBody = transData?.data;
+            const paytmTxnStatus = transDataBody?.STATUS;
             //if success
-            if (transData?.data?.STATUS === 'TXN_SUCCESS') {
+            if (paytmTxnStatus === 'TXN_SUCCESS') {
                 //call the verify status api
                 const paymentStatus = await paymentGatewayService.verifyTxnStatus({ orderId });
 
                 //send logs to backend
                 sendAppLogService.sendAppLogs({ totalAmount, paymentStatus: paymentStatus?.data });
 
-                if (paymentStatus?.data?.data?.isPaymentSuccess) {
-                    //call the wallet update api
-                    const totalAmount = +state.walletBalance + parseInt(amount, 2);
-
-                    sendAppLogService.sendAppLogs({ totalAmount, userUserId });
-                    walletService.updateWallet({ userId: userUserId, balance: totalAmount });
-                    // show success transaction alert
-                    showAlert(`Transaction successfull!`);
-                } else {
+                // if status is not success then return
+                if (!paymentStatus?.data?.data?.isPaymentSuccess) {
                     showAlert(`Transaction successfull! However we are still verifying your payment from bank. We will notify once done`);
+
+                    return;
                 }
+
+                //call the wallet update api
+                const totalAmount = +walletBalance + parseInt(amount, 2);
+
+                sendAppLogService.sendAppLogs({ totalAmount, userUserId });
+
+                //call the success update transaction api
+                updateSuccessTransaction(paytmTxnStatus, transDataBody);
+
+                //update the wallet balance
+                walletService.updateWallet({ userId: userUserId, balance: totalAmount });
+
+                //update the state wallet
+                setWalletBalance(totalAmount);
+                // show success transaction alert
+                showAlert(`Transaction successfull!`);
             } else {
                 showAlert(`Transaction Failed!`);
             }
@@ -159,6 +191,19 @@ const Wallet = ({ userId }) => {
             setAddMoney(false);
         } catch (err) {
             console.error(`error in addmoney: ${err}`);
+            sendAppLogService.sendAppLogs({ errorMsg: `error in add money payment gateway::err:: ${err}` });
+
+            const errorMsg = err?.message || err?.data?.message
+            const updateTransaction = {
+                orderId,
+                userUserId,
+                status: TXN_STATUS.FAILED,
+                paytmTxnStatus: 'failed',
+                isSuccess: false,
+                respMsg: errorMsg || `${err}`
+            }
+            //update the transaction status by order id
+            transactionService.updateTransaction(updateTransaction);
             showErrorAlert();
         }
     }
@@ -215,11 +260,11 @@ const Wallet = ({ userId }) => {
             </View>
 
             <View style={COMMON_STYLES.ROW_CENTER}>
-                <Text style={COMMON_STYLES.BODY_HEADING_1_WHITE}>{state.walletBalance} Rs.</Text>
+                <Text style={COMMON_STYLES.BODY_HEADING_1_WHITE}>{walletBalance} Rs.</Text>
             </View>
 
             <View style={COMMON_STYLES.ROW_CENTER}>
-                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Free Tickets {state.freeTickets}</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Free Tickets {freeTickets}</Text>
             </View>
 
             <View style={[COMMON_STYLES.ROW, { marginTop: 10 }]}>
@@ -238,7 +283,7 @@ const Wallet = ({ userId }) => {
                 </View>
 
                 <FlatList
-                    data = { state.transactionList || []}
+                    data = { transactionList || []}
                     renderItem ={RenderList}
                     keyExtractor ={item => item.id}
                     showsVerticalScrollIndicator={false}
