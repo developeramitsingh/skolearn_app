@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "453306508196",
+    "project_id": "skolearn-6aac5",
+    "storage_bucket": "skolearn-6aac5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:453306508196:android:6bdd96def981a39441d731",
+        "android_client_info": {
+          "package_name": "com.shriamits454.skolearn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "453306508196-c4hla7pgt72hcktght5kfd2vn79ghvn5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd83P1nzk7Tj67am2v6hyG8R1gjneOLpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "453306508196-c4hla7pgt72hcktght5kfd2vn79ghvn5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -30,14 +30,15 @@
       "googleServicesFile": "./google-services.json",
       "package": "com.shriamits454.skolearn",
       "versionCode": 1,
-      "permissions":[
+      "permissions": [
         "CAMERA",
         "RECORD_AUDIO",
         "VIBRATE",
         "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
         "NOTIFICATIONS",
         "INTERNET",
-        "ACCESS_NETWORK_STATE"
+        "ACCESS_NETWORK_STATE",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -52,6 +53,11 @@
           "microphonePermission": true
         }
       ]
-    ] 
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "c3dde485-cb42-4bbf-8d80-a9303cc1e217"
+      }
+    }
   }
 }

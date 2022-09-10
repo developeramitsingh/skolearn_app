@@ -28,9 +28,17 @@ export const APP_COLORS = {
 };
 
 const PROD_URL= 'https://skolearn.herokuapp.com';
-const STAGE_URL= 'https://skolearn.herokuapp.com';
+const STAGE_URL= 'https://d69a-2405-204-3099-865-59ec-d101-c1a-e112.in.ngrok.io';
 const DEV_URL= 'https://d69a-2405-204-3099-865-59ec-d101-c1a-e112.in.ngrok.io';
 const BETA_URL= 'https://skolearn.herokuapp.com';
+
+export const ENVS = {
+  STAGING: 'staging',
+  PROD: 'production',
+  DEV: 'development',
+  BETA: 'beta',
+  DEFAULT: 'default',
+};
 
 function getEnvUrl() {
   try {
@@ -39,27 +47,36 @@ function getEnvUrl() {
 
     if (releaseChannel.startsWith('prod')) {
       // matches prod-v1, prod-v2, prod-v3
-      return { envName: 'PRODUCTION', backendUrl: PROD_URL };
+      return { envName: ENVS.PROD, backendUrl: PROD_URL };
     } else if (releaseChannel.startsWith('beta')) {
       // matches staging-v1, staging-v2
-      return { envName: 'BETA', backendUrl: BETA_URL };
+      return { envName: ENVS.BETA, backendUrl: BETA_URL };
     } else if (releaseChannel.startsWith('staging')) {
       // assume any other release channel is development
-      return { envName: 'STAGING', backendUrl: STAGE_URL };
+      return { envName: ENVS.STAGING, backendUrl: STAGE_URL };
     } else if (releaseChannel.startsWith('dev')) {
       // assume any other release channel is development
-      return { envName: 'DEVELOPMENT', backendUrl: DEV_URL };
+      return { envName: ENVS.DEV, backendUrl: DEV_URL };
     } else {
-      return { envName: 'DEFAULT', backendUrl: DEV_URL };
+      return { envName: ENVS.DEFAULT, backendUrl: DEV_URL };
     }
   } catch (err) {
     console.error(err);
   }
   
-  return { envName: 'DEFAULT', backendUrl: STAGE_URL }
+  return { envName: ENVS.DEFAULT, backendUrl: STAGE_URL }
 }
 
 export const BACKEND_URL = getEnvUrl()?.backendUrl;
+export const APP_ENV = getEnvUrl()?.envName;
+
+//Test Keys
+const PAYTM_MERCHANT_ID_TEST = 'ROZYPs29556505548094';
+//PROD KEYS
+const PAYTM_MERCHANT_ID_PROD = 'ivIILa37249090069885';
+
+export const PAYTM_MERCHANT_ID = APP_ENV === ENVS.PROD ?  PAYTM_MERCHANT_ID_PROD: PAYTM_MERCHANT_ID_TEST;
+export const PAYTMENT_CALLBACK_BACKEND = `${BACKEND_URL}/paytm-callback-url`;
 
 export const PAGES_LINK = {
   ABOUT_US: `${BACKEND_URL}/admin`
