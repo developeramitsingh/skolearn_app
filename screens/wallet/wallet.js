@@ -208,7 +208,7 @@ const Wallet = ({ userId }) => {
                 sendAppLogService.sendAppLogs({ totalAmount, amount: Number(amount), walletBalance, userId: userUserId });
 
                 //call the success update transaction api
-                updateSuccessTransaction(transDataBody, amount);
+                updateSuccessTransaction(transDataBody, amount, orderId);
 
                 sendAppLogService.sendAppLogs({ 'msg': 'updating wallet', data: { userId: userUserId, totalAmount } });
                 //update the wallet balance
