@@ -6,8 +6,9 @@ import ModalWindow from "../../components/modals/modalWindow";
 import ModalTicket from "../../components/modals/modalTicket";
 import { CLOSE_MODAL, ACTION_TYPES, APP_ENV, ENVS, PAYTM_MERCHANT_ID, PAYTMENT_CALLBACK_BACKEND, TXN_TYPE, TXN_STATUS } from '../../constant/constant';
 import AllInOneSDKManager from 'paytm_allinone_react-native';
-import { paymentGatewayService, sendAppLogService, transactionService, walletService } from "../../services";
+import { freeTicketsService, paymentGatewayService, sendAppLogService, transactionService, walletService } from "../../services";
 import { generateOrderId } from "../../utils/utils";
+import Loader from '../../components/loader/loader';
 
 const Wallet = ({ userId }) => {
     const [walletBalance, setWalletBalance] = useState(0);
@@ -18,11 +19,58 @@ const Wallet = ({ userId }) => {
     const [showAddMoney, setAddMoney] = useState(false);
     const [showWithdrawMoney, setWithdrawMoney] = useState(false);
     const [createTicketModal, setCreateTicket] = useState(false);
+    const [isLoading, setLoading] = useState(false);
+
+    const getWalletBalance = async () => {
+        try {
+            const walletData = await walletService.getWalletBalance();
+
+            if (walletData?.data) {
+                setWalletBalance(walletData.data.balance || 0);
+            }
+        } catch (err) {
+            console.error(`error in getWalletBalance in wallet: ${err}`);
+        }
+    }
+
+    const getFreeTickets = async () => {
+        try {
+            const freeTickets = await freeTicketsService.getFreeTickets();
+
+            if (freeTickets?.data) {
+                setFreeTickets(freeTickets.data.freeTickets || 0);
+            }
+        } catch (err) {
+            console.error(`error in getWalletBalance in wallet: ${err}`);
+        }
+    }
+
+    const getTransactionList = async () => {
+        try {
+            const allTxns = await transactionService.getAllTransaction("{}", ["_id", "txnTitle", "status", "isSuccess", "txnDate"]);
+
+            console.info(allTxns.data);
+            if (allTxns?.data) {
+                setTransactionList(allTxns.data || 0);
+            }
+        } catch (err) {
+            console.error(`error in getTransactionList in wallet: ${err}`);
+        }
+    }
+    const fetchInitialData = async () => {
+        setLoading(true);
+        await getWalletBalance();
+        await getFreeTickets();
+        await getTransactionList();
+        setLoading(false);
+    }
 
     useEffect(() => {
         if (userId && !userUserId) {
           setUserId(userId);
         }
+
+        fetchInitialData();
     }, [userId]);
 
     const showAlert = (msg, type) => {
@@ -88,7 +136,7 @@ const Wallet = ({ userId }) => {
     const addMoney = async (amount) => {
         try {
             const orderId = generateOrderId();
-            setOrderId(id);
+            setOrderId(orderId);
             const mid = PAYTM_MERCHANT_ID;
             const callbackUrl = PAYTMENT_CALLBACK_BACKEND;
             const isStaging = APP_ENV !== ENVS.PROD ? true : false;
@@ -144,7 +192,6 @@ const Wallet = ({ userId }) => {
 
                 //send logs to backend
                 sendAppLogService.sendAppLogs({ totalAmount, paymentStatus1: paymentStatus?.data });
-                sendAppLogService.sendAppLogs({ totalAmount, paymentStatus2: paymentStatus });
 
                 // if status is not success then return
                 if (!paymentStatus?.data?.data?.isPaymentSuccess) {
@@ -168,9 +215,9 @@ const Wallet = ({ userId }) => {
                 //update the state wallet
                 setWalletBalance(totalAmount);
                 // show success transaction alert
-                showAlert(`Transaction successfull!`);
+                showAlert(`Money Added to Wallet!`, 'Info');
             } else {
-                showAlert(`Transaction Failed!`);
+                showAlert(`Transaction Failed!`, 'Warning');
             }
 
             setAddMoney(false);
@@ -211,21 +258,21 @@ const Wallet = ({ userId }) => {
         }
     };
 
-    const RenderList = ({item })=> {
+    const RenderTxnsItems = ({item })=> {
         return (
-            <View key={item.id} style={walletStyles.CARD}>
+            <View key={item._id} style={walletStyles.CARD}>
                 <View style={walletStyles.LEFT_COL}>
-                    <Text style={COMMON_STYLES.BODY_TITLE}>{item.transactionTitle}</Text>
-                    <Text style={walletStyles.CARD_TEXT}>{item.transactionTime}</Text>
+                    <Text style={COMMON_STYLES.BODY_TITLE}>{item.txnTitle}</Text>
+                    <Text style={walletStyles.CARD_TEXT}>{item.txnDate}</Text>
                     <Text style={walletStyles.CARD_TEXT}>Reference number</Text>
-                    <Text style={walletStyles.CARD_TEXT}>{item.id}</Text>
+                    <Text style={walletStyles.CARD_TEXT}>{item._id}</Text>
                 </View>
     
                 <View style={walletStyles.RIGHT_COL}>
                     <TouchableOpacity onPress ={() => setCreateTicket(true)} style={COMMON_STYLES.SUB_BTN_2}>
                         <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Raise Tickets</Text>
                     </TouchableOpacity>
-                    <Text style={walletStyles.CARD_TEXT}>{item.transactionStatus}</Text>
+                    <Text style={walletStyles.CARD_TEXT}>{item.status}</Text>
                 </View>
             </View>
         )
@@ -234,6 +281,7 @@ const Wallet = ({ userId }) => {
     
     return (
         <SafeAreaView style={COMMON_STYLES.CONTAINER}>
+            <Loader isLoading={isLoading}/>
             <ModalWindow modalVisible={showAddMoney} handleModalPress={handlePress} title="Add Money to Wallet" keyboardType='numeric' actionType= "addMoney" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
 
             <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={handlePress} title="Request Widthdraw Money" keyboardType='numeric'  actionType= "withdraw"  btnTxt = 'Request Withdraw' placeholder='Enter Amount to withdraw'/>
@@ -269,7 +317,7 @@ const Wallet = ({ userId }) => {
 
                 <FlatList
                     data = { transactionList || []}
-                    renderItem ={RenderList}
+                    renderItem ={RenderTxnsItems}
                     keyExtractor ={item => item.id}
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}
