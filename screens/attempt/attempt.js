@@ -9,6 +9,7 @@ import BackBtn from '../../components/backBtn/backBtn';
 import testService from '../../services/testService';
 import { freeTicketsService, walletService } from '../../services';
 import Loader from '../../components/loader/loader';
+import { generateOrderId } from '../../utils/utils';
 
 const Attempt = ({navigation, route }) => {
     const [state, setState] = useState({
@@ -23,11 +24,65 @@ const Attempt = ({navigation, route }) => {
     });
     const [isLoading, setLoading] = useState(false);
 
+    const fetchInitialData = async () => {
+        setLoading(true);
+        await getWalletBalance();
+        await getFreeTickets();
+        setLoading(false);
+    }
+
+    useEffect(()=> {
+        if(route?.params?.test) {
+            setState((prev) => {
+                return { ...prev, ...route.params.test }
+            })
+        }
+
+        fetchInitialData();
+
+        const backAction = () => {
+            console.info(`backAction called in attempt screen`);
+            navigation.navigate(Constant.ROUTES.DASHBOARD);
+            return true;
+          };
+      
+          const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+          );
+      
+          return () => backHandler.remove();
+    }, [route?.params?.test]);
+
+    const createTransaction = (amount, txnTitle, txnType) => {
+        console.info('createTransaction called');
+        // if success then create a transaction entry
+        const txnBody = {
+            orderId: generateOrderId(),
+            txnAmount: amount,
+            isSuccess: true,
+            status: Constant.TXN_STATUS.SUCCESS,
+            txnTitle,
+            txnType, 
+            txnDate: new Date().toISOString()
+        }
+        console.info({ txnBody });
+        transactionService.createTransaction(txnBody)
+            .catch(err => {
+                const erroMsg = `error in createTransaction for attempt: ${err}`;
+                console.error(erroMsg);
+                sendAppLogService.sendAppLogs({ erroMsg })
+            });
+    }
+
     const handlePress = async ()=> {
         const test = route?.params?.test;
+        const entryFee = +state.entryFee;
+        const walletMoney = +state.walletMoney;
+        const freeTickets = state.freeTickets;
 
         //check wallet or free ticket if has then allow else not
-        if (+state.walletMoney < +test.entryFee && !state.freeTickets) {
+        if (walletMoney < entryFee && !freeTickets) {
             Alert.alert('Notice', 'Wallet Money is insufficient, please add money', [
                 {
                     text: 'Close', onPress: () => {}
@@ -62,14 +117,20 @@ const Attempt = ({navigation, route }) => {
                     }
 
                     //deduct the money or free ticket
-                    if (state.freeTickets) {
-                        const ticket = +state.freeTickets - 1;
+                    if (freeTickets) {
+                        const ticket = freeTickets - 1;
                         freeTicketsService.updateFreeTickets({ freeTickets: ticket });
-                    } else if (state.walletMoney) {
-                        const balance = +state.walletMoney - +state.entryFee;
-                        walletService.updateWallet({ balance });
-                    }
 
+                        const txnTitle = '1 free ticket deducted for attempting the test';
+                        createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.FREE_TICKET_DEDUCTED_FOR_TEST);
+                    } else if (state.walletMoney) {
+                        
+                        const balance = walletMoney - entryFee;
+                        walletService.updateWallet({ balance });
+
+                        const txnTitle = `${entryFee} Rs. from wallet deducted for attempting the test`;
+                        createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.WALLET_DEDUCTED_FOR_TEST);
+                    }
 
                     //increment the user enrolled count
                     testService.incrementEnrolledCount(testId);
@@ -108,36 +169,6 @@ const Attempt = ({navigation, route }) => {
             console.error(`error in getWalletBalance: ${err}`);
         }
     }
-
-    const fetchInitialData = async () => {
-        setLoading(true);
-        await getWalletBalance();
-        await getFreeTickets();
-        setLoading(false);
-    }
-
-    useEffect(()=> {
-        if(route?.params?.test) {
-            setState((prev) => {
-                return { ...prev, ...route.params.test }
-            })
-        }
-
-        fetchInitialData();
-
-        const backAction = () => {
-            console.info(`backAction called in attempt screen`);
-            navigation.navigate(Constant.ROUTES.DASHBOARD);
-            return true;
-          };
-      
-          const backHandler = BackHandler.addEventListener(
-            "hardwareBackPress",
-            backAction
-          );
-      
-          return () => backHandler.remove();
-    }, [route?.params?.test]);
 
     const langSwitch = (val) => {
         console.info(val);

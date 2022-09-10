@@ -7,6 +7,7 @@ import ModalTicket from "../../components/modals/modalTicket";
 import { CLOSE_MODAL, ACTION_TYPES, APP_ENV, ENVS, PAYTM_MERCHANT_ID, PAYTMENT_CALLBACK_BACKEND, TXN_TYPE, TXN_STATUS } from '../../constant/constant';
 import AllInOneSDKManager from 'paytm_allinone_react-native';
 import { paymentGatewayService, sendAppLogService, transactionService, walletService } from "../../services";
+import { generateOrderId } from "../../utils/utils";
 
 const Wallet = ({ userId }) => {
     const [walletBalance, setWalletBalance] = useState(0);
@@ -24,41 +25,20 @@ const Wallet = ({ userId }) => {
         }
     }, [userId]);
 
-    const showErrorAlert = () => {
-        Alert.alert('Warning', `An error occured please try again.`, [
+    const showAlert = (msg, type) => {
+        Alert.alert(type, msg, [
             {
                 text: 'close', 'onPress': () => {}
             }
         ]);
     }
-
-    const showAlert = (msg) => {
-        Alert.alert('Info', msg, [
-            {
-                text: 'close', 'onPress': () => {}
-            }
-        ]);
-    }
-    
-    const generateOrderId = () => {
-        const r = Math.random() * new Date().getMilliseconds();
-
-        const id = 'TRANS' + userUserId + '_' +
-            (1 + Math.floor(r % 2000) + 10000) +
-            'b' +
-            (Math.floor(r % 100000) + 10000);
-
-        setOrderId(id);
-
-        return id;
-    };
 
     const createTransaction = (amount, orderId) => {
         console.info('createTransaction called');
         // if success then create a transaction entry
         const txnBody = {
             orderId,
-            userUserId,
+            userId: userUserId,
             mid: PAYTM_MERCHANT_ID,
             txnAmount: amount,
             isSuccess: false,
@@ -76,19 +56,19 @@ const Wallet = ({ userId }) => {
             });
     }
 
-    const updateSuccessTransaction = (paytmTxnStatus, transDataBody) => {
+    const updateSuccessTransaction = (transDataBody) => {
         const updateTransaction = {
             orderId,
             txnTitle: `Added ${amount} in wallet`,
-            userUserId,
+            userId: userUserId,
             status: TXN_STATUS.SUCCESS,
-            paytmTxnStatus,
+            paytmTxnStatus: transDataBody?.STATUS,
             isSuccess: true,
             bankName: transDataBody.BANKNAME,
             bankTxnId: transDataBody.BANKTXNID,
             txnAmount: transDataBody.txnAmount,
             currency: transDataBody.CURRENCY,
-            gatwayName: transDataBody.GATEWAYNAME,
+            gatewayName: transDataBody.GATEWAYNAME,
             paymentMode: transDataBody.PAYMENTMODE,
             respCode: transDataBody.RESPCODE,
             respMsg: transDataBody.RESPMSG,
@@ -108,6 +88,7 @@ const Wallet = ({ userId }) => {
     const addMoney = async (amount) => {
         try {
             const orderId = generateOrderId();
+            setOrderId(id);
             const mid = PAYTM_MERCHANT_ID;
             const callbackUrl = PAYTMENT_CALLBACK_BACKEND;
             const isStaging = APP_ENV !== ENVS.PROD ? true : false;
@@ -119,7 +100,7 @@ const Wallet = ({ userId }) => {
             const getTokenData = await paymentGatewayService.getTxnToken({ orderId, amount });
 
             if (!getTokenData.data.success) {
-                showErrorAlert();
+                showAlert('An Error Occured, Please try again', 'Error');
 
                 return;
             }
@@ -132,7 +113,7 @@ const Wallet = ({ userId }) => {
             sendAppLogService.sendAppLogs({ txnToken });
 
             if (!txnToken) {
-                showErrorAlert();
+                showAlert('An Error Occured, Please try again', 'Error');
 
                 return;
             }
@@ -151,17 +132,19 @@ const Wallet = ({ userId }) => {
                 'skolearn://'
             );
 
-            sendAppLogService.sendAppLogs({ msg: transData?.data });
-
-            const transDataBody = transData?.data;
+            const transDataBody = transData;
             const paytmTxnStatus = transDataBody?.STATUS;
+
+            sendAppLogService.sendAppLogs({ transData, paytmTxnStatus });
+
             //if success
             if (paytmTxnStatus === 'TXN_SUCCESS') {
                 //call the verify status api
                 const paymentStatus = await paymentGatewayService.verifyTxnStatus({ orderId });
 
                 //send logs to backend
-                sendAppLogService.sendAppLogs({ totalAmount, paymentStatus: paymentStatus?.data });
+                sendAppLogService.sendAppLogs({ totalAmount, paymentStatus1: paymentStatus?.data });
+                sendAppLogService.sendAppLogs({ totalAmount, paymentStatus2: paymentStatus });
 
                 // if status is not success then return
                 if (!paymentStatus?.data?.data?.isPaymentSuccess) {
@@ -176,8 +159,9 @@ const Wallet = ({ userId }) => {
                 sendAppLogService.sendAppLogs({ totalAmount, userUserId });
 
                 //call the success update transaction api
-                updateSuccessTransaction(paytmTxnStatus, transDataBody);
+                updateSuccessTransaction(transDataBody);
 
+                sendAppLogService.sendAppLogs({ 'msg': 'updating walled', data: { userUserId, totalAmount } });
                 //update the wallet balance
                 walletService.updateWallet({ userId: userUserId, balance: totalAmount });
 
@@ -197,7 +181,7 @@ const Wallet = ({ userId }) => {
             const errorMsg = err?.message || err?.data?.message
             const updateTransaction = {
                 orderId,
-                userUserId,
+                userId: userUserId,
                 status: TXN_STATUS.FAILED,
                 paytmTxnStatus: 'failed',
                 isSuccess: false,
@@ -205,7 +189,7 @@ const Wallet = ({ userId }) => {
             }
             //update the transaction status by order id
             transactionService.updateTransaction(updateTransaction);
-            showErrorAlert();
+            showAlert(updateTransaction.respMsg, 'Error');
         }
     }
     const handlePress = (actionType, payload) => {

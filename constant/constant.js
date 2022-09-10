@@ -197,5 +197,7 @@ export const TXN_STATUS = {
 
 export const TXN_TYPE = {
   ADD_MONEY: 'addMoney',
-  WITHDRAWAL: 'withdrawal'
+  WITHDRAWAL: 'withdrawal',
+  WALLET_DEDUCTED_FOR_TEST: 'walletDeductedForTest',
+  FREE_TICKET_DEDUCTED_FOR_TEST: 'freeTicketDeductedForTest'
 }

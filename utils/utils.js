@@ -36,3 +36,14 @@ export const getFromStorage = async (key) => {
 
     return data;
 }
+
+export const generateOrderId = (userUserId) => {
+    const r = Math.random() * new Date().getMilliseconds();
+
+    const id = 'TRANS' + userUserId + '_' +
+        (1 + Math.floor(r % 2000) + 10000) +
+        'b' +
+        (Math.floor(r % 100000) + 10000);
+
+    return id;
+};
