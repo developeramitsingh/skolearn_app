@@ -79,6 +79,7 @@ const Wallet = ({ userId }) => {
     const updateSuccessTransaction = (paytmTxnStatus, transDataBody) => {
         const updateTransaction = {
             orderId,
+            txnTitle: `Added ${amount} in wallet`,
             userUserId,
             status: TXN_STATUS.SUCCESS,
             paytmTxnStatus,
