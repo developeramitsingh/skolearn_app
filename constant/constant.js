@@ -40,6 +40,14 @@ export const ENVS = {
   DEFAULT: 'default',
 };
 
+export const ENVS = {
+  STAGING: 'staging',
+  PROD: 'production',
+  DEV: 'development',
+  BETA: 'beta',
+  DEFAULT: 'default',
+};
+
 function getEnvUrl() {
   try {
     const releaseChannel = Updates.releaseChannel;
