@@ -20,6 +20,7 @@ const Wallet = ({ userId }) => {
     const [createTicketModal, setCreateTicket] = useState(false);
     const [isLoading, setLoading] = useState(false);
     const [isDisabled, setDisabled] = useState(true);
+    const [errOccured, setErrorOccured] = useState(false);
 
     const getWalletBalance = async () => {
         try {
@@ -71,7 +72,7 @@ const Wallet = ({ userId }) => {
         }
 
         fetchInitialData();
-    }, [userId, walletBalance]);
+    }, [userId, walletBalance, errOccured]);
 
     const showAlert = (msg, type) => {
         Alert.alert(type, msg, [
@@ -222,7 +223,7 @@ const Wallet = ({ userId }) => {
                     showAlert(msgPending);
 
                     updateTransactionStatus(orderId, userUserId, `${msgPending}::paytmTxnStatus::${paytmTxnStatus}`, TXN_STATUS.PENDING);
-
+                    setErrorOccured(true);
                     return;
                 }
 
@@ -245,6 +246,7 @@ const Wallet = ({ userId }) => {
             } else {
                 updateTransactionStatus(orderId, userUserId, paytmTxnStatus, TXN_STATUS.FAILED);
                 showAlert(`Transaction Failed!`, 'Warning');
+                setErrorOccured(true);
             }
 
             setDisabled(false);
@@ -259,6 +261,7 @@ const Wallet = ({ userId }) => {
             updateTransactionStatus(orderId, userUserId, errorMsg, TXN_STATUS.FAILED);
 
             showAlert(`Transaction failed!: error: ${errorMsg}`, 'Warning');
+            setErrorOccured(true);
         }
     }
     const handlePress = async (actionType, payload) => {
