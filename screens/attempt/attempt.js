@@ -133,14 +133,14 @@ const Attempt = ({navigation, route }) => {
                         const ticket = freeTickets - 1;
                         freeTicketsService.updateFreeTickets({ freeTickets: ticket });
 
-                        const txnTitle = '1 free ticket deducted for attempting the test';
+                        const txnTitle = '1 Free Ticket Deducted for Attempting the Test';
                         createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.FREE_TICKET_DEDUCTED_FOR_TEST);
                     } else if (state.walletMoney) {
                         
                         const balance = walletMoney - entryFee;
                         walletService.updateWallet({ balance });
 
-                        const txnTitle = `${entryFee} Rs. deducted from wallet for attempting the test`;
+                        const txnTitle = `${entryFee} Rs. Deducted from Wallet for Attempting the Test`;
                         createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.WALLET_DEDUCTED_FOR_TEST);
                     }
 
