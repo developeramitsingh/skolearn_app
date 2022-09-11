@@ -135,6 +135,25 @@ const Wallet = ({ userId }) => {
             });
     }
 
+    const updateTransactionStatus = (orderId, userUserId, respMsg, status) => {
+        const updateTransaction = {
+            orderId,
+            userId: userUserId,
+            status,
+            paytmTxnStatus: status,
+            isSuccess: false,
+            respMsg,
+        }
+
+        sendAppLogService.sendAppLogs({ 'updateTransactionStatus': updateTransaction });
+        //update the transaction status by order id
+        transactionService.updateTransaction(updateTransaction).catch(err2 => {
+            const errMsgCatch = `error in updateTransactionStatus for adding money :: ${err2}`;
+            console.error(errMsgCatch);
+            sendAppLogService.sendAppLogs({ errMsgCatch });
+        });
+    }
+
     const addMoney = async (amount) => {
         setDisabled(true);
         setLoading(true);
@@ -199,7 +218,10 @@ const Wallet = ({ userId }) => {
 
                 // if status is not success then return
                 if (!paymentStatus?.data?.data?.isPaymentSuccess) {
-                    showAlert(`Transaction successfull! However we are still verifying your payment from bank. We will notify once done`);
+                    const msgPending = `Transaction successfull! However we are still verifying your payment from bank. We will notify once done`;
+                    showAlert(msgPending);
+
+                    updateTransactionStatus(orderId, userUserId, `${msgPending}::paytmTxnStatus::${paytmTxnStatus}`, TXN_STATUS.PENDING);
 
                     return;
                 }
@@ -221,6 +243,7 @@ const Wallet = ({ userId }) => {
                 // show success transaction alert
                 showAlert(`Money Added to Wallet!`, 'Info');
             } else {
+                updateTransactionStatus(orderId, userUserId, paytmTxnStatus, TXN_STATUS.FAILED);
                 showAlert(`Transaction Failed!`, 'Warning');
             }
 
@@ -233,22 +256,7 @@ const Wallet = ({ userId }) => {
             sendAppLogService.sendAppLogs({ errorMsg: `error in add money payment gateway:: error here:: ${err}` });
 
             const errorMsg = err?.message || err?.data?.message
-            const updateTransaction = {
-                orderId,
-                userId: userUserId,
-                status: TXN_STATUS.FAILED,
-                paytmTxnStatus: 'failed',
-                isSuccess: false,
-                respMsg: errorMsg || `${err}`
-            }
-
-            sendAppLogService.sendAppLogs({ 'updateTransaction': updateTransaction });
-            //update the transaction status by order id
-            transactionService.updateTransaction(updateTransaction).catch(err2 => {
-                const errMsgCatch = `error in updating error for adding money :: ${err2}`;
-                console.error(errMsgCatch);
-                sendAppLogService.sendAppLogs({ errMsgCatch });
-            });
+            updateTransactionStatus(orderId, userUserId, errorMsg, TXN_STATUS.FAILED);
 
             showAlert('Transaction failed!', 'Warning');
         }
