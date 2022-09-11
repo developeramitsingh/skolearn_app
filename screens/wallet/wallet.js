@@ -14,7 +14,6 @@ const Wallet = ({ userId }) => {
     const [walletBalance, setWalletBalance] = useState(0);
     const [freeTickets, setFreeTickets] = useState(0);
     const [transactionList, setTransactionList] = useState([]);
-    const [orderId, setOrderId] = useState(null);
     const [userUserId, setUserId] = useState(null);
     const [showAddMoney, setAddMoney] = useState(false);
     const [showWithdrawMoney, setWithdrawMoney] = useState(false);
@@ -137,11 +136,10 @@ const Wallet = ({ userId }) => {
     }
 
     const addMoney = async (amount) => {
+        setDisabled(true);
+        setLoading(true);
+        const orderId = generateOrderId(userUserId);
         try {
-            setDisabled(true);
-            setLoading(true);
-            const orderId = generateOrderId(userUserId);
-            setOrderId(orderId);
             const mid = PAYTM_MERCHANT_ID;
             const callbackUrl = PAYTMENT_CALLBACK_BACKEND;
             const isStaging = APP_ENV !== ENVS.PROD ? true : false;
@@ -232,7 +230,7 @@ const Wallet = ({ userId }) => {
             setDisabled(false);
             setLoading(false);
             console.error(`error in addmoney: ${err}`);
-            sendAppLogService.sendAppLogs({ errorMsg: `error in add money payment gateway::err:: ${err}` });
+            sendAppLogService.sendAppLogs({ errorMsg: `error in add money payment gateway:: error here:: ${err}` });
 
             const errorMsg = err?.message || err?.data?.message
             const updateTransaction = {
@@ -243,9 +241,16 @@ const Wallet = ({ userId }) => {
                 isSuccess: false,
                 respMsg: errorMsg || `${err}`
             }
+
+            sendAppLogService.sendAppLogs({ 'updateTransaction': updateTransaction });
             //update the transaction status by order id
-            transactionService.updateTransaction(updateTransaction);
-            showAlert(updateTransaction.respMsg, 'Error');
+            transactionService.updateTransaction(updateTransaction).catch(err2 => {
+                const errMsgCatch = `error in updating error for adding money :: ${err2}`;
+                console.error(errMsgCatch);
+                sendAppLogService.sendAppLogs({ errMsgCatch });
+            });
+
+            showAlert('Transaction failed!', 'Warning');
         }
     }
     const handlePress = (actionType, payload) => {
