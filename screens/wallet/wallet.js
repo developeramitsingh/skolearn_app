@@ -281,22 +281,32 @@ const Wallet = ({ userId }) => {
     };
 
     const RenderTxnsItems = ({item })=> {
+        const txnStatusStyle = item.status === TXN_STATUS.FAILED 
+            ? walletStyles.STATUS_FAILED
+            : item.status === TXN_STATUS.PENDING
+            ? walletStyles.STATUS_PENDING
+            : item.status === TXN_STATUS.SUCCESS
+            ? walletStyles.STATUS_SUCCESS
+            : walletStyles.STATUS_INITIATED
         return (
-            <View key={item._id} style={walletStyles.CARD}>
-                <View style={walletStyles.LEFT_COL}>
-                    <Text style={COMMON_STYLES.BODY_TITLE}>{item.txnTitle}</Text>
-                    <Text style={walletStyles.CARD_TEXT}>{item.txnDate}</Text>
-                    <Text style={walletStyles.CARD_TEXT}>Reference number</Text>
-                    <Text style={walletStyles.CARD_TEXT}>{item._id}</Text>
+            <>
+                <View key={item._id} style={walletStyles.CARD}>
+                    <View style={walletStyles.LEFT_COL}>
+                        <Text style={COMMON_STYLES.BODY_TITLE}>{item.txnTitle}</Text>
+                        <Text style={walletStyles.CARD_TEXT}>{item.txnDate}</Text>
+                        <Text style={[walletStyles.CARD_TEXT, { marginTop: 10 }]}>Reference number</Text>
+                        <Text style={walletStyles.CARD_TEXT}>{item._id}</Text>
+                    </View>
+        
+                    <View style={walletStyles.RIGHT_COL}>
+                        <TouchableOpacity onPress ={() => setCreateTicket(true)} style={COMMON_STYLES.SUB_BTN_2}>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Raise Ticket</Text>
+                        </TouchableOpacity>
+                        <Text style={[walletStyles.TXN_STATUS, txnStatusStyle]}>{item.status}</Text>
+                    </View>
                 </View>
-    
-                <View style={walletStyles.RIGHT_COL}>
-                    <TouchableOpacity onPress ={() => setCreateTicket(true)} style={COMMON_STYLES.SUB_BTN_2}>
-                        <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Raise Tickets</Text>
-                    </TouchableOpacity>
-                    <Text style={walletStyles.CARD_TEXT}>{item.status}</Text>
-                </View>
-            </View>
+                <View style={COMMON_STYLES.SEPARATOR}></View>
+            </>
         )
     };
 

@@ -12,20 +12,20 @@ export const walletStyles = StyleSheet.create({
     },
     CARD: {
         backgroundColor: APP_COLORS.white,
-        borderBottomWidth: 0.5,
-        borderColor: APP_COLORS.light_grey,
+        //borderBottomWidth: 0.5,
+        //borderColor: APP_COLORS.light_grey,
         flex: 1,
         borderRadius: 10,
         paddingVertical: 5,
         flexDirection: 'row',
         flexWrap: 'nowrap',
         justifyContent: 'space-between',
-        marginVertical: 5,
+        marginVertical: 10,
     },
     CARD_TEXT: {
         color: APP_COLORS.appBlue,
         fontSize: 10,
-        marginVertical: 2,
+        //marginVertical: 2,
     },
     LEFT_COL: {
         flexDirection: 'column',
@@ -38,4 +38,32 @@ export const walletStyles = StyleSheet.create({
         justifyContent: 'space-between',
         width: '40%',
     },
+
+    TXN_STATUS: {
+        fontSize: 10,
+        opacity: 0.8,
+        marginVertical: 2,
+        paddingVertical: 2.5,
+        paddingHorizontal: 5,
+        borderRadius: 10,
+    },
+    STATUS_INITIATED: {
+        backgroundColor: APP_COLORS.light_grey,
+        color: APP_COLORS.WHITE,
+    },
+
+    STATUS_SUCCESS: {
+        backgroundColor: APP_COLORS.green,
+        color: APP_COLORS.black,
+    },
+
+    STATUS_FAILED: {
+        backgroundColor: APP_COLORS.red,
+        color: APP_COLORS.white,
+    },
+
+    STATUS_PENDING: {
+        backgroundColor: APP_COLORS.yellow,
+        color: APP_COLORS.black,
+    }
 });
