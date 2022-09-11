@@ -5,24 +5,36 @@ import { COMMON_STYLES } from "../../common/styles/commonStyles";
 import { CLOSE_MODAL} from '../../constant/constant';
 import Loader from '../../components/loader/loader';
 
-const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, isDisabled }) => {
-    const [state, setState] = useState({
-        value: '',
-    });
+const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, validRegex }) => {
+    const [value, setValue] = useState('');
+    const [disable, setDisable] = useState(true);
 
     const handleChange = (val) => {
         console.info(val);
-        setState(prev => {
-            return { ...prev, value: val, };
-        })
 
+        if (validRegex && keyboardType === 'numeric') {
+            val = val.replace(validRegex, '');
+        }
+
+        if (val) {
+            setDisable(false);
+            setValue(val);
+        } else {
+            setDisable(true);
+            setValue('');
+        }
+
+        console.info(`val->`, val);
+        
     }
+
     return(
         <Modal
             animationType="slide"
             transparent={true}
             visible={modalVisible}
         >
+            {console.info({ disable, value })}
             <View style={modalStyles.CONT_CENTER}>
                 <Text style={modalStyles.modalTitle}>{title}</Text>
 
@@ -32,21 +44,29 @@ const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
                         style={modalStyles.TEXT_INPUT}
                         keyboardType= {keyboardType ? keyboardType : "default"}
                         placeholder={placeholder}
-                        onChangeText= {handleChange} value={state.value}
+                        onChangeText= {handleChange} 
+                        value={value}
                     />
                 </View>
 
                 <View style={modalStyles.ROW_SPREAD}>
-                    <TouchableOpacity disabled={isDisabled} onPress={() => {
-                        handleModalPress(actionType, state.value)
-                    }} style={[modalStyles.BTN, isDisabled && COMMON_STYLES.DISABLED_BTN]}>
-                        <Text style={[COMMON_STYLES.BTN_TEXT, isDisabled && COMMON_STYLES.DISABLED_TEXT]}>{btnTxt}</Text>
-                        <Loader isLoading={isDisabled}/>
+                    <TouchableOpacity disabled={disable} onPress={async () => {
+                        setDisable(true)
+                        await handleModalPress(actionType, value)
+                        setDisable(false)
+                    }} style={[modalStyles.BTN, disable && COMMON_STYLES.DISABLED_BTN]}>
+                        <Text style={[COMMON_STYLES.BTN_TEXT, disable && COMMON_STYLES.DISABLED_TEXT]}>{btnTxt}</Text>
+                        <Loader isLoading={disable && value ? true : false}/>
                     </TouchableOpacity>
                 </View>
 
                 <View style={modalStyles.ROW_SPREAD}>
-                    <TouchableOpacity onPress={() => handleModalPress(CLOSE_MODAL)} style={modalStyles.BTN}>
+                    <TouchableOpacity onPress={() => {
+                            setValue('');
+                            setDisable(true);
+                            handleModalPress(CLOSE_MODAL)
+                        }
+                    } style={modalStyles.BTN}>
                         <Text style={COMMON_STYLES.BTN_TEXT}>Close</Text>
                     </TouchableOpacity>
                 </View>

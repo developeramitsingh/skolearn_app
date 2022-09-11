@@ -19,7 +19,7 @@ const Wallet = ({ userId }) => {
     const [showWithdrawMoney, setWithdrawMoney] = useState(false);
     const [createTicketModal, setCreateTicket] = useState(false);
     const [isLoading, setLoading] = useState(false);
-    const [isDisabled, setDisabled] = useState(false);
+    const [isDisabled, setDisabled] = useState(true);
 
     const getWalletBalance = async () => {
         try {
@@ -258,20 +258,20 @@ const Wallet = ({ userId }) => {
             const errorMsg = err?.message || err?.data?.message
             updateTransactionStatus(orderId, userUserId, errorMsg, TXN_STATUS.FAILED);
 
-            showAlert('Transaction failed!', 'Warning');
+            showAlert(`Transaction failed!: error: ${errorMsg}`, 'Warning');
         }
     }
-    const handlePress = (actionType, payload) => {
+    const handlePress = async (actionType, payload) => {
         if (actionType === 'addMoney') {
             console.info('add money');
-            addMoney(payload);
+            await addMoney(payload);
         } else if(actionType === 'withdraw') {
             console.info('withdraw');
-            setWithdrawMoney(false);
+            await setWithdrawMoney(false);
         } else if(actionType === ACTION_TYPES.CREATE_TICKET) {
             console.info('createTicket');
             //call api to create ticket entry
-            setCreateTicket(false);
+            await setCreateTicket(false);
         }  else if(actionType === CLOSE_MODAL) {
             console.info('modal closed');
             setAddMoney(false);
@@ -314,7 +314,7 @@ const Wallet = ({ userId }) => {
     return (
         <SafeAreaView style={COMMON_STYLES.CONTAINER}>
             <Loader isLoading={isLoading}/>
-            <ModalWindow isDisabled ={isDisabled} modalVisible={showAddMoney} handleModalPress={handlePress} title="Add Money to Wallet" keyboardType='numeric' actionType= "addMoney" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
+            <ModalWindow isDisabled ={isDisabled} setDisabled={setDisabled} modalVisible={showAddMoney} handleModalPress={handlePress} validRegex={/[^0-9]+/g} title="Add Money to Wallet" keyboardType='numeric' actionType= "addMoney" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
 
             <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={handlePress} title="Request Widthdraw Money" keyboardType='numeric'  actionType= "withdraw"  btnTxt = 'Request Withdraw' placeholder='Enter Amount to withdraw'/>
 
@@ -350,7 +350,7 @@ const Wallet = ({ userId }) => {
                 <FlatList
                     data = { transactionList || []}
                     renderItem ={RenderTxnsItems}
-                    keyExtractor ={item => item.id}
+                    keyExtractor ={item => item._id}
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}
                 />
