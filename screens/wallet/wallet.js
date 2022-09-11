@@ -20,6 +20,7 @@ const Wallet = ({ userId }) => {
     const [showWithdrawMoney, setWithdrawMoney] = useState(false);
     const [createTicketModal, setCreateTicket] = useState(false);
     const [isLoading, setLoading] = useState(false);
+    const [isDisabled, setDisabled] = useState(false);
 
     const getWalletBalance = async () => {
         try {
@@ -137,6 +138,7 @@ const Wallet = ({ userId }) => {
 
     const addMoney = async (amount) => {
         try {
+            setDisabled(true);
             setLoading(true);
             const orderId = generateOrderId(userUserId);
             setOrderId(orderId);
@@ -224,8 +226,10 @@ const Wallet = ({ userId }) => {
                 showAlert(`Transaction Failed!`, 'Warning');
             }
 
+            setDisabled(false);
             setAddMoney(false);
         } catch (err) {
+            setDisabled(false);
             setLoading(false);
             console.error(`error in addmoney: ${err}`);
             sendAppLogService.sendAppLogs({ errorMsg: `error in add money payment gateway::err:: ${err}` });
@@ -247,7 +251,7 @@ const Wallet = ({ userId }) => {
     const handlePress = (actionType, payload) => {
         if (actionType === 'addMoney') {
             console.info('add money');
-            addMoney(payload)
+            addMoney(payload);
         } else if(actionType === 'withdraw') {
             console.info('withdraw');
             setWithdrawMoney(false);
@@ -287,7 +291,7 @@ const Wallet = ({ userId }) => {
     return (
         <SafeAreaView style={COMMON_STYLES.CONTAINER}>
             <Loader isLoading={isLoading}/>
-            <ModalWindow modalVisible={showAddMoney} handleModalPress={handlePress} title="Add Money to Wallet" keyboardType='numeric' actionType= "addMoney" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
+            <ModalWindow isDisabled ={isDisabled} modalVisible={showAddMoney} handleModalPress={handlePress} title="Add Money to Wallet" keyboardType='numeric' actionType= "addMoney" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
 
             <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={handlePress} title="Request Widthdraw Money" keyboardType='numeric'  actionType= "withdraw"  btnTxt = 'Request Withdraw' placeholder='Enter Amount to withdraw'/>
 
@@ -306,11 +310,11 @@ const Wallet = ({ userId }) => {
             </View>
 
             <View style={[COMMON_STYLES.ROW, { marginTop: 10 }]}>
-                <TouchableOpacity onPress={()=>setAddMoney(true)} style={COMMON_STYLES.SUB_BTN_1}>
+                <TouchableOpacity  onPress={()=>setAddMoney(true)} style={COMMON_STYLES.SUB_BTN_1}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>Add Money</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={()=>setWithdrawMoney(true)} style={COMMON_STYLES.SUB_BTN_1}>
+                <TouchableOpacity onPress={()=> setWithdrawMoney(true)} style={COMMON_STYLES.SUB_BTN_1}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>Withdraw</Text>
                 </TouchableOpacity>
             </View>
