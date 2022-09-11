@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { modalStyles } from  './modalStyles';
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
 import { CLOSE_MODAL} from '../../constant/constant';
+import Loader from '../../components/loader/loader';
 
-const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength }) => {
+const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, isDisabled }) => {
     const [state, setState] = useState({
         value: '',
     });
@@ -36,8 +37,11 @@ const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
                 </View>
 
                 <View style={modalStyles.ROW_SPREAD}>
-                    <TouchableOpacity onPress={() => handleModalPress(actionType, state.value)} style={modalStyles.BTN}>
-                        <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
+                    <TouchableOpacity disabled={isDisabled} onPress={() => {
+                        handleModalPress(actionType, state.value)
+                    }} style={[modalStyles.BTN, isDisabled && COMMON_STYLES.DISABLED_BTN]}>
+                        <Text style={[COMMON_STYLES.BTN_TEXT, isDisabled && COMMON_STYLES.DISABLED_TEXT]}>{btnTxt}</Text>
+                        <Loader isLoading={isDisabled}/>
                     </TouchableOpacity>
                 </View>
 

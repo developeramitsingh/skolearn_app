@@ -2,7 +2,7 @@ import { ActivityIndicator, View } from "react-native"
 import { COMMON_STYLES } from "../../common/styles/commonStyles"
 import { APP_COLORS } from "../../constant/constant"
 
-const Loader = ({ isLoading, }) => {
+const Loader = ({ isLoading }) => {
     return (
         <>
             {
