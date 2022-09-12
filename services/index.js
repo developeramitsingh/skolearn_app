@@ -10,6 +10,7 @@ import walletService from './walletService';
 import freeTicketsService from './freeTicketsService';
 import paymentGatewayService from './paymentGatewayService';
 import transactionService from './transactionService';
+import withdrawService from './withdrawService';
 
 export {
     enrolledTestsService,
@@ -23,5 +24,6 @@ export {
     walletService,
     freeTicketsService,
     paymentGatewayService,
-    transactionService
+    transactionService,
+    withdrawService
 }

@@ -6,7 +6,7 @@ import ModalWindow from "../../components/modals/modalWindow";
 import ModalTicket from "../../components/modals/modalTicket";
 import { CLOSE_MODAL, ACTION_TYPES, APP_ENV, ENVS, PAYTM_MERCHANT_ID, PAYTMENT_CALLBACK_BACKEND, TXN_TYPE, TXN_STATUS } from '../../constant/constant';
 import AllInOneSDKManager from 'paytm_allinone_react-native';
-import { freeTicketsService, paymentGatewayService, sendAppLogService, transactionService, walletService } from "../../services";
+import { freeTicketsService, paymentGatewayService, sendAppLogService, transactionService, walletService, withdrawService } from "../../services";
 import { generateOrderId } from "../../utils/utils";
 import Loader from '../../components/loader/loader';
 
@@ -20,6 +20,7 @@ const Wallet = ({ userId }) => {
     const [createTicketModal, setCreateTicket] = useState(false);
     const [isLoading, setLoading] = useState(false);
     const [isDisabled, setDisabled] = useState(true);
+    const [errOccured, setErrorOccured] = useState(false);
 
     const getWalletBalance = async () => {
         try {
@@ -47,7 +48,7 @@ const Wallet = ({ userId }) => {
 
     const getTransactionList = async () => {
         try {
-            const allTxns = await transactionService.getAllTransaction("{}", ["_id", "txnTitle", "status", "isSuccess", "txnDate"]);
+            const allTxns = await transactionService.getAllTransaction("{}", ["_id", "txnTitle", "status", "isSuccess", "createdAt"]);
 
             console.info(allTxns.data);
             if (allTxns?.data) {
@@ -71,7 +72,7 @@ const Wallet = ({ userId }) => {
         }
 
         fetchInitialData();
-    }, [userId, walletBalance]);
+    }, [userId, walletBalance, errOccured]);
 
     const showAlert = (msg, type) => {
         Alert.alert(type, msg, [
@@ -176,7 +177,6 @@ const Wallet = ({ userId }) => {
                 return;
             }
 
-
             const resBody = getTokenData?.data?.data?.body;
             const txnToken =  resBody?.txnToken;
 
@@ -222,7 +222,7 @@ const Wallet = ({ userId }) => {
                     showAlert(msgPending);
 
                     updateTransactionStatus(orderId, userUserId, `${msgPending}::paytmTxnStatus::${paytmTxnStatus}`, TXN_STATUS.PENDING);
-
+                    setErrorOccured(true);
                     return;
                 }
 
@@ -245,6 +245,7 @@ const Wallet = ({ userId }) => {
             } else {
                 updateTransactionStatus(orderId, userUserId, paytmTxnStatus, TXN_STATUS.FAILED);
                 showAlert(`Transaction Failed!`, 'Warning');
+                setErrorOccured(true);
             }
 
             setDisabled(false);
@@ -259,7 +260,32 @@ const Wallet = ({ userId }) => {
             updateTransactionStatus(orderId, userUserId, errorMsg, TXN_STATUS.FAILED);
 
             showAlert(`Transaction failed!: error: ${errorMsg}`, 'Warning');
+            setErrorOccured(true);
         }
+    }
+
+    const withDrawAmount = async (amount) => {
+        try {
+            if (!+amount) {
+                showAlert("Amount should be greater then 0", "Warning");
+
+                return;
+            }
+
+            if (+amount > +walletBalance) {
+                showAlert("Wallet money is insufficient!", "Warning");
+
+                return;
+            }
+
+            await withdrawService.createWithdraw({ amount });
+
+            setWalletBalance(+walletBalance - +amount)
+            showAlert("Withdraw request raised!", "Success");
+        } catch (err) {
+            console.error(`error in withDrawAmount of wallet: ${err}`);
+        }
+        setWithdrawMoney(false);
     }
     const handlePress = async (actionType, payload) => {
         if (actionType === 'addMoney') {
@@ -267,7 +293,7 @@ const Wallet = ({ userId }) => {
             await addMoney(payload);
         } else if(actionType === 'withdraw') {
             console.info('withdraw');
-            await setWithdrawMoney(false);
+            await withDrawAmount(payload);
         } else if(actionType === ACTION_TYPES.CREATE_TICKET) {
             console.info('createTicket');
             //call api to create ticket entry
@@ -293,7 +319,7 @@ const Wallet = ({ userId }) => {
                 <View key={item._id} style={walletStyles.CARD}>
                     <View style={walletStyles.LEFT_COL}>
                         <Text style={COMMON_STYLES.BODY_TITLE}>{item.txnTitle}</Text>
-                        <Text style={walletStyles.CARD_TEXT}>{item.txnDate}</Text>
+                        <Text style={walletStyles.CARD_TEXT}>{item.createdAt}</Text>
                         <Text style={[walletStyles.CARD_TEXT, { marginTop: 10 }]}>Reference number</Text>
                         <Text style={walletStyles.CARD_TEXT}>{item._id}</Text>
                     </View>
@@ -316,7 +342,7 @@ const Wallet = ({ userId }) => {
             <Loader isLoading={isLoading}/>
             <ModalWindow isDisabled ={isDisabled} setDisabled={setDisabled} modalVisible={showAddMoney} handleModalPress={handlePress} validRegex={/[^0-9]+/g} title="Add Money to Wallet" keyboardType='numeric' actionType= "addMoney" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
 
-            <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={handlePress} title="Request Widthdraw Money" keyboardType='numeric'  actionType= "withdraw"  btnTxt = 'Request Withdraw' placeholder='Enter Amount to withdraw'/>
+            <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={handlePress} title="Request Withdraw Money" keyboardType='numeric'  actionType= "withdraw"  btnTxt = 'Request Withdraw' placeholder='Enter Amount to withdraw'/>
 
             <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title="Create New Ticket" actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = 'Create' placeholder='Enter Subject'/>
 
