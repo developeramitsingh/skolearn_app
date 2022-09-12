@@ -48,7 +48,7 @@ const Wallet = ({ userId }) => {
 
     const getTransactionList = async () => {
         try {
-            const allTxns = await transactionService.getAllTransaction("{}", ["_id", "txnTitle", "status", "isSuccess", "txnDate"]);
+            const allTxns = await transactionService.getAllTransaction("{}", ["_id", "txnTitle", "status", "isSuccess", "createdAt"]);
 
             console.info(allTxns.data);
             if (allTxns?.data) {
@@ -296,7 +296,7 @@ const Wallet = ({ userId }) => {
                 <View key={item._id} style={walletStyles.CARD}>
                     <View style={walletStyles.LEFT_COL}>
                         <Text style={COMMON_STYLES.BODY_TITLE}>{item.txnTitle}</Text>
-                        <Text style={walletStyles.CARD_TEXT}>{item.txnDate}</Text>
+                        <Text style={walletStyles.CARD_TEXT}>{item.createdAt}</Text>
                         <Text style={[walletStyles.CARD_TEXT, { marginTop: 10 }]}>Reference number</Text>
                         <Text style={walletStyles.CARD_TEXT}>{item._id}</Text>
                     </View>
