@@ -242,7 +242,7 @@ const Attempt = ({navigation, route }) => {
             </TouchableHighlight>
 
             <View style ={[COMMON_STYLES.CENTER, attemptStyles.highLightArea]}>
-                <Text style={attemptStyles.LABEL_TEXT}>Entry fee {state.entryFee} Rupees</Text>
+                <Text style={attemptStyles.LABEL_TEXT}>Test Fee {state.entryFee} Rupees</Text>
                 <Text style={attemptStyles.LABEL_TEXT}>or 1 Ticket</Text>
             </View>
 

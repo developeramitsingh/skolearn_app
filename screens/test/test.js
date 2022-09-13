@@ -94,7 +94,6 @@ const Test = ({navigation, route}) => {
     const startTest = async () => {
         let isCameraPerm;
         let isMicPerm;
-        let isMediaPerm;
         if (!hasCameraPermission || !hasMicPermission) {
             const cameraStatus = await Camera.requestCameraPermissionsAsync();
             const micStatus = await Camera.requestMicrophonePermissionsAsync();
@@ -144,7 +143,7 @@ const Test = ({navigation, route}) => {
     const timeLimitTimer = () => {
         let timeTimerObj = setInterval(() => {
             if (time > 0) {
-                setTime((prev) => { return prev - 1 })
+                setTime((prev) => { return (prev - 1) })
             } else {
                 handleChangeQues('next');
             }
@@ -181,7 +180,7 @@ const Test = ({navigation, route}) => {
         const userScore = calculateUserScore(time, optionId);
         //set used answers
         setState(prev=> {
-            return { ...prev, userScore: [...prev.userScore, userScore], optionSelected: optionId, userAnswered: [...prev.userAnswered, { quesId: testQuesData[state.quesIdx]._id, optionSelected: optionId }] };
+            return { ...prev, userScore: [...prev.userScore, userScore], optionSelected: optionId, userAnswered: [...prev.userAnswered, { quesId: testQuesData[state.quesIdx]._id, optionSelected: optionId, timeSecondsLeft: 0  }] };
         });
 
         if(hasCameraPermission && hasMicPermission && !isVideoRecording) {
@@ -297,7 +296,7 @@ const Test = ({navigation, route}) => {
                         <Text style={testStyles.LABEL_TEXT}>Score: {state.userScore?.[state.quesIdx]}</Text>
                         <View style={COMMON_STYLES.ROW}> 
                             <MaterialIcons name="timer" size={28} color="white" />
-                            <Text style={testStyles.LABEL_TEXT}>{time}</Text>
+                            <Text style={testStyles.LABEL_TEXT}>{time?.toFixed(2)}</Text>
                         </View>
                     </View>
 

@@ -42,6 +42,7 @@ const cardListStyles = StyleSheet.create({
         maxHeight: 40,
         borderBottomEndRadius: 5,
         borderBottomLeftRadius: 5,
+        borderTopRightRadius: 3,
     },
     COL_RIGHT_2: {
         flexDirection: 'row',

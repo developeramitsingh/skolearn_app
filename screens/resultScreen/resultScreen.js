@@ -109,7 +109,7 @@ const ResultScreen = ({navigation, testId}) => {
             <View style={resultScreenStyles.ROW}>
                 <Text style={resultScreenStyles.LABEL_TEXT}>Participant Joined: <Text>{state.testData.usersJoined + '/'} {state.testData.usersLimit}</Text>
                 </Text>
-                <Text style={resultScreenStyles.LABEL_TEXT}>Entry Fee: <Text>{state.testData.entryFee}</Text>
+                <Text style={resultScreenStyles.LABEL_TEXT}>Test Fee: <Text>{state.testData.entryFee}</Text>
                 </Text>
             </View>
 

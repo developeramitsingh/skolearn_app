@@ -55,7 +55,7 @@ const CardList = (props) => {
                     </View>
                     { 
                         difficultyLevel &&
-                        <View style={cardListStyles.COL_RIGHT}>
+                        <View style={[cardListStyles.COL_RIGHT, props.horizontal && { backgroundColor: 'white' }]}>
                             <Text style={cardListStyles.LABEL_TEXT}>{difficultyLevel}</Text>
                             <Text style={cardListStyles.LABEL_TEXT_BODY}>{difficultiLevelVal}</Text>
                         </View>
@@ -72,7 +72,7 @@ const CardList = (props) => {
                         [Constant.TEST_TYPES.LIVE, Constant.TEST_TYPES.MY_TEST].includes(props?.testType?.toLowerCase()) &&
                         <View style={cardListStyles.COL_RIGHT_2}>
                             <View>
-                                <Text style={cardListStyles.LABEL_TEXT}>Entry Fee</Text>
+                                <Text style={cardListStyles.LABEL_TEXT}>Test Fee</Text>
                                 <Text style={cardListStyles.FEE}>{item.entryFee}</Text>
                             </View>
                             
