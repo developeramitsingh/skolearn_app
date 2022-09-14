@@ -90,7 +90,7 @@ const ResultScreen = ({navigation, route }) => {
                 <Text style={COMMON_STYLES.BTN_TEXT}>View Solution</Text>
             </TouchableHighlight>
 
-            <LeaderBoard dataList={leaderBoardData} userId ={}/>
+            <LeaderBoard dataList={leaderBoardData}/>
         </SafeAreaView>
     )
 }
