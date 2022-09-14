@@ -94,7 +94,7 @@ const Test = ({navigation, route}) => {
     const startTest = async () => {
         let isCameraPerm;
         let isMicPerm;
-        if (!hasCameraPermission || !hasMicPermission) {
+        if ((!hasCameraPermission || !hasMicPermission) && !route?.params?.previewMode) {
             const cameraStatus = await Camera.requestCameraPermissionsAsync();
             const micStatus = await Camera.requestMicrophonePermissionsAsync();
 
@@ -107,7 +107,7 @@ const Test = ({navigation, route}) => {
             setHasMicPermission(isMicPerm);
         }
 
-        if ((hasCameraPermission && hasMicPermission) || (isMicPerm && isCameraPerm)) {
+        if ((hasCameraPermission && hasMicPermission) || (isMicPerm && isCameraPerm) || (route?.params?.previewMode)) {
             console.info({'insdie here: useEffedct': route?.params?.previewMode})
             if (!route?.params?.previewMode) {
                 timeTimer.current = timeLimitTimer();
@@ -176,14 +176,32 @@ const Test = ({navigation, route}) => {
         }
     }
 
+    //handle option selected
     const handlePress = (optionId) => {
         const userScore = calculateUserScore(time, optionId);
         //set used answers
         setState(prev=> {
-            return { ...prev, userScore: [...prev.userScore, userScore], optionSelected: optionId, userAnswered: [...prev.userAnswered, { quesId: testQuesData[state.quesIdx]._id, optionSelected: optionId, timeSecondsLeft: 0  }] };
+            return { 
+                ...prev, 
+                userScore: [...prev.userScore, userScore], 
+                optionSelected: optionId, 
+                userAnswered: [
+                    ...prev.userAnswered, 
+                    { 
+                        quesId: testQuesData[state.quesIdx]._id, 
+                        optionSelected: optionId, 
+                        timeSecondsLeft: time 
+                    }
+                ] };
         });
 
-        if(hasCameraPermission && hasMicPermission && !isVideoRecording) {
+        //start recording
+        if (
+            hasCameraPermission && 
+            hasMicPermission && 
+            !isVideoRecording && 
+            !route?.params?.previewMode
+        ) {
             recordVideo();
         }
         
@@ -215,7 +233,10 @@ const Test = ({navigation, route}) => {
 
         const userQuesAns = {};
         state?.userAnswered.forEach(userRes => {
-            userQuesAns[userRes.quesId?.toString()] = [userRes.optionSelected];
+            userQuesAns[userRes.quesId?.toString()] = { 
+                optionSelected: [userRes.optionSelected],
+                timeSecondsLeft: userRes.timeSecondsLeft,
+            };
         });
 
         const data = {
@@ -224,7 +245,7 @@ const Test = ({navigation, route}) => {
             userQuesAns,
         }
 
-        console.info(data);
+        console.info({ data });
 
         try {
             await enrolledTestsService.updateEnrolledTests(data)

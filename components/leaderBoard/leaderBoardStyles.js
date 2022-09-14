@@ -16,18 +16,25 @@ export const leaderBoardStyles = StyleSheet.create({
         borderRadius: 5,
         marginVertical: 5,
     },
+    ROW_FOR_CURRENT_USER: {
+        ...COMMON_STYLES.ROW,
+        backgroundColor: APP_COLORS.back,
+        marginHorizontal: 5,
+        borderRadius: 5,
+        marginVertical: 5,
+    },
     BOARD_ROW: {
         flexDirection: 'row',
     },
     HEADING: {
         fontWeight: 'bold',
-        fontSize: 26,
+        fontSize: 20,
         color: APP_COLORS.white,
         textAlign: 'center',
     },
     LABEL_TEXT: {
         fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 10,
         color: APP_COLORS.grey,
         textAlign: 'center',
     },
@@ -55,12 +62,12 @@ export const leaderBoardStyles = StyleSheet.create({
     },
     BODY_LEFT_COL: {
         justifyContent: 'space-between',
-        width: '50%',
+        width: '70%',
         flexDirection: 'row',
     },
     BODY_RIGHT_COL: {
         justifyContent: 'flex-end',
-        width: '50%',
+        width: '30%',
         flexDirection: 'row',
     },
 });

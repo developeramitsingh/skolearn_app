@@ -28,8 +28,8 @@ export const APP_COLORS = {
 };
 
 const PROD_URL= 'https://skolearn.herokuapp.com';
-const STAGE_URL= 'https://fef5-2405-204-3099-865-8cd1-2b7-7ab9-d5a.in.ngrok.io';
-const DEV_URL= 'https://fef5-2405-204-3099-865-8cd1-2b7-7ab9-d5a.in.ngrok.io';
+const STAGE_URL= 'https://8988-2409-4050-e99-9c90-382e-cbb0-7c7b-180d.in.ngrok.io';
+const DEV_URL= 'https://8988-2409-4050-e99-9c90-382e-cbb0-7c7b-180d.in.ngrok.io';
 const BETA_URL= 'https://skolearn.herokuapp.com';
 
 export const ENVS = {
@@ -116,7 +116,7 @@ export const SCREENS = {
     HELP: 'Help',
 };
 
-export const TEST_TIME_LIMIT = 15;
+export const TEST_TIME_LIMIT = 5;
 
 export const CLOSE_MODAL = 'closeModal';
 

@@ -6,85 +6,53 @@ import {resultScreenStyles} from './resultScreenStyles';
 
 import LeaderBoard from '../../components/leaderBoard/leaderBoard';
 import BackBtn from "../../components/backBtn/backBtn";
+import { enrolledTestsService, testService } from "../../services";
+import Loader from '../../components/loader/loader';
 
-const ResultScreen = ({navigation, testId}) => {
-    const [state, setState] = useState({
-        testData: {
-            id: '1',
-            title: '1000 Rupees Scholarship',
-            entryFee: '49',
-            usersJoined: '100',
-            usersLimit: '500',
-            listType: Constant.TEST_TYPES.MY_TEST,
-            expiresOn: '12/08/2022',
-            isResultDeclared: true,
-        },
-        leaderBoardData: [{
-            id: 1,
-            rank: 1,
-            userName: 'Rohan',
-            userScore: 1500,
-            scholarship: 10000
-        },
-        {
-            id: 2,
-            rank: 2,
-            userName: 'Kishan',
-            userScore: 1000,
-            scholarship: 10000
-        },
-        {
-            id: 3,
-            rank: 3,
-            userName: 'Dhoni',
-            userScore: 1000,
-            scholarship: 10000
-        },
-        {
-            id: 4,
-            rank: 4,
-            userName: 'Rahul',
-            userScore: 1000,
-            scholarship: 10000
-        },
-        {
-            id: 5,
-            rank: 5,
-            userName: 'Test user',
-            userScore: 1000,
-            scholarship: 10000
-        },
-        {
-            id: 6,
-            rank: 6,
-            userName: 'Test user 2',
-            userScore: 1000,
-            scholarship: 10000
-        },
-        {
-            id: 7,
-            rank: 7,
-            userName: 'Test user 3',
-            userScore: 1000,
-            scholarship: 10000
-        },
-        {
-            id: 8,
-            rank: 8,
-            userName: 'Test user 4',
-            userScore: 1000,
-            scholarship: 10000
-        },
-        {
-            id: 9,
-            rank: 9,
-            userName: 'Test user 5',
-            userScore: 1000,
-            scholarship: 10000
-        },]
-    });
+const ResultScreen = ({navigation, route }) => {
+    const [testData, setTestData] = useState(null);
+    const [leaderBoardData, setLeaderBoardData] = useState(null);
+    const [isLoading, setLoading] = useState(false);
+
+    const getTestByTestId = async () => {
+        try {
+            const test = await testService.getTestById(route?.params?.testId);
+
+            console.info({ data: test.data})
+            if (test.data) {
+                setTestData(test.data);
+            }
+            
+        } catch (err) {
+            console.error(`error in getTestByTestId`);
+        }
+    }
+
+    const getLeaderBoardData = async () => {
+        try {
+            const enrolledTestData = await enrolledTestsService.getEnrolledTestByTestId(route?.params?.testId);
+
+            console.info({ data: enrolledTestData.data})
+            if (enrolledTestData.data) {
+                setLeaderBoardData(enrolledTestData.data);
+            }
+            
+        } catch (err) {
+            console.error(`error in getTestByTestId`);
+        }
+    }
+
+    const fetchInitialData = async () => {
+        setLoading(true);
+        await Promise.all([getTestByTestId(), getLeaderBoardData()]);
+        setLoading(false);
+    }
 
     useEffect(()=> {
+        if (route?.params?.testId && (!testData || !leaderBoardData)) {
+            fetchInitialData();    
+        }
+        
         const backAction = () => {
             console.info(`backAction called in result screen`);
             navigation.navigate(Constant.ROUTES.DASHBOARD);
@@ -97,31 +65,32 @@ const ResultScreen = ({navigation, testId}) => {
           );
       
           return () => backHandler.remove();
-    }, []);
+    }, [route?.params?.testId]);
 
     const handlePress = ()=>{
-        navigation.navigate(Constant.ROUTES.TEST, { previewMode: true, istestId: state.testData.id });
+        navigation.navigate(Constant.ROUTES.TEST, { previewMode: true, istestId: testData?._id });
     }
 
     return (
         <SafeAreaView style={resultScreenStyles.CONTAINER}>
+            <Loader isLoading={isLoading}/>
             <BackBtn navigation={navigation} routeToGo={Constant.ROUTES.DASHBOARD}/>
             <View style={resultScreenStyles.ROW}>
-                <Text style={resultScreenStyles.LABEL_TEXT}>Participant Joined: <Text>{state.testData.usersJoined + '/'} {state.testData.usersLimit}</Text>
+                <Text style={resultScreenStyles.LABEL_TEXT}>Participant Joined: <Text>{testData?.userEnrolled + '/'} {testData?.userSeats}</Text>
                 </Text>
-                <Text style={resultScreenStyles.LABEL_TEXT}>Test Fee: <Text>{state.testData.entryFee}</Text>
+                <Text style={resultScreenStyles.LABEL_TEXT}>Test Fee: <Text>{testData?.entryFee}</Text>
                 </Text>
             </View>
 
             <View style={resultScreenStyles.ROW}>
-                <Text style ={resultScreenStyles.HEADING}>{state.testData.title}</Text>
+                <Text style ={resultScreenStyles.HEADING}>{testData?.testName}</Text>
             </View>
 
             <TouchableHighlight onPress = {handlePress} style={COMMON_STYLES.BTN_1}>
                 <Text style={COMMON_STYLES.BTN_TEXT}>View Solution</Text>
             </TouchableHighlight>
 
-            <LeaderBoard dataList={state.leaderBoardData}/>
+            <LeaderBoard dataList={leaderBoardData} userId ={}/>
         </SafeAreaView>
     )
 }

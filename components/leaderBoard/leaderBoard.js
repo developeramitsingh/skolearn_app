@@ -1,39 +1,65 @@
 import { SafeAreaView, View, Text, TouchableHighlight, TouchableNativeFeedback, Pressable, FlatList } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
-import {useState} from  'react';
+import {useEffect, useState} from  'react';
 import * as Constant from '../../constant/constant';
 import { leaderBoardStyles } from './leaderBoardStyles';
 import {Ionicons } from '@expo/vector-icons';
+import { getFromStorage } from "../../utils/utils";
 
 const TAB_TYPE = {
     LEATHER_BOARD: 'leaderBoard',
     SCHOLARSHIP: 'scholarship'
 }
 const LeaderBoardContent = ({data, activeTab})=> {
+    const [userRankData, setUserRankData] = useState(null);
+    const [userId, setUserId] = useState(null);
+
+    const getUserRank = async () => {
+        const id = await getFromStorage(Constant.STORAGE_KEYS.USER_ID);
+
+        console.info({ id });
+
+        if(id) {
+            const currentUserData = data?.filter(elem => {
+                console.info(elem);
+                return elem.userId._id === id;
+            })
+
+            console.info({ currentUserData });
+
+            setUserRankData(currentUserData?.[0]);
+            setUserId(id);
+        }
+    }
+    useEffect(() => {
+        getUserRank();
+    }, [data])
+
     const isleaderBoardTab = activeTab === TAB_TYPE.LEATHER_BOARD;
 
-    const ListItems = ({item}) => {
+    const ListItems = ({item, forCurrentUser}) => {
         return (
-            <View elevation={3} key={item.id} style={leaderBoardStyles.ROW_LEATHER_BOARD}>
+            <View elevation={3} key={item._id} style={[leaderBoardStyles.ROW_LEATHER_BOARD, forCurrentUser && leaderBoardStyles.ROW_FOR_CURRENT_USER]}>
                 <View style={leaderBoardStyles.BODY_LEFT_COL}>
-                    <Text style={leaderBoardStyles.LABEL_TEXT}>
-                        <Ionicons name="trophy" size={14} color={Constant.APP_COLORS.yellow} />{item.rank}</Text>
+                    <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>
+                        <Ionicons name="trophy" size={14} color={Constant.APP_COLORS.yellow} />{item.rank || '-'}</Text>
                     {
                         isleaderBoardTab &&
                         <>
-                            <Text style={leaderBoardStyles.LABEL_TEXT}>{item.userName}</Text>
-                            <Text style={leaderBoardStyles.LABEL_TEXT}>{item.userScore}</Text>
+                            <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>{item?.userId?.userName}</Text>
+                            <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>{item.score || '-'}</Text>
                         </>
                     }
                     
                 </View>
 
                 <View style={leaderBoardStyles.BODY_RIGHT_COL}>
-                    <Text style={leaderBoardStyles.LABEL_TEXT}>{item.scholarship}</Text>
+                    <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'} ]}>{item.scholarShip || '-'}</Text>
                 </View>
             </View>
         )
     }
+
     return (
         <View style={{flex: 1}}>
             <View style={{...COMMON_STYLES.ROW, borderBottomWidth: 1, borderBottomColor: Constant.APP_COLORS.light_grey }}>
@@ -52,11 +78,20 @@ const LeaderBoardContent = ({data, activeTab})=> {
                 <View style={leaderBoardStyles.BODY_RIGHT_COL}>
                     <Text style={leaderBoardStyles.TAB_BTN_TEXT}>Scholarship</Text>
                 </View>
-            </View>            
+            </View> 
+
+            { isleaderBoardTab && userRankData ? ListItems({ item: userRankData, forCurrentUser: true }) : null }           
+
             <FlatList
-                data = { data || []}
+                data = { 
+                    isleaderBoardTab && data
+                    ? data?.filter(elem => elem?.userId?._id !== userId) 
+                    : data
+                    ? data
+                    : []
+                }
                 renderItem ={ListItems}
-                keyExtractor ={item => item.id}
+                keyExtractor ={item => item._id}
             />
         </View>
     )

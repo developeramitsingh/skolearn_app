@@ -8,7 +8,7 @@ const Loader = ({ isLoading }) => {
             {
                 isLoading &&
                 <View style={COMMON_STYLES.LOADER_CONT}>
-                    <ActivityIndicator animating={true} size="large" color={APP_COLORS.yellow} />
+                    <ActivityIndicator animating={true} size="large" color={APP_COLORS.orange} />
                 </View>
             }
         </>
