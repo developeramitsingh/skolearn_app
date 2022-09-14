@@ -22,7 +22,8 @@ export const testStyles = StyleSheet.create({
         textAlign: 'center',
     },
     QUES_TEXT: {
-        fontSize: 24,
+        fontSize: 18,
+        width: '100%',
         color: APP_COLORS.white,
     },
     OPTION_CONT: {

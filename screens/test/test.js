@@ -98,8 +98,6 @@ const Test = ({navigation, route}) => {
             const cameraStatus = await Camera.requestCameraPermissionsAsync();
             const micStatus = await Camera.requestMicrophonePermissionsAsync();
 
-            console.info({cameraStatus});
-            console.info({micStatus});
             isCameraPerm = cameraStatus.status === "granted";
             isMicPerm = micStatus.status === "granted";
 
@@ -108,12 +106,27 @@ const Test = ({navigation, route}) => {
         }
 
         if ((hasCameraPermission && hasMicPermission) || (isMicPerm && isCameraPerm) || (route?.params?.previewMode)) {
-            console.info({'insdie here: useEffedct': route?.params?.previewMode})
             if (!route?.params?.previewMode) {
                 timeTimer.current = timeLimitTimer();
             } else {
+                const userAnswered = route.params.testQues?.map(item => {
+                    return {
+                        quesId: item._id,
+                        optionSelected: item.userAns.optionSelected[0],
+                        correctAnswer: item.answers[0],
+                        userScore: item.userAns.timeSecondsLeft,
+                    }
+                });
+
                 setState(prev => {
-                    return {... prev, previewMode: route?.params?.previewMode, userAnswered: [{ quesId: 1, optionSelected: 2}, { quesId: 2, optionSelected: 3}] }
+                    return { 
+                        ...prev, 
+                        previewMode: route?.params?.previewMode, 
+                        //userAnswered: [{ quesId: 1, optionSelected: 2}, { quesId: 2, optionSelected: 3}] 
+                        userAnswered, 
+                        optionSelected: userAnswered?.[0]?.optionSelected || null,
+                        correctAnswer: userAnswered?.[0]?.correctAnswer || null,
+                    }
                 })
             }
         }
@@ -138,7 +151,7 @@ const Test = ({navigation, route}) => {
         return (() => {
             clearInterval(timeTimer?.current);
         })
-    }, [state.quesIdx, state.userScore, time, route?.params?.previewMode, navigation, state.timeFinished ])
+    }, [state.quesIdx, state.userScore, time, route?.params?.previewMode, navigation, state.timeFinished, route?.params?.testQues ])
 
     const timeLimitTimer = () => {
         let timeTimerObj = setInterval(() => {
@@ -156,7 +169,12 @@ const Test = ({navigation, route}) => {
         if (type === 'next') {
             if (state.quesIdx < testQuesData?.length - 1) {
                 setState(prev => {
-                    return { ...prev, optionSelected: state?.userAnswered?.[state.quesIdx + 1]?.optionSelected || null, quesIdx: prev.quesIdx + 1 }
+                    return { 
+                        ...prev, 
+                        optionSelected: state?.userAnswered?.[state.quesIdx + 1]?.optionSelected || null, 
+                        quesIdx: prev.quesIdx + 1,
+                        correctAnswer: state?.userAnswered?.[state.quesIdx + 1]?.correctAnswer || null,
+                    }
                 });
 
                 //reset the time for next question
@@ -167,7 +185,12 @@ const Test = ({navigation, route}) => {
         } else if (type === 'prev') {
             if (state.quesIdx > 0) {
                 setState(prev => {
-                    return { ...prev, optionSelected: prev?.userAnswered?.[prev.quesIdx-1]?.optionSelected, quesIdx: prev.quesIdx - 1}
+                    return { 
+                        ...prev, 
+                        optionSelected: prev?.userAnswered?.[prev.quesIdx-1]?.optionSelected, 
+                        quesIdx: prev.quesIdx - 1,
+                        correctAnswer: state?.userAnswered?.[state.quesIdx-1]?.correctAnswer || null,
+                    }
                 })
 
                 //reset the time for next question
@@ -209,19 +232,12 @@ const Test = ({navigation, route}) => {
 
     const calculateUserScore = (timeLimit, optionId) => {
         const currentQues = testQuesData[state.quesIdx];
-        console.info({currentQues});
-
         const answers = currentQues['answers'];
-
-        console.info({answers});
-        console.info({optionId});
 
         let userScore = 0;
         if (answers?.includes(+optionId)) {
             userScore = timeLimit * 10;
         }
-
-        console.info({userScore});
 
         return userScore;
     }
@@ -244,8 +260,6 @@ const Test = ({navigation, route}) => {
             testId: `${route?.params?.testId}`,
             userQuesAns,
         }
-
-        console.info({ data });
 
         try {
             await enrolledTestsService.updateEnrolledTests(data)
@@ -313,11 +327,16 @@ const Test = ({navigation, route}) => {
             { 
                 !state.timeFinished &&
                 <>
-                    <View style={COMMON_STYLES.ROW}>
-                        <Text style={testStyles.LABEL_TEXT}>Score: {state.userScore?.[state.quesIdx]}</Text>
+                    <View style={[COMMON_STYLES.ROW, route?.params?.previewMode && { justifyContent: 'center'} ]}>
+                        {
+                            !route?.params?.previewMode 
+                                ? <Text style={testStyles.LABEL_TEXT}>Score: {state.userScore?.[state.quesIdx]}</Text>
+                                : null
+                        }
+                        
                         <View style={COMMON_STYLES.ROW}> 
                             <MaterialIcons name="timer" size={28} color="white" />
-                            <Text style={testStyles.LABEL_TEXT}>{time}</Text>
+                            <Text style={testStyles.LABEL_TEXT}> {time}</Text>
                         </View>
                     </View>
 
@@ -329,9 +348,40 @@ const Test = ({navigation, route}) => {
 
                     <ScrollView showsVerticalScrollIndicator ={true} style={testStyles.OPTION_CONT}>
                         {testQuesData?.[state.quesIdx]?.options?.map((option, idx) => {
+                            const isPreviewMode = route?.params?.previewMode;
                             return (
-                                <TouchableHighlight disabled={state.optionSelected ? true : false} onPress={() => handlePress(idx + 1)} style ={{...COMMON_STYLES.BTN_1, ...(state.optionSelected === (idx+1) ? COMMON_STYLES.DISABLED : {})}} id={idx+1} key={idx+1}>
-                                    <Text style={{...COMMON_STYLES.BTN_TEXT, ...(state.optionSelected === (idx + 1) ? COMMON_STYLES.DISABLED_TEXT : {})}} key={idx+1}>{option}</Text>
+                                <TouchableHighlight disabled={
+                                    state.optionSelected ? true : false
+                                    } 
+                                    onPress={() => handlePress(idx + 1)} 
+                                    style ={
+                                        {
+                                            ...COMMON_STYLES.BTN_1,
+                                            ...(state.optionSelected === (idx + 1) && isPreviewMode && state.optionSelected === state.correctAnswer
+                                                ? COMMON_STYLES.CORRECT_ANS
+                                                : state.optionSelected === (idx + 1) && isPreviewMode && state.optionSelected !== state.correctAnswer
+                                                ? COMMON_STYLES.WRONG_ANS
+                                                : state.correctAnswer === (idx + 1) && isPreviewMode
+                                                ? COMMON_STYLES.CORRECT_ANS
+                                                : state.optionSelected === (idx + 1) && !isPreviewMode
+                                                ? COMMON_STYLES.DISABLED
+                                                : {}
+                                                )
+                                        }
+                                    } 
+                                    id= { idx + 1 } 
+                                    key= { idx + 1 }>
+
+                                    <Text style={
+                                        {
+                                            ...COMMON_STYLES.BTN_TEXT,
+                                            ...(state.optionSelected === (idx + 1) 
+                                                ? COMMON_STYLES.DISABLED_TEXT 
+                                                : {})
+                                        }
+                                    } 
+                                    key = { idx + 1 }
+                                >{option}</Text>
                                 </TouchableHighlight>
                             )
                         })}
@@ -340,11 +390,11 @@ const Test = ({navigation, route}) => {
                     { 
                         state.previewMode &&
                         <View style={testStyles.NAVIGATION_CONT}>
-                            <TouchableHighlight disabled={state.quesIdx === 0 ? true : false} onPress={()=> handleChangeQues('prev')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === 0 ? COMMON_STYLES.DISABLED : {})}}>
+                            <TouchableHighlight disabled={state.quesIdx === 0 ? true : false} onPress={()=> handleChangeQues('prev')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === 0 ? COMMON_STYLES.DISABLED_ARROW : {})}}>
                                 <MaterialCommunityIcons name="arrow-left" size={38} color={APP_COLORS.white} />
                             </TouchableHighlight>
 
-                            <TouchableHighlight disabled={state.quesIdx === testQuesData?.length - 1 ? true : false} onPress={()=> handleChangeQues('next')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === testQuesData?.length - 1 ? COMMON_STYLES.DISABLED : {})}}>
+                            <TouchableHighlight disabled={state.quesIdx === testQuesData?.length - 1 ? true : false} onPress={()=> handleChangeQues('next')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === testQuesData?.length - 1 ? COMMON_STYLES.DISABLED_ARROW : {})}}>
                                 <MaterialCommunityIcons name="arrow-right" size={38} color={APP_COLORS.white} />
                             </TouchableHighlight>
                         </View>

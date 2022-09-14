@@ -185,10 +185,21 @@ export const COMMON_STYLES = {
         // paddingHorizontal: 5,
     },
     DISABLED: {
+        backgroundColor: APP_COLORS.light_grey,
+    },
+    DISABLED_ARROW: {
         backgroundColor: APP_COLORS.black_opacity,
     },
+    CORRECT_ANS: {
+        backgroundColor: APP_COLORS.green,
+    },
+
+    WRONG_ANS: {
+        backgroundColor: APP_COLORS.red,
+    },
+
     DISABLED_TEXT: {
-        color: APP_COLORS.white_opacity,
+        color: APP_COLORS.black,
     },
     SUB_BTN_1: {
         alignItems: 'center',
