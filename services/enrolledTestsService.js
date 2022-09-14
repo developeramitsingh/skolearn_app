@@ -22,7 +22,7 @@ class EnrolledTestsService {
 
     getEnrolledQuesTestByTestId(testId) {
         const option = {
-            url: `${BACKEND_URL}/enrolled-tests-ques/${id}`,
+            url: `${BACKEND_URL}/enrolled-tests-ques/${testId}`,
         };
 
         return axios.get(option);

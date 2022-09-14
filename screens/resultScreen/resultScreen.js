@@ -82,8 +82,27 @@ const ResultScreen = ({navigation, route }) => {
           return () => backHandler.remove();
     }, [route?.params?.testId]);
 
-    const handlePress = ()=>{
-        navigation.navigate(Constant.ROUTES.TEST, { previewMode: true, istestId: testData?._id });
+    const getSavedTestQusAns = async () => {
+        try {
+            console.info('getSavedTestQusAns called');
+            const testQuesData = await enrolledTestsService.getEnrolledQuesTestByTestId(testData?._id);
+
+            console.info({dataTEs: testQuesData.data});
+            return testQuesData?.data;
+        } catch(err) {
+            console.error(`error in getSavedTestQusAns: ${err}`);
+        }
+    }
+    const handlePress = async ()=>{
+        setLoading(true);
+        const savedTestData = await getSavedTestQusAns();
+        setLoading(false);
+
+        if (savedTestData) {
+            const testQues = savedTestData;
+            
+            navigation.navigate(Constant.ROUTES.TEST, { previewMode: true, testQues, testId: testData?._id,  });
+        }
     }
 
     return (
