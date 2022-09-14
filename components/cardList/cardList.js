@@ -28,25 +28,16 @@ const CardList = (props) => {
             testType === Constant.TEST_TYPES.LIVE
                 ? 'Participate'
                 : testType === Constant.TEST_TYPES.MY_TEST
-                    ? item.isResultDeclared
-                    ? 'View Result' 
-                    : 'Result Awaited'
+                    ? 'View Result'
                 : testType === Constant.TEST_TYPES.PRACTICE
                 ? 'Practice'
                 : ''
 
         const btnStyle = {
-            btn: {
-                ...cardListStyles.CARD_BTN,
-                ...(testType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? COMMON_STYLES.DISABLED : {})
-            },
-            btnTxt: {
-                ...cardListStyles.CARD_BTN_TEXT,
-                ...(testType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? COMMON_STYLES.DISABLED_TEXT : {})
-            }
+            btn: cardListStyles.CARD_BTN,
+            btnTxt: cardListStyles.CARD_BTN_TEXT,
         };
 
-        const isDisabled = testType === Constant.TEST_TYPES.MY_TEST && !item.isResultDeclared ? true : false;
         return (
             <View key={item._id} style ={ props.horizontal ? {...cardListStyles.CARD_HORIZONTAL} : {...cardListStyles.CARD_VERTICAL, backgroundColor: Constant.APP_COLORS.white, }}>
                 <View style ={cardListStyles.ROW}>
@@ -64,7 +55,7 @@ const CardList = (props) => {
 
                 <View style ={cardListStyles.ROW}>
                     <View style={cardListStyles.COL_LEFT_2}>
-                        <TouchableHighlight disabled={isDisabled} onPress={() => props?.handleBtnPress(item._id)} style= {btnStyle.btn}>
+                        <TouchableHighlight onPress={() => props?.handleBtnPress(item._id)} style= {btnStyle.btn}>
                             <Text style = {btnStyle.btnTxt}>{btnText}</Text>
                         </TouchableHighlight>
                     </View>

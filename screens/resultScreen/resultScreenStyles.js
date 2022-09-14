@@ -6,8 +6,6 @@ export const resultScreenStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: APP_COLORS.appBlue,
         paddingHorizontal: 10,
-        paddingTop: 40,
-        paddingBottom: 10,
     },
     LEATHER_BOARD_CONT_LIGHT: {
         flex: 1,
