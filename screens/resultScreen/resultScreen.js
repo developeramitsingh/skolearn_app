@@ -12,6 +12,7 @@ import Loader from '../../components/loader/loader';
 const ResultScreen = ({navigation, route }) => {
     const [testData, setTestData] = useState(null);
     const [leaderBoardData, setLeaderBoardData] = useState(null);
+    const [scholarShipBreakUp, setBreakUpData] = useState(null);
     const [isLoading, setLoading] = useState(false);
 
     const getTestByTestId = async () => {
@@ -42,9 +43,23 @@ const ResultScreen = ({navigation, route }) => {
         }
     }
 
+    const getBreakUpData = async () => {
+        try {
+            const breakupData = await testService.getScholarhipBreakUpByTestId(route?.params?.testId);
+
+            console.info({ data: breakupData.data})
+            if (breakupData.data) {
+                setBreakUpData(breakupData.data);
+            }
+            
+        } catch (err) {
+            console.error(`error in getBreakUpData`);
+        }
+    }
+
     const fetchInitialData = async () => {
         setLoading(true);
-        await Promise.all([getTestByTestId(), getLeaderBoardData()]);
+        await Promise.all([getTestByTestId(), getLeaderBoardData(), getBreakUpData()]);
         setLoading(false);
     }
 
@@ -90,7 +105,7 @@ const ResultScreen = ({navigation, route }) => {
                 <Text style={COMMON_STYLES.BTN_TEXT}>View Solution</Text>
             </TouchableHighlight>
 
-            <LeaderBoard dataList={leaderBoardData}/>
+            <LeaderBoard leaderBoardData={leaderBoardData} scholarShipBreakUp={scholarShipBreakUp}/>
         </SafeAreaView>
     )
 }

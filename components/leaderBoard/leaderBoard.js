@@ -8,26 +8,24 @@ import { getFromStorage } from "../../utils/utils";
 
 const TAB_TYPE = {
     LEATHER_BOARD: 'leaderBoard',
-    SCHOLARSHIP: 'scholarship'
+    SCHOLARSHIP_BREAKUP: 'scholarshipBreakup'
 }
-const LeaderBoardContent = ({data, activeTab})=> {
+const LeaderBoardContent = ({data, activeTab })=> {
     const [userRankData, setUserRankData] = useState(null);
     const [userId, setUserId] = useState(null);
 
     const getUserRank = async () => {
         const id = await getFromStorage(Constant.STORAGE_KEYS.USER_ID);
 
-        console.info({ id });
-
         if(id) {
-            const currentUserData = data?.filter(elem => {
-                console.info(elem);
-                return elem.userId._id === id;
-            })
+            if(activeTab === TAB_TYPE.LEATHER_BOARD) {
+                const currentUserData = data?.filter(elem => {
+                    return elem.userId._id === id;
+                })
+    
+                setUserRankData(currentUserData?.[0]);
+            }
 
-            console.info({ currentUserData });
-
-            setUserRankData(currentUserData?.[0]);
             setUserId(id);
         }
     }
@@ -97,7 +95,7 @@ const LeaderBoardContent = ({data, activeTab})=> {
     )
 }
 
-const LeaderBoard = ({dataList}) => {
+const LeaderBoard = ({leaderBoardData, scholarShipBreakUp}) => {
     const [activeTab, setActive] = useState(TAB_TYPE.LEATHER_BOARD);
     const btnStyles = {
         btn: {...leaderBoardStyles.TAB_BTN, },
@@ -116,12 +114,12 @@ const LeaderBoard = ({dataList}) => {
                 <Pressable onPress={()=>handleChangeTab(TAB_TYPE.LEATHER_BOARD)} style={{...btnStyles.btn, ...(activeTab === TAB_TYPE.LEATHER_BOARD ? btnStyles.btnActive : {})}}>
                     <Text style={{ ...btnStyles.btnTxt, ...(activeTab === TAB_TYPE.LEATHER_BOARD ? btnStyles.btnTxtActive : {}) }}>LeaderBoard</Text>
                 </Pressable>
-                <Pressable onPress={()=>handleChangeTab('scholarshipBreakup')} style={{...btnStyles.btn, ...(activeTab === 'scholarshipBreakup' ? btnStyles.btnActive : {})}}>
-                    <Text style={{ ...btnStyles.btnTxt, ...(activeTab === 'scholarshipBreakup' ? btnStyles.btnTxtActive : {}) }}>Scholarship Breakup</Text>
+                <Pressable onPress={()=>handleChangeTab('scholarshipBreakup')} style={{...btnStyles.btn, ...(activeTab === TAB_TYPE.SCHOLARSHIP_BREAKUP ? btnStyles.btnActive : {})}}>
+                    <Text style={{ ...btnStyles.btnTxt, ...(activeTab === TAB_TYPE.SCHOLARSHIP_BREAKUP ? btnStyles.btnTxtActive : {}) }}>Scholarship Breakup</Text>
                 </Pressable>
             </View>
 
-            <LeaderBoardContent data={dataList} activeTab={activeTab}/>
+            <LeaderBoardContent data={activeTab === TAB_TYPE.LEATHER_BOARD ? leaderBoardData : scholarShipBreakUp} activeTab={activeTab}/>
         </View>
     )
 };

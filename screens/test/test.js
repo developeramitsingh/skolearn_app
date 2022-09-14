@@ -288,7 +288,7 @@ const Test = ({navigation, route}) => {
         );
     }
 
-    if (hasCameraPermission === null || hasMicPermission === null) {
+    if ((hasCameraPermission === null || hasMicPermission === null) && !route?.params?.previewMode) {
         return <View style={COMMON_STYLES.CONTAINER_LIGHT_ALL_CENTER}>
             <View style ={COMMON_STYLES.ROW_CENTER}>
                 <Text style={COMMON_STYLES.BODY_TITLE_BLACK}>Waiting for permission</Text>
@@ -296,7 +296,7 @@ const Test = ({navigation, route}) => {
         </View>;
     }
 
-    if (hasCameraPermission === false || hasMicPermission === false) {
+    if ((hasCameraPermission === false || hasMicPermission === false) && !route?.params?.previewMode) {
         return <View style={COMMON_STYLES.CONTAINER_LIGHT_ALL_CENTER}>
             <View style ={COMMON_STYLES.ROW_CENTER}>
                 <Text style={COMMON_STYLES.BODY_TITLE_BLACK}>No Access to Camera or Mic</Text>
@@ -317,7 +317,7 @@ const Test = ({navigation, route}) => {
                         <Text style={testStyles.LABEL_TEXT}>Score: {state.userScore?.[state.quesIdx]}</Text>
                         <View style={COMMON_STYLES.ROW}> 
                             <MaterialIcons name="timer" size={28} color="white" />
-                            <Text style={testStyles.LABEL_TEXT}>{time?.toFixed(2)}</Text>
+                            <Text style={testStyles.LABEL_TEXT}>{time}</Text>
                         </View>
                     </View>
 
