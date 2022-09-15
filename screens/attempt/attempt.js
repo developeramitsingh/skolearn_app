@@ -32,6 +32,10 @@ const Attempt = ({navigation, route }) => {
         setLoading(false);
     }
 
+    useEffect(() => {
+        fetchInitialData();
+    }, []);
+
     useEffect(()=> {
         if(route?.params?.test && !state.testName) {
             setState((prev) => {
@@ -44,8 +48,6 @@ const Attempt = ({navigation, route }) => {
                 return { ...prev, userId: route?.params?.userId }
             })
         }
-
-        fetchInitialData();
 
         const backAction = () => {
             console.info(`backAction called in attempt screen`);
