@@ -147,7 +147,7 @@ const Attempt = ({navigation, route }) => {
                     //increment the user enrolled count
                     testService.incrementEnrolledCount(testId);
                     //navigate to timer screen for test attempt
-                    navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { data: { lang: state.isisLangHindi ? 'hindi' : 'english', testId } });
+                    navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { data: { lang: state.isLangHindi ? 'hindi' : 'english', testId } });
                 }
             },
             

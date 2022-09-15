@@ -36,16 +36,19 @@ const TimerScreen = ({navigation, route }) => {
         }
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         if (route?.params?.data && !testQues?.length) {
             generateTestQuestions();
         }
+    }, [route?.params?.data]);
+
+    useEffect(()=> {
         const timerStart = timerToStartTest();
 
         return(()=> {
             clearTimeout(timerStart);
         })
-    }, [time, route?.params?.data]);
+    }, [time]);
 
     return(
         <SafeAreaView style={timerScreenStyles.CONTAINER_LIGHT}>
