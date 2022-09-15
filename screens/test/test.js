@@ -108,6 +108,23 @@ const Test = ({navigation, route}) => {
         if ((hasCameraPermission && hasMicPermission) || (isMicPerm && isCameraPerm) || (route?.params?.previewMode)) {
             if (!route?.params?.previewMode) {
                 timeTimer.current = timeLimitTimer();
+
+                //intialize userAnswer with empty response
+                if (!state.userAnswered?.length && testQuesData?.length) {
+                    setState(prev => {
+                        return { 
+                            ...prev, 
+                            userAnswered: [
+                                ...prev.userAnswered, 
+                                { 
+                                    quesId: testQuesData?.[0]?._id, 
+                                    optionSelected: null, 
+                                    timeSecondsLeft: 0 
+                                }
+                            ]
+                        }
+                    });
+                }
             } else {
                 const userAnswered = route.params.testQues?.map(item => {
                     return {
@@ -169,14 +186,38 @@ const Test = ({navigation, route}) => {
     }
 
     const handleChangeQues = (type) => {
+        const isPreviewMode = route?.params?.previewMode;
         if (type === 'next') {
             if (state.quesIdx < testQuesData?.length - 1) {
+
                 setState(prev => {
+                    let dataToUpdate = {};
+
+                    if (isPreviewMode) {
+                        dataToUpdate = {
+                            optionSelected: state?.userAnswered?.[state.quesIdx + 1]?.optionSelected,
+                            correctAnswer: state?.userAnswered?.[state.quesIdx + 1]?.correctAnswer
+                        }
+                    } else {
+                        //intialize userAnswer with empty response
+                        dataToUpdate = {
+                            userScore: [...prev.userScore, 0], 
+                            optionSelected: null,
+                            userAnswered: [
+                                ...prev.userAnswered, 
+                                { 
+                                    quesId: testQuesData[prev.quesIdx + 1]?._id, 
+                                    optionSelected: null, 
+                                    timeSecondsLeft: 0 
+                                }
+                            ]
+                        }
+                    }
+
                     return { 
-                        ...prev, 
-                        optionSelected: state?.userAnswered?.[state.quesIdx + 1]?.optionSelected || null, 
+                        ...prev,  
                         quesIdx: prev.quesIdx + 1,
-                        correctAnswer: state?.userAnswered?.[state.quesIdx + 1]?.correctAnswer || null,
+                        ...dataToUpdate,
                     }
                 });
 
@@ -188,11 +229,19 @@ const Test = ({navigation, route}) => {
         } else if (type === 'prev') {
             if (state.quesIdx > 0) {
                 setState(prev => {
+                    let dataToUpdate = {};
+                    if (isPreviewMode) {
+                        dataToUpdate = {
+                            optionSelected: prev?.userAnswered?.[prev.quesIdx-1]?.optionSelected,
+                            correctAnswer: state?.userAnswered?.[state.quesIdx-1]?.correctAnswer,
+                        }
+                    }
+
                     return { 
-                        ...prev, 
-                        optionSelected: prev?.userAnswered?.[prev.quesIdx-1]?.optionSelected, 
+                        ...prev,  
                         quesIdx: prev.quesIdx - 1,
-                        correctAnswer: state?.userAnswered?.[state.quesIdx-1]?.correctAnswer || null,
+                        ...dataToUpdate,
+                        ...dataToUpdate,
                     }
                 })
 
@@ -212,13 +261,15 @@ const Test = ({navigation, route}) => {
                 userScore: [...prev.userScore, userScore], 
                 optionSelected: optionId, 
                 userAnswered: [
-                    ...prev.userAnswered, 
+                    //remove duplicate initaliazed object
+                    ...prev.userAnswered.filter(ans => ans.quesId !== testQuesData[state.quesIdx]._id), 
                     { 
                         quesId: testQuesData[state.quesIdx]._id, 
                         optionSelected: optionId, 
                         timeSecondsLeft: time 
                     }
-                ] };
+                ] 
+            };
         });
 
         //start recording
@@ -246,20 +297,24 @@ const Test = ({navigation, route}) => {
     }
 
     const updateScoreAndUserAnswers = async () => {
-        const score = state?.userScore?.reduce((accum, elem)=> {
+        const totalScore = state?.userScore?.reduce((accum, elem)=> {
              return accum + elem 
         }, 0) || 0;
 
         const userQuesAns = {};
-        state?.userAnswered.forEach(userRes => {
-            userQuesAns[userRes.quesId?.toString()] = { 
-                optionSelected: [userRes.optionSelected],
-                timeSecondsLeft: userRes.timeSecondsLeft,
-            };
+
+        console.info(`updateScoreAndUserAnsers`,  { userAnswered: state?.userAnswered });
+        state?.userAnswered?.forEach(userRes => {
+            if (userRes.quesId) {
+                userQuesAns[userRes.quesId?.toString()] = { 
+                    optionSelected: [userRes.optionSelected],
+                    timeSecondsLeft: userRes.timeSecondsLeft,
+                };
+            }
         });
 
         const data = {
-            score,
+            score: totalScore,
             testId: `${route?.params?.testId}`,
             userQuesAns,
         }
@@ -277,9 +332,17 @@ const Test = ({navigation, route}) => {
         setIsVideoRecording(false);
         stopVideoRecording();
         setCameraVisible(false);
-        clearInterval(timeTimer.current);
+
+        if(timeTimer.current) {
+            clearInterval(timeTimer.current);
+        }
+
         //saving the score and userAnswers
-        updateScoreAndUserAnswers();
+        if(state.timeFinished) {
+            updateScoreAndUserAnswers();
+        }
+        
+
         setState(prev => {
             return {...prev, timeFinished: true };
         })

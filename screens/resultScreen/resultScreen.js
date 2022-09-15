@@ -110,14 +110,14 @@ const ResultScreen = ({navigation, route }) => {
             <Loader isLoading={isLoading}/>
             <BackBtn navigation={navigation} routeToGo={Constant.ROUTES.DASHBOARD}/>
             <View style={resultScreenStyles.ROW}>
-                <Text style={resultScreenStyles.LABEL_TEXT}>Participant Joined: <Text>{testData?.userEnrolled + '/'} {testData?.userSeats}</Text>
+                <Text style={resultScreenStyles.LABEL_TEXT}>Participant Joined: <Text>{(testData?.userEnrolled || '') + '/'} {testData?.userSeats || ''}</Text>
                 </Text>
-                <Text style={resultScreenStyles.LABEL_TEXT}>Test Fee: <Text>{testData?.entryFee}</Text>
+                <Text style={resultScreenStyles.LABEL_TEXT}>Test Fee: <Text>{testData?.entryFee || ''}</Text>
                 </Text>
             </View>
 
             <View style={resultScreenStyles.ROW}>
-                <Text style ={resultScreenStyles.HEADING}>{testData?.testName}</Text>
+                <Text style ={resultScreenStyles.HEADING}>{testData?.testName || ''}</Text>
             </View>
 
             <TouchableHighlight onPress = {handlePress} style={COMMON_STYLES.BTN_1}>
