@@ -129,11 +129,11 @@ const Test = ({navigation, route}) => {
             } else {
                 const userAnswered = route.params.testQues?.map(item => {
                     return {
-                        quesId: item._id,
-                        optionSelected: item.userAns.optionSelected[0],
-                        correctAnswer: item.answers[0],
-                        timeSecondsLeft: item.userAns.timeSecondsLeft,
-                        userScore: item.userAns.userScore
+                        quesId: item?._id,
+                        optionSelected: item?.userAns?.optionSelected?.[0],
+                        correctAnswer: item?.answers?.[0],
+                        timeSecondsLeft: item?.userAns?.timeSecondsLeft,
+                        userScore: item?.userAns?.userScore
                     }
                 });
 

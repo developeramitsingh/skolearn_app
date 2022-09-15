@@ -32,6 +32,18 @@ const Attempt = ({navigation, route }) => {
         setLoading(false);
     }
 
+    const generateTestQuestions = async (language, testId) => {
+        try {
+            console.info('generateTestQuestions called');
+            const query = `{ "language": "${language}", "testId": "${testId}" }`;
+            const testQuesData = await testService.generateTestQues(query);
+
+            return testQuesData?.data?.data
+        } catch(err) {
+            console.error(`error in generateTestQuestions: ${err}`);
+        }
+    }
+
     useEffect(() => {
         fetchInitialData();
     }, []);
@@ -89,6 +101,15 @@ const Attempt = ({navigation, route }) => {
             });
     }
 
+
+    const showAlert = (type, msg) => {
+        Alert.alert(type, msg, [
+            {
+                text: 'Close', onPress: () => {}
+            },
+        ])
+    };
+
     const handlePress = async ()=> {
         const test = route?.params?.test;
         const entryFee = +state.entryFee;
@@ -97,11 +118,7 @@ const Attempt = ({navigation, route }) => {
 
         //check wallet or free ticket if has then allow else not
         if (walletMoney < entryFee && !freeTickets) {
-            Alert.alert('Notice', 'Wallet Money is insufficient, please add money', [
-                {
-                    text: 'Close', onPress: () => {}
-                },
-            ]);
+            showAlert('Notice', 'Wallet Money is insufficient, please add money');
 
             return;
         }
@@ -116,40 +133,55 @@ const Attempt = ({navigation, route }) => {
             },
             {
                 text: 'Ok To Proceed', onPress: async () => {
-                    const testId = test?._id;
-                    const seatAvailableStatus = await testService.getEnrolledSeatStatus(testId);
+                    try {
+                        const testId = test?._id;
+                        const seatAvailableStatus = await testService.getEnrolledSeatStatus(testId);
 
-                    //if seats not available then exit
-                    if (!seatAvailableStatus?.data?.isSeatAvailable) {
-                        Alert.alert('Info', 'Test seats full!. please attempt another test.', [
-                            {
-                                text: 'Close', onPress: () => {}
-                            },
-                        ])
+                        //if seats not available then exit
+                        if (!seatAvailableStatus?.data?.isSeatAvailable) {
+                            showAlert('Info', 'Test seats full!. please attempt another test.');
 
-                        return;
+                            return;
+                        }
+
+                        const language = state.isLangHindi ? 'hindi' : 'english';
+
+                        const testQusData = await generateTestQuestions(language, testId);
+
+                        console.info({testQusData});
+
+                        //if test data not found then skip the all the cases
+                        if (!testQusData?.length) {
+                            console.warn(`test data not found in gnerate test questions`);
+                            showAlert('Info', 'Network failed, Please try again!');
+
+                            return;
+                        }
+
+                        //deduct the money or free ticket
+                        if (freeTickets) {
+                            const ticket = freeTickets - 1;
+                            freeTicketsService.updateFreeTickets({ freeTickets: ticket });
+
+                            const txnTitle = '1 Free Ticket Deducted for Attempting the Test';
+                            createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.FREE_TICKET_DEDUCTED_FOR_TEST);
+                        } else if (state.walletMoney) {
+                            
+                            const balance = walletMoney - entryFee;
+                            walletService.updateWallet({ balance });
+
+                            const txnTitle = `${entryFee} Rs. Deducted from Wallet for Attempting the Test`;
+                            createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.WALLET_DEDUCTED_FOR_TEST);
+                        }
+
+                        //increment the user enrolled count
+                        testService.incrementEnrolledCount(testId);
+                        //navigate to timer screen for test attempt
+                        navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testQusData, testId });
+                    } catch (err) {
+                        console.error(`error while attempting: ${err}`);
+                        showAlert('Info', 'Network failed, Please try again!');
                     }
-
-                    //deduct the money or free ticket
-                    if (freeTickets) {
-                        const ticket = freeTickets - 1;
-                        freeTicketsService.updateFreeTickets({ freeTickets: ticket });
-
-                        const txnTitle = '1 Free Ticket Deducted for Attempting the Test';
-                        createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.FREE_TICKET_DEDUCTED_FOR_TEST);
-                    } else if (state.walletMoney) {
-                        
-                        const balance = walletMoney - entryFee;
-                        walletService.updateWallet({ balance });
-
-                        const txnTitle = `${entryFee} Rs. Deducted from Wallet for Attempting the Test`;
-                        createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.WALLET_DEDUCTED_FOR_TEST);
-                    }
-
-                    //increment the user enrolled count
-                    testService.incrementEnrolledCount(testId);
-                    //navigate to timer screen for test attempt
-                    navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { data: { lang: state.isLangHindi ? 'hindi' : 'english', testId } });
                 }
             },
             
