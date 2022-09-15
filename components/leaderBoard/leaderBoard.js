@@ -40,19 +40,19 @@ const LeaderBoardContent = ({data, activeTab })=> {
             <View elevation={3} key={item._id} style={[leaderBoardStyles.ROW_LEATHER_BOARD, forCurrentUser && leaderBoardStyles.ROW_FOR_CURRENT_USER]}>
                 <View style={leaderBoardStyles.BODY_LEFT_COL}>
                     <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>
-                        <Ionicons name="trophy" size={14} color={Constant.APP_COLORS.yellow} />{item.rank || '-'}</Text>
+                        <Ionicons name="trophy" size={14} color={Constant.APP_COLORS.yellow} />{item.rank ?? '-'}</Text>
                     {
                         isleaderBoardTab &&
                         <>
                             <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>{item?.userId?.userName}</Text>
-                            <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>{item.score || '-'}</Text>
+                            <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>{item.score ?? '-'}</Text>
                         </>
                     }
                     
                 </View>
 
                 <View style={leaderBoardStyles.BODY_RIGHT_COL}>
-                    <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'} ]}>{item.scholarShip || '-'}</Text>
+                    <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'} ]}>{item.scholarShip ?? '-'}</Text>
                 </View>
             </View>
         )

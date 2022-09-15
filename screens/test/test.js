@@ -119,7 +119,8 @@ const Test = ({navigation, route}) => {
                                 { 
                                     quesId: testQuesData?.[0]?._id, 
                                     optionSelected: null, 
-                                    timeSecondsLeft: 0 
+                                    timeSecondsLeft: 0,
+                                    userScore: 0,
                                 }
                             ]
                         }
@@ -131,7 +132,8 @@ const Test = ({navigation, route}) => {
                         quesId: item._id,
                         optionSelected: item.userAns.optionSelected[0],
                         correctAnswer: item.answers[0],
-                        userScore: item.userAns.timeSecondsLeft,
+                        timeSecondsLeft: item.userAns.timeSecondsLeft,
+                        userScore: item.userAns.userScore
                     }
                 });
 
@@ -201,7 +203,8 @@ const Test = ({navigation, route}) => {
                                 { 
                                     quesId: testQuesData[prev.quesIdx + 1]?._id, 
                                     optionSelected: null, 
-                                    timeSecondsLeft: 0 
+                                    timeSecondsLeft: 0,
+                                    userScore: 0
                                 }
                             ]
                         }
@@ -249,7 +252,8 @@ const Test = ({navigation, route}) => {
                     { 
                         quesId: testQuesData[state.quesIdx]._id, 
                         optionSelected: optionId, 
-                        timeSecondsLeft: time 
+                        timeSecondsLeft: time,
+                        userScore: userScore
                     }
                 ] 
             };
@@ -292,6 +296,7 @@ const Test = ({navigation, route}) => {
                 userQuesAns[userRes.quesId?.toString()] = { 
                     optionSelected: [userRes.optionSelected],
                     timeSecondsLeft: userRes.timeSecondsLeft,
+                    userScore: userRes.userScore
                 };
             }
         });
@@ -376,16 +381,21 @@ const Test = ({navigation, route}) => {
             { 
                 !state.timeFinished &&
                 <>
-                    <View style={[COMMON_STYLES.ROW, route?.params?.previewMode && { justifyContent: 'center'} ]}>
-                        {
-                            !route?.params?.previewMode 
-                                ? <Text style={testStyles.LABEL_TEXT}>Score: {state.userScore?.[state.quesIdx]}</Text>
-                                : null
-                        }
+                    <View style={COMMON_STYLES.ROW}>
+                        <Text style={testStyles.LABEL_TEXT}>Score: {
+                            state?.userScore?.[state.quesIdx] ||
+                            route?.params?.previewMode && state?.userAnswered?.[state.quesIdx]?.userScore ||
+                            0
+                        }</Text>
                         
                         <View style={COMMON_STYLES.ROW}> 
                             <MaterialIcons name="timer" size={28} color="white" />
-                            <Text style={testStyles.LABEL_TEXT}> {time}</Text>
+                            <Text style={testStyles.LABEL_TEXT}> {
+                                    route?.params?.previewMode && state?.userAnswered?.[state.quesIdx]?.timeSecondsLeft ||
+                                    time ||
+                                    0
+                                }
+                            </Text>
                         </View>
                     </View>
 
@@ -400,21 +410,29 @@ const Test = ({navigation, route}) => {
                             const isPreviewMode = route?.params?.previewMode;
                             const userAns = state?.userAnswered?.[state.quesIdx] || {};
 
+                            const isCorrectAns = userAns.optionSelected === (idx + 1) && isPreviewMode && userAns.optionSelected === userAns.correctAnswer;
+
+                            const isWrongAns = userAns.optionSelected === (idx + 1) && isPreviewMode && userAns.optionSelected !== userAns.correctAnswer;
+
+                            const isUserNotAnswered = userAns.correctAnswer === (idx + 1) && isPreviewMode;
+
+                            const isLiveTestAnswer = state.optionSelected === (idx + 1) && !isPreviewMode;
+
                             return (
                                 <TouchableHighlight disabled={
-                                    state.optionSelected ? true : false
+                                    state.optionSelected || isPreviewMode ? true : false
                                     } 
                                     onPress={() => handlePress(idx + 1)} 
                                     style ={
                                         {
                                             ...COMMON_STYLES.BTN_1,
-                                            ...(userAns.optionSelected === (idx + 1) && isPreviewMode && userAns.optionSelected === userAns.correctAnswer
+                                            ...(isCorrectAns
                                                 ? COMMON_STYLES.CORRECT_ANS
-                                                : userAns.optionSelected === (idx + 1) && isPreviewMode && userAns.optionSelected !== userAns.correctAnswer
+                                                : isWrongAns
                                                 ? COMMON_STYLES.WRONG_ANS
-                                                : userAns.correctAnswer === (idx + 1) && isPreviewMode
-                                                ? COMMON_STYLES.CORRECT_ANS
-                                                : state.optionSelected === (idx + 1) && !isPreviewMode
+                                                : isUserNotAnswered
+                                                ? COMMON_STYLES.USER_NOT_ANSWERED
+                                                : isLiveTestAnswer
                                                 ? COMMON_STYLES.DISABLED
                                                 : {}
                                                 )
@@ -426,7 +444,11 @@ const Test = ({navigation, route}) => {
                                     <Text style={
                                         {
                                             ...COMMON_STYLES.BTN_TEXT,
-                                            ...(state.optionSelected === (idx + 1) 
+                                            ...(isCorrectAns
+                                                ? {}
+                                                : isUserNotAnswered
+                                                ? COMMON_STYLES.USER_NOT_ANSWERED_TEXT
+                                                : state.optionSelected === (idx + 1) 
                                                 ? COMMON_STYLES.DISABLED_TEXT 
                                                 : {})
                                         }

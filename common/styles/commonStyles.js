@@ -194,8 +194,16 @@ export const COMMON_STYLES = {
         backgroundColor: APP_COLORS.green,
     },
 
+    USER_NOT_ANSWERED: {
+        backgroundColor: APP_COLORS.blueGreen,
+    },
+
     WRONG_ANS: {
         backgroundColor: APP_COLORS.red,
+    },
+
+    USER_NOT_ANSWERED_TEXT: {
+        color: APP_COLORS.white,
     },
 
     DISABLED_TEXT: {
