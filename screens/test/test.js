@@ -134,7 +134,10 @@ const Test = ({navigation, route}) => {
 
     useEffect(()=> {
         if (route?.params?.testQues) {
-            setTestQuesData(route.params.testQues);
+            if(!testQuesData?.length) {
+                setTestQuesData(route.params.testQues);
+            }
+
             startTest();
         }
         navigation.addListener('beforeRemove', (e) => {
