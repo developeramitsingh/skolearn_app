@@ -141,8 +141,8 @@ const Test = ({navigation, route}) => {
                         previewMode: route?.params?.previewMode, 
                         //userAnswered: [{ quesId: 1, optionSelected: 2}, { quesId: 2, optionSelected: 3}] 
                         userAnswered, 
-                        optionSelected: userAnswered?.[0]?.optionSelected || null,
-                        correctAnswer: userAnswered?.[0]?.correctAnswer || null,
+                        // optionSelected: userAnswered?.[0]?.optionSelected || null,
+                        // correctAnswer: userAnswered?.[0]?.correctAnswer || null,
                     }
                 })
             }
@@ -192,16 +192,9 @@ const Test = ({navigation, route}) => {
 
                 setState(prev => {
                     let dataToUpdate = {};
-
-                    if (isPreviewMode) {
-                        dataToUpdate = {
-                            optionSelected: state?.userAnswered?.[state.quesIdx + 1]?.optionSelected,
-                            correctAnswer: state?.userAnswered?.[state.quesIdx + 1]?.correctAnswer
-                        }
-                    } else {
+                    if(!isPreviewMode) {
                         //intialize userAnswer with empty response
                         dataToUpdate = {
-                            userScore: [...prev.userScore, 0], 
                             optionSelected: null,
                             userAnswered: [
                                 ...prev.userAnswered, 
@@ -229,19 +222,9 @@ const Test = ({navigation, route}) => {
         } else if (type === 'prev') {
             if (state.quesIdx > 0) {
                 setState(prev => {
-                    let dataToUpdate = {};
-                    if (isPreviewMode) {
-                        dataToUpdate = {
-                            optionSelected: prev?.userAnswered?.[prev.quesIdx-1]?.optionSelected,
-                            correctAnswer: state?.userAnswered?.[state.quesIdx-1]?.correctAnswer,
-                        }
-                    }
-
                     return { 
                         ...prev,  
                         quesIdx: prev.quesIdx - 1,
-                        ...dataToUpdate,
-                        ...dataToUpdate,
                     }
                 })
 
@@ -415,6 +398,8 @@ const Test = ({navigation, route}) => {
                     <ScrollView showsVerticalScrollIndicator ={true} style={testStyles.OPTION_CONT}>
                         {testQuesData?.[state.quesIdx]?.options?.map((option, idx) => {
                             const isPreviewMode = route?.params?.previewMode;
+                            const userAns = state?.userAnswered?.[state.quesIdx] || {};
+
                             return (
                                 <TouchableHighlight disabled={
                                     state.optionSelected ? true : false
@@ -423,11 +408,11 @@ const Test = ({navigation, route}) => {
                                     style ={
                                         {
                                             ...COMMON_STYLES.BTN_1,
-                                            ...(state.optionSelected === (idx + 1) && isPreviewMode && state.optionSelected === state.correctAnswer
+                                            ...(userAns.optionSelected === (idx + 1) && isPreviewMode && userAns.optionSelected === userAns.correctAnswer
                                                 ? COMMON_STYLES.CORRECT_ANS
-                                                : state.optionSelected === (idx + 1) && isPreviewMode && state.optionSelected !== state.correctAnswer
+                                                : userAns.optionSelected === (idx + 1) && isPreviewMode && userAns.optionSelected !== userAns.correctAnswer
                                                 ? COMMON_STYLES.WRONG_ANS
-                                                : state.correctAnswer === (idx + 1) && isPreviewMode
+                                                : userAns.correctAnswer === (idx + 1) && isPreviewMode
                                                 ? COMMON_STYLES.CORRECT_ANS
                                                 : state.optionSelected === (idx + 1) && !isPreviewMode
                                                 ? COMMON_STYLES.DISABLED
