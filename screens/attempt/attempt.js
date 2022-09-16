@@ -24,6 +24,7 @@ const Attempt = ({navigation, route }) => {
         isLangHindi: false,
     });
     const [isLoading, setLoading] = useState(false);
+    const [isDisabled, setDisabled] = useState(false);
 
     const fetchInitialData = async () => {
         setLoading(true);
@@ -134,12 +135,16 @@ const Attempt = ({navigation, route }) => {
             {
                 text: 'Ok To Proceed', onPress: async () => {
                     try {
+                        setLoading(true);
+                        setDisabled(true);
                         const testId = test?._id;
                         const seatAvailableStatus = await testService.getEnrolledSeatStatus(testId);
 
                         //if seats not available then exit
                         if (!seatAvailableStatus?.data?.isSeatAvailable) {
                             showAlert('Info', 'Test seats full!. please attempt another test.');
+                            setLoading(false);
+                            setDisabled(false);
 
                             return;
                         }
@@ -154,6 +159,8 @@ const Attempt = ({navigation, route }) => {
                         if (!testQusData?.length) {
                             console.warn(`test data not found in gnerate test questions`);
                             showAlert('Info', 'Network failed, Please try again!');
+                            setLoading(false);
+                            setDisabled(false);
 
                             return;
                         }
@@ -176,10 +183,15 @@ const Attempt = ({navigation, route }) => {
 
                         //increment the user enrolled count
                         testService.incrementEnrolledCount(testId);
+
+                        setLoading(false);
+                        setDisabled(false);
                         //navigate to timer screen for test attempt
                         navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testQusData, testId });
                     } catch (err) {
                         console.error(`error while attempting: ${err}`);
+                        setLoading(false);
+                        setDisabled(false);
                         showAlert('Info', 'Network failed, Please try again!');
                     }
                 }
@@ -271,8 +283,8 @@ const Attempt = ({navigation, route }) => {
                     </View>
             </View>
 
-            <TouchableHighlight style ={COMMON_STYLES.BTN_1} onPress={handlePress}>
-                <Text style = {COMMON_STYLES.BTN_TEXT}>Attempt</Text>
+            <TouchableHighlight style ={[COMMON_STYLES.BTN_1, isDisabled && COMMON_STYLES.DISABLED_BTN]} onPress={handlePress} disabled={isDisabled}>
+                <Text style = {[COMMON_STYLES.BTN_TEXT, isDisabled && COMMON_STYLES.DISABLED_TXT]}>Attempt</Text>
             </TouchableHighlight>
 
             <View style ={[COMMON_STYLES.CENTER, attemptStyles.highLightArea]}>
