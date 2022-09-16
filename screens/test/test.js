@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { SafeAreaView, View, Text, TouchableHighlight, ScrollView } from "react-native";
+import { SafeAreaView, View, Text, TouchableHighlight, ScrollView, BackHandler } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { testStyles } from './testStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
@@ -12,7 +12,7 @@ import { appendToSavedStorage } from "../../utils/utils";
 const Test = ({navigation, route}) => {
     let timeTimer = useRef();
     let cameraRef = useRef();
-    let removeListener = useRef();
+    let backHandler = useRef();
 
     const [time, setTime] = useState(TEST_TIME_LIMIT);
     const [state, setState] = useState({
@@ -156,26 +156,24 @@ const Test = ({navigation, route}) => {
     useEffect(() => {
         console.info('useEffect', { timeFinished: state.timeFinished });
 
-        console.info({ removeListener: removeListener.current });
+        const backAction = () => {
+            console.info(`backAction called in test screen`);
+            if (state.timeFinished || state.previewMode) {
+                navigation.navigate(ROUTES.DASHBOARD);
+                return true;
+            }
+            return false;
+          };
 
-        if (!removeListener.current) {
-            removeListener.current = navigation.addListener('beforeRemove', (e) => {
-                console.info('beforeRemove', { timeFinished: state.timeFinished });
-                if (state.timeFinished || state.previewMode) {
-                  console.info(`done --exit`, e.data.action);
-                  //if test is finished then only allow screen exit else not
-                  navigation.dispatch(e.data.action);
-
-                  return;
-                }
-    
-                 // Prevent default behavior of leaving the screen
-                e.preventDefault();
-            });
-        }
+          backHandler.current = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+          );
 
         return () => {
-            removeListener.current = null;
+            console.info('cleaning function back hander for test');
+            //navigation.removeListener('beforeRemove');
+            backHandler.current.remove();
         }
 
     }, [navigation, state.timeFinished, state.previewMode]);
