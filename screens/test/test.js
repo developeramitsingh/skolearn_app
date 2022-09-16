@@ -12,6 +12,8 @@ import { appendToSavedStorage } from "../../utils/utils";
 const Test = ({navigation, route}) => {
     let timeTimer = useRef();
     let cameraRef = useRef();
+    let removeListener = useRef();
+
     const [time, setTime] = useState(TEST_TIME_LIMIT);
     const [state, setState] = useState({
         quesIdx: 0,
@@ -151,6 +153,33 @@ const Test = ({navigation, route}) => {
         }
     }
 
+    useEffect(() => {
+        console.info('useEffect', { timeFinished: state.timeFinished });
+
+        console.info({ removeListener: removeListener.current });
+
+        if (!removeListener.current) {
+            removeListener.current = navigation.addListener('beforeRemove', (e) => {
+                console.info('beforeRemove', { timeFinished: state.timeFinished });
+                if (state.timeFinished || state.previewMode) {
+                  console.info(`done --exit`, e.data.action);
+                  //if test is finished then only allow screen exit else not
+                  navigation.dispatch(e.data.action);
+
+                  return;
+                }
+    
+                 // Prevent default behavior of leaving the screen
+                e.preventDefault();
+            });
+        }
+
+        return () => {
+            removeListener.current = null;
+        }
+
+    }, [navigation, state.timeFinished, state.previewMode]);
+
     useEffect(()=> {
         if (route?.params?.testQues) {
             if(!testQuesData?.length) {
@@ -159,16 +188,6 @@ const Test = ({navigation, route}) => {
 
             startTest();
         }
-        navigation.addListener('beforeRemove', (e) => {
-            if (state.timeFinished || state.previewMode) {
-              //if test is finished then only allow screen exit else not
-              navigation.dispatch(e.data.action);
-            }
-
-             // Prevent default behavior of leaving the screen
-            e.preventDefault();
-        });
-
 
         return (() => {
             clearInterval(timeTimer?.current);

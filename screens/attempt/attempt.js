@@ -1,6 +1,6 @@
 import { View, Text, Alert, SafeAreaView, Switch, TouchableHighlight, BackHandler } from 'react-native';
 import { attemptStyles } from './attemptStyles';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useRef } from 'react';
 
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import {FontAwesome } from '@expo/vector-icons';
@@ -25,6 +25,7 @@ const Attempt = ({navigation, route }) => {
     });
     const [isLoading, setLoading] = useState(false);
     const [isDisabled, setDisabled] = useState(false);
+    const backHandler = useRef();
 
     const fetchInitialData = async () => {
         setLoading(true);
@@ -45,6 +46,25 @@ const Attempt = ({navigation, route }) => {
         }
     }
 
+    
+    useEffect(() => {
+          const backAction = () => {
+            console.info(`backAction called in attempt screen`);
+            navigation.navigate(Constant.ROUTES.DASHBOARD);
+            return true;
+          };
+
+          backHandler.current = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+          );
+      
+          return () => { 
+            console.info(`cleaning function in attempt screen`);
+            backHandler.current.remove();
+          };
+    }, []);
+
     useEffect(() => {
         fetchInitialData();
     }, []);
@@ -61,19 +81,6 @@ const Attempt = ({navigation, route }) => {
                 return { ...prev, userId: route?.params?.userId }
             })
         }
-
-        const backAction = () => {
-            console.info(`backAction called in attempt screen`);
-            navigation.navigate(Constant.ROUTES.DASHBOARD);
-            return true;
-          };
-      
-          const backHandler = BackHandler.addEventListener(
-            "hardwareBackPress",
-            backAction
-          );
-      
-          return () => backHandler.remove();
     }, [route?.params?.test, route?.params?.userId]);
 
     const createTransaction = (amount, txnTitle, txnType) => {
@@ -186,6 +193,11 @@ const Attempt = ({navigation, route }) => {
 
                         setLoading(false);
                         setDisabled(false);
+
+                        // remove event listeners
+                        if (backHandler.current) {
+                            backHandler.current.remove();
+                        }
                         //navigate to timer screen for test attempt
                         navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testQusData, testId });
                     } catch (err) {

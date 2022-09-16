@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import { SafeAreaView, View, Text } from "react-native";
+import { useEffect, useState, useRef } from "react";
+import { SafeAreaView, View, Text, BackHandler } from "react-native";
 import * as Constant from '../../constant/constant';
 import { timerScreenStyles } from './timerScreenStyles';
 
 const TimerScreen = ({navigation, route }) => {
     const [time, setTime] = useState(5);
+    const backHandler = useRef();
     const timerToStartTest = () => {
         const timer = setInterval(()=>{
             if (time === 0) {
@@ -18,13 +19,30 @@ const TimerScreen = ({navigation, route }) => {
         return timer;
     }
 
+    useEffect(() => {
+        const backAction = () => {
+          console.info(`backAction called in timer screen`);
+          return false;
+        };
+
+        backHandler.current = BackHandler.addEventListener(
+          "hardwareBackPress",
+          backAction
+        );
     
+        return () => { 
+          backHandler.current.remove();
+        };
+  }, []);
 
     useEffect(()=> {
         const timerStart = timerToStartTest();
 
         return(()=> {
+            console.info(`cleaning function in timer screen`);
             clearTimeout(timerStart);
+
+            backHandler.current.remove();
         })
     }, [time]);
 
