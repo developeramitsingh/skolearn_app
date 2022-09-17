@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { SafeAreaView, View, Text, ScrollView, Linking, TouchableOpacity } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { SafeAreaView, View, Text, ScrollView, Linking, TouchableOpacity, BackHandler } from 'react-native';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS, ROUTES } from '../../constant/constant';
 import { notificationStyles } from './notificationStyles';
@@ -12,6 +12,7 @@ const Notification = ({ navigation }) => {
     const [state, setState] = useState({
         notifications: [],
     });
+    const backHandler = useRef();
 
     const getUserNotifications = async () => {
         try {
@@ -29,6 +30,22 @@ const Notification = ({ navigation }) => {
 
     useEffect(() => {
         getUserNotifications();
+
+        const backAction = () => {
+            console.info(`backAction called in notification screen`);
+            navigation.navigate(ROUTES.DASHBOARD);
+            return true;
+          };
+
+          backHandler.current = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+          );
+      
+          return () => { 
+            console.info(`cleaning function in notification screen`);
+            backHandler.current.remove();
+          };
     }, [])
 
     const handleDelete = (id) => {
