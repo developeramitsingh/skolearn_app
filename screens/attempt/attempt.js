@@ -256,7 +256,7 @@ const Attempt = ({navigation, route }) => {
   return (
       <SafeAreaView style={attemptStyles.container}>
         <Loader isLoading={isLoading}/>
-        <BackBtn navigation={navigation} routeToGo={Constant.ROUTES.DASHBOARD} color={Constant.APP_COLORS.black}/>
+        <BackBtn navigation={navigation} routeToGo={Constant.ROUTES.DASHBOARD} color={Constant.APP_COLORS.white}/>
 
         <View style={[attemptStyles.container, { justifyContent: 'space-between' } ]}>
             <View style ={[COMMON_STYLES.ROW, state.testType === Constant.TEST_TYPES.PRACTICE && { justifyContent: 'center'}]}>
