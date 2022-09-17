@@ -47,6 +47,8 @@ const LeaderBoardContent = ({data, activeTab })=> {
                 <View style={leaderBoardStyles.BODY_LEFT_COL}>
                     <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>
                         <Ionicons name="trophy" size={14} color={Constant.APP_COLORS.yellow} />{item.rank ?? '-'}</Text>
+
+                    {/* start For LeatherBoard */}
                     {
                         isleaderBoardTab &&
                         <>
@@ -54,6 +56,7 @@ const LeaderBoardContent = ({data, activeTab })=> {
                             <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>{item.score ?? '-'}</Text>
                         </>
                     }
+                    {/* end For LeatherBoard */}
                     
                 </View>
 

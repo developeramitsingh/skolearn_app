@@ -1,6 +1,6 @@
 import { SafeAreaView, View, Text, TouchableHighlight, BackHandler } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
-import {useEffect, useState} from  'react';
+import {useEffect, useRef, useState} from  'react';
 import * as Constant from '../../constant/constant';
 import {resultScreenStyles} from './resultScreenStyles';
 
@@ -14,6 +14,7 @@ const ResultScreen = ({navigation, route }) => {
     const [leaderBoardData, setLeaderBoardData] = useState(null);
     const [scholarShipBreakUp, setBreakUpData] = useState(null);
     const [isLoading, setLoading] = useState(false);
+    const backHandler = useRef();
 
     const getTestByTestId = async () => {
         try {
@@ -63,23 +64,27 @@ const ResultScreen = ({navigation, route }) => {
         setLoading(false);
     }
 
-    useEffect(()=> {
-        if (route?.params?.testId && (!testData || !leaderBoardData)) {
-            fetchInitialData();    
-        }
-        
+    useEffect(() => {
         const backAction = () => {
             console.info(`backAction called in result screen`);
             navigation.navigate(Constant.ROUTES.DASHBOARD);
             return true;
           };
       
-          const backHandler = BackHandler.addEventListener(
+          backHandler.current = BackHandler.addEventListener(
             "hardwareBackPress",
             backAction
           );
       
-          return () => backHandler.remove();
+          return () => backHandler.current?.remove();
+    }, [])
+
+    useEffect(()=> {
+        if (route?.params?.testId && (!testData || !leaderBoardData)) {
+            fetchInitialData();    
+        }
+        
+        return () => backHandler.current?.remove();
     }, [route?.params?.testId]);
 
     const getSavedTestQusAns = async () => {
@@ -110,10 +115,18 @@ const ResultScreen = ({navigation, route }) => {
             <Loader isLoading={isLoading}/>
             <BackBtn navigation={navigation} routeToGo={Constant.ROUTES.DASHBOARD}/>
             <View style={resultScreenStyles.ROW}>
-                <Text style={resultScreenStyles.LABEL_TEXT}>Participant Joined: <Text>{(testData?.userEnrolled || '') + '/'} {testData?.userSeats || ''}</Text>
-                </Text>
-                <Text style={resultScreenStyles.LABEL_TEXT}>Test Fee: <Text>{testData?.entryFee || ''}</Text>
-                </Text>
+                {
+                    testData?.testType !== Constant.TEST_TYPES.PRACTICE 
+                        ?   <>
+                                <Text style={resultScreenStyles.LABEL_TEXT}>Participant Joined: <Text>{(testData?.userEnrolled || '') + '/'} {testData?.userSeats || ''}</Text>
+                                </Text>
+                                <Text style={resultScreenStyles.LABEL_TEXT}>Test Fee: <Text>{testData?.entryFee || ''}</Text>
+                                </Text>
+                            </>
+                        :   <Text style={resultScreenStyles.LABEL_TEXT}>Participant Joined: <Text>{(testData?.userEnrolled || '')}</Text>
+                            </Text>
+                }
+                
             </View>
 
             <View style={resultScreenStyles.ROW}>
