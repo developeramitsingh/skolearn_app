@@ -41,7 +41,7 @@ const CardList = (props) => {
         return (
             <View key={item._id} style ={ props.horizontal ? {...cardListStyles.CARD_HORIZONTAL} : {...cardListStyles.CARD_VERTICAL, backgroundColor: Constant.APP_COLORS.white, }}>
                 <View style ={cardListStyles.ROW}>
-                    <View style={cardListStyles.COL_LEFT}>
+                    <View style={[cardListStyles.COL_LEFT, props.horizontal && { maxWidth: 200 }]}>
                         <Text style={cardListStyles.TITLE}>{item.testName}</Text>
                     </View>
                     { 

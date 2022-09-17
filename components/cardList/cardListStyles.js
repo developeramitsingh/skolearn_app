@@ -14,7 +14,7 @@ const cardListStyles = StyleSheet.create({
         backgroundColor: APP_COLORS.yellow,
         borderRadius: 15,
         marginVertical: 5,
-        marginRight: 0,
+        marginRight: 10,
         paddingHorizontal: 10,
         paddingBottom: 10,
         justifyContent: 'space-between',
@@ -56,23 +56,25 @@ const cardListStyles = StyleSheet.create({
         alignItems: 'center',
     },
     COL_LEFT: {
-        maxWidth: '70%',
+        maxWidth: '65%',
+        paddingRight: 5,
     },
     TITLE: {
         fontSize: 14,
         color: APP_COLORS.appBlue,
         paddingVertical: 10,
+        flexWrap: 'wrap'
     },
     LABEL_TEXT: {
-        
         fontSize: 8,
         color: APP_COLORS.appBlue,
         textAlign: 'center',
     },
     LABEL_TEXT_BODY: {
-        fontSize: 10,
+        fontSize: 8,
         color: APP_COLORS.appBlue,
         textAlign: 'center',
+        fontWeight: 'bold'
     },
     FEE: {        
         fontSize: 20,
