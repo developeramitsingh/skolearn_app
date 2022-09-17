@@ -113,7 +113,16 @@ const LeaderBoardContent = ({data, activeTab, enrolledId, testType })=> {
             <FlatList
                 data = { 
                     isleaderBoardTab && data && userId
-                    ? data?.filter(elem => elem?.userId?._id !== userId) 
+                    ? data?.filter(elem => {
+                        // filter the data current user score and if practice test also
+                        if (elem?.userId?._id === userId) {
+                            if (elem._id !== enrolledId) {
+                                return true;
+                            }
+                            return false;
+                        }
+                        return true;
+                    }) 
                     : !isleaderBoardTab && data
                     ? data
                     : []
