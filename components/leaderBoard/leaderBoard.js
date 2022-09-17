@@ -53,7 +53,7 @@ const LeaderBoardContent = ({data, activeTab, enrolledId, testType })=> {
                     {
                         isleaderBoardTab &&
                         <>
-                            <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>{item?.userId?.userName}</Text>
+                            <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>{item?.userId?.userName} {forCurrentUser && '(You)'}</Text>
                             <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>{item.score ?? '-'}</Text>
                         </>
                     }
