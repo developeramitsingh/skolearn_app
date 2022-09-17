@@ -1,4 +1,4 @@
-import { SafeAreaView, View, Text, TouchableHighlight, TouchableNativeFeedback, Pressable, FlatList } from "react-native";
+import { SafeAreaView, View, Text, TouchableHighlight, TouchableNativeFeedback, Pressable, FlatList, ScrollView } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import {useEffect, useState} from  'react';
 import * as Constant from '../../constant/constant';
@@ -11,7 +11,7 @@ const TAB_TYPE = {
     SCHOLARSHIP_BREAKUP: 'scholarshipBreakup'
 }
 const LeaderBoardContent = ({data, activeTab })=> {
-    const [userRankData, setUserRankData] = useState(null);
+    const [userRankData, setUserRankData] = useState([]);
     const [userId, setUserId] = useState(null);
 
     const getUserRank = async () => {
@@ -21,9 +21,15 @@ const LeaderBoardContent = ({data, activeTab })=> {
             if(activeTab === TAB_TYPE.LEATHER_BOARD) {
                 const currentUserData = data?.filter(elem => {
                     return elem.userId._id === id;
-                })
+                });
     
-                setUserRankData(currentUserData?.[0]);
+                const len = currentUserData?.length;
+ 
+                const newSortedUserData = [];
+                for (let i = len - 1; i >= 0; i-- ) {
+                    newSortedUserData.push(currentUserData[i])
+                }
+                setUserRankData(newSortedUserData);
             }
 
             setUserId(id);
@@ -37,7 +43,7 @@ const LeaderBoardContent = ({data, activeTab })=> {
 
     const ListItems = ({item, forCurrentUser}) => {
         return (
-            <View elevation={3} key={item._id} style={[leaderBoardStyles.ROW_LEATHER_BOARD, forCurrentUser && leaderBoardStyles.ROW_FOR_CURRENT_USER]}>
+            <View elevation={3} key={item._id} style={[leaderBoardStyles.ROW_LEATHER_BOARD, forCurrentUser && { backgroundColor: Constant.APP_COLORS.back }]}>
                 <View style={leaderBoardStyles.BODY_LEFT_COL}>
                     <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>
                         <Ionicons name="trophy" size={14} color={Constant.APP_COLORS.yellow} />{item.rank ?? '-'}</Text>
@@ -55,6 +61,20 @@ const LeaderBoardContent = ({data, activeTab })=> {
                     <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'} ]}>{item.scholarShip ?? '-'}</Text>
                 </View>
             </View>
+        )
+    }
+
+    const currentUserScore = (isLeatherBoard, userRankScoreData) => {
+        return (
+            <>
+                { 
+                    isLeatherBoard && userRankScoreData?.length
+                        ?   <ScrollView style={{ maxHeight: '12%' }}>
+                                {userRankScoreData.map(userRank => ListItems({ item: userRank, forCurrentUser: true }) )}
+                            </ScrollView>
+                        :  null
+                }
+            </>
         )
     }
 
@@ -78,7 +98,8 @@ const LeaderBoardContent = ({data, activeTab })=> {
                 </View>
             </View> 
 
-            { isleaderBoardTab && userRankData ? ListItems({ item: userRankData, forCurrentUser: true }) : null }           
+            {/* Show current user rank and score on Top of the list */}
+            { currentUserScore(isleaderBoardTab, userRankData)}
 
             <FlatList
                 data = { 

@@ -20,7 +20,7 @@ export const resultScreenStyles = StyleSheet.create({
     },
     HEADING: {
         fontWeight: 'bold',
-        fontSize: 26,
+        fontSize: 20,
         color: APP_COLORS.white,
         textAlign: 'center',
     },

@@ -16,13 +16,7 @@ export const leaderBoardStyles = StyleSheet.create({
         borderRadius: 5,
         marginVertical: 5,
     },
-    ROW_FOR_CURRENT_USER: {
-        ...COMMON_STYLES.ROW,
-        backgroundColor: APP_COLORS.back,
-        marginHorizontal: 5,
-        borderRadius: 5,
-        marginVertical: 5,
-    },
+
     BOARD_ROW: {
         flexDirection: 'row',
     },
