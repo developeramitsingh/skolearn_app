@@ -11,25 +11,28 @@ const CardList = (props) => {
 
     const renderCard = ({item})=> {        
         const testType = props?.testType?.toLowerCase();
+        const isLive  = testType === Constant.TEST_TYPES.LIVE;
+        const isMyTest = testType === Constant.TEST_TYPES.MY_TEST;
+        const isPractice = testType === Constant.TEST_TYPES.PRACTICE;
 
-        const difficultyLevel = testType ===  Constant.TEST_TYPES.LIVE
+        const difficultyLevel = isLive
             ? 'Difficulty Level'
-            : testType === Constant.TEST_TYPES.MY_TEST
+            : isMyTest
             ? 'Completed on'
             : null;
 
-        const difficultiLevelVal = testType ===  Constant.TEST_TYPES.LIVE
+        const difficultiLevelVal = isLive
             ? item.difficultyLevel
-            : testType === Constant.TEST_TYPES.MY_TEST
+            : isMyTest
             ? item.userCompletedOn
             : null;
 
         const btnText =
-            testType === Constant.TEST_TYPES.LIVE
+            isLive
                 ? 'Participate'
-                : testType === Constant.TEST_TYPES.MY_TEST
+                : isMyTest
                     ? 'View Result'
-                : testType === Constant.TEST_TYPES.PRACTICE
+                : isPractice
                 ? 'Practice'
                 : ''
 
@@ -39,9 +42,9 @@ const CardList = (props) => {
         };
 
         return (
-            <View key={item._id} style ={ props.horizontal ? {...cardListStyles.CARD_HORIZONTAL} : {...cardListStyles.CARD_VERTICAL, backgroundColor: Constant.APP_COLORS.white, }}>
+            <View key={item._id} style ={[props.horizontal ? cardListStyles.CARD_HORIZONTAL : {...cardListStyles.CARD_VERTICAL, backgroundColor: Constant.APP_COLORS.white }]}>
                 <View style ={cardListStyles.ROW}>
-                    <View style={[cardListStyles.COL_LEFT, props.horizontal && { maxWidth: 200 }]}>
+                    <View style={[cardListStyles.COL_LEFT, props.horizontal && { maxWidth: 200 }, isPractice && { maxWidth: '100%'}]}>
                         <Text style={cardListStyles.TITLE}>{item.testName}</Text>
                     </View>
                     { 
