@@ -3,19 +3,25 @@ import { APP_COLORS } from '../../constant/constant';
 export const attemptStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: APP_COLORS.white,
+        backgroundColor: APP_COLORS.appBlue,
         paddingHorizontal: 10,
         paddingBottom: 10,
         justifyContent: 'flex-start'
     },
     HEADING: {
         fontSize: 24,
-        color: APP_COLORS.black,
+        color: APP_COLORS.white,
         textAlign: 'center',
     },
     LABEL_TEXT: {
         fontSize: 12,
-        color: APP_COLORS.black,
+        color: APP_COLORS.white,
+        textAlign: 'center',
+    },
+
+    LABEL_TEXT_WHITE: {
+        fontSize: 12,
+        color: APP_COLORS.white,
         textAlign: 'center',
     },
 
@@ -32,7 +38,8 @@ export const attemptStyles = StyleSheet.create({
         borderColor: APP_COLORS.yellow,
         borderRadius: 30,
         paddingVertical: 5,
-        width: 250,
-        alignSelf: 'center'
+        paddingHorizontal: 50,
+        alignSelf: 'center',
+        backgroundColor: APP_COLORS.appBlue,
     }
 })

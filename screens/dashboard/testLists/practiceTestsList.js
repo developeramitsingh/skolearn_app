@@ -17,7 +17,7 @@ const PracticeTestsList = ({navigation})=> {
         try {
             console.info(`getPracticeTests called`);
             setLoading(true);
-            const tests = await testService.getTests('{ "testType": "practice" }');
+            const tests = await testService.getTests(`{ "testType": "${Constant.TEST_TYPES.PRACTICE}" }`);
             setLoading(false);
             if (tests?.data?.data) {
                 setPracticeListData(tests.data.data);
