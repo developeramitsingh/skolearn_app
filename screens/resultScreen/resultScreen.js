@@ -89,8 +89,11 @@ const ResultScreen = ({navigation, route }) => {
 
     const getSavedTestQusAns = async () => {
         try {
-            console.info('getSavedTestQusAns called');
-            const testQuesData = await enrolledTestsService.getEnrolledQuesTestByTestId(testData?._id);
+            const enrolledId = route?.params?.enrolledId;
+
+            console.info('getSavedTestQusAns called', { enrolledId });
+
+            const testQuesData = await enrolledTestsService.getEnrolledQuesByEnrolledId(enrolledId);
 
             console.info({dataTEs: testQuesData.data});
             return testQuesData?.data;
@@ -98,6 +101,7 @@ const ResultScreen = ({navigation, route }) => {
             console.error(`error in getSavedTestQusAns: ${err}`);
         }
     }
+
     const handlePress = async ()=>{
         setLoading(true);
         const savedTestData = await getSavedTestQusAns();

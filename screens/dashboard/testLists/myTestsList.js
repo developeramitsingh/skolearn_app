@@ -33,9 +33,9 @@ const MyTestsList = ({navigation})=> {
         getMyTestsList();
     }, []);
     
-    const handleBtnPress = (id) => {
-        console.info({id});
-        navigation.navigate(Constant.ROUTES.RESULT_SCREEN, { testId: id });
+    const handleBtnPress = (id, enrolledId) => {
+        console.info({id, enrolledId});
+        navigation.navigate(Constant.ROUTES.RESULT_SCREEN, { testId: id, enrolledId });
     }
     return (
         <View style={testListsStyles.BACK_PANEL}>
