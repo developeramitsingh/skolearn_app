@@ -362,9 +362,7 @@ const Test = ({navigation, route}) => {
         }
 
         //saving the score and userAnswers
-        if(state.timeFinished) {
-            updateScoreAndUserAnswers();
-        }
+        updateScoreAndUserAnswers();
         
 
         setState(prev => {
