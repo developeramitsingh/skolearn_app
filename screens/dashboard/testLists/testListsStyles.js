@@ -21,10 +21,11 @@ const testListsStyles = StyleSheet.create({
     },
     BACK_PANEL: {
         flex: 1, 
-        backgroundColor: APP_COLORS.white, 
-        borderTopLeftRadius: 20, 
-        borderTopRightRadius: 20,
-        paddingTop: 5,
+        backgroundColor: '#f7f7f7', 
+        borderTopLeftRadius: 15, 
+        borderTopRightRadius: 15,
+        paddingVertical: 5,
+        paddingHorizontal: 5,
     }
 })
 

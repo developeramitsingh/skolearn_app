@@ -21,8 +21,9 @@ const cardListStyles = StyleSheet.create({
     },
     CARD_VERTICAL: {
         borderRadius: 15,
-        borderBottomColor: APP_COLORS.light_grey,
-        borderBottomWidth: 0.5,
+        //borderColor: APP_COLORS.light_grey,
+        backgroundColor: APP_COLORS.white,
+        //borderWidth: 0.5,
         marginVertical: 5,
         marginHorizontal: 5,
         paddingHorizontal: 10,
@@ -60,7 +61,7 @@ const cardListStyles = StyleSheet.create({
         paddingRight: 5,
     },
     TITLE: {
-        fontSize: 14,
+        fontSize: 12,
         color: APP_COLORS.appBlue,
         paddingVertical: 10,
         flexWrap: 'wrap'
@@ -83,14 +84,24 @@ const cardListStyles = StyleSheet.create({
     },
     CARD_BTN: {
         backgroundColor: APP_COLORS.appBlue,
-        paddingHorizontal: 15,
+        paddingHorizontal: 10,
         paddingVertical: 8,
         borderRadius: 15,
     },
     CARD_BTN_TEXT: {
-        fontSize: 12,
+        fontSize: 10,
         
         color: APP_COLORS.white,
+    },
+    CARD_LABEL: {
+        fontSize: 8,
+        backgroundColor: APP_COLORS.yellow,
+        color: APP_COLORS.black,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 2.5,
+        alignSelf: 'center',
     }
 
 })

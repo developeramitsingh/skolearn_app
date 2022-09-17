@@ -2,13 +2,8 @@ import { FlatList, View, Text, TouchableHighlight } from "react-native";
 import cardListStyles from "./cardListStyles";
 import {FontAwesome } from '@expo/vector-icons';
 import * as Constant from '../../constant/constant';
-import { useState } from "react";
-import { COMMON_STYLES } from "../../common/styles/commonStyles";
 
 const CardList = (props) => {
-    const [state, setState] = useState({
-    })
-
     const renderCard = ({item})=> {        
         const testType = props?.testType?.toLowerCase();
         const isLive  = testType === Constant.TEST_TYPES.LIVE;
@@ -42,7 +37,8 @@ const CardList = (props) => {
         };
 
         return (
-            <View key={item._id} style ={[props.horizontal ? cardListStyles.CARD_HORIZONTAL : {...cardListStyles.CARD_VERTICAL, backgroundColor: Constant.APP_COLORS.white }]}>
+            <View elevation={3} key={item._id} style ={[props.horizontal ? cardListStyles.CARD_HORIZONTAL : {...cardListStyles.CARD_VERTICAL, backgroundColor: Constant.APP_COLORS.white }, isMyTest && { paddingBottom: 0 }]}>
+                
                 <View style ={cardListStyles.ROW}>
                     <View style={[cardListStyles.COL_LEFT, props.horizontal && { maxWidth: 200 }, isPractice && { maxWidth: '100%'}]}>
                         <Text style={cardListStyles.TITLE}>{item.testName}</Text>
@@ -67,13 +63,13 @@ const CardList = (props) => {
                         <View style={cardListStyles.COL_RIGHT_2}>
                             <View>
                                 <Text style={cardListStyles.LABEL_TEXT}>Test Fee</Text>
-                                <Text style={cardListStyles.FEE}>{item.entryFee}</Text>
+                                <Text style={cardListStyles.FEE}>{item?.testType !== Constant.TEST_TYPES.PRACTICE ? item.entryFee : 0 }</Text>
                             </View>
                             
                             
                             <View style = {cardListStyles.COL_RIGHT_SUB}>
                                 <View>
-                                    <FontAwesome name="user-circle" size={18} style={{ marginRight: 5}} color="blue" />
+                                    <FontAwesome name="user-circle" size={18} style={{ marginRight: 5}} color={Constant.APP_COLORS.back} />
                                 </View>
                                 
                                 <View>
@@ -84,6 +80,12 @@ const CardList = (props) => {
                         </View>
                     }
                 </View>
+
+                {
+                    isMyTest 
+                        ?  <Text style={cardListStyles.CARD_LABEL}>{item.testType?.toUpperCase()}</Text>
+                        : null
+                }
             </View>
         )
     }
