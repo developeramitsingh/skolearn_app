@@ -21,7 +21,7 @@ const CardList = (props) => {
             : null;
 
         const difficultiLevelVal = isLive
-            ? item.difficultyLevel
+            ? item.difficultyLevel?.toUpperCase()
             : isMyTest
             ? item.userCompletedOn
             : null;
@@ -41,7 +41,7 @@ const CardList = (props) => {
         };
 
         return (
-            <View elevation={3} key={item._id} style ={[props.horizontal ? cardListStyles.CARD_HORIZONTAL : {...cardListStyles.CARD_VERTICAL, backgroundColor: Constant.APP_COLORS.white }, isMyTest && { paddingBottom: 0 }]}>
+            <View elevation={3} key={item.enrolledId ||item._id} style ={[props.horizontal ? cardListStyles.CARD_HORIZONTAL : {...cardListStyles.CARD_VERTICAL, backgroundColor: Constant.APP_COLORS.white }, isMyTest && { paddingBottom: 0 }]}>
                 
                 <View style ={cardListStyles.ROW}>
                     <View style={[cardListStyles.COL_LEFT, props.horizontal && { maxWidth: 200 }, isPractice && { maxWidth: '100%'}]}>
@@ -51,7 +51,7 @@ const CardList = (props) => {
                         difficultyLevel &&
                         <View style={[cardListStyles.COL_RIGHT, props.horizontal && { backgroundColor: 'white' }]}>
                             <Text style={cardListStyles.LABEL_TEXT}>{difficultyLevel}</Text>
-                            <Text style={cardListStyles.LABEL_TEXT_BODY}>{difficultiLevelVal}</Text>
+                            <Text style={cardListStyles.LABEL_TEXT}>{difficultiLevelVal}</Text>
                         </View>
                     }
                 </View>
@@ -103,7 +103,7 @@ const CardList = (props) => {
             <FlatList
                 data = { props.dataList || []}
                 renderItem ={renderCard}
-                keyExtractor ={item => item._id}
+                keyExtractor ={item => { return item.enrolledId || item._id } }
                 horizontal = {props.horizontal ? true : false }
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
