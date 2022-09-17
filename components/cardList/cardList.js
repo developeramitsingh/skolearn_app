@@ -74,7 +74,11 @@ const CardList = (props) => {
                                 
                                 <View>
                                     <Text style={cardListStyles.LABEL_TEXT}>Users Joined</Text>
-                                    <Text style={cardListStyles.LABEL_TEXT}>{item.userEnrolled}/{item.userSeats}</Text>
+                                    {
+                                        item?.testType !== Constant.TEST_TYPES.PRACTICE 
+                                            ? <Text style={cardListStyles.LABEL_TEXT}>{item.userEnrolled}/{item.userSeats}</Text>
+                                            : <Text style={cardListStyles.LABEL_TEXT}>{item.userEnrolled}</Text>
+                                    }
                                 </View>
                             </View>    
                         </View>
