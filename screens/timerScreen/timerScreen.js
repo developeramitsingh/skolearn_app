@@ -10,7 +10,11 @@ const TimerScreen = ({navigation, route }) => {
         const timer = setInterval(()=>{
             if (time === 0) {
                 clearInterval(timer);
-                navigation.navigate(Constant.ROUTES.TEST, { testQues: route?.params?.testQusData, testId: route?.params?.testId })
+                navigation.navigate(Constant.ROUTES.TEST, { 
+                    testQues: route?.params?.testQusData,
+                    testId: route?.params?.testId,
+                    test: route?.params?.test,
+                });
             } else {
                 setTime((t) => t - 1);
             }

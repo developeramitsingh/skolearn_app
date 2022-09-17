@@ -96,7 +96,15 @@ const Test = ({navigation, route}) => {
     const startTest = async () => {
         let isCameraPerm;
         let isMicPerm;
-        if ((!hasCameraPermission || !hasMicPermission) && !route?.params?.previewMode) {
+        let isPracticeTest = route?.params?.test?.testType === TEST_TYPES.PRACTICE;
+
+        console.info({ isPracticeTest });
+
+        if (
+            (!hasCameraPermission || !hasMicPermission) &&
+            !route?.params?.previewMode && 
+            !isPracticeTest
+        ) {
             const cameraStatus = await Camera.requestCameraPermissionsAsync();
             const micStatus = await Camera.requestMicrophonePermissionsAsync();
 
@@ -107,7 +115,12 @@ const Test = ({navigation, route}) => {
             setHasMicPermission(isMicPerm);
         }
 
-        if ((hasCameraPermission && hasMicPermission) || (isMicPerm && isCameraPerm) || (route?.params?.previewMode)) {
+        if (
+            (hasCameraPermission && hasMicPermission) ||
+            (isMicPerm && isCameraPerm) ||
+            (route?.params?.previewMode) ||
+            isPracticeTest
+        ) {
             if (!route?.params?.previewMode) {
                 timeTimer.current = timeLimitTimer();
 
@@ -276,12 +289,15 @@ const Test = ({navigation, route}) => {
             };
         });
 
+        let isPracticeTest = route?.params?.test?.testType === TEST_TYPES.PRACTICE;
+        console.info({ isPracticeTest });
         //start recording
         if (
             hasCameraPermission && 
             hasMicPermission && 
             !isVideoRecording && 
-            !route?.params?.previewMode
+            !route?.params?.previewMode &&
+            !isPracticeTest
         ) {
             recordVideo();
         }
@@ -334,9 +350,12 @@ const Test = ({navigation, route}) => {
     };
 
     const finishTest = () => {
-        setIsVideoRecording(false);
-        stopVideoRecording();
-        setCameraVisible(false);
+        if (route?.params?.test?.testType === TEST_TYPES.LIVE) {
+            setIsVideoRecording(false);
+            stopVideoRecording();
+            setCameraVisible(false);
+        }
+        
 
         if(timeTimer.current) {
             clearInterval(timeTimer.current);
@@ -373,7 +392,11 @@ const Test = ({navigation, route}) => {
         );
     }
 
-    if ((hasCameraPermission === null || hasMicPermission === null) && !route?.params?.previewMode) {
+    if (
+        (hasCameraPermission === null || hasMicPermission === null) &&
+        !route?.params?.previewMode &&
+        route?.params?.test?.testType !== TEST_TYPES.PRACTICE
+    ) {
         return <View style={COMMON_STYLES.CONTAINER_LIGHT_ALL_CENTER}>
             <View style ={COMMON_STYLES.ROW_CENTER}>
                 <Text style={COMMON_STYLES.BODY_TITLE_BLACK}>Waiting for permission</Text>
@@ -381,7 +404,11 @@ const Test = ({navigation, route}) => {
         </View>;
     }
 
-    if ((hasCameraPermission === false || hasMicPermission === false) && !route?.params?.previewMode) {
+    if (
+        (hasCameraPermission === false || hasMicPermission === false) &&
+        !route?.params?.previewMode &&
+        route?.params?.test?.testType !== TEST_TYPES.PRACTICE
+    ) {
         return <View style={COMMON_STYLES.CONTAINER_LIGHT_ALL_CENTER}>
             <View style ={COMMON_STYLES.ROW_CENTER}>
                 <Text style={COMMON_STYLES.BODY_TITLE_BLACK}>No Access to Camera or Mic</Text>
@@ -494,6 +521,7 @@ const Test = ({navigation, route}) => {
 
             {
                 isVideoRecording &&
+                !route?.params?.previewMode &&
                 <View style={COMMON_STYLES.ROW}>
                     {renderVideoRecordIndicator()}
                 </View>

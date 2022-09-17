@@ -206,7 +206,7 @@ const Attempt = ({navigation, route }) => {
                             backHandler.current.remove();
                         }
                         //navigate to timer screen for test attempt
-                        navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testQusData, testId });
+                        navigation.navigate(Constant.ROUTES.TEST_TIMER_SCREEN, { testQusData, testId, test });
                     } catch (err) {
                         console.error(`error while attempting: ${err}`);
                         setLoading(false);
