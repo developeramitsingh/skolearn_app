@@ -10,33 +10,34 @@ const TAB_TYPE = {
     LEATHER_BOARD: 'leaderBoard',
     SCHOLARSHIP_BREAKUP: 'scholarshipBreakup'
 }
-const LeaderBoardContent = ({data, activeTab })=> {
+const LeaderBoardContent = ({data, activeTab, enrolledId })=> {
     const [userRankData, setUserRankData] = useState([]);
     const [userId, setUserId] = useState(null);
 
     const getUserRank = async () => {
-        const id = await getFromStorage(Constant.STORAGE_KEYS.USER_ID);
+        const usrid = await getFromStorage(Constant.STORAGE_KEYS.USER_ID);
 
-        if(id) {
-            if(activeTab === TAB_TYPE.LEATHER_BOARD) {
+        console.info({ data }, 'in getUserRank');
+        if(usrid) {
+            if (activeTab === TAB_TYPE.LEATHER_BOARD && data) {
                 const currentUserData = data?.filter(elem => {
-                    return elem.userId._id === id;
+                    return elem.userId._id === usrid && elem._id === enrolledId;
                 });
     
-                const len = currentUserData?.length;
- 
-                const newSortedUserData = [];
-                for (let i = len - 1; i >= 0; i-- ) {
-                    newSortedUserData.push(currentUserData[i])
+                if(currentUserData?.[0]) {
+                    setUserRankData(currentUserData?.[0]);
                 }
-                setUserRankData(newSortedUserData);
+                
             }
 
-            setUserId(id);
+            setUserId(usrid);
         }
     }
     useEffect(() => {
-        getUserRank();
+        if (data) {
+            getUserRank();
+        }
+        
     }, [data])
 
     const isleaderBoardTab = activeTab === TAB_TYPE.LEATHER_BOARD;
@@ -71,11 +72,9 @@ const LeaderBoardContent = ({data, activeTab })=> {
         return (
             <>
                 { 
-                    isLeatherBoard && userRankScoreData?.length
-                        ?   <ScrollView style={{ maxHeight: '12%' }}>
-                                {userRankScoreData.map(userRank => ListItems({ item: userRank, forCurrentUser: true }) )}
-                            </ScrollView>
-                        :  null
+                    isLeatherBoard && userRankScoreData
+                        ? ListItems({ item: userRankScoreData, forCurrentUser: true })
+                        : null
                 }
             </>
         )
@@ -106,9 +105,9 @@ const LeaderBoardContent = ({data, activeTab })=> {
 
             <FlatList
                 data = { 
-                    isleaderBoardTab && data
+                    isleaderBoardTab && data && userId
                     ? data?.filter(elem => elem?.userId?._id !== userId) 
-                    : data
+                    : !isleaderBoardTab && data
                     ? data
                     : []
                 }
@@ -119,7 +118,7 @@ const LeaderBoardContent = ({data, activeTab })=> {
     )
 }
 
-const LeaderBoard = ({leaderBoardData, scholarShipBreakUp}) => {
+const LeaderBoard = ({leaderBoardData, scholarShipBreakUp, enrolledId }) => {
     const [activeTab, setActive] = useState(TAB_TYPE.LEATHER_BOARD);
     const btnStyles = {
         btn: {...leaderBoardStyles.TAB_BTN, },
@@ -143,7 +142,7 @@ const LeaderBoard = ({leaderBoardData, scholarShipBreakUp}) => {
                 </Pressable>
             </View>
 
-            <LeaderBoardContent data={activeTab === TAB_TYPE.LEATHER_BOARD ? leaderBoardData : scholarShipBreakUp} activeTab={activeTab}/>
+            <LeaderBoardContent data={activeTab === TAB_TYPE.LEATHER_BOARD ? leaderBoardData : scholarShipBreakUp} activeTab={activeTab} enrolledId={enrolledId}/>
         </View>
     )
 };
