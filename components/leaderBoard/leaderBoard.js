@@ -10,7 +10,7 @@ const TAB_TYPE = {
     LEATHER_BOARD: 'leaderBoard',
     SCHOLARSHIP_BREAKUP: 'scholarshipBreakup'
 }
-const LeaderBoardContent = ({data, activeTab, enrolledId })=> {
+const LeaderBoardContent = ({data, activeTab, enrolledId, testType })=> {
     const [userRankData, setUserRankData] = useState([]);
     const [userId, setUserId] = useState(null);
 
@@ -42,10 +42,10 @@ const LeaderBoardContent = ({data, activeTab, enrolledId })=> {
 
     const isleaderBoardTab = activeTab === TAB_TYPE.LEATHER_BOARD;
 
-    const ListItems = ({item, forCurrentUser}) => {
+    const ListItems = ({item, forCurrentUser, isTestLive}) => {
         return (
             <View elevation={3} key={item._id} style={[leaderBoardStyles.ROW_LEATHER_BOARD, forCurrentUser && { backgroundColor: Constant.APP_COLORS.back }]}>
-                <View style={leaderBoardStyles.BODY_LEFT_COL}>
+                <View style={[leaderBoardStyles.BODY_LEFT_COL, !isTestLive && { width: '100%'}]}>
                     <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>
                         <Ionicons name="trophy" size={14} color={Constant.APP_COLORS.yellow} />{item.rank ?? '-'}</Text>
 
@@ -68,22 +68,23 @@ const LeaderBoardContent = ({data, activeTab, enrolledId })=> {
         )
     }
 
-    const currentUserScore = (isLeatherBoard, userRankScoreData) => {
+    const currentUserScore = (isLeatherBoard, userRankScoreData, isTestLive) => {
         return (
             <>
                 { 
                     isLeatherBoard && userRankScoreData
-                        ? ListItems({ item: userRankScoreData, forCurrentUser: true })
+                        ? ListItems({ item: userRankScoreData, forCurrentUser: true, isTestLive })
                         : null
                 }
             </>
         )
     }
 
+    const isTestLive = testType === Constant.TEST_TYPES.LIVE;
     return (
         <View style={{flex: 1}}>
             <View style={{...COMMON_STYLES.ROW, borderBottomWidth: 1, borderBottomColor: Constant.APP_COLORS.light_grey }}>
-                <View style={leaderBoardStyles.BODY_LEFT_COL}>
+                <View style={[leaderBoardStyles.BODY_LEFT_COL, !isTestLive && { width: '100%'}]}>
                     <Text style={leaderBoardStyles.TAB_BTN_TEXT}>Rank</Text>
                     {
                         isleaderBoardTab &&
@@ -95,13 +96,19 @@ const LeaderBoardContent = ({data, activeTab, enrolledId })=> {
                     
                 </View>
 
-                <View style={leaderBoardStyles.BODY_RIGHT_COL}>
-                    <Text style={leaderBoardStyles.TAB_BTN_TEXT}>Scholarship</Text>
-                </View>
+                {
+                    isTestLive
+                        ?   <View style={leaderBoardStyles.BODY_RIGHT_COL}>
+                                <Text style={leaderBoardStyles.TAB_BTN_TEXT}>Scholarship</Text>
+                            </View>
+                        : null
+                }
+
+                
             </View> 
 
             {/* Show current user rank and score on Top of the list */}
-            { currentUserScore(isleaderBoardTab, userRankData)}
+            { currentUserScore(isleaderBoardTab, userRankData, isTestLive)}
 
             <FlatList
                 data = { 
@@ -111,14 +118,14 @@ const LeaderBoardContent = ({data, activeTab, enrolledId })=> {
                     ? data
                     : []
                 }
-                renderItem ={ListItems}
+                renderItem ={({item}) => (ListItems({ item, forCurrentUser: false, isTestLive }))}
                 keyExtractor ={item => item._id}
             />
         </View>
     )
 }
 
-const LeaderBoard = ({leaderBoardData, scholarShipBreakUp, enrolledId }) => {
+const LeaderBoard = ({leaderBoardData, scholarShipBreakUp, enrolledId, testType }) => {
     const [activeTab, setActive] = useState(TAB_TYPE.LEATHER_BOARD);
     const btnStyles = {
         btn: {...leaderBoardStyles.TAB_BTN, },
@@ -131,18 +138,25 @@ const LeaderBoard = ({leaderBoardData, scholarShipBreakUp, enrolledId }) => {
         setActive(tabKey);
     }
 
+    const isLiveTest = testType === Constant.TEST_TYPES.LIVE;
+
     return (
         <View style={leaderBoardStyles.LEATHER_BOARD_CONT_LIGHT}>
             <View style={leaderBoardStyles.BOARD_ROW}>
-                <Pressable onPress={()=>handleChangeTab(TAB_TYPE.LEATHER_BOARD)} style={{...btnStyles.btn, ...(activeTab === TAB_TYPE.LEATHER_BOARD ? btnStyles.btnActive : {})}}>
-                    <Text style={{ ...btnStyles.btnTxt, ...(activeTab === TAB_TYPE.LEATHER_BOARD ? btnStyles.btnTxtActive : {}) }}>LeaderBoard</Text>
+                <Pressable onPress={()=>handleChangeTab(TAB_TYPE.LEATHER_BOARD)} style={[btnStyles.btn, activeTab === TAB_TYPE.LEATHER_BOARD && btnStyles.btnActive, !isLiveTest && { width: '100%'}]}>
+                    <Text style={[btnStyles.btnTxt, activeTab === TAB_TYPE.LEATHER_BOARD && btnStyles.btnTxtActive ]}>LeaderBoard</Text>
                 </Pressable>
-                <Pressable onPress={()=>handleChangeTab('scholarshipBreakup')} style={{...btnStyles.btn, ...(activeTab === TAB_TYPE.SCHOLARSHIP_BREAKUP ? btnStyles.btnActive : {})}}>
-                    <Text style={{ ...btnStyles.btnTxt, ...(activeTab === TAB_TYPE.SCHOLARSHIP_BREAKUP ? btnStyles.btnTxtActive : {}) }}>Scholarship Breakup</Text>
-                </Pressable>
+
+                {
+                    isLiveTest
+                        ?   <Pressable onPress={()=>handleChangeTab('scholarshipBreakup')} style={[btnStyles.btn, activeTab === TAB_TYPE.SCHOLARSHIP_BREAKUP && btnStyles.btnActive]}>
+                                <Text style={[btnStyles.btnTxt, activeTab === TAB_TYPE.SCHOLARSHIP_BREAKUP && btnStyles.btnTxtActive]}>Scholarship Breakup</Text>
+                            </Pressable>
+                        : null
+                }
             </View>
 
-            <LeaderBoardContent data={activeTab === TAB_TYPE.LEATHER_BOARD ? leaderBoardData : scholarShipBreakUp} activeTab={activeTab} enrolledId={enrolledId}/>
+            <LeaderBoardContent data={activeTab === TAB_TYPE.LEATHER_BOARD ? leaderBoardData : scholarShipBreakUp} activeTab={activeTab} enrolledId={enrolledId} testType={testType}/>
         </View>
     )
 };

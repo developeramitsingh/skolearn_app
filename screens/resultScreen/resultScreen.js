@@ -141,7 +141,7 @@ const ResultScreen = ({navigation, route }) => {
                 <Text style={COMMON_STYLES.BTN_TEXT}>View Solution</Text>
             </TouchableHighlight>
 
-            <LeaderBoard leaderBoardData={leaderBoardData} scholarShipBreakUp={scholarShipBreakUp} enrolledId={route?.params?.enrolledId}/>
+            <LeaderBoard leaderBoardData={leaderBoardData} scholarShipBreakUp={scholarShipBreakUp} enrolledId={route?.params?.enrolledId} testType={testData?.testType}/>
         </SafeAreaView>
     )
 }
