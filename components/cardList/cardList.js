@@ -5,10 +5,14 @@ import * as Constant from '../../constant/constant';
 
 const CardList = (props) => {
     const renderCard = ({item})=> {        
-        const testType = props?.testType?.toLowerCase();
-        const isLive  = testType === Constant.TEST_TYPES.LIVE;
-        const isMyTest = testType === Constant.TEST_TYPES.MY_TEST;
-        const isPractice = testType === Constant.TEST_TYPES.PRACTICE;
+        const testListType = props?.testType?.toLowerCase();
+        const isLive  = testListType === Constant.TEST_TYPES.LIVE;
+        const isMyTest = testListType === Constant.TEST_TYPES.MY_TEST;
+        const isPractice = testListType === Constant.TEST_TYPES.PRACTICE;
+
+        const testType = item?.testType;
+
+        const isTestLive = testType === Constant.TEST_TYPES.LIVE;
 
         const difficultyLevel = isLive
             ? 'Difficulty Level'
@@ -59,7 +63,7 @@ const CardList = (props) => {
                         </TouchableHighlight>
                     </View>
                     { 
-                        [Constant.TEST_TYPES.LIVE, Constant.TEST_TYPES.MY_TEST].includes(props?.testType?.toLowerCase()) &&
+                        (isLive || isMyTest) &&
                         <View style={cardListStyles.COL_RIGHT_2}>
                             <View>
                                 <Text style={cardListStyles.LABEL_TEXT}>Test Fee</Text>
@@ -75,7 +79,7 @@ const CardList = (props) => {
                                 <View>
                                     <Text style={cardListStyles.LABEL_TEXT}>Users Joined</Text>
                                     {
-                                        item?.testType !== Constant.TEST_TYPES.PRACTICE 
+                                        testType !== Constant.TEST_TYPES.PRACTICE 
                                             ? <Text style={cardListStyles.LABEL_TEXT}>{item.userEnrolled}/{item.userSeats}</Text>
                                             : <Text style={cardListStyles.LABEL_TEXT}>{item.userEnrolled}</Text>
                                     }
@@ -87,7 +91,7 @@ const CardList = (props) => {
 
                 {
                     isMyTest 
-                        ?  <Text style={cardListStyles.CARD_LABEL}>{item.testType?.toUpperCase()}</Text>
+                        ?  <Text style={[cardListStyles.CARD_LABEL, isTestLive && { backgroundColor: Constant.APP_COLORS.blueGreen, color: 'white' } ]}>{testType?.toUpperCase()}</Text>
                         : null
                 }
             </View>
