@@ -58,7 +58,7 @@ const Home = ({navigation}) => {
         return () => {
             removeNotificationListeners(notificationListener, responseListener);
         };
-    }, []);
+    }, [navigation]);
 
     const handlePress = (btnType)=> {
         //sets color when btn pressed
@@ -138,7 +138,7 @@ async function registerForPushNotificationsAsync() {
   const initNotificationSetup = (notificationListener, responseListener, navigation) => {
     registerForPushNotificationsAsync().then(token => {
       //save the token in local storage and on server
-      saveExpoToken(token);
+      saveExpoToken(token?.toString());
     });
   
     // This listener is fired whenever a notification is received while the app is foregrounded
@@ -163,6 +163,7 @@ async function registerForPushNotificationsAsync() {
   
   //save expo push token to local and on server
   const saveExpoToken = async (_expoToken) => {
+    console.info(`saveExpoToken called`);
     const expoKey = Constant.STORAGE_KEYS.EXPO_USER_PUSH_TOKEN;
     const existingExpoToken = await getFromStorage(expoKey);
     const userId = await getFromStorage(Constant.STORAGE_KEYS.USER_ID);
@@ -197,12 +198,14 @@ async function registerForPushNotificationsAsync() {
         const logMsg = `server expo push token not found then updating on server:: userId ${userId}::${JSON.stringify({ existingExpoToken, _expoToken })}`;
         console.info(logMsg);
         userService.updateUser({ id: userId, expoPushToken: _expoToken });
-      } else if(savedServerToken !== _expoToken) {
+      } else if(savedServerToken != _expoToken) {
         const logMsg = `server expo push token not matched hence updating on server:: userId ${userId}::${JSON.stringify({ existingExpoToken, _expoToken })}`;
         console.info(logMsg);
         userService.updateUser({ id: userId, expoPushToken: _expoToken });
       }
     }
+
+    console.info(`saveExpoToken ended here`);
   }
   
   const handleClickNotification = (notificationContent, navigation) => {
