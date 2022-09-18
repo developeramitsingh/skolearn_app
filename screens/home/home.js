@@ -177,7 +177,7 @@ async function registerForPushNotificationsAsync() {
       sendAppLogService.sendAppLogs({ msg: logMsg });
   
       saveToStorage(expoKey, _expoToken);
-      userService.updateUser({ id: userId, expoPushToken: _expoToken }).then(res => console.info('sercie updated', res));
+      userService.updateUser({ id: userId, expoPushToken: _expoToken }).then(res => console.info('expo token updated', res));
   
     } else if (existingExpoToken && userId && existingExpoToken !== _expoToken?.toString()) {
       /* if token is found but not matching with new token and
