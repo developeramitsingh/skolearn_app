@@ -1,4 +1,4 @@
-import { SafeAreaView, View, Text, TouchableHighlight, BackHandler } from "react-native";
+import { SafeAreaView, View, Text, TouchableHighlight, BackHandler, Alert } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import {useEffect, useRef, useState} from  'react';
 import * as Constant from '../../constant/constant';
@@ -8,6 +8,7 @@ import LeaderBoard from '../../components/leaderBoard/leaderBoard';
 import BackBtn from "../../components/backBtn/backBtn";
 import { enrolledTestsService, testService } from "../../services";
 import Loader from '../../components/loader/loader';
+import { getFromStorage, saveToStorage } from "../../utils/utils";
 
 const ResultScreen = ({navigation, route }) => {
     const [testData, setTestData] = useState(null);
@@ -24,6 +25,8 @@ const ResultScreen = ({navigation, route }) => {
             if (test.data) {
                 setTestData(test.data);
             }
+
+            return test.data;
             
         } catch (err) {
             console.error(`error in getTestByTestId`);
@@ -40,7 +43,7 @@ const ResultScreen = ({navigation, route }) => {
             }
             
         } catch (err) {
-            console.error(`error in getTestByTestId`);
+            console.error(`error in getLeaderBoardData`);
         }
     }
 
@@ -60,8 +63,52 @@ const ResultScreen = ({navigation, route }) => {
 
     const fetchInitialData = async () => {
         setLoading(true);
-        await Promise.all([getTestByTestId(), getLeaderBoardData(), getBreakUpData()]);
+        const data = await Promise.all([getTestByTestId(), getLeaderBoardData(), getBreakUpData()]);
         setLoading(false);
+        const test = data?.[0];
+        //check for initial alerts for user
+        checkForInitAlert(test);
+    }
+
+    const checkForInitAlert = async (test) => {
+        try {
+            if (test.testType === Constant.TEST_TYPES.LIVE) {
+                const alertRead = await getFromStorage(Constant.STORAGE_KEYS.ALERT_READ_CACHE);
+                const savedAlertTestIdFound = alertRead?.[test?._id];
+    
+                if (!test?.isResultDeclared) {
+                    if (!savedAlertTestIdFound?.readFlagNotDeclared) {
+                        Alert.alert('Result Info', 'Result is not declared yet.', [
+                            {
+                                text: 'Do not show me again', onPress: () => {
+                                    saveToStorage(Constant.STORAGE_KEYS.ALERT_READ_CACHE, { [test._id]: { readFlagNotDeclared: true } });
+                                },
+                            },
+                            {
+                                cancelable: true,
+                                onDismiss: () => {},
+                            }
+                        ]);
+                    }
+                } else {
+                    if (!savedAlertTestIdFound?.readFlagDeclared) {
+                        Alert.alert('Result Info', 'Result has been declared!', [
+                            {
+                                text: 'Do not show me again', onPress: () => {
+                                    saveToStorage(Constant.STORAGE_KEYS.ALERT_READ_CACHE, { [test._id]: { readFlagDeclared: true  } });
+                                },
+                            },
+                            {
+                                cancelable: true,
+                                onDismiss: () => {},
+                            }
+                        ]);
+                    }
+                }
+            }
+        } catch(err) {
+            console.error(`error in checkForInitAlert: ${err}`);
+        }
     }
 
     useEffect(() => {

@@ -150,6 +150,8 @@ export const STORAGE_KEYS = {
 
     EXPO_USER_PUSH_TOKEN: 'expo-user-push-token',
     TEMP_EXPO_PUSH_TOKEN: 'temp-expo-push-token',
+
+    ALERT_READ_CACHE: 'alert-read-cache',
 }
 
 export const DASHBOARD_TEST_TABS = [{
