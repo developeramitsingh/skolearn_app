@@ -40,7 +40,7 @@ export const getFromStorage = async (key) => {
 
 export const generateOrderId = (userUserId) => {
     const r = new Date().getTime() + ALPHA[Math.floor(Math.random() * 10)] + Math.floor(Math.random() * 10000000000) + ALPHA[Math.floor(Math.random() * 10)] + Math.floor(Math.random() * 10000);
-    const id = 'T' + userUserId + '_' + r;
+    const id = 'T' + '_' + r;
 
     return id;
 };
