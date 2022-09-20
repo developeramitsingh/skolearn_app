@@ -203,3 +203,5 @@ export const TXN_TYPE = {
   WALLET_DEDUCTED_FOR_TEST: 'walletDeductedForTest',
   FREE_TICKET_DEDUCTED_FOR_TEST: 'freeTicketDeductedForTest'
 }
+
+export const ALPHA = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'z'];

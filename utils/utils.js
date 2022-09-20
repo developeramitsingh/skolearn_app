@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ALPHA } from '../constant/constant';
 
 export const saveToStorage = async (key, data) => {
     try {
@@ -38,12 +39,8 @@ export const getFromStorage = async (key) => {
 }
 
 export const generateOrderId = (userUserId) => {
-    const r = Math.random() * new Date().getMilliseconds();
-
-    const id = 'TRANS' + userUserId + '_' +
-        (1 + Math.floor(r % 2000) + 10000) +
-        'b' +
-        (Math.floor(r % 100000) + 10000);
+    const r = new Date().getTime() + ALPHA[Math.floor(Math.random() * 10)] + Math.floor(Math.random() * 10000000000) + ALPHA[Math.floor(Math.random() * 10)] + Math.floor(Math.random() * 10000);
+    const id = 'T' + userUserId + '_' + r;
 
     return id;
 };
