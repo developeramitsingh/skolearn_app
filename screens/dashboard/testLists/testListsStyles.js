@@ -21,7 +21,7 @@ const testListsStyles = StyleSheet.create({
     },
     BACK_PANEL: {
         flex: 1, 
-        backgroundColor: '#f7f7f7', 
+        backgroundColor: APP_COLORS.backPanelColor, 
         borderTopLeftRadius: 15, 
         borderTopRightRadius: 15,
         paddingVertical: 5,

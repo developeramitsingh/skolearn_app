@@ -16,15 +16,14 @@ export const testStyles = StyleSheet.create({
         textAlign: 'center',
     },
     LABEL_TEXT: {
-        fontWeight: 'bold',
-        fontSize: 18,
+        fontSize: 14,
         color: APP_COLORS.white,
         textAlign: 'center',
     },
     QUES_TEXT: {
-        fontSize: 18,
+        fontSize: 14,
         width: '100%',
-        color: APP_COLORS.white,
+        color: APP_COLORS.black,
     },
     OPTION_CONT: {
         marginTop: 15,
@@ -40,6 +39,30 @@ export const testStyles = StyleSheet.create({
         backgroundColor: APP_COLORS.blueGreen,
         paddingHorizontal: 10,
         borderRadius: 5,
+    },
+
+    STATUS_BAR: {
+      backgroundColor: APP_COLORS.blueGreen,
+      paddingHorizontal: 10,
+      borderRadius: 10,
+    },
+    QUES_CONT: {
+      flex: 1,
+      backgroundColor: APP_COLORS.backPanelColor,
+      padding: 10,
+      borderRadius: 10,
+      marginTop: 10,
+    },
+    quesIdxCircle: {
+      borderRadius: 200,
+      backgroundColor: APP_COLORS.blueGreen,
+      paddingVertical: 5,
+      paddingHorizontal: 10,
+      marginRight: 10,
+    },
+    quesIdxCircleTxt: {
+      color: APP_COLORS.white,
+      fontSize: 14,
     },
 
     /************************* Camera styles  *********************/

@@ -40,7 +40,7 @@ const Attempt = ({navigation, route }) => {
             const query = `{ "language": "${language}", "testId": "${testId}" }`;
             const testQuesData = await testService.generateTestQues(query);
 
-            return testQuesData?.data?.data
+            return testQuesData?.data
         } catch(err) {
             console.error(`error in generateTestQuestions: ${err}`);
         }

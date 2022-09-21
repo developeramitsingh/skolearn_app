@@ -48,8 +48,18 @@ export const COMMON_STYLES = {
         backgroundColor: APP_COLORS.yellow,
     },
 
+    OP_BTN_1: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '3%',
+        marginBottom: '3%',
+        paddingVertical: 14,
+        borderRadius: 40,
+        backgroundColor: APP_COLORS.light_grey,
+    },
+
     BTN_TEXT: {
-        fontSize: 14,
+        fontSize: 12,
         color: APP_COLORS.black,
     },
 
@@ -154,7 +164,7 @@ export const COMMON_STYLES = {
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: 5,
-        paddingHorizontal: 5
+        paddingHorizontal: 5,
     },
     ROW_LEFT: {
         justifyContent: 'flex-start',
@@ -185,7 +195,7 @@ export const COMMON_STYLES = {
         // paddingHorizontal: 5,
     },
     DISABLED: {
-        backgroundColor: APP_COLORS.light_grey,
+        backgroundColor: APP_COLORS.yellow,
     },
     DISABLED_ARROW: {
         backgroundColor: APP_COLORS.black_opacity,
@@ -283,5 +293,14 @@ export const COMMON_STYLES = {
     DROPDOWN_BOX: {
       borderWidth: 0.5,
       borderColor: APP_COLORS.light_grey
+    },
+    LABEL: {
+        backgroundColor: APP_COLORS.yellow,
+        padding: 5,
+        fontSize: 8,
+        minWidth: 50,
+        color: APP_COLORS.black,
+        textAlign: 'center',
+        borderRadius: 5,
     }
 }

@@ -423,15 +423,19 @@ const Test = ({navigation, route}) => {
             { 
                 !state.timeFinished &&
                 <>
-                    <View style={COMMON_STYLES.ROW}>
+                    <View style={[COMMON_STYLES.ROW, testStyles.STATUS_BAR]}>
                         <Text style={testStyles.LABEL_TEXT}>Score: {
                             state?.userScore?.[state.quesIdx] ||
                             route?.params?.previewMode && state?.userAnswered?.[state.quesIdx]?.userScore ||
                             0
                         }</Text>
+
+                        <Text style={testStyles.LABEL_TEXT}>
+                            Total Ques: {testQuesData?.length}
+                        </Text>
                         
                         <View style={COMMON_STYLES.ROW}> 
-                            <MaterialIcons name="timer" size={28} color="white" />
+                            <MaterialIcons name="timer" size={20} color="white" />
                             <Text style={testStyles.LABEL_TEXT}> {
                                     route?.params?.previewMode && state?.userAnswered?.[state.quesIdx]?.timeSecondsLeft ||
                                     time ||
@@ -441,79 +445,93 @@ const Test = ({navigation, route}) => {
                         </View>
                     </View>
 
-                    <View style={COMMON_STYLES.ROW}>
-                        <Text style={testStyles.QUES_TEXT}>
-                            {testQuesData?.[state.quesIdx]?.rubric}
-                        </Text>
-                    </View>
+                    
 
-                    <ScrollView showsVerticalScrollIndicator ={true} style={testStyles.OPTION_CONT}>
-                        {testQuesData?.[state.quesIdx]?.options?.map((option, idx) => {
-                            const isPreviewMode = route?.params?.previewMode;
-                            const userAns = state?.userAnswered?.[state.quesIdx] || {};
-
-                            const isCorrectAns = userAns.optionSelected === (idx + 1) && isPreviewMode && userAns.optionSelected === userAns.correctAnswer;
-
-                            const isWrongAns = userAns.optionSelected === (idx + 1) && isPreviewMode && userAns.optionSelected !== userAns.correctAnswer;
-
-                            const isUserNotAnswered = userAns.correctAnswer === (idx + 1) && isPreviewMode;
-
-                            const isLiveTestAnswer = state.optionSelected === (idx + 1) && !isPreviewMode;
-
-                            return (
-                                <TouchableHighlight disabled={
-                                    state.optionSelected || isPreviewMode ? true : false
-                                    } 
-                                    onPress={() => handlePress(idx + 1)} 
-                                    style ={
-                                        {
-                                            ...COMMON_STYLES.BTN_1,
-                                            ...(isCorrectAns
-                                                ? COMMON_STYLES.CORRECT_ANS
-                                                : isWrongAns
-                                                ? COMMON_STYLES.WRONG_ANS
-                                                : isUserNotAnswered
-                                                ? COMMON_STYLES.USER_NOT_ANSWERED
-                                                : isLiveTestAnswer
-                                                ? COMMON_STYLES.DISABLED
-                                                : {}
-                                                )
-                                        }
-                                    } 
-                                    id= { idx + 1 } 
-                                    key= { idx + 1 }>
-
-                                    <Text style={
-                                        {
-                                            ...COMMON_STYLES.BTN_TEXT,
-                                            ...(isCorrectAns
-                                                ? {}
-                                                : isUserNotAnswered
-                                                ? COMMON_STYLES.USER_NOT_ANSWERED_TEXT
-                                                : state.optionSelected === (idx + 1) 
-                                                ? COMMON_STYLES.DISABLED_TEXT 
-                                                : {})
-                                        }
-                                    } 
-                                    key = { idx + 1 }
-                                >{option}</Text>
-                                </TouchableHighlight>
-                            )
-                        })}
-                    </ScrollView> 
-
-                    { 
-                        state.previewMode &&
-                        <View style={testStyles.NAVIGATION_CONT}>
-                            <TouchableHighlight disabled={state.quesIdx === 0 ? true : false} onPress={()=> handleChangeQues('prev')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === 0 ? COMMON_STYLES.DISABLED_ARROW : {})}}>
-                                <MaterialCommunityIcons name="arrow-left" size={38} color={APP_COLORS.white} />
-                            </TouchableHighlight>
-
-                            <TouchableHighlight disabled={state.quesIdx === testQuesData?.length - 1 ? true : false} onPress={()=> handleChangeQues('next')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === testQuesData?.length - 1 ? COMMON_STYLES.DISABLED_ARROW : {})}}>
-                                <MaterialCommunityIcons name="arrow-right" size={38} color={APP_COLORS.white} />
-                            </TouchableHighlight>
+                    <View style={testStyles.QUES_CONT}>
+                        <View style={COMMON_STYLES.ROW}>
+                            <Text style={COMMON_STYLES.LABEL}>
+                                {testQuesData?.[state.quesIdx]?.subject?.toUpperCase()}
+                            </Text>
                         </View>
-                    }
+                        <View style={COMMON_STYLES.ROW}>
+                            <View style={testStyles.quesIdxCircle}>
+                                <Text style={testStyles.quesIdxCircleTxt}>{state.quesIdx + 1}.</Text>
+                            </View>
+                            <View style={{ width: '90%', flexWrap: 'wrap' }}>
+                                <Text style={testStyles.QUES_TEXT}>
+                                    {testQuesData?.[state.quesIdx]?.rubric}
+                                </Text>
+                            </View>
+                        </View>
+
+                        <ScrollView showsVerticalScrollIndicator ={true} style={testStyles.OPTION_CONT}>
+                            {testQuesData?.[state.quesIdx]?.options?.map((option, idx) => {
+                                const isPreviewMode = route?.params?.previewMode;
+                                const userAns = state?.userAnswered?.[state.quesIdx] || {};
+
+                                const isCorrectAns = userAns.optionSelected === (idx + 1) && isPreviewMode && userAns.optionSelected === userAns.correctAnswer;
+
+                                const isWrongAns = userAns.optionSelected === (idx + 1) && isPreviewMode && userAns.optionSelected !== userAns.correctAnswer;
+
+                                const isUserNotAnswered = userAns.correctAnswer === (idx + 1) && isPreviewMode;
+
+                                const isLiveTestAnswer = state.optionSelected === (idx + 1) && !isPreviewMode;
+
+                                return (
+                                    <TouchableHighlight disabled={
+                                        state.optionSelected || isPreviewMode ? true : false
+                                        } 
+                                        onPress={() => handlePress(idx + 1)} 
+                                        style ={
+                                            {
+                                                ...COMMON_STYLES.OP_BTN_1,
+                                                ...(isCorrectAns
+                                                    ? COMMON_STYLES.CORRECT_ANS
+                                                    : isWrongAns
+                                                    ? COMMON_STYLES.WRONG_ANS
+                                                    : isUserNotAnswered
+                                                    ? COMMON_STYLES.USER_NOT_ANSWERED
+                                                    : isLiveTestAnswer
+                                                    ? COMMON_STYLES.DISABLED
+                                                    : {}
+                                                    )
+                                            }
+                                        } 
+                                        id= { idx + 1 } 
+                                        key= { idx + 1 }>
+
+                                        <Text style={
+                                            {
+                                                ...COMMON_STYLES.BTN_TEXT,
+                                                ...(isCorrectAns
+                                                    ? {}
+                                                    : isUserNotAnswered
+                                                    ? COMMON_STYLES.USER_NOT_ANSWERED_TEXT
+                                                    : state.optionSelected === (idx + 1) 
+                                                    ? COMMON_STYLES.DISABLED_TEXT 
+                                                    : {})
+                                            }
+                                        } 
+                                        key = { idx + 1 }
+                                    >{option}</Text>
+                                    </TouchableHighlight>
+                                )
+                            })}
+                        </ScrollView> 
+
+                        { 
+                            state.previewMode &&
+                            <View style={testStyles.NAVIGATION_CONT}>
+                                <TouchableHighlight disabled={state.quesIdx === 0 ? true : false} onPress={()=> handleChangeQues('prev')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === 0 ? COMMON_STYLES.DISABLED_ARROW : {})}}>
+                                    <MaterialCommunityIcons name="arrow-left" size={38} color={APP_COLORS.white} />
+                                </TouchableHighlight>
+
+                                <TouchableHighlight disabled={state.quesIdx === testQuesData?.length - 1 ? true : false} onPress={()=> handleChangeQues('next')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === testQuesData?.length - 1 ? COMMON_STYLES.DISABLED_ARROW : {})}}>
+                                    <MaterialCommunityIcons name="arrow-right" size={38} color={APP_COLORS.white} />
+                                </TouchableHighlight>
+                            </View>
+                        }
+                    </View>
                 </>
             }
 
