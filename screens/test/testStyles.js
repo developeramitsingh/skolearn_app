@@ -6,7 +6,7 @@ export const testStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: APP_COLORS.appBlue,
         paddingHorizontal: 10,
-        paddingTop: 40,
+        paddingTop: 10,
         paddingBottom: 10,
     },
     HEADING: {
