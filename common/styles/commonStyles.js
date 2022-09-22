@@ -237,8 +237,11 @@ export const COMMON_STYLES = {
     },
     SUB_BTN_TXT_2: {
         fontSize: 10,
-        
         color: APP_COLORS.black,
+    },
+    SUB_BTN_TXT_2_W: {
+        fontSize: 10,
+        color: APP_COLORS.white,
     },
     HIDE: {
         opacity: 0,

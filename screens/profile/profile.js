@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Image, Alert, SafeAreaView, View, Text, TouchableHighlight,TouchableWithoutFeedback, Pressable, ScrollView, BackHandler } from 'react-native';
+import { Image, Alert, SafeAreaView, View, Text, TouchableWithoutFeedback, Pressable, ScrollView, BackHandler } from 'react-native';
 import { profileStyles } from './profileStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { onShare, copyToClipboard, pickImage } from '../../common/functions/commonHelper';
@@ -137,72 +137,80 @@ const Profile = ({navigation, route}) => {
 
             <ModalBankPanCard modalVisible={showPanDetailModal} actionType={ACTION_TYPES.UPDATE_PAN_DETAIL} handleModalPress={handlePress} title="Update Pan Card Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_PAN_DETAIL}/>
 
-            <View style={profileStyles.ROW_CENTER}>
-                <TouchableWithoutFeedback onPress={setPickedImage}>
-                    <Image style={profileStyles.PROFILE_IMG} source={{ uri: state.profileImg }}></Image>
-                </TouchableWithoutFeedback>
-                
-                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Hi {route?.params?.user?.userName}</Text>
-
-                <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>Total Scholarship Achieved: {state.totalScholarship}</Text>
-
-                <TouchableHighlight onPress={()=> setProfileEdit(!showProfileEdit)} style={[COMMON_STYLES.SUB_BTN_1, { marginVertical: 10 }]}>
-                    <Text style={COMMON_STYLES.SUB_BTN_TXT}>Edit Profile</Text>
-                </TouchableHighlight>
-            </View>
-
-            <View style={profileStyles.ROW_CENTER}>
-                <TouchableHighlight onPress={()=>onShare(SHARE_TEXT)} style={[COMMON_STYLES.BTN_1, { width: '100%'}]}>
-                    <Text style={COMMON_STYLES.BTN_TEXT}>Refer and get 1 free ticket</Text>
-                </TouchableHighlight>
-
-                <View style={[COMMON_STYLES.ROW, { marginVertical: 10 }]}>
-                    <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Referral Code: {route?.params?.user?.referralCode}  </Text>
-                    <Pressable  onPress={()=> handlePress('onReferralCodeCopy')} style={[COMMON_STYLES.SUB_BTN_2, { backgroundColor: APP_COLORS.light_grey}]}>
-                        <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Copy</Text>
-                    </Pressable>
-                    <Pressable onPress={()=> handlePress('onLinkCopy')} style={[COMMON_STYLES.SUB_BTN_2, { backgroundColor: APP_COLORS.light_grey, marginLeft: 5}]}>
-                        <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Copy Link</Text>
-                    </Pressable>
-                </View>
-            </View>
-
-            <ScrollView>
-                <View style={profileStyles.BOX}>
-                    <Text style={COMMON_STYLES.BODY_TITLE}>Bank</Text>
-
-                    <TouchableHighlight onPress={()=> setBankDetail(!showBankDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
-                        <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
-                    </TouchableHighlight>
-
-                    <TouchableHighlight onPress={()=> setShowBankUploadModal(!showBankUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
-                        <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
-                    </TouchableHighlight>
-                    <Text style={COMMON_STYLES.BODY_TEXT}>{state.bankAccountStatus}</Text>
+                <View style={profileStyles.ROW_CENTER}>
+                    <TouchableWithoutFeedback onPress={setPickedImage}>
+                        <Image style={profileStyles.PROFILE_IMG} source={{ uri: state.profileImg }}></Image>
+                    </TouchableWithoutFeedback>
                 </View>
 
-                <View style={profileStyles.BOX}>
-                    <Text style={COMMON_STYLES.BODY_TITLE}>Pancard</Text>
+                <View elevation={2} style={profileStyles.SUB_CONT}>
+                    <View style={profileStyles.ROW_CENTER}>
+                        <Text style={profileStyles.HEADING}>Hi {route?.params?.user?.userName}
+                        </Text>
+                        <Text style={COMMON_STYLES.BODY_TEXT}>Total Scholarship Achieved: {state.totalScholarship} </Text>
+                    </View>
+                    <View style={[profileStyles.ROW_CENTER, { marginTop: 10 }]}>
+                        <Pressable elevation={2} onPress={()=> setProfileEdit(!showProfileEdit)} style={[COMMON_STYLES.SUB_BTN_1, { marginVertical: 10 }]}>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT}>Edit Profile</Text>
+                        </Pressable>
+                    </View>
+                    
+                    <View style={profileStyles.ROW_CENTER}>
+                        <Pressable elevation={2} onPress={()=>onShare(SHARE_TEXT)} style={[COMMON_STYLES.BTN_1, { width: '100%', backgroundColor: APP_COLORS.blueGreen }]}>
+                            <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>Refer and get 1 free ticket</Text>
+                        </Pressable>
 
-                    <TouchableHighlight onPress={()=> setPanDetail(!showPanDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
-                        <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
-                    </TouchableHighlight>
+                        <View style={[COMMON_STYLES.ROW_COLUMN, profileStyles.REFER_BOX]}>
+                            <Text style={profileStyles.HEADING}>Referral Code: <Text>
+                                    {route?.params?.user?.referralCode}
+                                </Text>
+                            </Text>
+                            <View style={[COMMON_STYLES.ROW, { marginVertical: 5 }]}>
+                                <Pressable elevation={2}  onPress={()=> handlePress('onReferralCodeCopy')} style={[COMMON_STYLES.SUB_BTN_2, { backgroundColor: APP_COLORS.green }]}>
+                                    <Text style={[COMMON_STYLES.SUB_BTN_TXT_2_W]}>Copy Code</Text>
+                                </Pressable>
+                                <Pressable elevation={2} onPress={()=> handlePress('onLinkCopy')} style={[COMMON_STYLES.SUB_BTN_2, { marginLeft: 5, backgroundColor: APP_COLORS.green}]}>
+                                    <Text style={COMMON_STYLES.SUB_BTN_TXT_2_W}>Copy Referral Link</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </View>
 
-                    <TouchableHighlight onPress={()=> setPanUploadModal(!showPanUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
-                        <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
-                    </TouchableHighlight>
-                    <Text style={COMMON_STYLES.BODY_TEXT}>{state.panCardStatus}</Text>
+                    {/* <View style={[COMMON_STYLES.SEPARATOR, { marginVertical: 5}]}></View> */}
+                    <ScrollView>
+                        <View style={profileStyles.BOX}>
+                            <Text style={profileStyles.BODY_TEXT}>Bank</Text>
+
+                            <Pressable elevation={2} onPress={()=> setBankDetail(!showBankDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
+                            </Pressable>
+
+                            <Pressable elevation={2} onPress={()=> setShowBankUploadModal(!showBankUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
+                            </Pressable>
+                        </View>
+
+                        <View style={profileStyles.BOX}>
+                            <Text style={profileStyles.BODY_TEXT}>Pancard</Text>
+
+                            <Pressable elevation={2} onPress={()=> setPanDetail(!showPanDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
+                            </Pressable>
+
+                            <Pressable elevation={2} onPress={()=> setPanUploadModal(!showPanUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
+                            </Pressable>
+                        </View>
+
+                        <View style={profileStyles.BOX}>
+                            <Text style={profileStyles.BODY_TEXT}>Student Document</Text>
+
+                            <Pressable elevation={2} onPress={()=> setStudentDocu(!showStudentDoc)} style={COMMON_STYLES.SUB_BTN_2}>
+                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
+                            </Pressable>
+                        </View>
+                    </ScrollView>
                 </View>
-
-                <View style={profileStyles.BOX}>
-                    <Text style={COMMON_STYLES.BODY_TITLE}>Student Document</Text>
-
-                    <TouchableHighlight onPress={()=> setStudentDocu(!showStudentDoc)} style={COMMON_STYLES.SUB_BTN_2}>
-                        <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
-                    </TouchableHighlight>
-                    <Text style={COMMON_STYLES.BODY_TEXT}>{state.studentDocStatus}</Text>
-                </View>
-            </ScrollView>
         </SafeAreaView>
     )
 }
