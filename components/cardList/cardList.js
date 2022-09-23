@@ -41,7 +41,7 @@ const CardList = (props) => {
         };
 
         return (
-            <View elevation={1} key={item.enrolledId ||item._id} style ={[props.horizontal ? cardListStyles.CARD_HORIZONTAL : {...cardListStyles.CARD_VERTICAL, backgroundColor: Constant.APP_COLORS.white }, isMyTest && { paddingBottom: 0 }]}>
+            <View elevation={1} key={item.enrolledId ||item._id} style ={[props.horizontal ? cardListStyles.CARD_HORIZONTAL : {...cardListStyles.CARD_VERTICAL }, isMyTest && { paddingBottom: 0 }]}>
                 
                 <View style ={cardListStyles.ROW}>
                     <View style={[cardListStyles.COL_LEFT, props.horizontal && { maxWidth: 200 }, isPractice && { maxWidth: '100%'}]}>
@@ -58,7 +58,7 @@ const CardList = (props) => {
 
                 <View style ={cardListStyles.ROW}>
                     <View style={cardListStyles.COL_LEFT_2}>
-                        <Pressable elevation={3} onPress={() => props?.handleBtnPress(item._id, item.enrolledId)} style= {btnStyle.btn}>
+                        <Pressable elevation={2} onPress={() => props?.handleBtnPress(item._id, item.enrolledId)} style= {btnStyle.btn}>
                             <Text style = {btnStyle.btnTxt}>{btnText}</Text>
                         </Pressable>
                     </View>
