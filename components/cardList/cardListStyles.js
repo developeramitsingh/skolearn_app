@@ -64,7 +64,8 @@ const cardListStyles = StyleSheet.create({
         fontSize: 12,
         color: APP_COLORS.appBlue,
         paddingVertical: 10,
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        fontWeight: 'bold'
     },
     LABEL_TEXT: {
         fontSize: 8,
