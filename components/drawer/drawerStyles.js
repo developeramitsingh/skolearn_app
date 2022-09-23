@@ -18,6 +18,9 @@ export const drawerStyles = StyleSheet.create({
 
     TAB_TEXT: {
         ...COMMON_STYLES.BTN_TEXT, 
-        ...COMMON_STYLES.MARGIN_LEFT
+        paddingVertical: 5,
+    },
+    TAB_ICON_WIDTH: {
+        width: 30
     }
 })

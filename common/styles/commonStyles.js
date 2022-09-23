@@ -284,6 +284,7 @@ export const COMMON_STYLES = {
     },
     ACTIVE_USER_TEXT: {
         fontWeight: 'bold',
+        fontSize: 18,
     },
     DROPDOWN: {
         width: 80, 
