@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableHighlight, SafeAreaView, TextInput } from 'react-native';
+import { View, Text, Image, Pressable, SafeAreaView, TextInput } from 'react-native';
 import { loginStyles } from './loginStyles';
 import { useState } from 'react';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
@@ -63,9 +63,9 @@ const Login = ({navigation}) => {
         <View style={loginStyles.loginContainter}>
             <TextInput maxLength={10} style={COMMON_STYLES.TEXT_INPUT} placeholder="Type here Mobile" keyboardType="numeric" onChangeText= {handleChange} value={state.mobile}/>
 
-            <TouchableHighlight disabled={ state.disabled } onPress= {handlePress} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN]}>
+            <Pressable elevation={3} disabled={ state.disabled } onPress= {handlePress} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN]}>
                 <Text style={[COMMON_STYLES.BTN_TEXT, state.disabled && COMMON_STYLES.DISABLED_TEXT]}>Login</Text>
-            </TouchableHighlight>
+            </Pressable>
 
             <Text style={[COMMON_STYLES.ERROR_TXT, COMMON_STYLES.MARGIN_TOP]}>{state.error}</Text>
             

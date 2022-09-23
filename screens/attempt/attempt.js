@@ -1,4 +1,4 @@
-import { View, Text, Alert, SafeAreaView, Switch, TouchableHighlight, BackHandler } from 'react-native';
+import { View, Text, Alert, SafeAreaView, Switch, Pressable, BackHandler } from 'react-native';
 import { attemptStyles } from './attemptStyles';
 import { useState, useEffect,useRef } from 'react';
 
@@ -310,9 +310,9 @@ const Attempt = ({navigation, route }) => {
                     </View>
             </View>
 
-            <TouchableHighlight style ={[COMMON_STYLES.BTN_1, isDisabled && COMMON_STYLES.DISABLED_BTN]} onPress={handlePress} disabled={isDisabled}>
+            <Pressable elevation={3} style ={[COMMON_STYLES.BTN_1, isDisabled && COMMON_STYLES.DISABLED_BTN]} onPress={handlePress} disabled={isDisabled}>
                 <Text style = {[COMMON_STYLES.BTN_TEXT, isDisabled && COMMON_STYLES.DISABLED_TXT]}>Attempt</Text>
-            </TouchableHighlight>
+            </Pressable>
 
             {
                 state.testType !== Constant.TEST_TYPES.PRACTICE 

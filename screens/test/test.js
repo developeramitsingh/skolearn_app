@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { SafeAreaView, View, Text, TouchableHighlight, ScrollView, BackHandler } from "react-native";
+import { SafeAreaView, View, Text, Pressable, ScrollView, BackHandler } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { testStyles } from './testStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
@@ -383,9 +383,9 @@ const Test = ({navigation, route}) => {
                 <View style={{...COMMON_STYLES.ROW, justifyContent: 'center'}}>
                     <Text style={COMMON_STYLES.TITLE_TEXT}>{state.userScore.reduce((accum, elem)=> { return accum + elem }, 0) || 0}</Text>
                 </View>
-                <TouchableHighlight onPress={updateAndCloseTest} style={{...COMMON_STYLES.BTN_1, marginTop: '10%'}}>
+                <Pressable elevation={3} onPress={updateAndCloseTest} style={{...COMMON_STYLES.BTN_1, marginTop: '10%'}}>
                     <Text style={COMMON_STYLES.BTN_TEXT}>Finish</Text>
-                </TouchableHighlight>
+                </Pressable>
             </>
         );
     }
@@ -478,7 +478,7 @@ const Test = ({navigation, route}) => {
                                 const isLiveTestAnswer = state.optionSelected === (idx + 1) && !isPreviewMode;
 
                                 return (
-                                    <TouchableHighlight disabled={
+                                    <Pressable elevation={3} disabled={
                                         state.optionSelected || isPreviewMode ? true : false
                                         } 
                                         onPress={() => handlePress(idx + 1)} 
@@ -514,7 +514,7 @@ const Test = ({navigation, route}) => {
                                         } 
                                         key = { idx + 1 }
                                     >{option}</Text>
-                                    </TouchableHighlight>
+                                    </Pressable>
                                 )
                             })}
                         </ScrollView> 
@@ -522,13 +522,13 @@ const Test = ({navigation, route}) => {
                         { 
                             state.previewMode &&
                             <View style={testStyles.NAVIGATION_CONT}>
-                                <TouchableHighlight disabled={state.quesIdx === 0 ? true : false} onPress={()=> handleChangeQues('prev')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === 0 ? COMMON_STYLES.DISABLED_ARROW : {})}}>
+                                <Pressable elevation={3} disabled={state.quesIdx === 0 ? true : false} onPress={()=> handleChangeQues('prev')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === 0 ? COMMON_STYLES.DISABLED_ARROW : {})}}>
                                     <MaterialCommunityIcons name="arrow-left" size={38} color={APP_COLORS.white} />
-                                </TouchableHighlight>
+                                </Pressable>
 
-                                <TouchableHighlight disabled={state.quesIdx === testQuesData?.length - 1 ? true : false} onPress={()=> handleChangeQues('next')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === testQuesData?.length - 1 ? COMMON_STYLES.DISABLED_ARROW : {})}}>
+                                <Pressable elevation={3} disabled={state.quesIdx === testQuesData?.length - 1 ? true : false} onPress={()=> handleChangeQues('next')} style={{...testStyles.NAV_BTN, ...(state.quesIdx === testQuesData?.length - 1 ? COMMON_STYLES.DISABLED_ARROW : {})}}>
                                     <MaterialCommunityIcons name="arrow-right" size={38} color={APP_COLORS.white} />
-                                </TouchableHighlight>
+                                </Pressable>
                             </View>
                         }
                     </View>

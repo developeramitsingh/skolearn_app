@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, TouchableHighlight, SafeAreaView, Linking } from 'react-native';
+import { View, Text, ImageBackground, Pressable, SafeAreaView, Linking } from 'react-native';
 import { homeStyles } from './homeStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from '../../constant/constant';
@@ -84,13 +84,13 @@ const Home = ({navigation}) => {
             </View>
 
             <View style={homeStyles.loginBtnContainter}>
-                <TouchableHighlight handlePress={() => handlePress('login')} onPressOut={() => handlePress('login')} onPressIn={() => handlePress('login')} onPress= {handlePress} style={COMMON_STYLES.BTN_1}>
+                <Pressable elevation={3} handlePress={() => handlePress('login')} onPressOut={() => handlePress('login')} onPressIn={() => handlePress('login')} onPress= {handlePress} style={COMMON_STYLES.BTN_1}>
                     <Text style={COMMON_STYLES.BTN_TEXT}>Login</Text>
-                </TouchableHighlight>
+                </Pressable>
 
-                <TouchableHighlight handlePress={() => handlePress('register')} onPressOut={() => handlePress('register')} onPressIn={() => handlePress('register')} style={COMMON_STYLES.BTN_1}>
+                <Pressable elevation={3} handlePress={() => handlePress('register')} onPressOut={() => handlePress('register')} onPressIn={() => handlePress('register')} style={COMMON_STYLES.BTN_1}>
                     <Text style={COMMON_STYLES.BTN_TEXT}>Register</Text>
-                </TouchableHighlight>
+                </Pressable>
             </View>
 
             <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>By Continuing you agree to the<Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${Constant.BACKEND_URL}/terms`)}> Terms and Conditions</Text></Text>

@@ -1,5 +1,5 @@
 import { myTicketsStyles } from './myTicketsStyles'; 
-import {TouchableHighlight, View, Text, ScrollView, Pressable } from 'react-native'
+import { View, Text, ScrollView, Pressable } from 'react-native'
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { useState } from 'react';
 import ModalTicket from '../../components/modals/modalTicket';
@@ -66,9 +66,9 @@ const MyTickets = ({handleOpenTicket}) => {
             <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title="Create New Ticket" actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = 'Create' placeholder='Enter Subject'/>
 
             <View style= {myTicketsStyles.ROW_CENTER}>
-                <TouchableHighlight onPress={()=> setCreateTicket(true)} style={COMMON_STYLES.SUB_BTN_1}>
+                <Pressable elevation={3} onPress={()=> setCreateTicket(true)} style={COMMON_STYLES.SUB_BTN_1}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>Raise a new Ticket</Text>
-                </TouchableHighlight>
+                </Pressable>
             </View>
 
             <View style={myTicketsStyles.ROW}>

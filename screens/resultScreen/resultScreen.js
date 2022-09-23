@@ -1,4 +1,4 @@
-import { SafeAreaView, View, Text, TouchableHighlight, BackHandler, Alert } from "react-native";
+import { SafeAreaView, View, Text, Pressable, BackHandler, Alert } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import {useEffect, useRef, useState} from  'react';
 import * as Constant from '../../constant/constant';
@@ -184,9 +184,9 @@ const ResultScreen = ({navigation, route }) => {
                 <Text style ={resultScreenStyles.HEADING}>{testData?.testName || ''}</Text>
             </View>
 
-            <TouchableHighlight onPress = {handlePress} style={COMMON_STYLES.BTN_1}>
+            <Pressable elevation={3} onPress = {handlePress} style={COMMON_STYLES.BTN_1}>
                 <Text style={COMMON_STYLES.BTN_TEXT}>View Solution</Text>
-            </TouchableHighlight>
+            </Pressable>
 
             <LeaderBoard leaderBoardData={leaderBoardData} scholarShipBreakUp={scholarShipBreakUp} enrolledId={route?.params?.enrolledId} testType={testData?.testType}/>
         </SafeAreaView>

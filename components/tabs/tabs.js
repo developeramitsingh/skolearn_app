@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {View, TouchableHighlight, Text} from 'react-native';
+import {View, Pressable, Text} from 'react-native';
 
 import { tabStyles } from './tabStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
@@ -28,9 +28,9 @@ const Tabs = ({ tabList, activeTab, setActiveTab }) => {
             {console.info({activeTabHere: state.activeTab})}
             {tabList.map(tab => {
                 return(
-                    <TouchableHighlight onPress={() => handlePress(tab.key)} style={{...COMMON_STYLES.BODY_TABS, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE : {})}} key={tab.key}>
+                    <Pressable elevation={3} onPress={() => handlePress(tab.key)} style={{...COMMON_STYLES.BODY_TABS, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE : {})}} key={tab.key}>
                         <Text style={{...COMMON_STYLES.BODY_TABS_TEXT, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE_TEXT : {})}}>{tab.name}</Text>
-                    </TouchableHighlight>
+                    </Pressable>
                 )
             })}
         </View>

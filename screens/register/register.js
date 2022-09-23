@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableHighlight, Pressable,SafeAreaView, TextInput, Linking } from 'react-native';
+import { View, Text, Image, Pressable, SafeAreaView, TextInput, Linking } from 'react-native';
 import { registerStyles } from './registerStyles';
 import { useState, useEffect } from 'react';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
@@ -256,9 +256,9 @@ const Register = ({navigation}) => {
             </View>
             
 
-            <TouchableHighlight disabled={ state.disabled } onPress= {handlePress} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN]}>
+            <Pressable elevation={3} disabled={ state.disabled } onPress= {handlePress} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN]}>
                 <Text style={[COMMON_STYLES.BTN_TEXT, state.disabled && COMMON_STYLES.DISABLED_TEXT]}>Register</Text>
-            </TouchableHighlight>
+            </Pressable>
 
             <Text style={[COMMON_STYLES.ERROR_TXT]}>{state.error}</Text>
         </View>

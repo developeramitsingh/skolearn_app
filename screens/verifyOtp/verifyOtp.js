@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableHighlight, SafeAreaView, TextInput } from 'react-native';
+import { View, Text, Image, Pressable, SafeAreaView, TextInput } from 'react-native';
 import { verifyOtpStyles } from './verifyOtpStyles';
 import { useState } from 'react';
 
@@ -73,9 +73,9 @@ const VerifyOtp = ({navigation, route }) => {
         <View style={verifyOtpStyles.verifyOtpContainter}>
             <TextInput placeholderTextColor ="#333333" style={COMMON_STYLES.TEXT_INPUT} placeholder="Type here OTP" keyboardType="numeric" onChangeText={handleChange} maxLength={6} value={state.otp}/>
 
-            <TouchableHighlight disabled={state.disabled} onPress= {handleVerify} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN]}>
+            <Pressable elevation={3} disabled={state.disabled} onPress= {handleVerify} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN]}>
                 <Text style={[COMMON_STYLES.BTN_TEXT, state.disabled && COMMON_STYLES.DISABLED_TEXT]}>Verify</Text>
-            </TouchableHighlight>
+            </Pressable>
 
             <Text style={[COMMON_STYLES.ERROR_TXT, COMMON_STYLES.MARGIN_TOP]}>{state.error}</Text>
             
