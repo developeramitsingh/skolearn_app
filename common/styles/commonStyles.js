@@ -31,7 +31,7 @@ export const COMMON_STYLES = {
         color: '#000',
         backgroundColor: '#fff',
         textAlign: 'center',
-        fontSize: 14,
+        fontSize: 20,
         paddingTop: 8,
         paddingBottom: 8,
         borderRadius: 40,
@@ -59,7 +59,7 @@ export const COMMON_STYLES = {
     },
 
     BTN_TEXT: {
-        fontSize: 12,
+        fontSize: 14,
         color: APP_COLORS.black,
     },
 

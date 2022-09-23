@@ -37,7 +37,7 @@ const cardListStyles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     COL_RIGHT: {
-        backgroundColor: APP_COLORS.lightBlue,
+        backgroundColor: APP_COLORS.yellow,
         paddingHorizontal: 5,
         justifyContent: 'center',
         maxHeight: 40,

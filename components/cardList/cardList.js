@@ -51,7 +51,7 @@ const CardList = (props) => {
                         difficultyLevel &&
                         <View style={[cardListStyles.COL_RIGHT, props.horizontal && { backgroundColor: 'white' }]}>
                             <Text style={cardListStyles.LABEL_TEXT}>{difficultyLevel}</Text>
-                            <Text style={cardListStyles.LABEL_TEXT}>{difficultiLevelVal}</Text>
+                            <Text style={cardListStyles.LABEL_TEXT_BODY}>{difficultiLevelVal}</Text>
                         </View>
                     }
                 </View>
