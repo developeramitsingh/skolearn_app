@@ -55,7 +55,7 @@ export const COMMON_STYLES = {
         marginBottom: '3%',
         paddingVertical: 14,
         borderRadius: 40,
-        backgroundColor: APP_COLORS.light_grey,
+        backgroundColor: APP_COLORS.white,
     },
 
     BTN_TEXT: {
