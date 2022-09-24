@@ -1,7 +1,9 @@
 import { Share } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import * as ImagePicker from 'expo-image-picker';
-import { sendAppLogService } from '../../services';
+import { sendAppLogService, userService } from '../../services';
+import { getFromStorage, saveToStorage } from '../../utils/utils';
+import { STORAGE_KEYS } from '../../constant/constant';
 
 export const onShare = async (sharingData) => {
     try {
@@ -90,4 +92,37 @@ export const checkAndGetIfErrorFound = (errors) => {
   }
 
   return { isErrorFound, errorMsg };
+}
+
+export const refreshUserInLocal = async (_userId) => {
+  try {
+    const userId = _userId ? _userId : await getFromStorage(STORAGE_KEYS.USER_ID);
+
+    if (!userId) {
+      const msg = 'userId not found in refreshUserInLocal';
+      console.warn(msg);
+      sendAppLogService.sendAppLogs({ warnMsg: msg })
+      return;
+    }
+
+    const userFromServer = await userService.getUserById(userId);
+
+    if (!userFromServer?.data) {
+      const msg = `user not found in refreshUserInLocal:: userId:${userId}`;
+      console.warn(msg);
+      sendAppLogService.sendAppLogs({ warnMsg: msg })
+      return;
+    }
+
+    if (userFromServer?.data) {
+      saveToStorage(STORAGE_KEYS.USER, userFromServer?.data);
+      const msg = `user refreshed in refreshUserInLocal:: userId:${userId}`;
+      console.info(msg);
+      sendAppLogService.sendAppLogs({ info: msg })
+    }
+  } catch (err) {
+    const errMsg = `error in refreshUserInLocal: ${err}`;
+    console.error(errMsg);
+    sendAppLogService.sendAppLogs({ errMsg })
+  } 
 }

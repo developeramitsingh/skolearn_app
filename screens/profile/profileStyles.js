@@ -23,6 +23,8 @@ export const profileStyles = StyleSheet.create({
         borderRadius: 100,
         borderColor: APP_COLORS.white,
         borderWidth: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
         //backgroundColor: 'white',
     },
     ROW_CENTER: {

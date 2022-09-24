@@ -40,6 +40,18 @@ class UserService {
         return axios.put(option);
     }
 
+    uploadProfileImg(data) {
+        const option = {
+            url: `${BACKEND_URL}/users`,
+            data,
+            headers: {
+                'content-type': "multipart/form-data"
+            }
+        };
+
+        return axios.put(option);
+    }
+
     login(data) {
         const option = {
             url: `${BACKEND_URL}/login`,

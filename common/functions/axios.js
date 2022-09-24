@@ -17,7 +17,7 @@ class Axios {
 
     async get(options) {
         options.method = "get";
-        options.headers = options.headers ? options.headers : await this.getHeaders();
+        options.headers = await this.getHeaders(options.headers);
         return new Promise((resolve, reject) => {
           axios
             .get(options.url, options)
@@ -32,7 +32,7 @@ class Axios {
 
     async post(options) {
         options.method = "POST";
-        options.headers = options.headers ? options.headers : await this.getHeaders();
+        options.headers = await this.getHeaders(options.headers);
 
         options.timeout = 1000*500;
 
@@ -49,7 +49,7 @@ class Axios {
 
     async upload(options) {
         options.method = "POST";
-        options.headers = options.headers ? options.headers : await this.getHeaders();
+        options.headers = await this.getHeaders(options.headers);
         options.headers["content-type"] = "multipart/form-data";
         return new Promise((resolve, reject) => {
           axios(options)
@@ -64,7 +64,7 @@ class Axios {
 
       async patch(options) {
         options.method = "PATCH";
-        options.headers = options.headers ? options.headers : await this.getHeaders();
+        options.headers = await this.getHeaders(options.headers);
         return new Promise((resolve, reject) => {
           axios(options)
             .then((response) => {
@@ -78,7 +78,7 @@ class Axios {
     
       async put(options) {
         options.method = "PUT";
-        options.headers = options.headers ? options.headers : await this.getHeaders();
+        options.headers = await this.getHeaders(options.headers);
         return new Promise((resolve, reject) => {
           axios(options)
             .then((response) => {
@@ -92,7 +92,7 @@ class Axios {
 
       async delete(options) {
         options.method = "DELETE";
-        options.headers = options.headers ? options.headers : await this.getHeaders();
+        options.headers = await this.getHeaders(options.headers);
         return new Promise((resolve, reject) => {
           axios(options)
             .then((response) => {
@@ -104,10 +104,11 @@ class Axios {
         });
       }
 
-    async getHeaders() {
+    async getHeaders(headers) {
         const token = await getFromStorage(STORAGE_KEYS.USER_TOKEN);
         return {
           Authorization: `Bearer ${token}`,
+          ...headers
         };
     }
 

@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Image, Alert, SafeAreaView, View, Text, TouchableWithoutFeedback, Pressable, ScrollView, BackHandler } from 'react-native';
 import { profileStyles } from './profileStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
-import { onShare, copyToClipboard, pickImage } from '../../common/functions/commonHelper';
-import { APP_COLORS, ROUTES, CLOSE_MODAL, ACTION_TYPES, SHARE_TEXT } from '../../constant/constant';
+import { onShare, copyToClipboard, pickImage, refreshUserInLocal } from '../../common/functions/commonHelper';
+import { APP_COLORS, ROUTES, CLOSE_MODAL, ACTION_TYPES, SHARE_TEXT, STORAGE_KEYS } from '../../constant/constant';
 import UploadModal from '../../components/modals/uploadModal';
 import ModalWindow from '../../components/modals/modalWindow';
 import ModalBankPanCard from '../../components/modals/modalBankPanCard';
 import BackBtn from '../../components/backBtn/backBtn';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { sendAppLogService, userService } from '../../services';
+import { getFromStorage } from '../../utils/utils';
 
 const Profile = ({navigation, route}) => {
     const [state, setState] = useState({
-        profileImg: 'https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg',
+        profileImgThumbUrl: route?.params?.user?.profileImgThumbUrl,
         userName: route?.params?.user?.userName,
         referralCode: route?.params?.user?.referralCode,
-        bankAccountStatus: 'Verifing',
-        panCardStatus: 'Not Uploaded',
-        studentDocStatus: 'Not Uploaded',
-        totalScholarship: '10000',
+        totalScholarship: route?.params?.user?.totalScholarship,
     });
 
     const [showBankUploadModal, setShowBankUploadModal] = useState(false);
@@ -26,21 +26,31 @@ const Profile = ({navigation, route}) => {
     const [showProfileEdit, setProfileEdit] = useState(false);
     const [showBankDetailModal, setBankDetail] = useState(false);
     const [showPanDetailModal, setPanDetail] = useState(false);
+    const backHandler = useRef();
 
 
+    const getUser = async () => {
+        const user = await getFromStorage(STORAGE_KEYS.USER);
+        if(user) {
+            setState((prev) => {
+                return { ...prev, ...user};
+            })
+        }
+    };
     useEffect(() => {
+        getUser();
         const backAction = () => {
             navigation.navigate(ROUTES.DASHBOARD);
             return true;
           };
       
-          const backHandler = BackHandler.addEventListener(
+          backHandler.current = BackHandler.addEventListener(
             "hardwareBackPress",
             backAction
           );
       
-          return () => backHandler.remove();
-    }, [route?.params?.user]);
+          return () => backHandler.current?.remove();
+    }, []);
 
     const handlePress =(actionType, payload) => {
         if(actionType === 'onReferralCodeCopy') {
@@ -111,12 +121,30 @@ const Profile = ({navigation, route}) => {
         try {
             console.info('select image');
             let profileUri = await pickImage();
-            setState(prev=> {
-                return {...prev, profileImg: profileUri };
-            });
 
-            console.info('image set!');
-            console.info('calling API to update profile image...');
+            if (profileUri) {
+                console.info('image set!');
+                console.info('calling API to update profile image...');
+                const form = new FormData();
+                form.append("imgFile", {
+                    name: `ProfileImage_UserId:${route?.params?.user?._id}.jpeg`,
+                    uri: profileUri,
+                    type: "image/jpeg",
+                });
+
+                userService.uploadProfileImg(form)
+                    .then((res) => {
+                        refreshUserInLocal(route?.params?.user?._id);
+                    })
+                    .catch(err => {
+                        console.error(`error while upload profile image`, err);
+                        sendAppLogService.sendAppLogs({ errorMsg: `error while upload profile image: ${err}`})
+                    });
+
+                setState(prev=> {
+                    return {...prev, profileImgThumbUrl: profileUri };
+                });
+            }
         } catch (err) {
             console.error(`error while setting up profile img: ${err}`);
         }
@@ -138,9 +166,13 @@ const Profile = ({navigation, route}) => {
             <ModalBankPanCard modalVisible={showPanDetailModal} actionType={ACTION_TYPES.UPDATE_PAN_DETAIL} handleModalPress={handlePress} title="Update Pan Card Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_PAN_DETAIL}/>
 
                 <View style={profileStyles.ROW_CENTER}>
-                    <TouchableWithoutFeedback onPress={setPickedImage}>
-                        <Image style={profileStyles.PROFILE_IMG} source={{ uri: state.profileImg }}></Image>
-                    </TouchableWithoutFeedback>
+                    <Pressable onPress={setPickedImage} style={profileStyles.PROFILE_IMG}>
+                        {
+                            state.profileImgThumbUrl 
+                            ? <Image style={profileStyles.PROFILE_IMG} source={{ uri: state.profileImgThumbUrl }}></Image>
+                            : <FontAwesome5 name="user-edit" size={60} color={APP_COLORS.lightGrey2} />
+                        }
+                    </Pressable>
                 </View>
 
                 <View elevation={2} style={profileStyles.SUB_CONT}>
@@ -176,7 +208,6 @@ const Profile = ({navigation, route}) => {
                         </View>
                     </View>
 
-                    {/* <View style={[COMMON_STYLES.SEPARATOR, { marginVertical: 5}]}></View> */}
                     <ScrollView>
                         <View style={profileStyles.BOX}>
                             <Text style={profileStyles.BODY_TEXT}>Bank</Text>
