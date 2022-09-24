@@ -9,10 +9,13 @@ import Loader from "../loader/loader";
 const UploadModal = ({ data, title, modalVisible, handleModalPress, btnTxt, actionType, info }) => {
     const [uri, setUri] = useState(null);
     const [isLoading, setLoading] = useState(false);
+    const [isDisabled, setDisabled] = useState(true);
 
     const setPickedImage = async () => {
         console.info('select image');
+        setDisabled(true);
         setUri(await pickImage())
+        setDisabled(false);
         console.info('image set!');
     }
 
@@ -39,11 +42,13 @@ const UploadModal = ({ data, title, modalVisible, handleModalPress, btnTxt, acti
                         <Text style={COMMON_STYLES.BTN_TEXT}>Choose Photo</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={async () => { 
+                    <TouchableOpacity disabled={isDisabled} onPress={async () => { 
+                        setDisabled(true);
                         setLoading(true);
                         await handleModalPress(actionType, uri);
+                        setDisabled(false);
                         setLoading(false);
-                    }} style={modalStyles.BTN}>
+                    }} style={[modalStyles.BTN, isDisabled && COMMON_STYLES.DISABLED_BTN]}>
                         <Loader isLoading={isLoading}/>
                         <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
                     </TouchableOpacity>

@@ -1,4 +1,4 @@
-import { View, Modal, Text, TouchableOpacity, TextInput } from "react-native"
+import { View, Modal, Text, TouchableOpacity, TextInput, Pressable } from "react-native"
 import { useEffect, useState } from 'react';
 import { modalStyles } from  './modalStyles';
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
@@ -25,7 +25,7 @@ const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt,
     useEffect(() => {
         if(data) {
             setState(prev => {
-                return { ...prev, ...data }
+                return { ...prev, ...data, errors: {}, error: '' }
             });
         }
     }, [data]);
@@ -179,14 +179,16 @@ const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt,
                 }
 
                 <View style={modalStyles.ROW_SPREAD}>
-                    <TouchableOpacity disabled={ state.disabled } onPress={async () => {
+                    <Pressable disabled={ state.disabled } onPress={async () => {
+                        setState((prev)=> { return {...prev, disabled: true }})
                         setLoading(true);
                         await handleModalPress(actionType, state);
+                        setState((prev)=> { return {...prev, disabled: false }})
                         setLoading(false);
                     }} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN]}>
                         <Loader isLoading={isLoading}/>
                         <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
-                    </TouchableOpacity>
+                    </Pressable>
                 </View>
 
                 <View style={COMMON_STYLES.ROW}>

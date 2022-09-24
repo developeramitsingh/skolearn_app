@@ -185,7 +185,7 @@ const Profile = ({navigation, route}) => {
             setState(prev => {
                 return { ...prev, studentIdImg: true }
             });
-            setPanUploadModal(false);
+            setStudentDocu(false);
             getUserDocsStatus();
         } else if(actionType === ACTION_TYPES.UPDATE_PROFILE) {
             console.log('updating student profile', payload);
@@ -295,86 +295,86 @@ const Profile = ({navigation, route}) => {
 
             <ModalBankPanCard data={userDocsStatus} modalVisible={showPanDetailModal} actionType={ACTION_TYPES.UPDATE_PAN_DETAIL} handleModalPress={handlePress} title="Update Pan Card Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_PAN_DETAIL}/>
 
+            <View style={profileStyles.ROW_CENTER}>
+                <Pressable onPress={setPickedImage} style={profileStyles.PROFILE_IMG}>
+                    {
+                        state.profileImgThumbUrl 
+                        ? <Image style={profileStyles.PROFILE_IMG} source={{ uri: state.profileImgThumbUrl }}></Image>
+                        : <FontAwesome5 name="user-edit" size={60} color={APP_COLORS.lightGrey2} />
+                    }
+                </Pressable>
+            </View>
+
+            <View elevation={2} style={profileStyles.SUB_CONT}>
                 <View style={profileStyles.ROW_CENTER}>
-                    <Pressable onPress={setPickedImage} style={profileStyles.PROFILE_IMG}>
-                        {
-                            state.profileImgThumbUrl 
-                            ? <Image style={profileStyles.PROFILE_IMG} source={{ uri: state.profileImgThumbUrl }}></Image>
-                            : <FontAwesome5 name="user-edit" size={60} color={APP_COLORS.lightGrey2} />
-                        }
+                    <Text style={profileStyles.HEADING}>Hi {state.userName}
+                    </Text>
+                    <Text style={COMMON_STYLES.BODY_TEXT}>Total Scholarship Achieved: {state.totalScholarship} </Text>
+                </View>
+                <View style={[profileStyles.ROW_CENTER, { marginTop: 10 }]}>
+                    <Pressable elevation={2} onPress={()=> setProfileEdit(!showProfileEdit)} style={[COMMON_STYLES.SUB_BTN_1, { marginVertical: 10 }]}>
+                        <Text style={COMMON_STYLES.SUB_BTN_TXT}>Edit User Name</Text>
                     </Pressable>
                 </View>
+                
+                <View style={profileStyles.ROW_CENTER}>
+                    <Pressable elevation={2} onPress={()=>onShare(SHARE_TEXT)} style={[COMMON_STYLES.BTN_1, { width: '100%', backgroundColor: APP_COLORS.blueGreen }]}>
+                        <Text style={[COMMON_STYLES.SUB_BTN_TXT, { color: 'white', fontWeight: 'bold'}]}>Refer and get 1 free ticket</Text>
+                    </Pressable>
 
-                <View elevation={2} style={profileStyles.SUB_CONT}>
-                    <View style={profileStyles.ROW_CENTER}>
-                        <Text style={profileStyles.HEADING}>Hi {state.userName}
-                        </Text>
-                        <Text style={COMMON_STYLES.BODY_TEXT}>Total Scholarship Achieved: {state.totalScholarship} </Text>
-                    </View>
-                    <View style={[profileStyles.ROW_CENTER, { marginTop: 10 }]}>
-                        <Pressable elevation={2} onPress={()=> setProfileEdit(!showProfileEdit)} style={[COMMON_STYLES.SUB_BTN_1, { marginVertical: 10 }]}>
-                            <Text style={COMMON_STYLES.SUB_BTN_TXT}>Edit User Name</Text>
-                        </Pressable>
-                    </View>
-                    
-                    <View style={profileStyles.ROW_CENTER}>
-                        <Pressable elevation={2} onPress={()=>onShare(SHARE_TEXT)} style={[COMMON_STYLES.BTN_1, { width: '100%', backgroundColor: APP_COLORS.blueGreen }]}>
-                            <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>Refer and get 1 free ticket</Text>
-                        </Pressable>
-
-                        <View style={[COMMON_STYLES.ROW_COLUMN, profileStyles.REFER_BOX]}>
-                            <Text style={profileStyles.HEADING}>Referral Code: <Text>
-                                    {route?.params?.user?.referralCode}
-                                </Text>
+                    <View style={[COMMON_STYLES.ROW_COLUMN, profileStyles.REFER_BOX]}>
+                        <Text style={profileStyles.HEADING}>Referral Code: <Text>
+                                {route?.params?.user?.referralCode}
                             </Text>
-                            <View style={[COMMON_STYLES.ROW, { marginVertical: 5 }]}>
-                                <Pressable elevation={2}  onPress={()=> handlePress('onReferralCodeCopy')} style={[COMMON_STYLES.SUB_BTN_2, { backgroundColor: APP_COLORS.green }]}>
-                                    <Text style={[COMMON_STYLES.SUB_BTN_TXT_2_W]}>Copy Code</Text>
-                                </Pressable>
-                                <Pressable elevation={2} onPress={()=> handlePress('onLinkCopy')} style={[COMMON_STYLES.SUB_BTN_2, { marginLeft: 5, backgroundColor: APP_COLORS.green}]}>
-                                    <Text style={COMMON_STYLES.SUB_BTN_TXT_2_W}>Copy Referral Link</Text>
-                                </Pressable>
-                            </View>
+                        </Text>
+                        <View style={[COMMON_STYLES.ROW, { marginVertical: 5 }]}>
+                            <Pressable elevation={2}  onPress={()=> handlePress('onReferralCodeCopy')} style={[COMMON_STYLES.SUB_BTN_2, { backgroundColor: APP_COLORS.green }]}>
+                                <Text style={[COMMON_STYLES.SUB_BTN_TXT_2_W]}>Copy Code</Text>
+                            </Pressable>
+                            <Pressable elevation={2} onPress={()=> handlePress('onLinkCopy')} style={[COMMON_STYLES.SUB_BTN_2, { marginLeft: 5, backgroundColor: APP_COLORS.green}]}>
+                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2_W}>Copy Referral Link</Text>
+                            </Pressable>
                         </View>
                     </View>
-
-                    <ScrollView>
-                        <View style={profileStyles.BOX}>
-                            <Text style={profileStyles.BODY_TEXT}>Bank</Text>
-
-                            <Pressable elevation={1} onPress={()=> setBankDetail(!showBankDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
-                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
-                            </Pressable>
-
-                            <Pressable elevation={1} onPress={()=> setShowBankUploadModal(!showBankUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
-                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
-                            </Pressable>
-                            <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.bankStatus || 'Not Updated'}</Text>
-                        </View>
-
-                        <View style={profileStyles.BOX}>
-                            <Text style={profileStyles.BODY_TEXT}>Pancard</Text>
-
-                            <Pressable elevation={1} onPress={()=> setPanDetail(!showPanDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
-                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
-                            </Pressable>
-
-                            <Pressable elevation={1} onPress={()=> setPanUploadModal(!showPanUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
-                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
-                            </Pressable>
-                            <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.panStatus || 'Not Updated'}</Text>
-                        </View>
-
-                        <View style={profileStyles.BOX}>
-                            <Text style={profileStyles.BODY_TEXT}>Student Document</Text>
-
-                            <Pressable elevation={1} onPress={()=> setStudentDocu(!showStudentDoc)} style={COMMON_STYLES.SUB_BTN_2}>
-                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
-                            </Pressable>
-                            <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.studentIdStatus || 'Not Updated'}</Text>
-                        </View>
-                    </ScrollView>
                 </View>
+
+                <ScrollView>
+                    <View style={profileStyles.BOX}>
+                        <Text style={profileStyles.BODY_TEXT}>Bank</Text>
+
+                        <Pressable elevation={1} onPress={()=> setBankDetail(!showBankDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
+                        </Pressable>
+
+                        <Pressable elevation={1} onPress={()=> setShowBankUploadModal(!showBankUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
+                        </Pressable>
+                        <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.bankStatus || 'Not Updated'}</Text>
+                    </View>
+
+                    <View style={profileStyles.BOX}>
+                        <Text style={profileStyles.BODY_TEXT}>Pancard</Text>
+
+                        <Pressable elevation={1} onPress={()=> setPanDetail(!showPanDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
+                        </Pressable>
+
+                        <Pressable elevation={1} onPress={()=> setPanUploadModal(!showPanUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
+                        </Pressable>
+                        <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.panStatus || 'Not Updated'}</Text>
+                    </View>
+
+                    <View style={profileStyles.BOX}>
+                        <Text style={profileStyles.BODY_TEXT}>Student Document</Text>
+
+                        <Pressable elevation={1} onPress={()=> setStudentDocu(!showStudentDoc)} style={COMMON_STYLES.SUB_BTN_2}>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
+                        </Pressable>
+                        <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.studentIdStatus || 'Not Updated'}</Text>
+                    </View>
+                </ScrollView>
+            </View>
         </SafeAreaView>
     )
 }
