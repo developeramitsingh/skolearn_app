@@ -1,4 +1,4 @@
-import { Share } from 'react-native';
+import { Alert, Share } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import * as ImagePicker from 'expo-image-picker';
 import { sendAppLogService, userService } from '../../services';
@@ -125,4 +125,10 @@ export const refreshUserInLocal = async (_userId) => {
     console.error(errMsg);
     sendAppLogService.sendAppLogs({ errMsg })
   } 
+}
+
+export const showAlert = (title, message) => {
+  Alert.alert(title, message, [{
+    text: 'Close', onPress: () => {}
+}]);
 }

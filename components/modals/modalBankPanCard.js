@@ -3,16 +3,71 @@ import { useState } from 'react';
 import { modalStyles } from  './modalStyles';
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
 import { ACTION_TYPES, CLOSE_MODAL} from '../../constant/constant';
+import { checkAndGetIfErrorFound } from "../../common/functions/commonHelper";
+import Loader from "../loader/loader";
 
 const ModalBankPanCard = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, modalType }) => {
     const [state, setState] = useState({
+        errors: {
+            userNameInBank: 'Name is required',
+            bankName: 'Bank name is required',
+            bankAccountNum: 'Bank account number is required',
+            bankIfscCode: 'Bank IFSC code is required',
+            userNameInPan: 'Name is required',
+            panNum: 'Pan number is required',
+        },
+        error: '',
+        disabled: true,
     });
+    const [isLoading, setLoading] = useState(false);
 
-    const handleChange = (key, val) => {
+    const handleChange = (inputName, val) => {
         console.info(val);
-        setState(prev => {
-            return { ...prev, [key]: val, };
-        })
+        let errors = { ...(state.errors && state.errors) };
+
+        if (inputName === 'userNameInBank' || inputName === 'bankName' || inputName === 'userNameInPan') {
+            if (val?.length >= 3) {
+                errors[inputName] = ''
+            } else {
+                errors[inputName] = 'User Name/Bank Name is invalid'
+            }
+        } else if (inputName === 'bankAccountNum') {
+            if (val?.length >= 11) {
+                errors[inputName] = ''
+            } else {
+                errors[inputName] = 'Bank Account Number is invalid'
+            }
+        } else if (inputName === 'bankIfscCode') {
+            if (val?.length && val.match(/^[A-Z]{4}0[A-Z0-9]{6}$/)) {
+                errors[inputName] = ''
+            } else {
+                errors[inputName] = 'IFSC code is invalid'
+            }
+        } else if (inputName === 'panNum') {
+            if (val?.length && val.match(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)) {
+                errors[inputName] = ''
+            } else {
+                errors[inputName] = 'Pan Number is invalid'
+            }
+        }
+ 
+        if (modalType === ACTION_TYPES.UPDATE_BANK_DETAIL) {
+            delete errors.userNameInPan;
+            delete errors.panNum;
+        } else if (modalType === ACTION_TYPES.UPDATE_PAN_DETAIL){
+            errors = {
+                userNameInPan: errors.userNameInPan,
+                panNum: errors.panNum,
+            };
+        }
+
+        console.info({inputName, val});
+        const {isErrorFound, errorMsg} = checkAndGetIfErrorFound(errors) || {};
+        console.info({ isErrorFound, errorMsg });
+
+        setState((prev) => { 
+            return {...prev, [inputName]: val, disabled: isErrorFound, errors, error: errorMsg }
+        });
     }
 
     const bankInputs = ()=> {
@@ -20,16 +75,19 @@ const ModalBankPanCard = ({ title, modalVisible, handleModalPress, btnTxt, place
             <>
                 <View style={modalStyles.ROW_SPREAD}>
                     <TextInput 
+                        autoCapitalize = {"characters"}
                         maxLength={maxLength ? maxLength : null } 
                         style={modalStyles.TEXT_INPUT}
                         keyboardType= {keyboardType ? keyboardType : "default"}
                         placeholder={"Enter Your Full Name"}
-                        onChangeText= {(val)=> handleChange('name', val)} value={state.name}
+                        onChangeText= {(val)=> handleChange('userNameInBank', val)} 
+                        value={state.userNameInBank}
                     />
                 </View>
 
                 <View style={modalStyles.ROW_SPREAD}>
                     <TextInput 
+                        autoCapitalize = {"characters"}
                         maxLength={maxLength ? maxLength : null } 
                         style={modalStyles.TEXT_INPUT}
                         keyboardType= {keyboardType ? keyboardType : "default"}
@@ -40,21 +98,23 @@ const ModalBankPanCard = ({ title, modalVisible, handleModalPress, btnTxt, place
 
                 <View style={modalStyles.ROW_SPREAD}>
                     <TextInput 
-                        maxLength={maxLength ? maxLength : null } 
+                        autoCapitalize = {"characters"}
+                        maxLength={17} 
                         style={modalStyles.TEXT_INPUT}
                         keyboardType= {"numeric"}
                         placeholder={"Enter Bank Account number"}
-                        onChangeText= {(val)=> handleChange('accountNo', val)} value={state.accountNo}
+                        onChangeText= {(val)=> handleChange('bankAccountNum', val)} value={state.bankAccountNum}
                     />
                 </View>
 
                 <View style={modalStyles.ROW_SPREAD}>
                     <TextInput 
-                        maxLength={maxLength ? maxLength : null } 
+                        autoCapitalize = {"characters"}
+                        maxLength={11} 
                         style={modalStyles.TEXT_INPUT}
                         keyboardType= {keyboardType ? keyboardType : "default"}
                         placeholder={"Enter bank IFSC code"}
-                        onChangeText= {(val)=> handleChange('ifscCode', val)} value={state.ifscCode}
+                        onChangeText= {(val)=> handleChange('bankIfscCode', val)} value={state.bankIfscCode}
                     />
                 </View>
             </>
@@ -66,23 +126,25 @@ const ModalBankPanCard = ({ title, modalVisible, handleModalPress, btnTxt, place
             <>
                 <View style={modalStyles.ROW_SPREAD}>
                     <TextInput 
+                        autoCapitalize = {"characters"}
                         maxLength={maxLength ? maxLength : null } 
                         style={modalStyles.TEXT_INPUT}
                         keyboardType= {keyboardType ? keyboardType : "default"}
                         placeholder={"Enter Your Full Name"}
-                        onChangeText= {(val)=> handleChange('name', val)} 
-                        value={state.name}
+                        onChangeText= {(val)=> handleChange('userNameInPan', val)} 
+                        value={state.userNameInPan}
                     />
                 </View>
 
                 <View style={modalStyles.ROW_SPREAD}>
                     <TextInput 
-                        maxLength={maxLength ? maxLength : null } 
+                        autoCapitalize = {"characters"}
+                        maxLength={10} 
                         style={modalStyles.TEXT_INPUT}
-                        keyboardType= {keyboardType ? keyboardType : "default"}
+                        keyboardType= {"default"}
                         placeholder={"Enter Pan Card Number"}
-                        onChangeText= {(val)=> handleChange('panCardNum', val)} 
-                        value={state.panCardNum}
+                        onChangeText= {(val)=> handleChange('panNum', val)} 
+                        value={state.panNum}
                     />
                 </View>
             </>
@@ -96,6 +158,7 @@ const ModalBankPanCard = ({ title, modalVisible, handleModalPress, btnTxt, place
         >
             <View style={modalStyles.CONT_CENTER}>
                 <Text style={modalStyles.modalTitle}>{title}</Text>
+                <Text style={COMMON_STYLES.ERROR_TXT}>{state.error}</Text>
 
                 { modalType === ACTION_TYPES.UPDATE_BANK_DETAIL 
                     ? bankInputs()
@@ -105,7 +168,12 @@ const ModalBankPanCard = ({ title, modalVisible, handleModalPress, btnTxt, place
                 }
 
                 <View style={modalStyles.ROW_SPREAD}>
-                    <TouchableOpacity onPress={() => handleModalPress(actionType, state)} style={modalStyles.BTN}>
+                    <TouchableOpacity disabled={ state.disabled } onPress={async () => {
+                        setLoading(true);
+                        await handleModalPress(actionType, state);
+                        setLoading(false);
+                    }} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN]}>
+                        <Loader isLoading={isLoading}/>
                         <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
                     </TouchableOpacity>
                 </View>

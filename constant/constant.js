@@ -125,6 +125,11 @@ export const CLOSE_MODAL = 'closeModal';
 export const ACTION_TYPES = {
     UPDATE_BANK_DETAIL : 'updateBankDetail',
     UPDATE_PAN_DETAIL : 'updatePanDetail',
+    UPDATE_PROFILE : 'updateProfile',
+
+    UPLOAD_BANK_ID : 'uploadBankId',
+    UPLOAD_PAN : 'updatePan',
+    UPLOAD_STUDENT_ID: 'uploadStudentId',
 
     CREATE_TICKET: 'createTicket',
     OPEN_TICKET: 'openTicket',

@@ -273,7 +273,7 @@ export const COMMON_STYLES = {
         width: '100%',
         height: '100%',
         position: 'absolute',
-        zIndex: 1000,
+        zIndex: 9999,
       },
     BOX_SHADOW: {
         shadowColor: '#000',  

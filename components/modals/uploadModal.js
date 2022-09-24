@@ -4,10 +4,11 @@ import { modalStyles } from  './modalStyles';
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
 import { pickImage } from '../../common/functions/commonHelper';
 import { CLOSE_MODAL } from "../../constant/constant";
-
+import Loader from "../loader/loader";
 
 const UploadModal = ({ title, modalVisible, handleModalPress, btnTxt, actionType, info }) => {
     const [uri, setUri] = useState(null);
+    const [isLoading, setLoading] = useState(false);
 
     const setPickedImage = async () => {
         console.info('select image');
@@ -31,7 +32,12 @@ const UploadModal = ({ title, modalVisible, handleModalPress, btnTxt, actionType
                         <Text style={COMMON_STYLES.BTN_TEXT}>Choose Photo</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => handleModalPress(actionType, uri)} style={modalStyles.BTN}>
+                    <TouchableOpacity onPress={async () => { 
+                        setLoading(true);
+                        await handleModalPress(actionType, uri);
+                        setLoading(false);
+                    }} style={modalStyles.BTN}>
+                        <Loader isLoading={isLoading}/>
                         <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
                     </TouchableOpacity>
 
@@ -39,7 +45,9 @@ const UploadModal = ({ title, modalVisible, handleModalPress, btnTxt, actionType
                 </View>
 
                 <View style={COMMON_STYLES.ROW}>
-                    <TouchableOpacity onPress={() => handleModalPress(CLOSE_MODAL, !modalVisible)} style={modalStyles.BTN}>
+                    <TouchableOpacity onPress={() => { 
+                        handleModalPress(CLOSE_MODAL, !modalVisible)
+                    }} style={modalStyles.BTN}>
                         <Text style={COMMON_STYLES.BTN_TEXT}>Close</Text>
                     </TouchableOpacity>
                 </View>

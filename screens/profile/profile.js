@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { Image, Alert, SafeAreaView, View, Text, TouchableWithoutFeedback, Pressable, ScrollView, BackHandler } from 'react-native';
 import { profileStyles } from './profileStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
-import { onShare, copyToClipboard, pickImage, refreshUserInLocal } from '../../common/functions/commonHelper';
+import { onShare, copyToClipboard, pickImage, refreshUserInLocal, showAlert } from '../../common/functions/commonHelper';
 import { APP_COLORS, ROUTES, CLOSE_MODAL, ACTION_TYPES, SHARE_TEXT, STORAGE_KEYS } from '../../constant/constant';
 import UploadModal from '../../components/modals/uploadModal';
 import ModalWindow from '../../components/modals/modalWindow';
 import ModalBankPanCard from '../../components/modals/modalBankPanCard';
 import BackBtn from '../../components/backBtn/backBtn';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { sendAppLogService, userService } from '../../services';
+import { sendAppLogService, userDocsService, userService } from '../../services';
 import { getFromStorage } from '../../utils/utils';
 
 const Profile = ({navigation, route}) => {
@@ -52,70 +52,165 @@ const Profile = ({navigation, route}) => {
           return () => backHandler.current?.remove();
     }, []);
 
-    const updateUser = (data) => {
-        userService.updateUser(data)
-            .then((res) => {
-                refreshUserInLocal(route?.params?.user?._id);
-            })
-            .catch(err => {
-                const errMsg = `error while update user in profile:: err: ${err}`;
-                sendAppLogService.sendAppLogs({ errMsg })
-            });
+    const updateUser = async (data) => {
+        try {
+            await userService.updateUser(data)
+            refreshUserInLocal(route?.params?.user?._id);
+
+            return true;
+        } catch (err) {
+            const errMsg = `error while update user in profile:: err: ${err}`;
+            console.error(errMsg);
+            sendAppLogService.sendAppLogs({ errMsg })
+            return false;
+        }    
     }
 
-    const handlePress =(actionType, payload) => {
+    const updateUserDocs = async (data) => {
+        try {
+            await userDocsService.createOrUpdateUserDocs(data);
+
+            return true;
+        } catch (err) {
+            console.error(`error in updateUserDocs:: ${err}`);
+
+            return false;
+        }
+    }
+
+    const uploadUserDocs = async (fileKey, uri, params) => {
+        try {
+            const form = new FormData();
+            form.append(fileKey, {
+                name: `${fileKey}_UserId:${route?.params?.user?._id}.jpeg`,
+                uri: uri,
+                type: "image/jpeg",
+            });
+
+            if (params) {
+                for (const key in params) {
+                    form.append(key, params[key]);
+                }
+            }
+            console.info({ form });
+
+            await userDocsService.uploadUserDocs(form);
+
+            return true;
+        }  catch (err) {
+            console.error(`error while uploadUserDocs:: fileKey:${fileKey}::${err}`);
+            sendAppLogService.sendAppLogs({ errorMsg: `error while uploadUserDocs::fileKey:${fileKey}:: ${err}`});
+            return false;
+        }
+    }
+
+    const handlePress = async (actionType, payload) => {
         if(actionType === 'onReferralCodeCopy') {
             copyToClipboard(state.referralCode);
-            Alert.alert(
-                '',
-                `Referral Code Copied!: ${state.referralCode}`,
-                [
-                  { text: "OK", onPress: () => console.log("OK Pressed") }
-                ]
-              );
+            
+            showAlert('', `Referral Code Copied!: ${state.referralCode}`);
         } else if(actionType === 'onLinkCopy') {
             copyToClipboard(SHARE_TEXT);
-            Alert.alert(
-                '',
-                "Sharing link Copied!",
-                [
-                  { text: "OK", onPress: () => console.log("OK Pressed") }
-                ]
-              );
-        } else if(actionType === 'uploadBank') {
+
+            showAlert('', "Sharing link Copied!");
+        } else if(actionType === ACTION_TYPES.UPLOAD_BANK_ID) {
             console.log('uploading.... bank');
+            
+            const isSuccess = await uploadUserDocs('bankImg', payload, {
+                'bankStatus': 'Pending Verification', 
+                'isBankVerified': false 
+            });
+
+            if (!isSuccess) {
+                showAlert('Error', "Error While Uploading Image., Please try again!");
+                return;
+            }
+
+            showAlert('Success', "Bank Photo Updated Successfully!");
+
             setState(prev => {
-                return { ...prev, bankImg: payload }
+                return { ...prev, bankImg: true }
             });
             setShowBankUploadModal(false);
-        } else if(actionType === 'uploadPan') {
+        } else if(actionType === ACTION_TYPES.UPLOAD_PAN) {
             console.log('uploading.... pan');
+            const isSuccess = await uploadUserDocs('panImg', payload, { 
+                'panStatus': 'Pending Verification',
+                'isPanVerified': false 
+            });
+            if (!isSuccess) {
+                showAlert('Error', "Error While Uploading Image., Please try again!");
+                return;
+            }
+
+            showAlert('Success', "Pan Photo Updated Successfully!");
+
             setState(prev => {
-                return { ...prev, panImg: payload }
+                return { ...prev, panImg: true }
             });
             setPanUploadModal(false);
-        } else if(actionType === 'uploadStudentDoc') {
+        } else if(actionType === ACTION_TYPES.UPLOAD_STUDENT_ID) {
             console.log('uploading.... student doc');
+            const isSuccess = await uploadUserDocs('studentIdImg', payload, { 
+                'studentIdStatus': 'Pending Verification', 
+                'isStudentIdVerified': false 
+            });
+            if (!isSuccess) {
+                showAlert('Error', "Error While Uploading Image., Please try again!");
+                return;
+            }
+
+            showAlert('Success', "Student Id Photo Updated Successfully!");
+
             setState(prev => {
-                return { ...prev, studentDoc: payload }
+                return { ...prev, studentIdImg: true }
             });
             setPanUploadModal(false);
-        } else if(actionType === 'updateProfile') {
+        } else if(actionType === ACTION_TYPES.UPDATE_PROFILE) {
             console.log('updating student profile', payload);
             const data = { userName: payload };
-            updateUser(data);
+            const isSuccess = await updateUser(data);
+
+            if(!isSuccess) {
+                showAlert('Error', "An Error Occured, Please try again!");
+
+                return
+            }
+
+            showAlert('Success', "Profile Updated Successfully");
             setState(prev => {
                 return { ...prev, userName: payload }
             });
             setProfileEdit(false);
         } else if(actionType === ACTION_TYPES.UPDATE_BANK_DETAIL) {
             console.log('updating bank details', payload);
+            const isSuccess = await updateUserDocs({ ...payload, isBankVerified: false, bankStatus: 'Pending Verification' });
+
+            if (!isSuccess) {
+                showAlert('Error', "Error While Updating the Bank Details., Please try again!");
+                return;
+            }
+
+            showAlert('Success', "Bank Account Details Updated Successfully!");
+
             setState(prev => {
-                return { ...prev, bankDetail: payload }
+                return { ...prev, ...payload }
             });
             setBankDetail(false);
+            
         } else if(actionType === ACTION_TYPES.UPDATE_PAN_DETAIL) {
             console.log('updating pan card details', payload);
+            const isSuccess = await updateUserDocs({ ...payload, isPanVerified: false, panStatus: 'Pending Verification' });
+
+            if (!isSuccess) {
+                showAlert('Error', "Error While Updating the Pan Details., Please try again!");
+
+                return;
+            }
+
+
+            showAlert('Success', "Pan Card Details Updated Successfully!");
+
             setState(prev => {
                 return { ...prev, panDetail: payload }
             });
@@ -168,11 +263,11 @@ const Profile = ({navigation, route}) => {
             <BackBtn navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
             <ModalWindow modalVisible={showProfileEdit} actionType='updateProfile' handleModalPress={handlePress} title="Edit User Name" btnTxt = 'Update' placeholder='Enter your new user name'/>
 
-            <UploadModal modalVisible={showBankUploadModal} actionType="uploadBank" handleModalPress={handlePress} title="Upload Bank Passbook/cheque/bank statement" btnTxt = 'Upload' info="Image should contain bank account number and name"/>
+            <UploadModal modalVisible={showBankUploadModal} actionType={ACTION_TYPES.UPLOAD_BANK_ID} handleModalPress={handlePress} title="Upload Bank Passbook/cheque/bank statement" btnTxt = 'Upload' info="Image should contain bank account number and name"/>
 
-            <UploadModal modalVisible={showPanUploadModal} actionType="uploadPan" handleModalPress={handlePress} title="Upload Pan Card" btnTxt = 'Upload'/>
+            <UploadModal modalVisible={showPanUploadModal} actionType={ACTION_TYPES.UPLOAD_PAN} handleModalPress={handlePress} title="Upload Pan Card" btnTxt = 'Upload'/>
 
-            <UploadModal modalVisible={showStudentDoc} actionType="uploadStudentDoc" handleModalPress={handlePress} title="Upload Student Document" btnTxt = 'Upload' info="Allowed types are current year student id card or fee slip or application form or details of institute/college/school"/>
+            <UploadModal modalVisible={showStudentDoc} actionType={ACTION_TYPES.UPLOAD_STUDENT_ID} handleModalPress={handlePress} title="Upload Student Document" btnTxt = 'Upload' info="Allowed types are current year student id card or fee slip or application form or details of institute/college/school"/>
 
             <ModalBankPanCard modalVisible={showBankDetailModal} actionType={ACTION_TYPES.UPDATE_BANK_DETAIL} handleModalPress={handlePress} title="Update Bank Account Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_BANK_DETAIL}/>
 
