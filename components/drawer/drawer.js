@@ -48,70 +48,59 @@ const Drawer = ({navigation, setDrawer, user }) => {
 
             <ScrollView>
                 <View style={COMMON_STYLES.CARD}>
-                    <View style={COMMON_STYLES.CARD}>
+                    <Pressable style={COMMON_STYLES.CARD} onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_PROFILE)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <FontAwesome name="user-circle" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
-                            <Pressable onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_PROFILE)}>
-                                <Text style={drawerStyles.TAB_TEXT}>Profile</Text>
-                            </Pressable>
+                            <Text style={drawerStyles.TAB_TEXT}>Profile</Text>
                         </View>
-                    </View>
+                    </Pressable>
                     
-                    <View style={COMMON_STYLES.CARD}>
+                    <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_ABOUT_US)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <FontAwesome name="info-circle" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
-                            <Pressable onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_ABOUT_US)}>
                             <Text style={drawerStyles.TAB_TEXT}>About Us</Text>
-                            </Pressable>
                         </View>
-                    </View>
+                    </Pressable>
 
-                    <View style={COMMON_STYLES.CARD}>
+                    <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_FAQ)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <FontAwesome name="question" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
-                            <Pressable onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_FAQ)}>
-                                <Text style={drawerStyles.TAB_TEXT}>FAQ</Text>
-                            </Pressable>
+                            
+                            <Text style={drawerStyles.TAB_TEXT}>FAQ</Text>
                         </View>
-                    </View>
+                    </Pressable>
 
-                    <View style={COMMON_STYLES.CARD}>
+                    <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_TERMS_POLICY)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <MaterialIcons name="fact-check" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue} />
-                            <Pressable onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_TERMS_POLICY)}>
+                            
                             <Text style={drawerStyles.TAB_TEXT}>Terms & Conditions</Text>
-                            </Pressable>
                         </View>
-                    </View>
+                    </Pressable>
                 </View>
 
 
                 <View style={COMMON_STYLES.CARD}>
-                    <View style={COMMON_STYLES.CARD}>
+                    <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_PRIVACY_POLICY)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <MaterialIcons name="privacy-tip" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
-                            <Pressable onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_PRIVACY_POLICY)}>
-                                <Text style={drawerStyles.TAB_TEXT}>Privacy Policy</Text>
-                            </Pressable>
+                            <Text style={drawerStyles.TAB_TEXT}>Privacy Policy</Text>
                         </View>
-                    </View>
-                    <View style={COMMON_STYLES.CARD}>
+                    </Pressable>
+
+                    <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_REFUND_POLICY)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <FontAwesome name="money" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
-                            <Pressable onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_REFUND_POLICY)}>
-                                <Text style={drawerStyles.TAB_TEXT}>Refund Policy</Text>
-                            </Pressable>
+                            <Text style={drawerStyles.TAB_TEXT}>Refund Policy</Text>
                         </View>
-                    </View>
+                    </Pressable>
 
-                    <View style={COMMON_STYLES.CARD}>
+                    <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.LOGOUT)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <MaterialIcons name="logout" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue} />
-                            <Pressable onPress= {()=> handlePress(Constant.ACTION_TYPES.LOGOUT)}>
-                                <Text style={drawerStyles.TAB_TEXT}>Logout</Text>
-                            </Pressable>
+                            <Text style={drawerStyles.TAB_TEXT}>Logout</Text>
                         </View>
-                    </View>
+                    </Pressable>
                 </View>
 
                 <View style={COMMON_STYLES.CARD}>

@@ -164,8 +164,9 @@ const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt,
     return(
         <Modal
             animationType="slide"
-            transparent={true}
+            transparent={false}
             visible={modalVisible}
+            statusBarTranslucent={true}
         >
             <View style={modalStyles.CONT_CENTER}>
                 <Text style={modalStyles.modalTitle}>{title}</Text>

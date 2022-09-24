@@ -67,7 +67,7 @@ const cardListStyles = StyleSheet.create({
         paddingRight: 5,
     },
     TITLE: {
-        fontSize: 12,
+        fontSize: 14,
         color: APP_COLORS.appBlue,
         paddingVertical: 10,
         flexWrap: 'wrap',
@@ -134,8 +134,9 @@ const cardListStyles = StyleSheet.create({
         marginTop: 5,
     },
     CARD_LABEL_VERT: {
-        backgroundColor: APP_COLORS.backPanelColor,
+        backgroundColor: APP_COLORS.lightBlue,
         color: APP_COLORS.appBlue,
+        opacity: 0.8
     }
 
 })

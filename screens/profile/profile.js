@@ -11,6 +11,7 @@ import BackBtn from '../../components/backBtn/backBtn';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { sendAppLogService, userDocsService, userService } from '../../services';
 import { getFromStorage } from '../../utils/utils';
+import Loader from '../../components/loader/loader';
 
 const Profile = ({navigation, route}) => {
     const [state, setState] = useState({
@@ -27,6 +28,7 @@ const Profile = ({navigation, route}) => {
     const [showBankDetailModal, setBankDetail] = useState(false);
     const [showPanDetailModal, setPanDetail] = useState(false);
     const [userDocsStatus, setUserDocsStatus] = useState(null);
+    const [isLoading, setLoading] = useState(false);
     const backHandler = useRef();
 
 
@@ -41,8 +43,9 @@ const Profile = ({navigation, route}) => {
 
     const getUserDocsStatus = async () => {
         try {
+            setLoading(true);
             const userDocsData = await userDocsService.getUserDocs('{}', [])
-
+            setLoading(false);
             if (userDocsData?.data) {
                 setUserDocsStatus(userDocsData?.data);
             }
@@ -328,10 +331,10 @@ const Profile = ({navigation, route}) => {
                             </Text>
                         </Text>
                         <View style={[COMMON_STYLES.ROW, { marginVertical: 5 }]}>
-                            <Pressable elevation={2}  onPress={()=> handlePress('onReferralCodeCopy')} style={[COMMON_STYLES.SUB_BTN_2, { backgroundColor: APP_COLORS.green }]}>
+                            <Pressable elevation={2}  onPress={()=> handlePress('onReferralCodeCopy')} style={[COMMON_STYLES.SUB_BTN_2, { backgroundColor: APP_COLORS.blueGreen }]}>
                                 <Text style={[COMMON_STYLES.SUB_BTN_TXT_2_W]}>Copy Code</Text>
                             </Pressable>
-                            <Pressable elevation={2} onPress={()=> handlePress('onLinkCopy')} style={[COMMON_STYLES.SUB_BTN_2, { marginLeft: 5, backgroundColor: APP_COLORS.green}]}>
+                            <Pressable elevation={2} onPress={()=> handlePress('onLinkCopy')} style={[COMMON_STYLES.SUB_BTN_2, { marginLeft: 5, backgroundColor: APP_COLORS.blueGreen}]}>
                                 <Text style={COMMON_STYLES.SUB_BTN_TXT_2_W}>Copy Referral Link</Text>
                             </Pressable>
                         </View>
@@ -339,6 +342,9 @@ const Profile = ({navigation, route}) => {
                 </View>
 
                 <ScrollView>
+                    {
+                        <Loader isLoading={isLoading}/>
+                    }
                     <View style={profileStyles.BOX}>
                         <Text style={profileStyles.BODY_TEXT}>Bank</Text>
 

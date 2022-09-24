@@ -31,6 +31,7 @@ const UploadModal = ({ data, title, modalVisible, handleModalPress, btnTxt, acti
             animationType="slide"
             transparent={true}
             visible={modalVisible}
+            statusBarTranslucent={true}
         >
             <View style={modalStyles.container}>
                 <Text style={modalStyles.modalTitle}>{title}</Text>

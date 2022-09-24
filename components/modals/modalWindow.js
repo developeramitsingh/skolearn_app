@@ -33,8 +33,8 @@ const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
             animationType="slide"
             transparent={true}
             visible={modalVisible}
+            statusBarTranslucent={true}
         >
-            {console.info({ disable, value })}
             <View style={modalStyles.CONT_CENTER}>
                 <Text style={modalStyles.modalTitle}>{title}</Text>
 
