@@ -52,6 +52,17 @@ const Profile = ({navigation, route}) => {
           return () => backHandler.current?.remove();
     }, []);
 
+    const updateUser = (data) => {
+        userService.updateUser(data)
+            .then((res) => {
+                refreshUserInLocal(route?.params?.user?._id);
+            })
+            .catch(err => {
+                const errMsg = `error while update user in profile:: err: ${err}`;
+                sendAppLogService.sendAppLogs({ errMsg })
+            });
+    }
+
     const handlePress =(actionType, payload) => {
         if(actionType === 'onReferralCodeCopy') {
             copyToClipboard(state.referralCode);
@@ -90,7 +101,9 @@ const Profile = ({navigation, route}) => {
             });
             setPanUploadModal(false);
         } else if(actionType === 'updateProfile') {
-            console.log('updating student profile');
+            console.log('updating student profile', payload);
+            const data = { userName: payload };
+            updateUser(data);
             setState(prev => {
                 return { ...prev, userName: payload }
             });
@@ -153,7 +166,7 @@ const Profile = ({navigation, route}) => {
     return (
         <SafeAreaView style={profileStyles.CONTAINER}>
             <BackBtn navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
-            <ModalWindow modalVisible={showProfileEdit} actionType='updateProfile' handleModalPress={handlePress} title="Edit User Name" btnTxt = 'Update' placeholder='Enter your user name'/>
+            <ModalWindow modalVisible={showProfileEdit} actionType='updateProfile' handleModalPress={handlePress} title="Edit User Name" btnTxt = 'Update' placeholder='Enter your new user name'/>
 
             <UploadModal modalVisible={showBankUploadModal} actionType="uploadBank" handleModalPress={handlePress} title="Upload Bank Passbook/cheque/bank statement" btnTxt = 'Upload' info="Image should contain bank account number and name"/>
 
@@ -177,13 +190,13 @@ const Profile = ({navigation, route}) => {
 
                 <View elevation={2} style={profileStyles.SUB_CONT}>
                     <View style={profileStyles.ROW_CENTER}>
-                        <Text style={profileStyles.HEADING}>Hi {route?.params?.user?.userName}
+                        <Text style={profileStyles.HEADING}>Hi {state.userName}
                         </Text>
                         <Text style={COMMON_STYLES.BODY_TEXT}>Total Scholarship Achieved: {state.totalScholarship} </Text>
                     </View>
                     <View style={[profileStyles.ROW_CENTER, { marginTop: 10 }]}>
                         <Pressable elevation={2} onPress={()=> setProfileEdit(!showProfileEdit)} style={[COMMON_STYLES.SUB_BTN_1, { marginVertical: 10 }]}>
-                            <Text style={COMMON_STYLES.SUB_BTN_TXT}>Edit Profile</Text>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT}>Edit User Name</Text>
                         </Pressable>
                     </View>
                     
