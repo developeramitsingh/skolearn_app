@@ -195,7 +195,8 @@ export const NOTIFICATION_DATA_KEYS = {
   ROUTE: 'route'
 }
 
-export const SHARE_TEXT = 'Share this app link is here https://st.depositphotos.com/1770836/1372/i/600/depositphotos_13720433-stock-photo-young-indian-student.jpg';
+export const SHARE_TEXT = `Join me on Skolearn to get Scholarship at no cost.
+Create your free account by using this link here: https://skolearn.com/download`;
 
 export const TXN_STATUS = {
   SUCCESS: 'success',
