@@ -1,13 +1,14 @@
 import { View, Modal, Text, TouchableOpacity, TextInput } from "react-native"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { modalStyles } from  './modalStyles';
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
 import { ACTION_TYPES, CLOSE_MODAL} from '../../constant/constant';
 import { checkAndGetIfErrorFound } from "../../common/functions/commonHelper";
 import Loader from "../loader/loader";
 
-const ModalBankPanCard = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, modalType }) => {
+const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt, actionType, keyboardType, maxLength, modalType }) => {
     const [state, setState] = useState({
+        ...(data && data),
         errors: {
             userNameInBank: 'Name is required',
             bankName: 'Bank name is required',
@@ -21,11 +22,21 @@ const ModalBankPanCard = ({ title, modalVisible, handleModalPress, btnTxt, place
     });
     const [isLoading, setLoading] = useState(false);
 
+    useEffect(() => {
+        if(data) {
+            setState(prev => {
+                return { ...prev, ...data }
+            });
+        }
+    }, [data]);
+
     const handleChange = (inputName, val) => {
         console.info(val);
         let errors = { ...(state.errors && state.errors) };
 
-        if (inputName === 'userNameInBank' || inputName === 'bankName' || inputName === 'userNameInPan') {
+        if (
+            ['userNameInBank', 'bankName', 'userNameInPan'].includes(inputName)
+        ) {
             if (val?.length >= 3) {
                 errors[inputName] = ''
             } else {

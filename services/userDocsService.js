@@ -21,9 +21,9 @@ class UserDocsService {
         return axios.post(option);
     }
 
-    getAllUserDocs(query, attribs) {
+    getUserDocs(query, attribs) {
         const option = {
-            url: `${BACKEND_URL}/userdocs?query=${query}`,
+            url: `${BACKEND_URL}/userdocs?query=${query}&attribs=${attribs}`,
         };
 
         return axios.get(option);

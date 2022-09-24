@@ -26,6 +26,7 @@ const Profile = ({navigation, route}) => {
     const [showProfileEdit, setProfileEdit] = useState(false);
     const [showBankDetailModal, setBankDetail] = useState(false);
     const [showPanDetailModal, setPanDetail] = useState(false);
+    const [userDocsStatus, setUserDocsStatus] = useState(null);
     const backHandler = useRef();
 
 
@@ -37,8 +38,25 @@ const Profile = ({navigation, route}) => {
             })
         }
     };
+
+    const getUserDocsStatus = async () => {
+        try {
+            const userDocsData = await userDocsService.getUserDocs('{}', [])
+
+            if (userDocsData?.data) {
+                setUserDocsStatus(userDocsData?.data);
+            }
+        } catch (err) {
+            const errMsg = `error in getUserDocsStatus, ${err}`;
+            console.error(errMsg);
+            sendAppLogService.sendAppLogs({ errMsg });
+        }
+    }
+
     useEffect(() => {
         getUser();
+        getUserDocsStatus();
+
         const backAction = () => {
             navigation.navigate(ROUTES.DASHBOARD);
             return true;
@@ -132,6 +150,7 @@ const Profile = ({navigation, route}) => {
                 return { ...prev, bankImg: true }
             });
             setShowBankUploadModal(false);
+            getUserDocsStatus();
         } else if(actionType === ACTION_TYPES.UPLOAD_PAN) {
             console.log('uploading.... pan');
             const isSuccess = await uploadUserDocs('panImg', payload, { 
@@ -149,6 +168,7 @@ const Profile = ({navigation, route}) => {
                 return { ...prev, panImg: true }
             });
             setPanUploadModal(false);
+            getUserDocsStatus();
         } else if(actionType === ACTION_TYPES.UPLOAD_STUDENT_ID) {
             console.log('uploading.... student doc');
             const isSuccess = await uploadUserDocs('studentIdImg', payload, { 
@@ -166,6 +186,7 @@ const Profile = ({navigation, route}) => {
                 return { ...prev, studentIdImg: true }
             });
             setPanUploadModal(false);
+            getUserDocsStatus();
         } else if(actionType === ACTION_TYPES.UPDATE_PROFILE) {
             console.log('updating student profile', payload);
             const data = { userName: payload };
@@ -197,7 +218,7 @@ const Profile = ({navigation, route}) => {
                 return { ...prev, ...payload }
             });
             setBankDetail(false);
-            
+            getUserDocsStatus();
         } else if(actionType === ACTION_TYPES.UPDATE_PAN_DETAIL) {
             console.log('updating pan card details', payload);
             const isSuccess = await updateUserDocs({ ...payload, isPanVerified: false, panStatus: 'Pending Verification' });
@@ -215,6 +236,7 @@ const Profile = ({navigation, route}) => {
                 return { ...prev, panDetail: payload }
             });
             setPanDetail(false);
+            getUserDocsStatus();
         } else if(actionType === CLOSE_MODAL) {
             setShowBankUploadModal(false);
             setPanUploadModal(false);
@@ -263,15 +285,15 @@ const Profile = ({navigation, route}) => {
             <BackBtn navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
             <ModalWindow modalVisible={showProfileEdit} actionType='updateProfile' handleModalPress={handlePress} title="Edit User Name" btnTxt = 'Update' placeholder='Enter your new user name'/>
 
-            <UploadModal modalVisible={showBankUploadModal} actionType={ACTION_TYPES.UPLOAD_BANK_ID} handleModalPress={handlePress} title="Upload Bank Passbook/cheque/bank statement" btnTxt = 'Upload' info="Image should contain bank account number and name"/>
+            <UploadModal data={userDocsStatus?.bankIdImgUrl} modalVisible={showBankUploadModal} actionType={ACTION_TYPES.UPLOAD_BANK_ID} handleModalPress={handlePress} title="Upload Bank Passbook/cheque/bank statement" btnTxt = 'Upload' info="Image should contain bank account number and name"/>
 
-            <UploadModal modalVisible={showPanUploadModal} actionType={ACTION_TYPES.UPLOAD_PAN} handleModalPress={handlePress} title="Upload Pan Card" btnTxt = 'Upload'/>
+            <UploadModal data={userDocsStatus?.panImgUrl} modalVisible={showPanUploadModal} actionType={ACTION_TYPES.UPLOAD_PAN} handleModalPress={handlePress} title="Upload Pan Card" btnTxt = 'Upload'/>
 
-            <UploadModal modalVisible={showStudentDoc} actionType={ACTION_TYPES.UPLOAD_STUDENT_ID} handleModalPress={handlePress} title="Upload Student Document" btnTxt = 'Upload' info="Allowed types are current year student id card or fee slip or application form or details of institute/college/school"/>
+            <UploadModal data={userDocsStatus?.studentIdImgUrl} modalVisible={showStudentDoc} actionType={ACTION_TYPES.UPLOAD_STUDENT_ID} handleModalPress={handlePress} title="Upload Student Document" btnTxt = 'Upload' info="Allowed types are current year student id card or fee slip or application form or details of institute/college/school"/>
 
-            <ModalBankPanCard modalVisible={showBankDetailModal} actionType={ACTION_TYPES.UPDATE_BANK_DETAIL} handleModalPress={handlePress} title="Update Bank Account Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_BANK_DETAIL}/>
+            <ModalBankPanCard data={userDocsStatus} modalVisible={showBankDetailModal} actionType={ACTION_TYPES.UPDATE_BANK_DETAIL} handleModalPress={handlePress} title="Update Bank Account Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_BANK_DETAIL}/>
 
-            <ModalBankPanCard modalVisible={showPanDetailModal} actionType={ACTION_TYPES.UPDATE_PAN_DETAIL} handleModalPress={handlePress} title="Update Pan Card Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_PAN_DETAIL}/>
+            <ModalBankPanCard data={userDocsStatus} modalVisible={showPanDetailModal} actionType={ACTION_TYPES.UPDATE_PAN_DETAIL} handleModalPress={handlePress} title="Update Pan Card Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_PAN_DETAIL}/>
 
                 <View style={profileStyles.ROW_CENTER}>
                     <Pressable onPress={setPickedImage} style={profileStyles.PROFILE_IMG}>
@@ -320,33 +342,36 @@ const Profile = ({navigation, route}) => {
                         <View style={profileStyles.BOX}>
                             <Text style={profileStyles.BODY_TEXT}>Bank</Text>
 
-                            <Pressable elevation={2} onPress={()=> setBankDetail(!showBankDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                            <Pressable elevation={1} onPress={()=> setBankDetail(!showBankDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
                                 <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
                             </Pressable>
 
-                            <Pressable elevation={2} onPress={()=> setShowBankUploadModal(!showBankUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                            <Pressable elevation={1} onPress={()=> setShowBankUploadModal(!showBankUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
                                 <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
                             </Pressable>
+                            <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.bankStatus || 'Not Updated'}</Text>
                         </View>
 
                         <View style={profileStyles.BOX}>
                             <Text style={profileStyles.BODY_TEXT}>Pancard</Text>
 
-                            <Pressable elevation={2} onPress={()=> setPanDetail(!showPanDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                            <Pressable elevation={1} onPress={()=> setPanDetail(!showPanDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
                                 <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
                             </Pressable>
 
-                            <Pressable elevation={2} onPress={()=> setPanUploadModal(!showPanUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
+                            <Pressable elevation={1} onPress={()=> setPanUploadModal(!showPanUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
                                 <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
                             </Pressable>
+                            <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.panStatus || 'Not Updated'}</Text>
                         </View>
 
                         <View style={profileStyles.BOX}>
                             <Text style={profileStyles.BODY_TEXT}>Student Document</Text>
 
-                            <Pressable elevation={2} onPress={()=> setStudentDocu(!showStudentDoc)} style={COMMON_STYLES.SUB_BTN_2}>
+                            <Pressable elevation={1} onPress={()=> setStudentDocu(!showStudentDoc)} style={COMMON_STYLES.SUB_BTN_2}>
                                 <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
                             </Pressable>
+                            <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.studentIdStatus || 'Not Updated'}</Text>
                         </View>
                     </ScrollView>
                 </View>

@@ -1,12 +1,12 @@
 import { View, Modal, Text, TouchableOpacity, Image } from "react-native"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { modalStyles } from  './modalStyles';
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
 import { pickImage } from '../../common/functions/commonHelper';
 import { CLOSE_MODAL } from "../../constant/constant";
 import Loader from "../loader/loader";
 
-const UploadModal = ({ title, modalVisible, handleModalPress, btnTxt, actionType, info }) => {
+const UploadModal = ({ data, title, modalVisible, handleModalPress, btnTxt, actionType, info }) => {
     const [uri, setUri] = useState(null);
     const [isLoading, setLoading] = useState(false);
 
@@ -15,6 +15,13 @@ const UploadModal = ({ title, modalVisible, handleModalPress, btnTxt, actionType
         setUri(await pickImage())
         console.info('image set!');
     }
+
+    useEffect(() => {
+        if (data) {
+            setUri(data)
+        }
+        
+    }, [data])
 
     return(
         <Modal
