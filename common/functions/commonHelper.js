@@ -130,5 +130,13 @@ export const refreshUserInLocal = async (_userId) => {
 export const showAlert = (title, message) => {
   Alert.alert(title, message, [{
     text: 'Close', onPress: () => {}
-}]);
+  }]);
+}
+
+export const setCurrentLanguage = async (callBack) => {
+  const lang =  await getFromStorage(STORAGE_KEYS.CURRENT_LANGUAGE);
+
+  callBack(lang);
+
+  return lang;
 }

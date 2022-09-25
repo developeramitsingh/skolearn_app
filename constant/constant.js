@@ -135,6 +135,7 @@ export const ACTION_TYPES = {
     OPEN_TICKET: 'openTicket',
 
     OPEN_PROFILE: 'openProfile',
+    OPEN_LANGUAGE: 'openLanguage',
     OPEN_NOTIFI: 'openNotification',
 
     OPEN_ABOUT_US: 'openAboutUs',
@@ -159,6 +160,13 @@ export const STORAGE_KEYS = {
     TEMP_EXPO_PUSH_TOKEN: 'temp-expo-push-token',
 
     ALERT_READ_CACHE: 'alert-read-cache',
+
+    CURRENT_LANGUAGE: 'current-language',
+}
+
+export const LANGUAGES = {
+  ENGLISH: 'English',
+  HINDI: 'Hindi'
 }
 
 export const DASHBOARD_TEST_TABS = [{
