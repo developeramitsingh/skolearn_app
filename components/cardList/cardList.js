@@ -2,20 +2,22 @@ import { FlatList, View, Text, Pressable } from "react-native";
 import cardListStyles from "./cardListStyles";
 import { FontAwesome } from '@expo/vector-icons';
 import * as Constant from '../../constant/constant';
+import { LANGUAGES_DATA } from "../../constant/language";
 
-const showSubjects = ({subjects}, isHorizontal)=> {
+const showSubjects = ({subjects}, isHorizontal, langData)=> {
     return (
         <View style ={[cardListStyles.ROW_LEFT, { marginTop: 5 }]}>
-            <Text style={cardListStyles.CARD_LABEL_HEAD}>Subjects</Text>
+            <Text style={cardListStyles.CARD_LABEL_HEAD}>{langData?.SUBJECTS.TITLE}</Text>
             { subjects?.map(subject => (
-                <Text style={[cardListStyles.CARD_LABEL, !isHorizontal && cardListStyles.CARD_LABEL_VERT]}>{subject?.toUpperCase()}</Text>
+                <Text style={[cardListStyles.CARD_LABEL, !isHorizontal && cardListStyles.CARD_LABEL_VERT]}>{langData?.SUBJECTS?.[subject?.toUpperCase()]}</Text>
             ))}
         </View>
     )
 }
 
 const CardList = (props) => {
-    const renderCard = ({item})=> {    
+    const renderCard = ({item})=> {  
+        const langData = props?.langData;
         const testListType = props?.testType?.toLowerCase();
         const isLive  = testListType === Constant.TEST_TYPES.LIVE;
         const isMyTest = testListType === Constant.TEST_TYPES.MY_TEST;
@@ -27,24 +29,25 @@ const CardList = (props) => {
         const isTestLive = testType === Constant.TEST_TYPES.LIVE;
 
         const difficultyLevel = isLive
-            ? 'Difficulty Level'
+            ? langData?.DIFFICULTI_LEVEL?.TITLE
             : isMyTest
-            ? 'Completed on'
+            ? langData?.COMPLETED_ON
             : null;
 
+
         const difficultiLevelVal = isLive
-            ? item.difficultyLevel?.toUpperCase()
+            ? langData?.DIFFICULTI_LEVEL?.[item.difficultyLevel?.toUpperCase()]
             : isMyTest
             ? item.userCompletedOn
             : null;
 
         const btnText =
             isLive
-                ? 'Participate'
+                ? langData?.PARTICIPATE
                 : isMyTest
-                    ? 'View Result'
+                    ? langData?.VIEW_RESULT
                 : isPractice
-                ? 'Practice'
+                ? langData?.PRACTICE
                 : ''
 
         const btnStyle = {
@@ -78,8 +81,8 @@ const CardList = (props) => {
                         (isLive || isMyTest) &&
                         <View style={cardListStyles.COL_RIGHT_2}>
                             <View>
-                                <Text style={cardListStyles.LABEL_TEXT}>Test Fee</Text>
-                                <Text style={cardListStyles.FEE}>{item?.testType !== Constant.TEST_TYPES.PRACTICE ? item.entryFee : 0 } Rs.</Text>
+                                <Text style={cardListStyles.LABEL_TEXT}>{langData?.TEST_FEE}</Text>
+                                <Text style={cardListStyles.FEE}>{item?.testType !== Constant.TEST_TYPES.PRACTICE ? item.entryFee : 0 } {langData?.RS}</Text>
                             </View>
                             
                             
@@ -89,7 +92,7 @@ const CardList = (props) => {
                                 </View>
                                 
                                 <View>
-                                    <Text style={cardListStyles.LABEL_TEXT}>Users Joined</Text>
+                                    <Text style={cardListStyles.LABEL_TEXT}>{langData?.STUDENT_JOINED}</Text>
                                     {
                                         testType !== Constant.TEST_TYPES.PRACTICE 
                                             ? <Text style={cardListStyles.LABEL_TEXT}>{item.userEnrolled}/{item.userSeats}</Text>
@@ -103,14 +106,14 @@ const CardList = (props) => {
 
                 {
                     item.subjects?.length 
-                    ? showSubjects(item, isHorizontal)
+                    ? showSubjects(item, isHorizontal, langData)
                     : null
                 }
                 
 
                 {
                     isMyTest 
-                        ?  <Text style={[cardListStyles.CARD_TEST_TYPE, isTestLive && { backgroundColor: Constant.APP_COLORS.blueGreen, color: 'white' } ]}>{testType?.toUpperCase()}</Text>
+                        ?  <Text style={[cardListStyles.CARD_TEST_TYPE, isTestLive && { backgroundColor: Constant.APP_COLORS.blueGreen, color: 'white' } ]}>{langData?.[testType?.toUpperCase()]}</Text>
                         : null
                 }
             </View>

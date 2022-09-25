@@ -124,7 +124,8 @@ export const COMMON_STYLES = {
         borderColor: APP_COLORS.white,
         borderRadius: 20,
         paddingVertical: 8,
-        paddingHorizontal: 15,
+        //paddingHorizontal: 15,
+        minWidth: 100
     },
     ACTIVE: {
         backgroundColor: APP_COLORS.yellow,

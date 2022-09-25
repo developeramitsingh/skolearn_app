@@ -4,7 +4,7 @@ import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from '../../constant/constant';
 
 import backImage from '../../assets/background.png';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import {  Platform } from 'react-native';
@@ -33,6 +33,7 @@ const Home = ({navigation}) => {
 
     const checkIfUserLoggedIn = async () => {
       try {
+          console.info('checkIfUserLoggedIn called');
           //const user = await userService.getLoggedInUser();
           const user  = await getFromStorage(Constant.STORAGE_KEYS.USER);
 

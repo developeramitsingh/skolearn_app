@@ -35,7 +35,7 @@ const Drawer = ({navigation, setDrawer, user }) => {
     }, [user]);
 
     const handlePress = async (actionType) => {
-        //setDrawer(false);
+        
         if (actionType === Constant.ACTION_TYPES.OPEN_PROFILE) {
             navigation.navigate(Constant.ROUTES.PROFILE, { user });
         } else if (actionType === Constant.ACTION_TYPES.OPEN_ABOUT_US) {
@@ -48,25 +48,27 @@ const Drawer = ({navigation, setDrawer, user }) => {
 
             const langData = LANGUAGES_DATA[language];
 
-            Alert.alert(`${langData?.DRAWER.CHANGE_LANGUAGE}`,`${langData.DRAWER.CHANGE_TO}`, [
+            Alert.alert(`${langData?.DRAWER.CHANGE_LANGUAGE}`,`${langData?.DRAWER.CHANGE_TO}`, [
                 {
-                    text: langData.DRAWER.CANCEL, onPress: () => {}
+                    text: langData?.DRAWER.CANCEL, onPress: () => {}
                 },
                 {
-                    text: langData.DRAWER.CHANGE, onPress: () => {
+                    text: langData?.DRAWER.CHANGE, onPress: () => {
                         saveToStorage(Constant.STORAGE_KEYS.CURRENT_LANGUAGE, optionLang);
                         setLanguage(optionLang);
+                        navigation.navigate(Constant.ROUTES.DASHBOARD, { lang: optionLang, activeTab: Constant.TEST_TYPES.LIVE, activeScreen: Constant.SCREENS.TEST_LIST });
                     }
                 },
             ]);
         }
+        setDrawer(false);
     }
 
     return (
         <View elevation={10} style={[drawerStyles.DRAWER_CONT, { right: state?.drawerRight }]}>
             <View style={COMMON_STYLES.ROW_LEFT}>
                 <BackBtn color={Constant.APP_COLORS.appBlue} handler={()=> setDrawer(false)}/>
-                <Text style={COMMON_STYLES.ACTIVE_USER_TEXT}>{LANGUAGES_DATA[language].DRAWER.WELCOME} <Text style={COMMON_STYLES.ACTIVE_USER_TEXT}>{user?.userName}</Text></Text>
+                <Text style={COMMON_STYLES.ACTIVE_USER_TEXT}>{LANGUAGES_DATA[language]?.DRAWER.WELCOME} <Text style={COMMON_STYLES.ACTIVE_USER_TEXT}>{user?.userName}</Text></Text>
             </View>
 
             <ScrollView>
@@ -74,14 +76,14 @@ const Drawer = ({navigation, setDrawer, user }) => {
                     <Pressable style={COMMON_STYLES.CARD} onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_PROFILE)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <FontAwesome name="user-circle" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
-                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language].DRAWER.PROFILE}</Text>
+                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.PROFILE}</Text>
                         </View>
                     </Pressable>
 
                     <Pressable style={COMMON_STYLES.CARD} onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_LANGUAGE)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <FontAwesome name="language" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
-                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language].DRAWER.LANGUAGE}</Text>
+                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.LANGUAGE}</Text>
                         </View>
                     </Pressable>
                 </View>
@@ -90,7 +92,7 @@ const Drawer = ({navigation, setDrawer, user }) => {
                     <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_ABOUT_US)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <FontAwesome name="info-circle" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
-                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language].DRAWER.ABOUT_US}</Text>
+                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.ABOUT_US}</Text>
                         </View>
                     </Pressable>
 
@@ -98,7 +100,7 @@ const Drawer = ({navigation, setDrawer, user }) => {
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <FontAwesome name="question" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
                             
-                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language].DRAWER.FAQ}</Text>
+                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.FAQ}</Text>
                         </View>
                     </Pressable>
 
@@ -106,7 +108,7 @@ const Drawer = ({navigation, setDrawer, user }) => {
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <MaterialIcons name="fact-check" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue} />
                             
-                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language].DRAWER.TERMS_COND}</Text>
+                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.TERMS_COND}</Text>
                         </View>
                     </Pressable>
                 </View>
@@ -116,21 +118,21 @@ const Drawer = ({navigation, setDrawer, user }) => {
                     <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_PRIVACY_POLICY)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <MaterialIcons name="privacy-tip" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
-                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language].DRAWER.PRIVACY_POLICY}</Text>
+                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.PRIVACY_POLICY}</Text>
                         </View>
                     </Pressable>
 
                     <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_REFUND_POLICY)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <FontAwesome name="money" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
-                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language].DRAWER.REFUND_POLICY}</Text>
+                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.REFUND_POLICY}</Text>
                         </View>
                     </Pressable>
 
                     <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.LOGOUT)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <MaterialIcons name="logout" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue} />
-                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language].DRAWER.LOGOUT}</Text>
+                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.LOGOUT}</Text>
                         </View>
                     </Pressable>
                 </View>

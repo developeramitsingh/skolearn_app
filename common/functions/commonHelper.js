@@ -3,7 +3,7 @@ import * as Clipboard from 'expo-clipboard';
 import * as ImagePicker from 'expo-image-picker';
 import { sendAppLogService, userService } from '../../services';
 import { getFromStorage, saveToStorage } from '../../utils/utils';
-import { STORAGE_KEYS } from '../../constant/constant';
+import { LANGUAGES, STORAGE_KEYS } from '../../constant/constant';
 
 export const onShare = async (sharingData) => {
     try {
@@ -136,7 +136,7 @@ export const showAlert = (title, message) => {
 export const setCurrentLanguage = async (callBack) => {
   const lang =  await getFromStorage(STORAGE_KEYS.CURRENT_LANGUAGE);
 
-  callBack(lang);
+  callBack(lang || LANGUAGES.ENGLISH);
 
   return lang;
 }

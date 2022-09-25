@@ -7,11 +7,14 @@ import * as Constant from '../../../constant/constant';
 import { useEffect, useState } from 'react';
 import { testService } from '../../../services/index';
 import Loader from '../../../components/loader/loader';
+import { LANGUAGES_DATA } from '../../../constant/language';
+import { setCurrentLanguage } from '../../../common/functions/commonHelper';
 
 const LiveTestsList = ({navigation, userId })=> {
     const [megaliveDataList, setMegaLiveTestList] = useState([]);
     const [liveDataList, setLiveTestList] = useState([]);
     const [isLoading, setLoading] = useState(false);
+    const [lang, setLang] = useState();
 
     const getMegaLiveDataList = async () => {
         try {
@@ -47,6 +50,7 @@ const LiveTestsList = ({navigation, userId })=> {
     }
 
     useEffect(() => {
+        setCurrentLanguage(setLang);
         getAllTests();
     }, []);
 
@@ -82,12 +86,16 @@ const LiveTestsList = ({navigation, userId })=> {
     return (
         <View style={{ flex: 1 }}>
             <Loader isLoading={isLoading}/>
-            <Text style={testListsStyles.HEADING_WHITE}>Mega Scholarships</Text>
-            <CardList testType={ Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={{ flex: 0 }} dataList={megaliveDataList} horizontal = {true}/>
+            <Text style={testListsStyles.HEADING_WHITE}>{LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.MEGA_SCHOLAR}</Text>
+            <CardList testType={Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={{ flex: 0 }} dataList={megaliveDataList} horizontal = {true} langData={
+                LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.CARDS
+            }/>
             <View style={COMMON_STYLES.SEPARATOR}></View>
 
-            <Text style={testListsStyles.HEADING_WHITE}>Scholarships for everyone</Text>
-            <CardList testType={ Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={testListsStyles.BACK_PANEL} dataList={liveDataList} horizontal = {false}/>
+            <Text style={testListsStyles.HEADING_WHITE}>{LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.SCHOLAR_EVERYONE}</Text>
+            <CardList testType={ Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={testListsStyles.BACK_PANEL} dataList={liveDataList} horizontal = {false} langData={
+                LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.CARDS
+            }/>
         </View>
     )   
 }

@@ -4,7 +4,7 @@ import { indexStyles } from './indexStyles';
 import { useState } from 'react';
 import Chat from './chat';
 import MyTickets from './myTickets';
-import { HELP_TABS, HELP_TAB_TYPE } from '../../constant/constant';
+import { HELP_TABS, HELP_TAB_TYPE, SCREENS } from '../../constant/constant';
 import Tabs from '../../components/tabs/tabs';
 
 const Index = () => {
@@ -22,7 +22,7 @@ const Index = () => {
 
     return (
         <View style={indexStyles.CONTAINER}>
-            <Tabs tabList={ HELP_TABS } activeTab = {activeTab} setActiveTab={handleChangeTab}/>
+            <Tabs tabList={ HELP_TABS } screen='DASHBOARD' tabsIn={SCREENS.HELP} activeTab = {activeTab} setActiveTab={handleChangeTab}/>
 
             {
                 activeTab === HELP_TAB_TYPE.LIVE_CHAT 

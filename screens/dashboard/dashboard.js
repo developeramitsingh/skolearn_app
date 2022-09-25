@@ -13,6 +13,8 @@ import Wallet from '../wallet/wallet';
 import Index from '../help/index';
 import { saveToStorage, getFromStorage } from '../../utils/utils';
 import { userService, notificationsService } from '../../services';
+import { LANGUAGES_DATA } from '../../constant/language';
+import { setCurrentLanguage } from '../../common/functions/commonHelper';
 
 const Dashboard = ({navigation, route }) => {
     const [state, setState] = useState({
@@ -21,6 +23,7 @@ const Dashboard = ({navigation, route }) => {
         isNewNotifi: false,
         user: route?.params?.user
     });
+    const [lang, setLang] = useState();
 
     const getUser = async () => {
         const user = await userService.getStoredUser()
@@ -30,6 +33,7 @@ const Dashboard = ({navigation, route }) => {
     }
 
     useEffect(()=> {
+        setCurrentLanguage(setLang);
         checkIfNewNotification();
         getUser();
 
@@ -98,7 +102,7 @@ const Dashboard = ({navigation, route }) => {
     const TestList = () => {
         return (
             <>
-                <Tabs tabList = { Constant.DASHBOARD_TEST_TABS } activeTab = {route?.params?.activeTab || state.activeTab} setActiveTab={setActiveTab}/>
+                <Tabs tabList = { Constant.DASHBOARD_TEST_TABS } activeTab = {route?.params?.activeTab || state.activeTab} setActiveTab={setActiveTab} screen='DASHBOARD' tabsIn={Constant.SCREENS.TEST_LIST}/>
                 <View style={COMMON_STYLES.CONTAINER}>
                     {
                         (route?.params?.activeTab === Constant.TEST_TYPES.LIVE) || 
@@ -118,7 +122,6 @@ const Dashboard = ({navigation, route }) => {
 
     return (
         <SafeAreaView style={dashboardStyles.DASH_CONTAINER}>
-            { console.info("indashobard userId", route?.params?.user?._id || state.user?._id) }
             <StatusBar isNewNotifi={state.isNewNotifi} navigation={navigation} user ={ route?.params?.user || state.user}/>
             {
                 route?.params?.activeScreen === Constant.SCREENS.TEST_LIST 
@@ -130,7 +133,7 @@ const Dashboard = ({navigation, route }) => {
                 : <Index/>
 
             }
-            <FooterIconBar setActiveScreen ={setActiveScreen}/>
+            <FooterIconBar setActiveScreen ={setActiveScreen} langData={LANGUAGES_DATA?.[route?.params?.lang || lang]?.FOOTER_ICON_BAR}/>
         </SafeAreaView>
     )
 }

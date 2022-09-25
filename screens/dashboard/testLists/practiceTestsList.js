@@ -7,11 +7,13 @@ import * as Constant from '../../../constant/constant';
 import { useEffect, useState } from 'react';
 import { testService } from '../../../services/index';
 import Loader from '../../../components/loader/loader';
+import { LANGUAGES_DATA } from '../../../constant/language';
+import { setCurrentLanguage } from '../../../common/functions/commonHelper';
 
 const PracticeTestsList = ({navigation})=> {
     const [practiceTestsData, setPracticeListData] = useState([]);
     const [isLoading, setLoading] = useState(false);
-
+    const [lang, setLang] = useState();
 
     const getPracticeTests = async () => {
         try {
@@ -28,6 +30,7 @@ const PracticeTestsList = ({navigation})=> {
     }
 
     useEffect(() => {
+        setCurrentLanguage(setLang);
         getPracticeTests();
     }, []);
     
@@ -54,9 +57,11 @@ const PracticeTestsList = ({navigation})=> {
     return (
         <View style={testListsStyles.BACK_PANEL}>
             <Loader isLoading={isLoading}/>
-            <Text style={testListsStyles.HEADING}>Practice Tests</Text>
+            <Text style={testListsStyles.HEADING}>{LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.PRACTICE]?.PRACTICE_TESTS}</Text>
             <View style={[COMMON_STYLES.SEPARATOR, { marginHorizontal: 15 }]}></View>
-            <CardList testType={ Constant.TEST_TYPES.PRACTICE }  handleBtnPress = {handleBtnPress} customStyle={{ flex: 1 }} dataList={practiceTestsData} horizontal = {false}/>
+            <CardList testType={ Constant.TEST_TYPES.PRACTICE }  handleBtnPress = {handleBtnPress} customStyle={{ flex: 1 }} dataList={practiceTestsData} horizontal = {false} langData={
+                LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.PRACTICE]?.CARDS
+            }/>
         </View>
     )   
 }
