@@ -10,6 +10,8 @@ import testService from '../../services/testService';
 import { freeTicketsService, sendAppLogService, transactionService, walletService } from '../../services';
 import Loader from '../../components/loader/loader';
 import { generateOrderId } from '../../utils/utils';
+import { LANGUAGES_DATA } from '../../constant/language';
+import { setCurrentLanguage } from '../../common/functions/commonHelper';
 
 const Attempt = ({navigation, route }) => {
     const [state, setState] = useState({
@@ -26,8 +28,10 @@ const Attempt = ({navigation, route }) => {
     const [isLoading, setLoading] = useState(false);
     const [isDisabled, setDisabled] = useState(false);
     const backHandler = useRef();
+    const [lang, setLang] = useState();
 
     const fetchInitialData = async () => {
+        setCurrentLanguage(setLang);
         setLoading(true);
         await getWalletBalance();
         await getFreeTickets();
@@ -127,22 +131,25 @@ const Attempt = ({navigation, route }) => {
 
         //check wallet or free ticket if has then allow else not
         if (walletMoney < entryFee && !freeTickets && !isPracticeTest) {
-            showAlert('Notice', 'Wallet Money is insufficient, please add money');
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.NOTICE, LANGUAGES_DATA[lang]?.ATTEMPT?.LESS_BALANCE);
             console.log({ walletMoney, entryFee, freeTickets });
 
             return;
         }
 
-        const alertMsg= 'We need to use camera and microphone for security and transparency purpose, Please remove any headphone or headset before the test.';
+        const langData = LANGUAGES_DATA[lang];
+
+        const testReqTxt= langData?.ATTEMPT?.TEST_REQ_TEXT;
+        const textReqTitle = langData?.ATTEMPT?.TEST_REQUIREMENTS;
+        const cancelBtnTxt = langData?.ATTEMPT.CANCEL_ATTEMPT;
+        const okBtnTxt = langData?.ATTEMPT.OK_TO_PROCEED;
         
-        Alert.alert('Test Requirements', alertMsg, [
+        Alert.alert(textReqTitle, testReqTxt, [
             {
-                text: 'Cancel Attempt', onPress: () => {
-                    console.info(`cancelled`);
-                }
+                text: cancelBtnTxt, onPress: () => {}
             },
             {
-                text: 'Ok To Proceed', onPress: async () => {
+                text: okBtnTxt, onPress: async () => {
                     try {
                         setLoading(true);
                         setDisabled(true);
@@ -153,7 +160,7 @@ const Attempt = ({navigation, route }) => {
 
                             //if seats not available then exit
                             if (!seatAvailableStatus?.data?.isSeatAvailable) {
-                                showAlert('Info', 'Test seats full!. please attempt another test.');
+                                showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.ATTEMPT?.SEAT_FULL);
                                 setLoading(false);
                                 setDisabled(false);
 
@@ -170,7 +177,7 @@ const Attempt = ({navigation, route }) => {
                         //if test data not found then skip the all the cases
                         if (!testQusData?.length) {
                             console.warn(`test data not found in gnerate test questions`);
-                            showAlert('Info', 'Network failed, Please try again!');
+                            showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT);
                             setLoading(false);
                             setDisabled(false);
 
@@ -183,14 +190,14 @@ const Attempt = ({navigation, route }) => {
                                 const ticket = freeTickets - 1;
                                 freeTicketsService.updateFreeTickets({ freeTickets: ticket });
 
-                                const txnTitle = '1 Free Ticket Deducted for Attempting the Test';
+                                const txnTitle = LANGUAGES_DATA[lang]?.ATTEMPT?.TXN_TICKET_TXT;
                                 createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.FREE_TICKET_DEDUCTED_FOR_TEST);
                             } else if (state.walletMoney) {
                                 
                                 const balance = walletMoney - entryFee;
                                 walletService.updateWallet({ balance });
 
-                                const txnTitle = `${entryFee} Rs. Deducted from Wallet for Attempting the Test`;
+                                const txnTitle = `${entryFee} ${LANGUAGES_DATA[lang]?.ATTEMPT?.TXN_WALLET_TXT}`;
                                 createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.WALLET_DEDUCTED_FOR_TEST);
                             }
                         }
@@ -211,7 +218,7 @@ const Attempt = ({navigation, route }) => {
                         console.error(`error while attempting: ${err}`);
                         setLoading(false);
                         setDisabled(false);
-                        showAlert('Info', 'Network failed, Please try again!');
+                        showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT);
                     }
                 }
             },
@@ -265,7 +272,7 @@ const Attempt = ({navigation, route }) => {
                             <FontAwesome name="user-circle" size={18} style={{ marginRight: 5}} color={Constant.APP_COLORS.white} />
                         </View>
                         <View>
-                            <Text style={attemptStyles.LABEL_TEXT}>Users Joined</Text>
+                            <Text style={attemptStyles.LABEL_TEXT}>{LANGUAGES_DATA[lang]?.ATTEMPT?.STUDENTS_JOINED}</Text>
                             {
                                 state.testType === Constant.TEST_TYPES.PRACTICE 
                                     ? <Text style={attemptStyles.LABEL_TEXT}>{state.userEnrolled}</Text>
@@ -277,7 +284,7 @@ const Attempt = ({navigation, route }) => {
                     {
                         state.testType !== Constant.TEST_TYPES.PRACTICE 
                         ? <View style={attemptStyles.COL_RIGHT}>
-                            <Text style={attemptStyles.LABEL_TEXT}>Expires On</Text>
+                            <Text style={attemptStyles.LABEL_TEXT}>{LANGUAGES_DATA[lang]?.ATTEMPT?.EXPIRES_ON}</Text>
                             <Text style={attemptStyles.LABEL_TEXT}>{state.expireOn}</Text>
                         </View>
                         : null
@@ -285,8 +292,8 @@ const Attempt = ({navigation, route }) => {
             </View>
 
             <View style ={[COMMON_STYLES.CENTER, attemptStyles.highLightArea]}>
-                <Text style={attemptStyles.LABEL_TEXT_WHITE}>Wallet: {state.walletMoney} Rupees</Text>
-                <Text style={attemptStyles.LABEL_TEXT_WHITE}>Free Tickets: {state.freeTickets}</Text>
+                <Text style={attemptStyles.LABEL_TEXT_WHITE}>{LANGUAGES_DATA[lang]?.ATTEMPT?.WALLET}: {state.walletMoney} {LANGUAGES_DATA[lang]?.ATTEMPT?.RUPEES}</Text>
+                <Text style={attemptStyles.LABEL_TEXT_WHITE}>{LANGUAGES_DATA[lang]?.ATTEMPT?.FREE_TICKETS}: {state.freeTickets}</Text>
             </View>
 
             <View style ={COMMON_STYLES.CENTER}>
@@ -296,9 +303,9 @@ const Attempt = ({navigation, route }) => {
             </View>
 
             <View>
-                <Text style={[COMMON_STYLES.BODY_TITLE_WHITE, COMMON_STYLES.CENTER]}>Select Language</Text>
+                <Text style={[COMMON_STYLES.BODY_TITLE_WHITE, COMMON_STYLES.CENTER]}>{LANGUAGES_DATA[lang]?.ATTEMPT?.SELECT_LANGUAGE}</Text>
                 <View style ={COMMON_STYLES.ROW_CENTER}>
-                    <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Default (English)</Text>
+                    <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>{LANGUAGES_DATA[lang]?.ATTEMPT?.DEFAULT_ENGLISH}</Text>
                     <Switch
                         trackColor={{ false: Constant.APP_COLORS.blue, true: Constant.APP_COLORS.yellow }}
                         thumbColor={state.isLangHindi ? "#f5dd4b" : "#f4f3f4"}
@@ -306,22 +313,22 @@ const Attempt = ({navigation, route }) => {
                         onValueChange={langSwitch}
                         value={state.isLangHindi}
                     />
-                    <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Hindi</Text>
+                    <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>{LANGUAGES_DATA[lang]?.ATTEMPT?.HINDI}</Text>
                     </View>
             </View>
 
             <Pressable elevation={3} style ={[COMMON_STYLES.BTN_1, isDisabled && COMMON_STYLES.DISABLED_BTN]} onPress={handlePress} disabled={isDisabled}>
-                <Text style = {[COMMON_STYLES.BTN_TEXT, isDisabled && COMMON_STYLES.DISABLED_TXT]}>Attempt</Text>
+                <Text style = {[COMMON_STYLES.BTN_TEXT, isDisabled && COMMON_STYLES.DISABLED_TXT]}>{LANGUAGES_DATA[lang]?.ATTEMPT?.ATTEMPT}</Text>
             </Pressable>
 
             {
                 state.testType !== Constant.TEST_TYPES.PRACTICE 
                     ?   <View style ={[COMMON_STYLES.CENTER, attemptStyles.highLightArea]}>
-                            <Text style={attemptStyles.LABEL_TEXT_WHITE}>Test Fee {state.entryFee} Rupees</Text>
-                            <Text style={attemptStyles.LABEL_TEXT_WHITE}>or 1 Ticket</Text>
+                            <Text style={attemptStyles.LABEL_TEXT_WHITE}>{LANGUAGES_DATA[lang]?.ATTEMPT?.TEST_FEE} {state.entryFee} {LANGUAGES_DATA[lang]?.ATTEMPT?.RUPEES}</Text>
+                            <Text style={attemptStyles.LABEL_TEXT_WHITE}>{LANGUAGES_DATA[lang]?.ATTEMPT?.OR_1_TICKET}</Text>
                         </View>
                     :   <View style ={[COMMON_STYLES.CENTER, attemptStyles.highLightArea]}>
-                            <Text style={attemptStyles.LABEL_TEXT_WHITE}>Free Entry</Text>
+                            <Text style={attemptStyles.LABEL_TEXT_WHITE}>{LANGUAGES_DATA[lang]?.ATTEMPT?.FREE_ENTRY}</Text>
                         </View>
             }
             
@@ -330,7 +337,7 @@ const Attempt = ({navigation, route }) => {
             {
                 state.testType !== Constant.TEST_TYPES.PRACTICE 
                  ?  <View style ={COMMON_STYLES.CENTER}>
-                        <Text style={attemptStyles.LABEL_TEXT}>1 free ticket or wallet money will be deducted for attempting the test</Text>
+                        <Text style={attemptStyles.LABEL_TEXT}>{LANGUAGES_DATA[lang]?.ATTEMPT?.ATTEMPT_DESC}</Text>
                     </View>
                  : null
             }
@@ -339,7 +346,7 @@ const Attempt = ({navigation, route }) => {
                 state.testType !== Constant.TEST_TYPES.PRACTICE 
                 ? <View style ={COMMON_STYLES.CENTER}>
                     <Text style={attemptStyles.NOTICE_TEXT}>
-                        Your device camera and microphone will be enabled for security purpose, Please remove any headphone or headset before the test.
+                        {LANGUAGES_DATA[lang]?.ATTEMPT?.ATTEMPT_NOTICE}
                     </Text>
                  </View>
                 : null

@@ -1,26 +1,34 @@
 import * as Constant from './constant';
 
-const SUBJECTS_ENGLISH =  {
-    TITLE: 'Subjects',
-    GK: 'GK',
-    ENGLISH: 'ENGLISH',
-    MATHS: 'MATHS',
-    SCIENCE: 'SCIENCE',
-    HISTORY: 'HISTORY',
-    ECONOMICS: 'ECONOMICS'
-};
-
-const SUBJECTS_HINDI =  {
-    TITLE: 'विषय',
-    GK: 'जीके',
-    ENGLISH: 'अंग्रेजी',
-    MATHS: 'गणित',
-    SCIENCE: 'विज्ञान',
-    HISTORY: 'इतिहास',
-    ECONOMICS: 'अर्थशास्त्र'
+export const SUBJECTS = {
+    ENGLISH: {
+        TITLE: 'Subjects',
+        GK: 'GK',
+        ENGLISH: 'ENGLISH',
+        MATHS: 'MATHS',
+        SCIENCE: 'SCIENCE',
+        HISTORY: 'HISTORY',
+        ECONOMICS: 'ECONOMICS'
+    },
+    HINDI: {
+        TITLE: 'विषय',
+        GK: 'जीके',
+        ENGLISH: 'अंग्रेजी',
+        MATHS: 'गणित',
+        SCIENCE: 'विज्ञान',
+        HISTORY: 'इतिहास',
+        ECONOMICS: 'अर्थशास्त्र'
+    }
 };
 export const LANGUAGES_DATA = {
     [Constant.LANGUAGES.HINDI]: {
+        ALERT: {
+            INFO: 'जानकारी',
+            NOTICE: 'सूचना',
+            ERROR: 'गलती',
+            WARNING: 'संकेत',
+            ERROR_TXT: 'कुछ गलत हो गया, कृपया फिर से प्रयास करें',
+        },
         DRAWER: {
             WELCOME: 'स्वागत हे',
             PROFILE: 'प्रोफ़ाइल',
@@ -38,7 +46,7 @@ export const LANGUAGES_DATA = {
         },
         FOOTER_ICON_BAR: {
             HOME: 'होम',
-            WALLET: 'पर्स',
+            WALLET: 'वॉलेट',
             HELP: 'मदद',
         },
         
@@ -63,7 +71,7 @@ export const LANGUAGES_DATA = {
                         PARTICIPATE: 'भाग लेना',
                         TEST_FEE: 'टेस्ट शुल्क',
                         RS: 'रु.',
-                        SUBJECTS: SUBJECTS_HINDI,
+                        SUBJECTS: SUBJECTS.HINDI,
                         STUDENT_JOINED: 'छात्र शामिल हुए',
                     }
                 },
@@ -77,7 +85,7 @@ export const LANGUAGES_DATA = {
                         VIEW_RESULT: 'परिणाम देखें',
                         TEST_FEE: 'टेस्ट शुल्क',
                         RS: 'रु.',
-                        SUBJECTS: SUBJECTS_HINDI,
+                        SUBJECTS: SUBJECTS.HINDI,
                         STUDENT_JOINED: 'छात्र शामिल हुए',
                         LIVE: 'लाइव',
                         PRACTICE: 'अभ्यास'
@@ -87,7 +95,7 @@ export const LANGUAGES_DATA = {
                     PRACTICE_TESTS: 'अभ्यास टेस्ट',
                     CARDS: {
                         PRACTICE: 'अभ्यास',
-                        SUBJECTS: SUBJECTS_HINDI,
+                        SUBJECTS: SUBJECTS.HINDI,
                     }
                 },
             },
@@ -98,8 +106,53 @@ export const LANGUAGES_DATA = {
                 },
             },          
         },
+        ATTEMPT: {
+            LESS_BALANCE: 'वॉलेट मनी अपर्याप्त है, कृपया पैसा जमा करें',
+            SEAT_FULL: 'टेस्ट सीटें फुल! कृपया दूसरे टेस्ट का प्रयास करें।',
+            STUDENTS_JOINED: 'छात्र शामिल हुए',
+            EXPIRES_ON: 'समाप्त हो जाएगा',
+            WALLET: 'वॉलेट',
+            RUPEES: 'रुपये',
+            FREE_TICKETS: 'मुफ़्त टिकट',
+            SELECT_LANGUAGE: 'भाषा का चयन करें',
+            DEFAULT_ENGLISH: 'डिफ़ॉल्ट (अंग्रेज़ी)',
+            HINDI: 'हिन्दी',
+            ATTEMPT: 'प्रयास करें',
+            TEST_FEE: 'टिकट शुल्क',
+            TICKET: 'टिकट',
+            OR_1_TICKET: 'या 1 प्रयास',
+            ATTEMPT_DESC: 'टेस्ट का प्रयास करने के लिए 1 निःशुल्क टिकट या वॉलेट का पैसा काट लिया जाएगा',
+            ATTEMPT_NOTICE: 'सुरक्षा उद्देश्यों के लिए आपका डिवाइस कैमरा और माइक्रोफ़ोन चालू रहेगा, कृपया टेस्ट से पहले किसी भी हेडफ़ोन या हेडसेट को हटा दें',
+            TEST_REQUIREMENTS: 'टेस्ट आवश्यकताएँ',
+            TEST_REQ_TEXT: 'हमें सुरक्षा और पारदर्शिता उद्देश्यों के लिए कैमरे और माइक्रोफ़ोन का उपयोग करने की आवश्यकता है, कृपया टेस्ट से पहले किसी भी हेडफ़ोन या हेडसेट को हटा दें।',
+            OK_TO_PROCEED: 'ठीक है शुरू करें',
+            CANCEL_ATTEMPT: 'रद्द करें',
+            FREE_ENTRY: 'नि:शुल्क प्रवेश',
+            TXN_TICKET_TXT: 'टेस्ट देने के लिए 1 निःशुल्क टिकट काटा गया',
+            TXN_WALLET_TXT: 'रु. टेस्ट का प्रयास करने के लिए वॉलेट से काट लिया गया',
+        },
+        TIMER_SCREEN: {
+            HEADING: 'टेस्ट शुरू होने जा रहा है, तैयार रहें',
+            BODY_TXT: 'प्रश्न का उत्तर तेजी से दें',
+            BODY_TXT_2: 'क्योंकि प्रतिक्रिया समय का उपयोग रैंकिंग के लिए किया जाएगा'
+        },
+        TEST: {
+            TOTAL_SCORE: 'कुल स्कोर',
+            SCORE: 'स्कोर',
+            TOTAL_QUES: 'कुल सवाल',
+            FINISH: 'समाप्त',
+            PERMISSION: 'अनुमति की प्रतीक्षा में',
+            NO_PERMISSION: 'कैमरा या माइक्रोफ़ोन के लिए कोई एक्सेस नहीं, कृपया अनुमति दें',
+        }
     },
     [Constant.LANGUAGES.ENGLISH]: {
+        ALERT: {
+            INFO: 'Info',
+            ERROR: 'Error',
+            NOTICE: 'Notice',
+            WARNING: 'Warning',
+            ERROR_TXT: 'Something went wrong, Please Try Again',
+        },
         DRAWER: {
             WELCOME: 'Welcome',
             PROFILE: 'Profile',
@@ -141,7 +194,7 @@ export const LANGUAGES_DATA = {
                         PARTICIPATE: 'Participate',
                         TEST_FEE: 'Test Fee',
                         RS: 'Rs.',
-                        SUBJECTS: SUBJECTS_ENGLISH,
+                        SUBJECTS: SUBJECTS.ENGLISH,
                         STUDENT_JOINED: 'Students Joined',
                     }
                 },
@@ -155,7 +208,7 @@ export const LANGUAGES_DATA = {
                         VIEW_RESULT: 'View Result',
                         TEST_FEE: 'Test Fee',
                         RS: 'Rs.',
-                        SUBJECTS: SUBJECTS_ENGLISH,
+                        SUBJECTS: SUBJECTS.ENGLISH,
                         STUDENT_JOINED: 'Students Joined',
                         LIVE: 'Live',
                         PRACTICE: 'Practice'
@@ -165,7 +218,7 @@ export const LANGUAGES_DATA = {
                     PRACTICE_TESTS: 'Practice Tests',
                     CARDS: {
                         PRACTICE: 'Practice',
-                        SUBJECTS: SUBJECTS_ENGLISH,
+                        SUBJECTS: SUBJECTS.ENGLISH,
                     }
                 },
             },
@@ -176,5 +229,43 @@ export const LANGUAGES_DATA = {
                 },
             },         
         },
+        ATTEMPT: {
+            LESS_BALANCE: 'Wallet Money is insufficient, please add money',
+            SEAT_FULL: 'Test seats full!. please attempt another test.',
+            STUDENTS_JOINED: 'Students Joined',
+            EXPIRES_ON: 'Expires On',
+            WALLET: 'Wallet',
+            RUPEES: 'Repees',
+            FREE_TICKETS: 'Free Tickets',
+            SELECT_LANGUAGE: 'Select Language',
+            DEFAULT_ENGLISH: 'Default (English)',
+            HINDI: 'Hindi',
+            ATTEMPT: 'Attempt',
+            TEST_FEE: 'Test Fee',
+            TICKET: 'Ticket',
+            OR_1_TICKET: 'or 1 Ticket',
+            ATTEMPT_DESC: '1 free ticket or wallet money will be deducted for attempting the test',
+            ATTEMPT_NOTICE: 'Your device camera and microphone will be enabled for security purposes, please remove any headphones or headsets before the test',
+            TEST_REQUIREMENTS: 'Test Requirements',
+            TEST_REQ_TEXT: 'we need to use the camera and microphone for security and transparency purposes, please remove any headphones or headsets before the test.',
+            OK_TO_PROCEED: 'Ok to Proceed',
+            CANCEL_ATTEMPT: 'Cancel Attempt',
+            FREE_ENTRY: 'Free Entry',
+            TXN_TICKET_TXT: '1 Free Ticket Deducted for Attempting the Test',
+            TXN_WALLET_TXT: 'Rs. Deducted from Wallet for Attempting the Test',
+        },
+        TIMER_SCREEN: {
+            HEADING: 'Test is going to start be ready',
+            BODY_TXT: 'Answer the question fast',
+            BODY_TXT_2: 'as response timing will be used for ranking'
+        },
+        TEST: {
+            TOTAL_SCORE: 'Total Score',
+            SCORE: 'Score',
+            TOTAL_QUES: 'Total Ques',
+            FINISH: 'Finish',
+            PERMISSION: 'Waiting for Permission',
+            NO_PERMISSION: 'No Access for Camera or Microphone, Please give permission',
+        }
     }
 }

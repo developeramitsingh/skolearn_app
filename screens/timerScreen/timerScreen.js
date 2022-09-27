@@ -2,10 +2,14 @@ import { useEffect, useState, useRef } from "react";
 import { SafeAreaView, View, Text, BackHandler } from "react-native";
 import * as Constant from '../../constant/constant';
 import { timerScreenStyles } from './timerScreenStyles';
+import { LANGUAGES_DATA } from '../../constant/language';
+import { setCurrentLanguage } from '../../common/functions/commonHelper';
 
 const TimerScreen = ({navigation, route }) => {
     const [time, setTime] = useState(5);
+    const [lang, setLang] = useState();
     const backHandler = useRef();
+
     const timerToStartTest = () => {
         const timer = setInterval(()=>{
             if (time === 0) {
@@ -24,6 +28,8 @@ const TimerScreen = ({navigation, route }) => {
     }
 
     useEffect(() => {
+        setCurrentLanguage(setLang);
+
         const backAction = () => {
           console.info(`backAction called in timer screen`);
           return false;
@@ -57,12 +63,12 @@ const TimerScreen = ({navigation, route }) => {
             </View>
 
             <View style={timerScreenStyles.ROW}>
-                <Text style={timerScreenStyles.BODY_TEXT}>Test is going to start be ready</Text>
+                <Text style={timerScreenStyles.BODY_TEXT}>{LANGUAGES_DATA?.[lang]?.TIMER_SCREEN?.HEADING}</Text>
             </View>
 
             <View style={timerScreenStyles.ROW}>
-                <Text style={timerScreenStyles.BODY_TEXT}>Answer the question fast</Text>
-                <Text style={timerScreenStyles.BODY_TEXT}>as response timing will be used for ranking</Text>
+                <Text style={timerScreenStyles.BODY_TEXT}>{LANGUAGES_DATA?.[lang]?.TIMER_SCREEN?.BODY_TXT}</Text>
+                <Text style={timerScreenStyles.BODY_TEXT}>{LANGUAGES_DATA?.[lang]?.TIMER_SCREEN?.BODY_TXT_2}</Text>
             </View>
         </SafeAreaView>
     )

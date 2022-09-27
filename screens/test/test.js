@@ -5,6 +5,8 @@ import { testStyles } from './testStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS, ROUTES, TEST_TYPES, TEST_TIME_LIMIT, STORAGE_KEYS, } from "../../constant/constant";
 import { enrolledTestsService, userRecordingsService } from '../../services/index';
+import { LANGUAGES_DATA, SUBJECTS } from '../../constant/language';
+import { setCurrentLanguage } from '../../common/functions/commonHelper';
 
 import { Camera } from "expo-camera";
 import { appendToSavedStorage } from "../../utils/utils";
@@ -13,6 +15,7 @@ const Test = ({navigation, route}) => {
     let timeTimer = useRef();
     let cameraRef = useRef();
     let backHandler = useRef();
+    const [lang, setLang] = useState();
 
     const [time, setTime] = useState(TEST_TIME_LIMIT);
     const [state, setState] = useState({
@@ -165,6 +168,10 @@ const Test = ({navigation, route}) => {
             }
         }
     }
+
+    useEffect(() => {
+        setCurrentLanguage(setLang);
+    }, [])
 
     useEffect(() => {
         console.info('useEffect', { timeFinished: state.timeFinished });
@@ -378,13 +385,13 @@ const Test = ({navigation, route}) => {
         return (
             <>
                 <View style={{...COMMON_STYLES.ROW, justifyContent: 'center'}}>
-                    <Text style={COMMON_STYLES.TITLE_TEXT}>Total Score</Text>
+                    <Text style={COMMON_STYLES.TITLE_TEXT}>{LANGUAGES_DATA[lang]?.TEST?.TOTAL_SCORE}</Text>
                 </View>
                 <View style={{...COMMON_STYLES.ROW, justifyContent: 'center'}}>
                     <Text style={COMMON_STYLES.TITLE_TEXT}>{state.userScore.reduce((accum, elem)=> { return accum + elem }, 0) || 0}</Text>
                 </View>
                 <Pressable elevation={3} onPress={updateAndCloseTest} style={{...COMMON_STYLES.BTN_1, marginTop: '10%'}}>
-                    <Text style={COMMON_STYLES.BTN_TEXT}>Finish</Text>
+                    <Text style={COMMON_STYLES.BTN_TEXT}>{LANGUAGES_DATA[lang]?.TEST?.FINISH}</Text>
                 </Pressable>
             </>
         );
@@ -397,7 +404,7 @@ const Test = ({navigation, route}) => {
     ) {
         return <View style={COMMON_STYLES.CONTAINER_LIGHT_ALL_CENTER}>
             <View style ={COMMON_STYLES.ROW_CENTER}>
-                <Text style={COMMON_STYLES.BODY_TITLE_BLACK}>Waiting for permission</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE_BLACK}>{LANGUAGES_DATA[lang]?.TEST?.PERMISSION}</Text>
             </View>
         </View>;
     }
@@ -409,7 +416,7 @@ const Test = ({navigation, route}) => {
     ) {
         return <View style={COMMON_STYLES.CONTAINER_LIGHT_ALL_CENTER}>
             <View style ={COMMON_STYLES.ROW_CENTER}>
-                <Text style={COMMON_STYLES.BODY_TITLE_BLACK}>No Access to Camera or Mic</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE_BLACK}>{LANGUAGES_DATA[lang]?.TEST?.NO_PERMISSION}</Text>
             </View>
         </View>;
     }
@@ -424,14 +431,14 @@ const Test = ({navigation, route}) => {
                 !state.timeFinished &&
                 <>
                     <View style={[COMMON_STYLES.ROW, testStyles.STATUS_BAR]}>
-                        <Text style={testStyles.LABEL_TEXT}>Score: {
+                        <Text style={testStyles.LABEL_TEXT}>{LANGUAGES_DATA[lang]?.TEST?.SCORE}: {
                             state?.userScore?.[state.quesIdx] ||
                             route?.params?.previewMode && state?.userAnswered?.[state.quesIdx]?.userScore ||
                             0
                         }</Text>
 
                         <Text style={testStyles.LABEL_TEXT}>
-                            Total Ques: {testQuesData?.length}
+                            {LANGUAGES_DATA[lang]?.TEST?.TOTAL_QUES}: {testQuesData?.length}
                         </Text>
                         
                         <View style={COMMON_STYLES.ROW}> 
@@ -450,7 +457,7 @@ const Test = ({navigation, route}) => {
                     <View style={testStyles.QUES_CONT}>
                         <View style={COMMON_STYLES.ROW}>
                             <Text style={COMMON_STYLES.LABEL}>
-                                {testQuesData?.[state.quesIdx]?.subject?.toUpperCase()}
+                            {SUBJECTS[lang?.toUpperCase()]?.[testQuesData?.[state.quesIdx]?.subject?.toUpperCase()]}
                             </Text>
                         </View>
                         <View style={COMMON_STYLES.ROW}>
