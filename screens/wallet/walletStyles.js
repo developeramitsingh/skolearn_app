@@ -46,6 +46,7 @@ export const walletStyles = StyleSheet.create({
         paddingVertical: 2.5,
         paddingHorizontal: 5,
         borderRadius: 10,
+        fontWeight: 'bold'
     },
     STATUS_INITIATED: {
         backgroundColor: APP_COLORS.light_grey,
@@ -54,7 +55,7 @@ export const walletStyles = StyleSheet.create({
 
     STATUS_SUCCESS: {
         backgroundColor: APP_COLORS.green,
-        color: APP_COLORS.black,
+        color: APP_COLORS.white,
     },
 
     STATUS_FAILED: {

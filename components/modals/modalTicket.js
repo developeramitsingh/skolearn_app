@@ -6,7 +6,7 @@ import { CLOSE_MODAL} from '../../constant/constant';
 import { pickImage } from '../../common/functions/commonHelper';
 import { Entypo } from '@expo/vector-icons';
 
-const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength }) => {
+const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, fullMsgPlaceholder, closeTxt, uploadTxt }) => {
     const [state, setState] = useState({
         subject: '',
         message: '',
@@ -60,7 +60,7 @@ const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
                             maxLength={maxLength ? maxLength : null } 
                             style={[modalStyles.TEXT_INPUT_LEFT, { maxHeight: 300 }]}
                             keyboardType= {keyboardType ? keyboardType : "default"}
-                            placeholder="Enter full message here"
+                            placeholder={fullMsgPlaceholder}
                             onChangeText= {(val) => handleChange('message', val)} 
                             value={state.message}
                             multiline ={true}
@@ -75,7 +75,7 @@ const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
                             state.ticketImg 
                                 ? <Image style={modalStyles.IMAGE} source={{uri: state.ticketImg}}></Image>
                                 : <>
-                                    <Text style={COMMON_STYLES.BODY_TEXT}>Upload image (if Any)</Text>
+                                    <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>{uploadTxt}</Text>
                                     <Entypo name="upload" size={24} color="white" style={{marginVertical: 10}}/>
                                 </>
                         }
@@ -90,7 +90,7 @@ const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
                 </View>
                 <View style={modalStyles.ROW_SPREAD}>
                     <TouchableOpacity onPress={() => handleModalPress(CLOSE_MODAL)} style={COMMON_STYLES.SUB_BTN_1}>
-                        <Text style={COMMON_STYLES.BTN_TEXT}>Cancel</Text>
+                        <Text style={COMMON_STYLES.BTN_TEXT}>{closeTxt}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

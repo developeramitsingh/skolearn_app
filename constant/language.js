@@ -20,6 +20,34 @@ export const SUBJECTS = {
         ECONOMICS: 'अर्थशास्त्र'
     }
 };
+export const TXN_STATUSES = {
+    English: {
+        success: 'Success',
+        failed: 'Failed',
+        initiated: 'Initiated',
+        pending: 'Pending',
+    },
+    Hindi: {
+        success: 'सफल',
+        failed: 'असफल',
+        initiated: 'शुरू किया',
+        pending: 'अनिर्णीत',
+    }
+};
+export const TICKET_STATUSES = {
+    English: {
+        open: 'Open',
+        pending: 'Pending',
+        inprogress: 'In Progress',
+        completed: 'Completed',
+    },
+    Hindi: {
+        open: 'खुला हुआ',
+        pending: 'अनिर्णीत',
+        inprogress: 'चालू',
+        completed: 'पूरा हुआ',
+    }
+};
 export const LANGUAGES_DATA = {
     [Constant.LANGUAGES.HINDI]: {
         ALERT: {
@@ -155,6 +183,43 @@ export const LANGUAGES_DATA = {
             NAME: 'नाम',
             SCORE: 'अंक',
             SCHOLARSHIP: 'छात्रवृत्ति',
+        },
+        WALLET: {
+            TOTAL_BALANCE: 'कुल शेष',
+            RS: 'रु.',
+            FREE_TICKETS: 'मुफ्त टिकट',
+            ADD_MONEY: 'पैसे जोड़ें',
+            WITHDRAW: 'निकासी',
+            TXN_HISTORY: 'लेनदेन का रेकार्ड',
+            RAISE_TICKET: 'टिकट बनाएं',
+            ADD_MONEY_TO_WALLET: 'वॉलेट में पैसे जोड़ें',
+            ENTER_AMOUNT_TO_ADD: 'जोड़ने के लिए राशि दर्ज करें',
+            ADD: 'जोड़ें',
+            CLOSE: 'बंद करें',
+            REQUEST_WITHDRAW_MONEY: 'पैसे निकालने का अनुरोध',
+            ENTER_AMOUNT_TO_WITHDRAW: 'निकालने के लिए राशि दर्ज करें',
+            TXN_PENDING_TXT: 'लेन-देन सफल है! हालांकि, हम अभी भी बैंक से आपके भुगतान की पुष्टि कर रहे हैं। एक बार हो जाने पर हम आपको सूचित करेंगे',
+            TXN_MONEY_SUCCESS_TXT: 'वॉलेट में पैसा सफलतापूर्वक जोड़ा गया!',
+            TXN_MONEY_FAILED_TXT: 'वॉलेट में धन जोड़ने में विफल!',
+            MONEY_VALIDATION: 'राशि 0 से अधिक होनी चाहिए',
+            LESS_BALANCE_TO_WITHDRAW: 'वॉलेट का पैसा अपर्याप्त है!',
+            MONEY_WITHDRAW_SUCCESS: 'पैसे निकालने का अनुरोध बनाया गया!'
+        },
+        HELP: {
+            TICKET: {
+                CREATE_NEW_TICKET: 'नया टिकट बनाएं',
+                ENTER_SUBJECT: 'विषय दर्ज करें',
+                ENTER_FULL_MESSAGE: 'यहां पूरा संदेश दर्ज करें',
+                CREATE: 'बनाएं',
+                CANCEL: 'रद्द करें',
+                UPLOAD_TXT: 'फ़ोटो अपलोड करें (यदि कोई हो)',
+                RAISED_TICKETS: 'बनाए गए टिकट',
+                TICKET_ID: 'टिकट आईडी',
+            }
+        }, 
+        NOTIFICATIONS: {
+            NOTI_TXT: 'सूचनाएं',
+            GO_TO_LINK: 'लिंक पर जाएं'
         }
     },
     [Constant.LANGUAGES.ENGLISH]: {
@@ -290,6 +355,43 @@ export const LANGUAGES_DATA = {
             NAME: 'Name',
             SCORE: 'Score',
             SCHOLARSHIP: 'Scholarship',
+        },
+        WALLET: {
+            TOTAL_BALANCE: 'Total Balance',
+            RS: 'Rs.',
+            FREE_TICKETS: 'Free Tickets',
+            ADD_MONEY: 'Add Money',
+            WITHDRAW: 'Withdraw',
+            TXN_HISTORY: 'Transaction History',
+            RAISE_TICKET: 'Raise Ticket',
+            ADD_MONEY_TO_WALLET: 'Add Money to Wallet',
+            ENTER_AMOUNT_TO_ADD: 'Enter Amount To Add',
+            ADD: 'Add',
+            CLOSE: 'Close',
+            REQUEST_WITHDRAW_MONEY: 'Request Withdraw Money',
+            ENTER_AMOUNT_TO_WITHDRAW: 'Enter Amount To Withdraw',
+            TXN_PENDING_TXT: 'The transaction is successful! However, we are still verifying your payment from the bank. We will notify you once done',
+            TXN_MONEY_SUCCESS_TXT: 'Money Added to Wallet Successfully!',
+            TXN_MONEY_FAILED_TXT: 'Money addin to Wallet Failed!',
+            MONEY_VALIDATION: 'Amount should be greater then 0',
+            LESS_BALANCE_TO_WITHDRAW: 'Wallet money is insufficient!',
+            MONEY_WITHDRAW_SUCCESS: 'Withdraw request raised!'
+        },
+        HELP: {
+            TICKET: {
+                CREATE_NEW_TICKET: 'Raise New Ticket',
+                ENTER_SUBJECT: 'Enter Subject',
+                ENTER_FULL_MESSAGE: 'Enter Full Message Here',
+                CREATE: 'Create',
+                CANCEL: 'Cancel',
+                UPLOAD_TXT: 'Upload image (if Any)',
+                RAISED_TICKETS: 'Raised Tickets',
+                TICKET_ID: 'Ticket Id',
+            }
+        },
+        NOTIFICATIONS: {
+            NOTI_TXT: 'Notifications',
+            GO_TO_LINK: 'Go To Link'
         }
     }
 }

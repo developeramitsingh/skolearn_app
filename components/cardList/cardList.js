@@ -7,7 +7,7 @@ import { LANGUAGES_DATA } from "../../constant/language";
 const showSubjects = ({subjects}, isHorizontal, langData)=> {
     return (
         <View style ={[cardListStyles.ROW_LEFT, { marginTop: 5 }]}>
-            <Text style={cardListStyles.CARD_LABEL_HEAD}>{langData?.SUBJECTS.TITLE}</Text>
+            <Text style={cardListStyles.CARD_LABEL_HEAD}>{langData?.SUBJECTS?.TITLE}</Text>
             { subjects?.map(subject => (
                 <Text style={[cardListStyles.CARD_LABEL, !isHorizontal && cardListStyles.CARD_LABEL_VERT]}>{langData?.SUBJECTS?.[subject?.toUpperCase()]}</Text>
             ))}

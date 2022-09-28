@@ -5,7 +5,7 @@ import { COMMON_STYLES } from "../../common/styles/commonStyles";
 import { CLOSE_MODAL} from '../../constant/constant';
 import Loader from '../../components/loader/loader';
 
-const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, validRegex }) => {
+const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, validRegex, closeTxt }) => {
     const [value, setValue] = useState('');
     const [disable, setDisable] = useState(true);
 
@@ -67,7 +67,7 @@ const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
                             handleModalPress(CLOSE_MODAL)
                         }
                     } style={modalStyles.BTN}>
-                        <Text style={COMMON_STYLES.BTN_TEXT}>Close</Text>
+                        <Text style={COMMON_STYLES.BTN_TEXT}>{closeTxt}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

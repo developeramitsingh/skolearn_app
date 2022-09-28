@@ -1,18 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
-import { SafeAreaView, View, Text, ScrollView, Linking, TouchableOpacity, BackHandler } from 'react-native';
+import { SafeAreaView, View, Text, ScrollView, TouchableOpacity, BackHandler } from 'react-native';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS, ROUTES } from '../../constant/constant';
 import { notificationStyles } from './notificationStyles';
 import {  Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler';
 import BackBtn from '../../components/backBtn/backBtn';
-import { handleLinkOpen } from '../../common/functions/commonHelper';
+import { handleLinkOpen, setCurrentLanguage } from '../../common/functions/commonHelper';
 import { notificationsService } from '../../services';
+import { LANGUAGES_DATA } from '../../constant/language';
 
 const Notification = ({ navigation }) => {
     const [state, setState] = useState({
         notifications: [],
     });
     const backHandler = useRef();
+    const [lang, setLang] = useState();
 
     const getUserNotifications = async () => {
         try {
@@ -29,6 +31,7 @@ const Notification = ({ navigation }) => {
     }
 
     useEffect(() => {
+        setCurrentLanguage(setLang);
         getUserNotifications();
 
         const backAction = () => {
@@ -89,7 +92,7 @@ const Notification = ({ navigation }) => {
                             notification.link 
                             ? <View style={notificationStyles.ROW}>
                                 <TouchableOpacity onPress={ ()=> handleLinkOpen(navigation, notification.link, notification.props)} style={COMMON_STYLES.SUB_BTN_2}>
-                                    <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Go to Link</Text>
+                                    <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.NOTIFICATIONS?.GO_TO_LINK}</Text>
                                 </TouchableOpacity>
                             </View>
                             : null
@@ -104,7 +107,7 @@ const Notification = ({ navigation }) => {
         <SafeAreaView style={COMMON_STYLES.CONTAINER_BLUE}>
             <BackBtn navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
             <View style={[COMMON_STYLES.ROW_CENTER, { marginBottom: 10 }]}>
-                <Text style={COMMON_STYLES.BODY_HEADING_1_WHITE}>Notifications</Text>
+                <Text style={COMMON_STYLES.BODY_HEADING_1_WHITE}>{LANGUAGES_DATA[lang]?.NOTIFICATIONS?.NOTI_TXT}</Text>
             </View>
 
             <ScrollView style={notificationStyles.CONTAINER}>

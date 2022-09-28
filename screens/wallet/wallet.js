@@ -9,6 +9,8 @@ import AllInOneSDKManager from 'paytm_allinone_react-native';
 import { freeTicketsService, paymentGatewayService, sendAppLogService, transactionService, walletService, withdrawService } from "../../services";
 import { generateOrderId } from "../../utils/utils";
 import Loader from '../../components/loader/loader';
+import { LANGUAGES_DATA, TXN_STATUSES } from '../../constant/language';
+import { setCurrentLanguage } from '../../common/functions/commonHelper';
 
 const Wallet = ({ userId }) => {
     const [walletBalance, setWalletBalance] = useState(0);
@@ -21,6 +23,7 @@ const Wallet = ({ userId }) => {
     const [isLoading, setLoading] = useState(false);
     const [isDisabled, setDisabled] = useState(true);
     const [errOccured, setErrorOccured] = useState(false);
+    const [lang, setLang] = useState();
 
     const getWalletBalance = async () => {
         try {
@@ -67,6 +70,10 @@ const Wallet = ({ userId }) => {
     }
 
     useEffect(() => {
+        setCurrentLanguage(setLang);
+    },  [])
+
+    useEffect(() => {
         if (userId && !userUserId) {
           setUserId(userId);
         }
@@ -74,10 +81,10 @@ const Wallet = ({ userId }) => {
         fetchInitialData();
     }, [userId, walletBalance, errOccured]);
 
-    const showAlert = (msg, type) => {
+    const showAlert = (type, msg) => {
         Alert.alert(type, msg, [
             {
-                text: 'close', 'onPress': () => {}
+                text: LANGUAGES_DATA[lang]?.WALLET?.CLOSE, 'onPress': () => {}
             }
         ]);
     }
@@ -172,7 +179,7 @@ const Wallet = ({ userId }) => {
             setLoading(false);
 
             if (!getTokenData.data.success) {
-                showAlert('An Error Occured, Please try again', 'Error');
+                showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT);
 
                 return;
             }
@@ -184,7 +191,7 @@ const Wallet = ({ userId }) => {
             sendAppLogService.sendAppLogs({ txnToken });
 
             if (!txnToken) {
-                showAlert('An Error Occured, Please try again', 'Error');
+                showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT);
 
                 return;
             }
@@ -218,8 +225,7 @@ const Wallet = ({ userId }) => {
 
                 // if status is not success then return
                 if (!paymentStatus?.data?.data?.isPaymentSuccess) {
-                    const msgPending = `Transaction successfull! However we are still verifying your payment from bank. We will notify once done`;
-                    showAlert(msgPending);
+                    showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.WALLET?.TXN_PENDING_TXT);
 
                     updateTransactionStatus(orderId, userUserId, `${msgPending}::paytmTxnStatus::${paytmTxnStatus}`, TXN_STATUS.PENDING);
                     setErrorOccured(true);
@@ -241,10 +247,10 @@ const Wallet = ({ userId }) => {
                 //update the state wallet
                 setWalletBalance(totalAmount);
                 // show success transaction alert
-                showAlert(`Money Added to Wallet!`, 'Info');
+                showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.WALLET?.TXN_MONEY_SUCCESS_TXT);
             } else {
                 updateTransactionStatus(orderId, userUserId, paytmTxnStatus, TXN_STATUS.FAILED);
-                showAlert(`Transaction Failed!`, 'Warning');
+                showAlert(LANGUAGES_DATA[lang]?.ALERT.WARNING, LANGUAGES_DATA[lang]?.WALLET?.TXN_MONEY_FAILED_TXT);
                 setErrorOccured(true);
             }
 
@@ -259,7 +265,7 @@ const Wallet = ({ userId }) => {
             const errorMsg = err?.message || err?.data?.message
             updateTransactionStatus(orderId, userUserId, errorMsg, TXN_STATUS.FAILED);
 
-            showAlert(`Transaction failed!: error: ${errorMsg}`, 'Warning');
+            showAlert(LANGUAGES_DATA[lang]?.ALERT.WARNING, LANGUAGES_DATA[lang]?.WALLET?.TXN_MONEY_FAILED_TXT);
             setErrorOccured(true);
         }
     }
@@ -267,13 +273,13 @@ const Wallet = ({ userId }) => {
     const withDrawAmount = async (amount) => {
         try {
             if (!+amount) {
-                showAlert("Amount should be greater then 0", "Warning");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT.WARNING, LANGUAGES_DATA[lang]?.WALLET?.MONEY_VALIDATION);
 
                 return;
             }
 
             if (+amount > +walletBalance) {
-                showAlert("Wallet money is insufficient!", "Warning");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT.WARNING, LANGUAGES_DATA[lang]?.WALLET?.LESS_BALANCE_TO_WITHDRAW);
 
                 return;
             }
@@ -281,7 +287,7 @@ const Wallet = ({ userId }) => {
             await withdrawService.createWithdraw({ amount });
 
             setWalletBalance(+walletBalance - +amount)
-            showAlert("Withdraw request raised!", "Success");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.WALLET?.MONEY_WITHDRAW_SUCCESS);
         } catch (err) {
             console.error(`error in withDrawAmount of wallet: ${err}`);
         }
@@ -319,16 +325,15 @@ const Wallet = ({ userId }) => {
                 <View key={item._id} style={walletStyles.CARD}>
                     <View style={walletStyles.LEFT_COL}>
                         <Text style={COMMON_STYLES.BODY_TITLE}>{item.txnTitle}</Text>
-                        <Text style={walletStyles.CARD_TEXT}>{item.createdAt}</Text>
-                        <Text style={[walletStyles.CARD_TEXT, { marginTop: 10 }]}>Reference number</Text>
-                        <Text style={walletStyles.CARD_TEXT}>{item._id}</Text>
+                        <Text style={[walletStyles.CARD_TEXT, { marginTop: 10 }]}>{item.createdAt}</Text>
                     </View>
         
                     <View style={walletStyles.RIGHT_COL}>
                         <TouchableOpacity onPress ={() => setCreateTicket(true)} style={COMMON_STYLES.SUB_BTN_2}>
-                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Raise Ticket</Text>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.WALLET?.RAISE_TICKET}</Text>
                         </TouchableOpacity>
-                        <Text style={[walletStyles.TXN_STATUS, txnStatusStyle]}>{item.status}</Text>
+
+                        <Text style={[walletStyles.TXN_STATUS, txnStatusStyle]}>{TXN_STATUSES?.[lang]?.[item.status]}</Text>
                     </View>
                 </View>
                 <View style={COMMON_STYLES.SEPARATOR}></View>
@@ -340,14 +345,14 @@ const Wallet = ({ userId }) => {
     return (
         <SafeAreaView style={COMMON_STYLES.CONTAINER}>
             <Loader isLoading={isLoading}/>
-            <ModalWindow isDisabled ={isDisabled} setDisabled={setDisabled} modalVisible={showAddMoney} handleModalPress={handlePress} validRegex={/[^0-9]+/g} title="Add Money to Wallet" keyboardType='numeric' actionType= "addMoney" btnTxt = 'Add to Wallet' placeholder='Enter Amount to add'/>
+            <ModalWindow isDisabled ={isDisabled} setDisabled={setDisabled} modalVisible={showAddMoney} handleModalPress={handlePress} validRegex={/[^0-9]+/g} title={LANGUAGES_DATA[lang]?.WALLET?.ADD_MONEY_TO_WALLET} keyboardType='numeric' actionType= "addMoney" btnTxt = {LANGUAGES_DATA[lang]?.WALLET?.ADD} placeholder={LANGUAGES_DATA[lang]?.WALLET?.ENTER_AMOUNT_TO_ADD} closeTxt={LANGUAGES_DATA[lang]?.WALLET?.CLOSE}/>
 
-            <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={handlePress} title="Request Withdraw Money" keyboardType='numeric'  actionType= "withdraw"  btnTxt = 'Request Withdraw' placeholder='Enter Amount to withdraw'/>
+            <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.WALLET?.REQUEST_WITHDRAW_MONEY} keyboardType='numeric'  actionType= "withdraw"  btnTxt = {LANGUAGES_DATA[lang]?.WALLET?.WITHDRAW} placeholder={LANGUAGES_DATA[lang]?.WALLET?.ENTER_AMOUNT_TO_WITHDRAW} closeTxt={LANGUAGES_DATA[lang]?.WALLET?.CLOSE}/>
 
-            <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title="Create New Ticket" actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = 'Create' placeholder='Enter Subject'/>
+            <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE_NEW_TICKET} actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = {LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE} placeholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_SUBJECT} fullMsgPlaceholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_FULL_MESSAGE} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CANCEL} uploadTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.UPLOAD_TXT}/>
 
             <View style={{...COMMON_STYLES.ROW_CENTER, marginTop: 20 }}>
-                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Total Balance</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>{LANGUAGES_DATA[lang]?.WALLET?.TOTAL_BALANCE}</Text>
             </View>
 
             <View style={COMMON_STYLES.ROW_CENTER}>
@@ -355,22 +360,22 @@ const Wallet = ({ userId }) => {
             </View>
 
             <View style={COMMON_STYLES.ROW_CENTER}>
-                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>Free Tickets {freeTickets}</Text>
+                <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>{LANGUAGES_DATA[lang]?.WALLET?.FREE_TICKETS} {freeTickets}</Text>
             </View>
 
             <View style={[COMMON_STYLES.ROW, { marginTop: 10 }]}>
                 <TouchableOpacity  onPress={()=>setAddMoney(true)} style={COMMON_STYLES.SUB_BTN_1}>
-                    <Text style={COMMON_STYLES.SUB_BTN_TXT}>Add Money</Text>
+                    <Text style={COMMON_STYLES.SUB_BTN_TXT}>{LANGUAGES_DATA[lang]?.WALLET?.ADD_MONEY}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={()=> setWithdrawMoney(true)} style={COMMON_STYLES.SUB_BTN_1}>
-                    <Text style={COMMON_STYLES.SUB_BTN_TXT}>Withdraw</Text>
+                    <Text style={COMMON_STYLES.SUB_BTN_TXT}>{LANGUAGES_DATA[lang]?.WALLET?.WITHDRAW}</Text>
                 </TouchableOpacity>
             </View>
 
             <View style={walletStyles.CONTAINER}>
                 <View style={{...COMMON_STYLES.ROW, paddingHorizontal: 0 }}>
-                    <Text style={COMMON_STYLES.BODY_TITLE}>Transaction History</Text>
+                    <Text style={COMMON_STYLES.BODY_TITLE}>{LANGUAGES_DATA[lang]?.WALLET?.TXN_HISTORY}</Text>
                 </View>
 
                 <FlatList
