@@ -190,14 +190,16 @@ const Attempt = ({navigation, route }) => {
                                 const ticket = freeTickets - 1;
                                 freeTicketsService.updateFreeTickets({ freeTickets: ticket });
 
-                                const txnTitle = LANGUAGES_DATA[lang]?.ATTEMPT?.TXN_TICKET_TXT;
+                                const txnTitle = '1 Free Ticket Deducted for Attempting the Test';
+                                //const txnTitle = LANGUAGES_DATA[lang]?.ATTEMPT?.TXN_TICKET_TXT;
                                 createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.FREE_TICKET_DEDUCTED_FOR_TEST);
                             } else if (state.walletMoney) {
                                 
                                 const balance = walletMoney - entryFee;
                                 walletService.updateWallet({ balance });
 
-                                const txnTitle = `${entryFee} ${LANGUAGES_DATA[lang]?.ATTEMPT?.TXN_WALLET_TXT}`;
+                                const txnTitle = `${entryFee} Rs. Deducted from Wallet for Attempting the Test`;
+                                //const txnTitle = `${entryFee} ${LANGUAGES_DATA[lang]?.ATTEMPT?.TXN_WALLET_TXT}`;
                                 createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.WALLET_DEDUCTED_FOR_TEST);
                             }
                         }
