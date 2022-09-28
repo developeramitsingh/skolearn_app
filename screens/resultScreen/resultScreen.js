@@ -9,6 +9,8 @@ import BackBtn from "../../components/backBtn/backBtn";
 import { enrolledTestsService, testService } from "../../services";
 import Loader from '../../components/loader/loader';
 import { getFromStorage, saveToStorage } from "../../utils/utils";
+import { LANGUAGES_DATA } from '../../constant/language';
+import { setCurrentLanguage } from '../../common/functions/commonHelper';
 
 const ResultScreen = ({navigation, route }) => {
     const [testData, setTestData] = useState(null);
@@ -16,6 +18,7 @@ const ResultScreen = ({navigation, route }) => {
     const [scholarShipBreakUp, setBreakUpData] = useState(null);
     const [isLoading, setLoading] = useState(false);
     const backHandler = useRef();
+    const [lang, setLang] = useState();
 
     const getTestByTestId = async () => {
         try {
@@ -112,6 +115,7 @@ const ResultScreen = ({navigation, route }) => {
     }
 
     useEffect(() => {
+        setCurrentLanguage(setLang);
         const backAction = () => {
             console.info(`backAction called in result screen`);
             navigation.navigate(Constant.ROUTES.DASHBOARD);
@@ -169,12 +173,12 @@ const ResultScreen = ({navigation, route }) => {
                 {
                     testData?.testType !== Constant.TEST_TYPES.PRACTICE 
                         ?   <>
-                                <Text style={resultScreenStyles.LABEL_TEXT}>Participant Joined: <Text>{(testData?.userEnrolled || '') + '/'} {testData?.userSeats || ''}</Text>
+                                <Text style={resultScreenStyles.LABEL_TEXT}>{LANGUAGES_DATA[lang]?.RESULT_SCREEN?.STUDENTS_JOINED}: <Text>{(testData?.userEnrolled || '') + '/'} {testData?.userSeats || ''}</Text>
                                 </Text>
-                                <Text style={resultScreenStyles.LABEL_TEXT}>Test Fee: <Text>{testData?.entryFee || ''}</Text>
+                                <Text style={resultScreenStyles.LABEL_TEXT}>{LANGUAGES_DATA[lang]?.RESULT_SCREEN?.TEST_FEE}: <Text>{testData?.entryFee || ''}</Text>
                                 </Text>
                             </>
-                        :   <Text style={resultScreenStyles.LABEL_TEXT}>Participant Joined: <Text>{(testData?.userEnrolled || '')}</Text>
+                        :   <Text style={resultScreenStyles.LABEL_TEXT}>{LANGUAGES_DATA[lang]?.RESULT_SCREEN?.STUDENTS_JOINED}: <Text>{(testData?.userEnrolled || '')}</Text>
                             </Text>
                 }
                 
@@ -185,10 +189,10 @@ const ResultScreen = ({navigation, route }) => {
             </View>
 
             <Pressable elevation={3} onPress = {handlePress} style={COMMON_STYLES.BTN_1}>
-                <Text style={COMMON_STYLES.BTN_TEXT}>View Solution</Text>
+                <Text style={COMMON_STYLES.BTN_TEXT}>{LANGUAGES_DATA[lang]?.RESULT_SCREEN?.VIEW_SOLUTION}</Text>
             </Pressable>
 
-            <LeaderBoard leaderBoardData={leaderBoardData} scholarShipBreakUp={scholarShipBreakUp} enrolledId={route?.params?.enrolledId} testType={testData?.testType}/>
+            <LeaderBoard leaderBoardData={leaderBoardData} scholarShipBreakUp={scholarShipBreakUp} enrolledId={route?.params?.enrolledId} testType={testData?.testType} LANGUAGES_DATA={LANGUAGES_DATA[lang]}/>
         </SafeAreaView>
     )
 }

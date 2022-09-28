@@ -137,12 +137,24 @@ export const LANGUAGES_DATA = {
             BODY_TXT_2: 'क्योंकि प्रतिक्रिया समय का उपयोग रैंकिंग के लिए किया जाएगा'
         },
         TEST: {
-            TOTAL_SCORE: 'कुल स्कोर',
-            SCORE: 'स्कोर',
+            TOTAL_SCORE: 'कुल अंक',
+            SCORE: 'अंक',
             TOTAL_QUES: 'कुल सवाल',
             FINISH: 'समाप्त',
             PERMISSION: 'अनुमति की प्रतीक्षा में',
             NO_PERMISSION: 'कैमरा या माइक्रोफ़ोन के लिए कोई एक्सेस नहीं, कृपया अनुमति दें',
+        },
+        RESULT_SCREEN: {
+            YOU: '(आप)',
+            STUDENTS_JOINED: 'छात्र शामिल हुए',
+            TEST_FEE: 'टेस्ट शुल्क',
+            VIEW_SOLUTION: 'समाधान देखें',
+            LEADERBOARD: 'लीडरबोर्ड',
+            BREAKUP: 'छात्रवृत्ति ब्रेकअप',
+            RANK: 'श्रेणी',
+            NAME: 'नाम',
+            SCORE: 'अंक',
+            SCHOLARSHIP: 'छात्रवृत्ति',
         }
     },
     [Constant.LANGUAGES.ENGLISH]: {
@@ -266,6 +278,18 @@ export const LANGUAGES_DATA = {
             FINISH: 'Finish',
             PERMISSION: 'Waiting for Permission',
             NO_PERMISSION: 'No Access for Camera or Microphone, Please give permission',
+        },
+        RESULT_SCREEN: {
+            YOU: '(You)',
+            STUDENTS_JOINED: 'Students Joined',
+            TEST_FEE: 'Test Fee',
+            VIEW_SOLUTION: 'View Solution',
+            LEADERBOARD: 'Leaderboard',
+            BREAKUP: 'Scholarship Breakup',
+            RANK: 'Rank',
+            NAME: 'Name',
+            SCORE: 'Score',
+            SCHOLARSHIP: 'Scholarship',
         }
     }
 }

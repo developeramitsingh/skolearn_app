@@ -10,7 +10,7 @@ const TAB_TYPE = {
     LEATHER_BOARD: 'leaderBoard',
     SCHOLARSHIP_BREAKUP: 'scholarshipBreakup'
 }
-const LeaderBoardContent = ({data, activeTab, enrolledId, testType })=> {
+const LeaderBoardContent = ({data, activeTab, enrolledId, testType, LANGUAGES_DATA })=> {
     const [userRankData, setUserRankData] = useState([]);
     const [userId, setUserId] = useState(null);
 
@@ -53,7 +53,7 @@ const LeaderBoardContent = ({data, activeTab, enrolledId, testType })=> {
                     {
                         isleaderBoardTab &&
                         <>
-                            <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>{item?.userId?.userName} {forCurrentUser && '(You)'}</Text>
+                            <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>{item?.userId?.userName} {forCurrentUser && LANGUAGES_DATA?.RESULT_SCREEN?.YOU}</Text>
                             <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>{item.score ?? '-'}</Text>
                         </>
                     }
@@ -85,12 +85,12 @@ const LeaderBoardContent = ({data, activeTab, enrolledId, testType })=> {
         <View style={{flex: 1}}>
             <View style={{...COMMON_STYLES.ROW, borderBottomWidth: 1, borderBottomColor: Constant.APP_COLORS.light_grey }}>
                 <View style={[leaderBoardStyles.BODY_LEFT_COL, !isTestLive && { width: '100%'}]}>
-                    <Text style={leaderBoardStyles.TAB_BTN_TEXT}>Rank</Text>
+                    <Text style={leaderBoardStyles.TAB_BTN_TEXT}>{LANGUAGES_DATA?.RESULT_SCREEN?.RANK}</Text>
                     {
                         isleaderBoardTab &&
                         <>
-                            <Text style={leaderBoardStyles.TAB_BTN_TEXT}>Name</Text>
-                            <Text style={leaderBoardStyles.TAB_BTN_TEXT}>Score</Text>
+                            <Text style={leaderBoardStyles.TAB_BTN_TEXT}>{LANGUAGES_DATA?.RESULT_SCREEN?.NAME}</Text>
+                            <Text style={leaderBoardStyles.TAB_BTN_TEXT}>{LANGUAGES_DATA?.RESULT_SCREEN?.SCORE}</Text>
                         </>
                     }  
                     
@@ -99,7 +99,7 @@ const LeaderBoardContent = ({data, activeTab, enrolledId, testType })=> {
                 {
                     isTestLive
                         ?   <View style={leaderBoardStyles.BODY_RIGHT_COL}>
-                                <Text style={leaderBoardStyles.TAB_BTN_TEXT}>Scholarship</Text>
+                                <Text style={leaderBoardStyles.TAB_BTN_TEXT}>{LANGUAGES_DATA?.RESULT_SCREEN?.SCHOLARSHIP}</Text>
                             </View>
                         : null
                 }
@@ -134,7 +134,7 @@ const LeaderBoardContent = ({data, activeTab, enrolledId, testType })=> {
     )
 }
 
-const LeaderBoard = ({leaderBoardData, scholarShipBreakUp, enrolledId, testType }) => {
+const LeaderBoard = ({leaderBoardData, scholarShipBreakUp, enrolledId, testType, LANGUAGES_DATA }) => {
     const [activeTab, setActive] = useState(TAB_TYPE.LEATHER_BOARD);
     const btnStyles = {
         btn: {...leaderBoardStyles.TAB_BTN, },
@@ -153,19 +153,19 @@ const LeaderBoard = ({leaderBoardData, scholarShipBreakUp, enrolledId, testType 
         <View style={leaderBoardStyles.LEATHER_BOARD_CONT_LIGHT}>
             <View style={leaderBoardStyles.BOARD_ROW}>
                 <Pressable onPress={()=>handleChangeTab(TAB_TYPE.LEATHER_BOARD)} style={[btnStyles.btn, activeTab === TAB_TYPE.LEATHER_BOARD && btnStyles.btnActive, !isLiveTest && { width: '100%'}]}>
-                    <Text style={[btnStyles.btnTxt, activeTab === TAB_TYPE.LEATHER_BOARD && btnStyles.btnTxtActive ]}>LeaderBoard</Text>
+                    <Text style={[btnStyles.btnTxt, activeTab === TAB_TYPE.LEATHER_BOARD && btnStyles.btnTxtActive ]}>{LANGUAGES_DATA?.RESULT_SCREEN?.LEADERBOARD}</Text>
                 </Pressable>
 
                 {
                     isLiveTest
                         ?   <Pressable onPress={()=>handleChangeTab('scholarshipBreakup')} style={[btnStyles.btn, activeTab === TAB_TYPE.SCHOLARSHIP_BREAKUP && btnStyles.btnActive]}>
-                                <Text style={[btnStyles.btnTxt, activeTab === TAB_TYPE.SCHOLARSHIP_BREAKUP && btnStyles.btnTxtActive]}>Scholarship Breakup</Text>
+                                <Text style={[btnStyles.btnTxt, activeTab === TAB_TYPE.SCHOLARSHIP_BREAKUP && btnStyles.btnTxtActive]}>{LANGUAGES_DATA?.RESULT_SCREEN?.BREAKUP}</Text>
                             </Pressable>
                         : null
                 }
             </View>
 
-            <LeaderBoardContent data={activeTab === TAB_TYPE.LEATHER_BOARD ? leaderBoardData : scholarShipBreakUp} activeTab={activeTab} enrolledId={enrolledId} testType={testType}/>
+            <LeaderBoardContent data={activeTab === TAB_TYPE.LEATHER_BOARD ? leaderBoardData : scholarShipBreakUp} activeTab={activeTab} enrolledId={enrolledId} testType={testType} LANGUAGES_DATA={LANGUAGES_DATA}/>
         </View>
     )
 };
