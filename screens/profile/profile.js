@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Image, Alert, SafeAreaView, View, Text, TouchableWithoutFeedback, Pressable, ScrollView, BackHandler } from 'react-native';
 import { profileStyles } from './profileStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
-import { onShare, copyToClipboard, pickImage, refreshUserInLocal, showAlert } from '../../common/functions/commonHelper';
+import { onShare, copyToClipboard, pickImage, refreshUserInLocal, showAlert, setCurrentLanguage } from '../../common/functions/commonHelper';
 import { APP_COLORS, ROUTES, CLOSE_MODAL, ACTION_TYPES, SHARE_TEXT, STORAGE_KEYS } from '../../constant/constant';
 import UploadModal from '../../components/modals/uploadModal';
 import ModalWindow from '../../components/modals/modalWindow';
@@ -12,6 +12,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { sendAppLogService, userDocsService, userService } from '../../services';
 import { getFromStorage } from '../../utils/utils';
 import Loader from '../../components/loader/loader';
+import { LANGUAGES_DATA } from '../../constant/language';
 
 const Profile = ({navigation, route}) => {
     const [state, setState] = useState({
@@ -30,6 +31,7 @@ const Profile = ({navigation, route}) => {
     const [userDocsStatus, setUserDocsStatus] = useState(null);
     const [isLoading, setLoading] = useState(false);
     const backHandler = useRef();
+    const [lang, setLang] = useState();
 
 
     const getUser = async () => {
@@ -57,6 +59,7 @@ const Profile = ({navigation, route}) => {
     }
 
     useEffect(() => {
+        setCurrentLanguage(setLang);
         getUser();
         getUserDocsStatus();
 
@@ -310,32 +313,32 @@ const Profile = ({navigation, route}) => {
 
             <View elevation={2} style={profileStyles.SUB_CONT}>
                 <View style={profileStyles.ROW_CENTER}>
-                    <Text style={profileStyles.HEADING}>Hi {state.userName}
+                    <Text style={profileStyles.HEADING}>{LANGUAGES_DATA[lang]?.PROFILE?.WELCOME_TXT} {state.userName}
                     </Text>
-                    <Text style={COMMON_STYLES.BODY_TEXT}>Total Scholarship Achieved: {state.totalScholarship} </Text>
+                    <Text style={COMMON_STYLES.BODY_TEXT}>{LANGUAGES_DATA[lang]?.PROFILE?.TOTAL_ACHIEVED}: {state.totalScholarship} </Text>
                 </View>
                 <View style={[profileStyles.ROW_CENTER, { marginTop: 10 }]}>
                     <Pressable elevation={2} onPress={()=> setProfileEdit(!showProfileEdit)} style={[COMMON_STYLES.SUB_BTN_1, { marginVertical: 10 }]}>
-                        <Text style={COMMON_STYLES.SUB_BTN_TXT}>Edit User Name</Text>
+                        <Text style={COMMON_STYLES.SUB_BTN_TXT}>{LANGUAGES_DATA[lang]?.PROFILE?.EDIT_PROFILE}</Text>
                     </Pressable>
                 </View>
                 
                 <View style={profileStyles.ROW_CENTER}>
                     <Pressable elevation={2} onPress={()=>onShare(SHARE_TEXT)} style={[COMMON_STYLES.BTN_1, { width: '100%', backgroundColor: APP_COLORS.blueGreen }]}>
-                        <Text style={[COMMON_STYLES.SUB_BTN_TXT, { color: 'white', fontWeight: 'bold'}]}>Refer and get 1 free ticket</Text>
+                        <Text style={[COMMON_STYLES.SUB_BTN_TXT, { color: 'white', fontWeight: 'bold'}]}>{LANGUAGES_DATA[lang]?.PROFILE?.REFER_TXT}</Text>
                     </Pressable>
 
                     <View style={[COMMON_STYLES.ROW_COLUMN, profileStyles.REFER_BOX]}>
-                        <Text style={profileStyles.HEADING}>Referral Code: <Text>
+                        <Text style={profileStyles.HEADING}>{LANGUAGES_DATA[lang]?.PROFILE?.REFERRAL_CODE}: <Text>
                                 {route?.params?.user?.referralCode}
                             </Text>
                         </Text>
                         <View style={[COMMON_STYLES.ROW, { marginVertical: 5 }]}>
                             <Pressable elevation={2}  onPress={()=> handlePress('onReferralCodeCopy')} style={[COMMON_STYLES.SUB_BTN_2, { backgroundColor: APP_COLORS.blueGreen }]}>
-                                <Text style={[COMMON_STYLES.SUB_BTN_TXT_2_W]}>Copy Code</Text>
+                                <Text style={[COMMON_STYLES.SUB_BTN_TXT_2_W]}>{LANGUAGES_DATA[lang]?.PROFILE?.COPY_CODE}</Text>
                             </Pressable>
                             <Pressable elevation={2} onPress={()=> handlePress('onLinkCopy')} style={[COMMON_STYLES.SUB_BTN_2, { marginLeft: 5, backgroundColor: APP_COLORS.blueGreen}]}>
-                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2_W}>Copy Referral Link</Text>
+                                <Text style={COMMON_STYLES.SUB_BTN_TXT_2_W}>{LANGUAGES_DATA[lang]?.PROFILE?.COPY_REFERRAL_LINK}</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -346,36 +349,36 @@ const Profile = ({navigation, route}) => {
                         <Loader isLoading={isLoading}/>
                     }
                     <View style={profileStyles.BOX}>
-                        <Text style={profileStyles.BODY_TEXT}>Bank</Text>
+                        <Text style={profileStyles.BODY_TEXT}>{LANGUAGES_DATA[lang]?.PROFILE?.BANK}</Text>
 
                         <Pressable elevation={1} onPress={()=> setBankDetail(!showBankDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
-                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.PROFILE?.UPDATE_DETAIL}</Text>
                         </Pressable>
 
                         <Pressable elevation={1} onPress={()=> setShowBankUploadModal(!showBankUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
-                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.PROFILE?.UPLOAD}</Text>
                         </Pressable>
                         <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.bankStatus || 'Not Updated'}</Text>
                     </View>
 
                     <View style={profileStyles.BOX}>
-                        <Text style={profileStyles.BODY_TEXT}>Pancard</Text>
+                        <Text style={profileStyles.BODY_TEXT}>{LANGUAGES_DATA[lang]?.PROFILE?.PANCARD}</Text>
 
                         <Pressable elevation={1} onPress={()=> setPanDetail(!showPanDetailModal)} style={COMMON_STYLES.SUB_BTN_2}>
-                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Update Detail</Text>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.PROFILE?.UPDATE_DETAIL}</Text>
                         </Pressable>
 
                         <Pressable elevation={1} onPress={()=> setPanUploadModal(!showPanUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
-                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.PROFILE?.UPLOAD}</Text>
                         </Pressable>
                         <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.panStatus || 'Not Updated'}</Text>
                     </View>
 
                     <View style={profileStyles.BOX}>
-                        <Text style={profileStyles.BODY_TEXT}>Student Document</Text>
+                        <Text style={profileStyles.BODY_TEXT}>{LANGUAGES_DATA[lang]?.PROFILE?.STUDENT_DOC}</Text>
 
                         <Pressable elevation={1} onPress={()=> setStudentDocu(!showStudentDoc)} style={COMMON_STYLES.SUB_BTN_2}>
-                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>Upload</Text>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.PROFILE?.UPLOAD}</Text>
                         </Pressable>
                         <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.studentIdStatus || 'Not Updated'}</Text>
                     </View>

@@ -220,8 +220,29 @@ export const LANGUAGES_DATA = {
         NOTIFICATIONS: {
             NOTI_TXT: 'सूचनाएं',
             GO_TO_LINK: 'लिंक पर जाएं'
+        },
+        PROFILE: {
+            WELCOME_TXT: 'नमस्ते',
+            TOTAL_ACHIEVED: 'कुल छात्रवृत्ति प्राप्त हुई',
+            EDIT_PROFILE: 'उपयोगकर्ता नाम संपादित करें',
+            EDIT_PROFILE_INPUT: 'अपना नया उपयोगकर्ता नाम दर्ज करें',
+            UPDATE: 'अपडेट',
+            CLOSE: 'बंद करें',
+            REFER_TXT: 'रेफ़र करें और 1 निःशुल्क टिकट प्राप्त करें',
+            REFERRAL_CODE: 'रेफ़रल कोड',
+            REFERRAL_CODE_COPIED: 'रेफ़रल कोड कॉपी किया गया',
+            SHARING_LINK_COPIED: 'शेयरिंग लिंक कॉपी किया गया',
+            COPY_CODE: 'कोड कॉपी करें',
+            COPY_REFERRAL_LINK: 'रेफ़रल लिंक कॉपी करें',
+            BANK: 'बैंक',
+            PANCARD: 'पैनकार्ड',
+            UPDATE_DETAIL: 'विवरण अपडेट करें',
+            UPLOAD: 'अपलोड',
+            PENDING_VERFI: 'लंबित सत्यापन',
+            STUDENT_DOC: 'छात्र दस्तावेज़'
         }
     },
+
     [Constant.LANGUAGES.ENGLISH]: {
         ALERT: {
             INFO: 'Info',
@@ -392,6 +413,26 @@ export const LANGUAGES_DATA = {
         NOTIFICATIONS: {
             NOTI_TXT: 'Notifications',
             GO_TO_LINK: 'Go To Link'
+        },
+        PROFILE: {
+            WELCOME_TXT: 'Hi',
+            TOTAL_ACHIEVED: 'Total Scholarship Acheived',
+            EDIT_PROFILE: 'Edit User Name',
+            EDIT_PROFILE_INPUT: 'Enter Your New User Name',
+            UPDATE: 'Update',
+            CLOSE: 'Close', 
+            REFER_TXT: 'Refer and get 1 Free Ticket',
+            REFERRAL_CODE: 'Referral Code',
+            REFERRAL_CODE_COPIED: 'Referral Code Copied',
+            SHARING_LINK_COPIED: 'Sharing Link Copied',
+            COPY_CODE: 'Copy Code',
+            COPY_REFERRAL_LINK: 'Copy Referral Link',
+            BANK: 'Bank',
+            PANCARD: 'Pancard',
+            UPDATE_DETAIL: 'Update Detail',
+            UPLOAD: 'Upload',
+            PENDING_VERFI: 'Pending Verfication',
+            STUDENT_DOC: 'Student Document'
         }
     }
 }
