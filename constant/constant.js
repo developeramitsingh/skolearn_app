@@ -27,17 +27,10 @@ export const APP_COLORS = {
     lightGrey2: '#f7f7f7',
 };
 
-<<<<<<< HEAD
-const PROD_URL= 'https://f741-43-239-207-152.in.ngrok.io';
-const STAGE_URL= 'https://f741-43-239-207-152.in.ngrok.io';
-const DEV_URL= 'https://f741-43-239-207-152.in.ngrok.io';
-const BETA_URL= 'https://f741-43-239-207-152.in.ngrok.io';
-=======
 const PROD_URL= 'https://skolearn.herokuapp.com';
 const STAGE_URL= 'https://skolearn.herokuapp.com';
-const DEV_URL= 'https://d69a-2405-204-3099-865-59ec-d101-c1a-e112.in.ngrok.io';
+const DEV_URL= 'https://0465-43-239-207-244.in.ngrok.io';
 const BETA_URL= 'https://skolearn.herokuapp.com';
->>>>>>> 10f09cf2153ed42582b1591d50f5e88d1471d00e
 
 function getEnvUrl() {
   try {
