@@ -35,6 +35,7 @@ const cardListStyles = StyleSheet.create({
         //alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        paddingBottom: 5,
     },
     ROW_LEFT: {
         display: 'flex',
@@ -43,7 +44,7 @@ const cardListStyles = StyleSheet.create({
         justifyContent: 'flex-start',
     },
     COL_RIGHT: {
-        backgroundColor: APP_COLORS.lightBlue,
+        backgroundColor: APP_COLORS.lightGrey2,
         paddingHorizontal: 5,
         justifyContent: 'center',
         maxHeight: 40,
@@ -55,8 +56,7 @@ const cardListStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         flex: 1,
-        justifyContent: 'space-between',
-        paddingLeft: 20,
+        //justifyContent: 'space-between',
     },
     COL_RIGHT_SUB: {
         flexDirection: 'row',

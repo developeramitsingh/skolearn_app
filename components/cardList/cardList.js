@@ -72,20 +72,9 @@ const CardList = (props) => {
                 </View>
 
                 <View style ={cardListStyles.ROW}>
-                    <View style={cardListStyles.COL_LEFT_2}>
-                        <Pressable elevation={2} onPress={() => props?.handleBtnPress(item._id, item.enrolledId)} style= {btnStyle.btn}>
-                            <Text style = {btnStyle.btnTxt}>{btnText}</Text>
-                        </Pressable>
-                    </View>
                     { 
                         (isLive || isMyTest) &&
-                        <View style={cardListStyles.COL_RIGHT_2}>
-                            <View>
-                                <Text style={cardListStyles.LABEL_TEXT}>{langData?.TEST_FEE}</Text>
-                                <Text style={cardListStyles.FEE}>{item?.testType !== Constant.TEST_TYPES.PRACTICE ? item.entryFee : 0 } {langData?.RS}</Text>
-                            </View>
-                            
-                            
+                        <>
                             <View style = {cardListStyles.COL_RIGHT_SUB}>
                                 <View>
                                     <FontAwesome name="user-circle" size={18} style={{ marginRight: 5}} color={isHorizontal ? Constant.APP_COLORS.white : Constant.APP_COLORS.lightBlue} />
@@ -99,9 +88,18 @@ const CardList = (props) => {
                                             : <Text style={cardListStyles.LABEL_TEXT}>{item.userEnrolled}</Text>
                                     }
                                 </View>
-                            </View>    
-                        </View>
+                            </View>   
+                            <View>
+                                <Text style={cardListStyles.LABEL_TEXT}>{langData?.TEST_FEE}</Text>
+                                <Text style={cardListStyles.FEE}>{item?.testType !== Constant.TEST_TYPES.PRACTICE ? item.entryFee : 0 } {langData?.RS}</Text>
+                            </View> 
+                        </>
                     }
+                    <View>
+                        <Pressable elevation={2} onPress={() => props?.handleBtnPress(item._id, item.enrolledId)} style= {btnStyle.btn}>
+                            <Text style = {btnStyle.btnTxt}>{btnText}</Text>
+                        </Pressable>
+                    </View>
                 </View>
 
                 {
