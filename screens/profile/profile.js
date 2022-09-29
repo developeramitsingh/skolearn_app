@@ -141,7 +141,7 @@ const Profile = ({navigation, route}) => {
             console.log('uploading.... bank');
             
             const isSuccess = await uploadUserDocs('bankImg', payload, {
-                'bankStatus': 'Pending Verification', 
+                'bankStatus': 'PENDING_VERIFICATION', 
                 'isBankVerified': false 
             });
 
@@ -160,7 +160,7 @@ const Profile = ({navigation, route}) => {
         } else if(actionType === ACTION_TYPES.UPLOAD_PAN) {
             console.log('uploading.... pan');
             const isSuccess = await uploadUserDocs('panImg', payload, { 
-                'panStatus': 'Pending Verification',
+                'panStatus': 'PENDING_VERIFICATION',
                 'isPanVerified': false 
             });
             if (!isSuccess) {
@@ -178,7 +178,7 @@ const Profile = ({navigation, route}) => {
         } else if(actionType === ACTION_TYPES.UPLOAD_STUDENT_ID) {
             console.log('uploading.... student doc');
             const isSuccess = await uploadUserDocs('studentIdImg', payload, { 
-                'studentIdStatus': 'Pending Verification', 
+                'studentIdStatus': 'PENDING_VERIFICATION', 
                 'isStudentIdVerified': false 
             });
             if (!isSuccess) {
@@ -211,7 +211,7 @@ const Profile = ({navigation, route}) => {
             setProfileEdit(false);
         } else if(actionType === ACTION_TYPES.UPDATE_BANK_DETAIL) {
             console.log('updating bank details', payload);
-            const isSuccess = await updateUserDocs({ ...payload, isBankVerified: false, bankStatus: 'Pending Verification' });
+            const isSuccess = await updateUserDocs({ ...payload, isBankVerified: false, bankStatus: 'PENDING_VERIFICATION' });
 
             if (!isSuccess) {
                 showAlert('Error', "Error While Updating the Bank Details., Please try again!");
@@ -227,7 +227,7 @@ const Profile = ({navigation, route}) => {
             getUserDocsStatus();
         } else if(actionType === ACTION_TYPES.UPDATE_PAN_DETAIL) {
             console.log('updating pan card details', payload);
-            const isSuccess = await updateUserDocs({ ...payload, isPanVerified: false, panStatus: 'Pending Verification' });
+            const isSuccess = await updateUserDocs({ ...payload, isPanVerified: false, panStatus: 'PENDING_VERIFICATION' });
 
             if (!isSuccess) {
                 showAlert('Error', "Error While Updating the Pan Details., Please try again!");
@@ -364,7 +364,7 @@ const Profile = ({navigation, route}) => {
                         <Pressable elevation={1} onPress={()=> setShowBankUploadModal(!showBankUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
                             <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.PROFILE?.UPLOAD}</Text>
                         </Pressable>
-                        <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.bankStatus || 'Not Updated'}</Text>
+                        <Text style={profileStyles.BODY_TEXT}>{LANGUAGES_DATA[lang]?.PROFILE?.STATUS[userDocsStatus?.bankStatus] || LANGUAGES_DATA[lang]?.PROFILE?.STATUS?.NOT_SUBMITTED}</Text>
                     </View>
 
                     <View style={profileStyles.BOX}>
@@ -377,7 +377,7 @@ const Profile = ({navigation, route}) => {
                         <Pressable elevation={1} onPress={()=> setPanUploadModal(!showPanUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
                             <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.PROFILE?.UPLOAD}</Text>
                         </Pressable>
-                        <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.panStatus || 'Not Updated'}</Text>
+                        <Text style={profileStyles.BODY_TEXT}>{LANGUAGES_DATA[lang]?.PROFILE?.STATUS[userDocsStatus?.panStatus] || LANGUAGES_DATA[lang]?.PROFILE?.STATUS?.NOT_SUBMITTED}</Text>
                     </View>
 
                     <View style={profileStyles.BOX}>
@@ -386,7 +386,7 @@ const Profile = ({navigation, route}) => {
                         <Pressable elevation={1} onPress={()=> setStudentDocu(!showStudentDoc)} style={COMMON_STYLES.SUB_BTN_2}>
                             <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.PROFILE?.UPLOAD}</Text>
                         </Pressable>
-                        <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.studentIdStatus || 'Not Updated'}</Text>
+                        <Text style={profileStyles.BODY_TEXT}>{LANGUAGES_DATA[lang]?.PROFILE?.STATUS[userDocsStatus?.studentIdStatus] || LANGUAGES_DATA[lang]?.PROFILE?.STATUS?.NOT_SUBMITTED}</Text>
                     </View>
                 </ScrollView>
             </View>

@@ -242,6 +242,12 @@ export const LANGUAGES_DATA = {
             STUDENT_DOC: 'छात्र दस्तावेज़',
             ENTER_FULL_NAME: 'अपना पूरा नाम दर्ज करें',
             CHOOSE_PHOTO: 'फोटो चुनें',
+            STATUS: {
+                PENDING_VERIFICATION: 'सत्यापन लंबित',
+                VERIFIED: 'सत्यापित',
+                FAILED: 'विफल',
+                NOT_SUBMITTED: 'सबमिट नहीं किया गया'
+            },
             BANK_MODAL: {
                 HEADING: 'बैंक विवरण अपडेट करें',
                 ENTER_FULL_NAME: 'अपना पूरा नाम दर्ज करें',
@@ -484,6 +490,12 @@ export const LANGUAGES_DATA = {
             STUDENT_DOC: 'Student Document',
             ENTER_FULL_NAME: 'Enter Your Full Name',
             CHOOSE_PHOTO: 'Choose Photo',
+            STATUS: {
+                PENDING_VERIFICATION: 'Pending Verification',
+                VERIFIED: 'Verified',
+                FAILED: 'Failed',
+                NOT_SUBMITTED: 'Not Submitted'
+            },
             BANK_MODAL: {
                 HEADING: 'Update Bank Details',
                 ENTER_BANK_NAME: 'Enter Bank Name',
