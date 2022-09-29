@@ -239,7 +239,56 @@ export const LANGUAGES_DATA = {
             UPDATE_DETAIL: 'विवरण अपडेट करें',
             UPLOAD: 'अपलोड',
             PENDING_VERFI: 'लंबित सत्यापन',
-            STUDENT_DOC: 'छात्र दस्तावेज़'
+            STUDENT_DOC: 'छात्र दस्तावेज़',
+            ENTER_FULL_NAME: 'अपना पूरा नाम दर्ज करें',
+            CHOOSE_PHOTO: 'फोटो चुनें',
+            BANK_MODAL: {
+                HEADING: 'बैंक विवरण अपडेट करें',
+                ENTER_FULL_NAME: 'अपना पूरा नाम दर्ज करें',
+                ENTER_BANK_NAME: 'बैंक का नाम दर्ज करें',
+                ENTER_ACCOUNT: 'बैंक खाता संख्या दर्ज करें',
+                ENTER_IFSC: 'बैंक आईएफएससी कोड दर्ज करें',
+                ERROR_TXTS: {
+                    INIT: {
+                        userNameInBank: 'नाम आवश्यक है',
+                        bankName: 'बैंक का नाम आवश्यक है',
+                        bankAccountNum: 'बैंक खाता संख्या आवश्यक है',
+                        bankIfscCode: 'बैंक IFSC कोड आवश्यक है',
+                    },
+                    INVALID: {
+                        userNameInBank: 'नाम आवश्यक है',
+                        bankName: 'बैंक का नाम आवश्यक है',
+                        bankAccountNum: 'बैंक खाता संख्या आवश्यक है',
+                        bankIfscCode: 'बैंक IFSC कोड आवश्यक है',
+                    }
+                }
+            },
+            PAN_MODAL: {
+                HEADING: 'पैन कार्ड विवरण अपडेट करें',
+                ENTER_FULL_NAME: 'अपना पूरा नाम दर्ज करें',
+                ENTER_PAN: 'पैन कार्ड नंबर दर्ज करें',
+                ERROR_TXTS: {
+                    INIT: {
+                        userNameInPan: 'नाम आवश्यक है',
+                        panNum: 'पैन नंबर आवश्यक है',
+                    },
+                    INVALID: {
+                        userNameInPan: 'नाम आवश्यक है',
+                        panNum: 'पैन नंबर आवश्यक है',
+                    }
+                }
+            },
+            BANK_UPLOAD_MODAL: {
+                HEADING: 'बैंक पासबुक/चेक/स्टेटमेंट अपलोड करें',
+                NOTICE: 'फोटो में बैंक खाता संख्या और नाम होना चाहिए'
+            },
+            PAN_UPLOAD_MODAL: {
+                HEADING: 'पैन कार्ड अपलोड करें',
+            },
+            STUDENT_DOC_MODAL: {
+                HEADING: 'छात्र दस्तावेज अपलोड करें',
+                NOTICE: 'स्वीकृत प्रकार: वर्तमान वर्ष के छात्र आईडी कार्ड या आवेदन पत्र या संस्थान / कॉलेज / स्कूल के विवरण के लिए शुल्क पर्ची'
+            }
         }
     },
 
@@ -432,7 +481,54 @@ export const LANGUAGES_DATA = {
             UPDATE_DETAIL: 'Update Detail',
             UPLOAD: 'Upload',
             PENDING_VERFI: 'Pending Verfication',
-            STUDENT_DOC: 'Student Document'
+            STUDENT_DOC: 'Student Document',
+            ENTER_FULL_NAME: 'Enter Your Full Name',
+            CHOOSE_PHOTO: 'Choose Photo',
+            BANK_MODAL: {
+                HEADING: 'Update Bank Details',
+                ENTER_BANK_NAME: 'Enter Bank Name',
+                ENTER_ACCOUNT: 'Enter Bank Account Number',
+                ENTER_IFSC: 'Enter Bank IFSC Code',
+                ERROR_TXTS: {
+                    INIT: {
+                        userNameInBank: 'Name is required',
+                        bankName: 'Bank name is required',
+                        bankAccountNum: 'Bank account number is required',
+                        bankIfscCode: 'Bank IFSC code is required',
+                    },
+                    INVALID: {
+                        userNameInBank: 'Name is invalid',
+                        bankName: 'Bank Name is invalid',
+                        bankAccountNum: 'Bank Account Number is invalid',
+                        bankIfscCode: 'IFSC code is invalid',
+                    }
+                }
+            },
+            PAN_MODAL: {
+                HEADING: 'Update Pan Card Details',
+                ENTER_PAN: 'Enter Pan Card Number',
+                ERROR_TXTS: {
+                    INIT: {
+                        userNameInPan: 'Name is required',
+                        panNum: 'Pan number is required',
+                    },
+                    INVALID: {
+                        userNameInPan: 'Name is invalid',
+                        panNum: 'Pan Number is invalid',
+                    }
+                }
+            },
+            BANK_UPLOAD_MODAL: {
+                HEADING: 'Upload Bank Passbook/Cheque/Statement',
+                NOTICE: 'Image should contain bank account number and name'
+            },
+            PAN_UPLOAD_MODAL: {
+                HEADING: 'Upload Pan Card',
+            },
+            STUDENT_DOC_MODAL: {
+                HEADING: 'Upload Student Document',
+                NOTICE: '"Allowed types are current year student id card or fee slip or application form or details of institute/college/school'
+            }
         }
     }
 }

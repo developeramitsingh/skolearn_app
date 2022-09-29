@@ -6,16 +6,11 @@ import { ACTION_TYPES, CLOSE_MODAL} from '../../constant/constant';
 import { checkAndGetIfErrorFound } from "../../common/functions/commonHelper";
 import Loader from "../loader/loader";
 
-const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt, actionType, keyboardType, maxLength, modalType }) => {
+const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt, actionType, keyboardType, maxLength, modalType, placeholderTxts, closeTxt, errorTxts }) => {
     const [state, setState] = useState({
         ...(data && data),
         errors: {
-            userNameInBank: 'Name is required',
-            bankName: 'Bank name is required',
-            bankAccountNum: 'Bank account number is required',
-            bankIfscCode: 'Bank IFSC code is required',
-            userNameInPan: 'Name is required',
-            panNum: 'Pan number is required',
+            ...errorTxts?.INIT,
         },
         error: '',
         disabled: true,
@@ -40,25 +35,25 @@ const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt,
             if (val?.length >= 3) {
                 errors[inputName] = ''
             } else {
-                errors[inputName] = 'User Name/Bank Name is invalid'
+                errors[inputName] = errorTxts?.INVALID?.[inputName];
             }
         } else if (inputName === 'bankAccountNum') {
             if (val?.length >= 11) {
                 errors[inputName] = ''
             } else {
-                errors[inputName] = 'Bank Account Number is invalid'
+                errors[inputName] = errorTxts?.INVALID?.[inputName]
             }
         } else if (inputName === 'bankIfscCode') {
             if (val?.length && val.match(/^[A-Z]{4}0[A-Z0-9]{6}$/)) {
                 errors[inputName] = ''
             } else {
-                errors[inputName] = 'IFSC code is invalid'
+                errors[inputName] = errorTxts?.INVALID?.[inputName]
             }
         } else if (inputName === 'panNum') {
             if (val?.length && val.match(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)) {
                 errors[inputName] = ''
             } else {
-                errors[inputName] = 'Pan Number is invalid'
+                errors[inputName] = errorTxts?.INVALID?.[inputName]
             }
         }
  
@@ -90,7 +85,7 @@ const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt,
                         maxLength={maxLength ? maxLength : null } 
                         style={modalStyles.TEXT_INPUT}
                         keyboardType= {keyboardType ? keyboardType : "default"}
-                        placeholder={"Enter Your Full Name"}
+                        placeholder={placeholderTxts?.ENTER_FULL_NAME}
                         onChangeText= {(val)=> handleChange('userNameInBank', val)} 
                         value={state.userNameInBank}
                     />
@@ -102,7 +97,7 @@ const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt,
                         maxLength={maxLength ? maxLength : null } 
                         style={modalStyles.TEXT_INPUT}
                         keyboardType= {keyboardType ? keyboardType : "default"}
-                        placeholder={"Enter Bank Name"}
+                        placeholder={placeholderTxts?.ENTER_BANK_NAME}
                         onChangeText= {(val)=> handleChange('bankName', val)} value={state.bankName}
                     />
                 </View>
@@ -113,7 +108,7 @@ const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt,
                         maxLength={17} 
                         style={modalStyles.TEXT_INPUT}
                         keyboardType= {"numeric"}
-                        placeholder={"Enter Bank Account number"}
+                        placeholder={placeholderTxts?.ENTER_ACCOUNT}
                         onChangeText= {(val)=> handleChange('bankAccountNum', val)} value={state.bankAccountNum}
                     />
                 </View>
@@ -124,7 +119,7 @@ const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt,
                         maxLength={11} 
                         style={modalStyles.TEXT_INPUT}
                         keyboardType= {keyboardType ? keyboardType : "default"}
-                        placeholder={"Enter bank IFSC code"}
+                        placeholder={placeholderTxts?.ENTER_IFSC}
                         onChangeText= {(val)=> handleChange('bankIfscCode', val)} value={state.bankIfscCode}
                     />
                 </View>
@@ -141,7 +136,7 @@ const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt,
                         maxLength={maxLength ? maxLength : null } 
                         style={modalStyles.TEXT_INPUT}
                         keyboardType= {keyboardType ? keyboardType : "default"}
-                        placeholder={"Enter Your Full Name"}
+                        placeholder={placeholderTxts?.ENTER_FULL_NAME}
                         onChangeText= {(val)=> handleChange('userNameInPan', val)} 
                         value={state.userNameInPan}
                     />
@@ -153,7 +148,7 @@ const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt,
                         maxLength={10} 
                         style={modalStyles.TEXT_INPUT}
                         keyboardType= {"default"}
-                        placeholder={"Enter Pan Card Number"}
+                        placeholder={placeholderTxts?.ENTER_PAN}
                         onChangeText= {(val)=> handleChange('panNum', val)} 
                         value={state.panNum}
                     />
@@ -194,7 +189,7 @@ const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt,
 
                 <View style={COMMON_STYLES.ROW}>
                     <TouchableOpacity onPress={() => handleModalPress(CLOSE_MODAL)} style={COMMON_STYLES.SUB_BTN_1}>
-                        <Text style={COMMON_STYLES.SUB_BTN_TXT}>Close</Text>
+                        <Text style={COMMON_STYLES.SUB_BTN_TXT}>{closeTxt}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

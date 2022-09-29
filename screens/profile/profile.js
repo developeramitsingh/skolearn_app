@@ -289,17 +289,23 @@ const Profile = ({navigation, route}) => {
     return (
         <SafeAreaView style={profileStyles.CONTAINER}>
             <BackBtn navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
-            <ModalWindow modalVisible={showProfileEdit} actionType='updateProfile' handleModalPress={handlePress} title="Edit User Name" btnTxt = 'Update' placeholder='Enter your new user name'/>
+            <ModalWindow modalVisible={showProfileEdit} actionType='updateProfile' handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.PROFILE?.EDIT_PROFILE} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
+            UPDATE} placeholder={LANGUAGES_DATA[lang]?.PROFILE?.EDIT_PROFILE_INPUT} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE}/>
 
-            <UploadModal data={userDocsStatus?.bankIdImgUrl} modalVisible={showBankUploadModal} actionType={ACTION_TYPES.UPLOAD_BANK_ID} handleModalPress={handlePress} title="Upload Bank Passbook/cheque/bank statement" btnTxt = 'Upload' info="Image should contain bank account number and name"/>
+            <UploadModal data={userDocsStatus?.bankIdImgUrl} modalVisible={showBankUploadModal} actionType={ACTION_TYPES.UPLOAD_BANK_ID} handleModalPress={handlePress} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
+            UPLOAD} info={LANGUAGES_DATA[lang]?.PROFILE?.BANK_UPLOAD_MODAL?.NOTICE} title={LANGUAGES_DATA[lang]?.PROFILE?.BANK_UPLOAD_MODAL?.HEADING} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE} choosePhotoTxt={LANGUAGES_DATA[lang]?.PROFILE?.CHOOSE_PHOTO}/>
 
-            <UploadModal data={userDocsStatus?.panImgUrl} modalVisible={showPanUploadModal} actionType={ACTION_TYPES.UPLOAD_PAN} handleModalPress={handlePress} title="Upload Pan Card" btnTxt = 'Upload'/>
+            <UploadModal data={userDocsStatus?.panImgUrl} modalVisible={showPanUploadModal} actionType={ACTION_TYPES.UPLOAD_PAN} handleModalPress={handlePress} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
+            UPLOAD} title={LANGUAGES_DATA[lang]?.PROFILE?.PAN_UPLOAD_MODAL?.HEADING} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE} choosePhotoTxt={LANGUAGES_DATA[lang]?.PROFILE?.CHOOSE_PHOTO}/>
 
-            <UploadModal data={userDocsStatus?.studentIdImgUrl} modalVisible={showStudentDoc} actionType={ACTION_TYPES.UPLOAD_STUDENT_ID} handleModalPress={handlePress} title="Upload Student Document" btnTxt = 'Upload' info="Allowed types are current year student id card or fee slip or application form or details of institute/college/school"/>
+            <UploadModal data={userDocsStatus?.studentIdImgUrl} modalVisible={showStudentDoc} actionType={ACTION_TYPES.UPLOAD_STUDENT_ID} handleModalPress={handlePress} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
+            UPLOAD} title={LANGUAGES_DATA[lang]?.PROFILE?.STUDENT_DOC_MODAL?.HEADING} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE} choosePhotoTxt={LANGUAGES_DATA[lang]?.PROFILE?.CHOOSE_PHOTO} info={LANGUAGES_DATA[lang]?.PROFILE?.STUDENT_DOC_MODAL?.NOTICE}/>
 
-            <ModalBankPanCard data={userDocsStatus} modalVisible={showBankDetailModal} actionType={ACTION_TYPES.UPDATE_BANK_DETAIL} handleModalPress={handlePress} title="Update Bank Account Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_BANK_DETAIL}/>
+            <ModalBankPanCard data={userDocsStatus} modalVisible={showBankDetailModal} actionType={ACTION_TYPES.UPDATE_BANK_DETAIL} handleModalPress={handlePress} modalType={ACTION_TYPES.UPDATE_BANK_DETAIL} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
+            UPDATE} title={LANGUAGES_DATA[lang]?.PROFILE?.BANK_MODAL?.HEADING} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE} placeholderTxts={LANGUAGES_DATA[lang]?.PROFILE?.BANK_MODAL} errorTxts ={LANGUAGES_DATA[lang]?.PROFILE?.BANK_MODAL?.ERROR_TXTS}/>
 
-            <ModalBankPanCard data={userDocsStatus} modalVisible={showPanDetailModal} actionType={ACTION_TYPES.UPDATE_PAN_DETAIL} handleModalPress={handlePress} title="Update Pan Card Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_PAN_DETAIL}/>
+            <ModalBankPanCard data={userDocsStatus} modalVisible={showPanDetailModal} actionType={ACTION_TYPES.UPDATE_PAN_DETAIL} handleModalPress={handlePress} modalType={ACTION_TYPES.UPDATE_PAN_DETAIL} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
+            UPDATE} title={LANGUAGES_DATA[lang]?.PROFILE?.BANK_MODAL?.HEADING} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE} placeholderTxts={LANGUAGES_DATA[lang]?.PROFILE?.PAN_MODAL} errorTxts ={LANGUAGES_DATA[lang]?.PROFILE?.PAN_MODAL?.ERROR_TXTS}/>
 
             <View style={profileStyles.ROW_CENTER}>
                 <Pressable onPress={setPickedImage} style={profileStyles.PROFILE_IMG}>
