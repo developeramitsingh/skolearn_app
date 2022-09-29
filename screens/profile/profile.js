@@ -132,11 +132,11 @@ const Profile = ({navigation, route}) => {
         if(actionType === 'onReferralCodeCopy') {
             copyToClipboard(state.referralCode);
             
-            showAlert('', `Referral Code Copied!: ${state.referralCode}`);
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, `${LANGUAGES_DATA[lang]?.PROFILE?.REFERRAL_CODE_COPIED}: ${state.referralCode}`);
         } else if(actionType === 'onLinkCopy') {
             copyToClipboard(SHARE_TEXT);
 
-            showAlert('', "Sharing link Copied!");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SHARING_LINK_COPIED);
         } else if(actionType === ACTION_TYPES.UPLOAD_BANK_ID) {
             console.log('uploading.... bank');
             
@@ -146,11 +146,11 @@ const Profile = ({navigation, route}) => {
             });
 
             if (!isSuccess) {
-                showAlert('Error', "Error While Uploading Image., Please try again!");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT?.ERROR, LANGUAGES_DATA[lang]?.PROFILE?.ERROR_COMMON?.ERROR_UPLOAD);
                 return;
             }
 
-            showAlert('Success', "Bank Photo Updated Successfully!");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SUCCESS_COMMON?.SUCCESS_BANK);
 
             setState(prev => {
                 return { ...prev, bankImg: true }
@@ -164,11 +164,11 @@ const Profile = ({navigation, route}) => {
                 'isPanVerified': false 
             });
             if (!isSuccess) {
-                showAlert('Error', "Error While Uploading Image., Please try again!");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT?.ERROR, LANGUAGES_DATA[lang]?.PROFILE?.ERROR_COMMON?.ERROR_UPLOAD);
                 return;
             }
 
-            showAlert('Success', "Pan Photo Updated Successfully!");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SUCCESS_COMMON?.SUCCESS_PAN);
 
             setState(prev => {
                 return { ...prev, panImg: true }
@@ -182,11 +182,11 @@ const Profile = ({navigation, route}) => {
                 'isStudentIdVerified': false 
             });
             if (!isSuccess) {
-                showAlert('Error', "Error While Uploading Image., Please try again!");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT?.ERROR, LANGUAGES_DATA[lang]?.PROFILE?.ERROR_COMMON?.ERROR_UPLOAD);
                 return;
             }
 
-            showAlert('Success', "Student Id Photo Updated Successfully!");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SUCCESS_COMMON?.SUCCESS_ID);
 
             setState(prev => {
                 return { ...prev, studentIdImg: true }
@@ -199,12 +199,12 @@ const Profile = ({navigation, route}) => {
             const isSuccess = await updateUser(data);
 
             if(!isSuccess) {
-                showAlert('Error', "An Error Occured, Please try again!");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT?.ERROR, LANGUAGES_DATA[lang]?.PROFILE?.ERROR_COMMON?.ERROR);
 
                 return
             }
 
-            showAlert('Success', "Profile Updated Successfully");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SUCCESS_COMMON?.SUCCESS_PROFILE);
             setState(prev => {
                 return { ...prev, userName: payload }
             });
@@ -214,11 +214,12 @@ const Profile = ({navigation, route}) => {
             const isSuccess = await updateUserDocs({ ...payload, isBankVerified: false, bankStatus: 'PENDING_VERIFICATION' });
 
             if (!isSuccess) {
-                showAlert('Error', "Error While Updating the Bank Details., Please try again!");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.ERROR_COMMON?.ERROR_BANK_DETAILS);
+
                 return;
             }
 
-            showAlert('Success', "Bank Account Details Updated Successfully!");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SUCCESS_COMMON?.SUCCESS_BANK_DETAILS);
 
             setState(prev => {
                 return { ...prev, ...payload }
@@ -230,13 +231,13 @@ const Profile = ({navigation, route}) => {
             const isSuccess = await updateUserDocs({ ...payload, isPanVerified: false, panStatus: 'PENDING_VERIFICATION' });
 
             if (!isSuccess) {
-                showAlert('Error', "Error While Updating the Pan Details., Please try again!");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.ERROR_COMMON?.ERROR_PAN_DETAILS);
 
                 return;
             }
 
 
-            showAlert('Success', "Pan Card Details Updated Successfully!");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SUCCESS_COMMON?.SUCCESS_PAN_DETAILS);
 
             setState(prev => {
                 return { ...prev, panDetail: payload }

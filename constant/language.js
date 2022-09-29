@@ -56,6 +56,7 @@ export const LANGUAGES_DATA = {
             ERROR: 'गलती',
             WARNING: 'संकेत',
             ERROR_TXT: 'कुछ गलत हो गया, कृपया फिर से प्रयास करें',
+            SUCCESS: 'सफल'
         },
         DRAWER: {
             WELCOME: 'स्वागत हे',
@@ -238,12 +239,26 @@ export const LANGUAGES_DATA = {
             PANCARD: 'पैनकार्ड',
             UPDATE_DETAIL: 'विवरण अपडेट करें',
             UPLOAD: 'अपलोड',
-            PENDING_VERFI: 'लंबित सत्यापन',
+            PENDING_VERFI: 'अपूर्ण सत्यापन',
             STUDENT_DOC: 'छात्र दस्तावेज़',
             ENTER_FULL_NAME: 'अपना पूरा नाम दर्ज करें',
             CHOOSE_PHOTO: 'फोटो चुनें',
+            SUCCESS_COMMON: {
+                SUCCESS_BANK: 'बैंक फ़ोटो सफलतापूर्वक अपडेट किया गया!',
+                SUCCESS_PAN: 'पैन फ़ोटो सफलतापूर्वक अपडेट किया गया!',
+                SUCCESS_ID: 'छात्र आईडी फ़ोटो सफलतापूर्वक अपडेट किया गया!',
+                SUCCESS_PROFILE: 'प्रोफ़ाइल सफलतापूर्वक अपडेट की गई',
+                SUCCESS_BANK_DETAILS: 'बैंक खाता विवरण सफलतापूर्वक अपडेट किया गया!',
+                SUCCESS_PAN_DETAILS: 'पैन कार्ड का विवरण सफलतापूर्वक अपडेट किया गया!',
+            },
+            ERROR_COMMON: {
+                ERROR_UPLOAD: 'फोटो अपलोड करते समय त्रुटि।, कृपया पुन: प्रयास करें!',
+                ERROR: 'कुछ गलत हो गया, कृपया पुन: प्रयास करें!',
+                ERROR_BANK_DETAILS: 'बैंक विवरण अपडेट करते समय त्रुटि।, कृपया पुन: प्रयास करें!',
+                ERROR_PAN_DETAILS: 'पैन विवरण अपडेट करते समय त्रुटि।, कृपया पुन: प्रयास करें!',
+            },
             STATUS: {
-                PENDING_VERIFICATION: 'सत्यापन लंबित',
+                PENDING_VERIFICATION: 'सत्यापन अपूर्ण',
                 VERIFIED: 'सत्यापित',
                 FAILED: 'विफल',
                 NOT_SUBMITTED: 'सबमिट नहीं किया गया'
@@ -305,6 +320,7 @@ export const LANGUAGES_DATA = {
             NOTICE: 'Notice',
             WARNING: 'Warning',
             ERROR_TXT: 'Something went wrong, Please Try Again',
+            SUCCESS: 'Success'
         },
         DRAWER: {
             WELCOME: 'Welcome',
@@ -490,6 +506,20 @@ export const LANGUAGES_DATA = {
             STUDENT_DOC: 'Student Document',
             ENTER_FULL_NAME: 'Enter Your Full Name',
             CHOOSE_PHOTO: 'Choose Photo',
+            SUCCESS_COMMON: {
+                SUCCESS_BANK: 'Bank Photo Updated Successfully!',
+                SUCCESS_PAN: 'Pan Photo Updated Successfully!',
+                SUCCESS_ID: 'Student Id Photo Updated Successfully!',
+                SUCCESS_PROFILE: 'Profile Updated Successfully',
+                SUCCESS_BANK_DETAILS: 'Bank Account Details Updated Successfully!',
+                SUCCESS_PAN_DETAILS: 'PAN Card Details Updated Successfully!',
+            },
+            ERROR_COMMON: {
+                ERROR_UPLOAD: 'Error While Uploading Image., Please try again!',
+                ERROR: 'Something went wrong, Please try again!',
+                ERROR_BANK_DETAILS: 'Error While Updating the Bank Details., Please try again!',
+                ERROR_PAN_DETAILS: 'Error While Updating the Pan Details., Please try again!',
+            },
             STATUS: {
                 PENDING_VERIFICATION: 'Pending Verification',
                 VERIFIED: 'Verified',
