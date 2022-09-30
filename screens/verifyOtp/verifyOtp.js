@@ -1,12 +1,14 @@
 import { View, Text, Image, Pressable, SafeAreaView, TextInput } from 'react-native';
 import { verifyOtpStyles } from './verifyOtpStyles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from  '../../constant/constant';
 import userService from '../../services/userService';
 import { saveToStorage } from '../../utils/utils';
 import Loader from '../../components/loader/loader';
+import { LANGUAGES_DATA } from '../../constant/language';
+import { setCurrentLanguage } from '../../common/functions/commonHelper';
 
 const VerifyOtp = ({navigation, route }) => {
     const [state, setState] = useState({
@@ -15,6 +17,11 @@ const VerifyOtp = ({navigation, route }) => {
         error: '',
         isLoading: false,
     });
+    const [lang, setLang] = useState();
+
+    useEffect(() => {
+        setCurrentLanguage(setLang);
+    }, []);
 
     const handleVerify = async ()=> {
         // disable verify button
@@ -46,7 +53,7 @@ const VerifyOtp = ({navigation, route }) => {
         } catch (err) {
             console.error(`error while login`, err);
             const msg = err?.response?.data?.message;
-            setState((prev) => { return {...prev, error: msg, disabled: false, isLoading: false }});
+            setState((prev) => { return {...prev, error: LANGUAGES_DATA[lang]?.VERIFY_OTP?.ERRORS?.OTP_VALID, disabled: false, isLoading: false }});
         }
     }
 
@@ -67,14 +74,14 @@ const VerifyOtp = ({navigation, route }) => {
         <Loader isLoading={state.isLoading}/>
        <Image style ={verifyOtpStyles.logo} source={{ uri: Constant.ASSEST_URLS.LOGO }}/>
         <Text style={[COMMON_STYLES.TITLE_TEXT, COMMON_STYLES.MARGIN_TOP]}>
-                Verify OTP
+                {LANGUAGES_DATA[lang]?.VERIFY_OTP?.HEADING}
         </Text>
 
         <View style={verifyOtpStyles.verifyOtpContainter}>
-            <TextInput placeholderTextColor ="#333333" style={COMMON_STYLES.TEXT_INPUT} placeholder="Type here OTP" keyboardType="numeric" onChangeText={handleChange} maxLength={6} value={state.otp}/>
+            <TextInput placeholderTextColor ="#333333" style={COMMON_STYLES.TEXT_INPUT} placeholder= {LANGUAGES_DATA[lang]?.VERIFY_OTP?.PLACEHOLDER} keyboardType="numeric" onChangeText={handleChange} maxLength={6} value={state.otp}/>
 
             <Pressable elevation={3} disabled={state.disabled} onPress= {handleVerify} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN]}>
-                <Text style={[COMMON_STYLES.BTN_TEXT, state.disabled && COMMON_STYLES.DISABLED_TEXT]}>Verify</Text>
+                <Text style={[COMMON_STYLES.BTN_TEXT, state.disabled && COMMON_STYLES.DISABLED_TEXT]}>{LANGUAGES_DATA[lang]?.VERIFY_OTP?.BTN_TXT}</Text>
             </Pressable>
 
             <Text style={[COMMON_STYLES.ERROR_TXT, COMMON_STYLES.MARGIN_TOP]}>{state.error}</Text>
