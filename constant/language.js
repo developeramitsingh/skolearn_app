@@ -58,6 +58,52 @@ export const LANGUAGES_DATA = {
             ERROR_TXT: 'कुछ गलत हो गया, कृपया फिर से प्रयास करें',
             SUCCESS: 'सफल'
         },
+        HOME: {
+            HEADING: 'भारत का पहला ऑनलाइन छात्रवृत्ति परीक्षा मंच',
+            LOGIN_TXT: 'लॉगिन',
+            REGISTER_TXT: 'रजिस्टर',
+            TERMS_TXT: 'जारी रखकर आप इससे सहमत होते हैं',
+            TERMS_LINK: 'नियम और शर्तें',
+        },
+        LOGIN: {
+            HEADING: 'लॉगिन',
+            PLACEHOLDER: 'यहां मोबाइल टाइप करें',
+            BTN_TXT: 'लॉगिन',
+            ERRORS: {
+                USER_NOT_FOUND: 'उपयोगकर्ता नहीं मिला कृपया पहले पंजीकरण करें',
+            }
+        },
+        REGISTER: {
+            HEADING: 'रजिस्टर',
+            PLACEHOLDER: {
+                NAME: 'यहां नाम टाइप करें',
+                MOBILE: 'यहां टाइप करें मोबाइल',
+                EMAIL: 'यहां ईमेल टाइप करें',
+                DAY: 'दिन',
+                MONTH: 'महीना',
+                YEAR: 'वर्ष',
+                REFERAL_CODE: 'रेफ़रल कोड',
+            },
+            TERMS_TXT: 'स्वीकार करें',
+            TERMS_LINK: 'नियम और शर्तें',
+            BTN_TXT: 'रजिस्टर',
+            ERRORS: {
+                USERNAME_REQUIRED: 'उपयोगकर्ता नाम आवश्यक है',
+                VALID_EMAIL: 'वैध ईमेल आवश्यक है',
+                ACCEPT_TERMS: 'कृपया नियम और शर्तें स्वीकार करें',
+                MOBILE_REQUIRED: 'मोबाइल आवश्यक है',
+                DOB: 'जन्म तिथि आवश्यक है',
+                REFERRAL_VALID: 'रेफ़रल कोड मान्य नहीं है',
+            }
+        },
+        VERIFY_OTP: {
+            HEADING: 'ओटीपी सत्यापित करें',
+            PLACEHOLDER: 'यहां ओटीपी टाइप करें',
+            BTN_TXT: 'सत्यापित करें',
+            ERRORS: {
+                OTP_VALID: 'गलत ओटीपी, कृपया सही ओटीपी दर्ज करें'
+            },
+        },
         DRAWER: {
             WELCOME: 'स्वागत हे',
             PROFILE: 'प्रोफ़ाइल',
@@ -325,6 +371,52 @@ export const LANGUAGES_DATA = {
             WARNING: 'Warning',
             ERROR_TXT: 'Something went wrong, Please Try Again',
             SUCCESS: 'Success'
+        },
+        HOME: {
+            HEADING: "India\'s First Online Scholarship Test Platform",
+            LOGIN_TXT: 'Login',
+            REGISTER_TXT: 'Register',
+            TERMS_TXT: 'By Continuing you agree to the',
+            TERMS_LINK: 'Terms and Conditions',
+        },
+        LOGIN: {
+            HEADING: 'Login',
+            PLACEHOLDER: 'Type here mobile',
+            BTN_TXT: 'Login',
+            ERRORS: {
+                USER_NOT_FOUND: 'User not found please register first',
+            }
+        },
+        REGISTER: {
+            HEADING: 'Register',
+            PLACEHOLDER: {
+                NAME: 'Type here name',
+                MOBILE: 'Type here mobile',
+                EMAIL: 'Type here email',
+                DAY: 'Day',
+                MONTH: 'Month',
+                YEAR: 'Year',
+                REFERAL_CODE: 'Referral Code',
+            },
+            TERMS_TXT: 'Accept',
+            TERMS_LINK: 'Terms and Conditions',
+            BTN_TXT: 'Register',
+            ERRORS: {
+                USERNAME_REQUIRED: 'User name is required',
+                VALID_EMAIL: 'Valid email is required',
+                ACCEPT_TERMS: 'Please accept terms and conditions',
+                MOBILE_REQUIRED: 'Mobile is required',
+                DOB: 'Date of birth is required',
+                REFERRAL_VALID: 'Referral code is not valid',
+            }
+        },
+        VERIFY_OTP: {
+            HEADING: 'Verify OTP',
+            PLACEHOLDER: 'Type here OTP',
+            BTN_TXT: 'Verify',
+            ERRORS: {
+                OTP_VALID: 'Incorrect OTP, please enter correct OTP'
+            }
         },
         DRAWER: {
             WELCOME: 'Welcome',

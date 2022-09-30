@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, Pressable, SafeAreaView, Linking } from 'react-native';
+import { View, Text, ImageBackground, Pressable, SafeAreaView, Linking, Alert } from 'react-native';
 import { homeStyles } from './homeStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from '../../constant/constant';
@@ -14,6 +14,7 @@ import { getFromStorage, saveToStorage } from '../../utils/utils';
 import { sendAppLogService, userService } from '../../services/index';
 
 import Loader from '../../components/loader/loader';
+import { LANGUAGES_DATA } from '../../constant/language';
 
 //push notification functions
 Notifications.setNotificationHandler({
@@ -30,6 +31,7 @@ const Home = ({navigation}) => {
     const responseListener = useRef();
     
     const [isLoading, setLoading] = useState(true);
+    const [lang, setLang] = useState();
 
     const checkIfUserLoggedIn = async () => {
       try {
@@ -49,12 +51,46 @@ const Home = ({navigation}) => {
       setLoading(false);
     }
 
+    const checkAndSaveLanguage = async () => {
+      try {
+        let savedLang = await getFromStorage(Constant.STORAGE_KEYS.CURRENT_LANGUAGE);
+        setLang(savedLang);
+
+        if (savedLang) {
+          return;
+        }
+
+        Alert.alert('Select Language', 'Select any Language', [
+          {
+            text: 'Hindi', onPress: ()=> {
+              savedLang = Constant.LANGUAGES.HINDI;
+              saveToStorage(Constant.STORAGE_KEYS.CURRENT_LANGUAGE, savedLang);
+              setLang(savedLang);
+            }
+          },
+          {
+            text: 'English', onPress: ()=> {
+              savedLang = Constant.LANGUAGES.ENGLISH;
+              saveToStorage(Constant.STORAGE_KEYS.CURRENT_LANGUAGE, savedLang);
+              setLang(savedLang);
+            }
+          }
+        ]);
+      } catch (err) {
+        console.error(`error in checkAndSaveLanguage: ${err}`);
+      }
+    }
+
     useEffect(()=> {
         //--------------push notification setup ---------------------------//
         initNotificationSetup(notificationListener, responseListener, navigation);
-        
+
+        //check if language is saved or not
+        checkAndSaveLanguage();
         //check if user is already logged in
         checkIfUserLoggedIn();
+        
+
         
         return () => {
             removeNotificationListeners(notificationListener, responseListener);
@@ -80,21 +116,21 @@ const Home = ({navigation}) => {
           <ImageBackground source={backImage} style={homeStyles.backImage}>
             <View style ={homeStyles.tagLineView}>
                 <Text style={homeStyles.tagLine}>
-                    India's First Scholarship Platform
+                  {LANGUAGES_DATA[lang]?.HOME?.HEADING}
                 </Text>
             </View>
 
             <View style={homeStyles.loginBtnContainter}>
                 <Pressable elevation={3} handlePress={() => handlePress('login')} onPressOut={() => handlePress('login')} onPressIn={() => handlePress('login')} onPress= {handlePress} style={COMMON_STYLES.BTN_1}>
-                    <Text style={COMMON_STYLES.BTN_TEXT}>Login</Text>
+                    <Text style={COMMON_STYLES.BTN_TEXT}>{LANGUAGES_DATA[lang]?.HOME?.LOGIN_TXT}</Text>
                 </Pressable>
 
                 <Pressable elevation={3} handlePress={() => handlePress('register')} onPressOut={() => handlePress('register')} onPressIn={() => handlePress('register')} style={COMMON_STYLES.BTN_1}>
-                    <Text style={COMMON_STYLES.BTN_TEXT}>Register</Text>
+                    <Text style={COMMON_STYLES.BTN_TEXT}>{LANGUAGES_DATA[lang]?.HOME?.REGISTER_TXT}</Text>
                 </Pressable>
             </View>
 
-            <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>By Continuing you agree to the<Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${Constant.BACKEND_URL}/terms`)}> Terms and Conditions</Text></Text>
+            <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>{LANGUAGES_DATA[lang]?.HOME?.TERMS_TXT}<Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${Constant.BACKEND_URL}/terms`)}> {LANGUAGES_DATA[lang]?.HOME?.TERMS_LINK}</Text></Text>
         </ImageBackground>
       </SafeAreaView>
   )
