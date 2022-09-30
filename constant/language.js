@@ -149,7 +149,7 @@ export const LANGUAGES_DATA = {
             ATTEMPT: 'प्रयास करें',
             TEST_FEE: 'टिकट शुल्क',
             TICKET: 'टिकट',
-            OR_1_TICKET: 'या 1 प्रयास',
+            OR_1_TICKET: 'या 1 टिकट',
             ATTEMPT_DESC: 'टेस्ट का प्रयास करने के लिए 1 निःशुल्क टिकट या वॉलेट का पैसा काट लिया जाएगा',
             ATTEMPT_NOTICE: 'सुरक्षा उद्देश्यों के लिए आपका डिवाइस कैमरा और माइक्रोफ़ोन चालू रहेगा, कृपया टेस्ट से पहले किसी भी हेडफ़ोन या हेडसेट को हटा दें',
             TEST_REQUIREMENTS: 'टेस्ट आवश्यकताएँ',
@@ -204,7 +204,11 @@ export const LANGUAGES_DATA = {
             TXN_MONEY_FAILED_TXT: 'वॉलेट में धन जोड़ने में विफल!',
             MONEY_VALIDATION: 'राशि 0 से अधिक होनी चाहिए',
             LESS_BALANCE_TO_WITHDRAW: 'वॉलेट का पैसा अपर्याप्त है!',
-            MONEY_WITHDRAW_SUCCESS: 'पैसे निकालने का अनुरोध बनाया गया!'
+            MONEY_WITHDRAW_SUCCESS: 'पैसे निकालने का अनुरोध बनाया गया!',
+            TXN_TXT: {
+                FIRST: 'रु',
+                LAST: 'जोड़ना बटुए में'
+            }
         },
         HELP: {
             TICKET: {
@@ -467,7 +471,11 @@ export const LANGUAGES_DATA = {
             TXN_MONEY_FAILED_TXT: 'Money addin to Wallet Failed!',
             MONEY_VALIDATION: 'Amount should be greater then 0',
             LESS_BALANCE_TO_WITHDRAW: 'Wallet money is insufficient!',
-            MONEY_WITHDRAW_SUCCESS: 'Withdraw request raised!'
+            MONEY_WITHDRAW_SUCCESS: 'Withdraw request raised!',
+            TXN_TXT: {
+                FIRST: 'Adding',
+                LAST: 'Rs. in wallet'
+            }
         },
         HELP: {
             TICKET: {

@@ -91,6 +91,7 @@ const Wallet = ({ userId }) => {
 
     const createTransaction = (amount, orderId) => {
         console.info('createTransaction called');
+        const langTxt = LANGUAGES_DATA[lang]?.WALLET?.TXN_TXT;
         // if success then create a transaction entry
         const txnBody = {
             orderId,
@@ -99,7 +100,7 @@ const Wallet = ({ userId }) => {
             txnAmount: amount,
             isSuccess: false,
             status: TXN_STATUS.INITIATED,
-            txnTitle: `Adding ${amount} Rs. in wallet`,
+            txnTitle: `${langTxt?.FIRST} ${amount} ${langTxt?.LAST}`,
             txnType: TXN_TYPE.ADD_MONEY, 
             txnDate: new Date().toISOString()
         }
