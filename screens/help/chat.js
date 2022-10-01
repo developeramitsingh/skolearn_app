@@ -21,22 +21,7 @@ const Chat = ({ticketId}) => {
     });
 
     const [messages, setMessages] = useState([
-        {
-            id: 1,
-            txt: 'Hi, How may i help you',
-            userType: 'support',
-            img: '',
-            time: '',
-            rid: '',
-        },
-        {
-            id: 2,
-            txt: 'Hi, i want to apply for test new',
-            userType: 'user',
-            img: '',
-            time: '',
-            rid: '',
-        }
+        
     ]);
 
     const [reference, setReference] = useState(null);
