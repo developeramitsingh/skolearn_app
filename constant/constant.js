@@ -30,8 +30,8 @@ export const APP_COLORS = {
 };
 
 const PROD_URL= 'https://skolearn.herokuapp.com';
-const STAGE_URL= 'https://3084-43-239-207-244.in.ngrok.io';
-const DEV_URL= 'https://3084-43-239-207-244.in.ngrok.io';
+const STAGE_URL= 'https://73f9-43-239-207-244.in.ngrok.io';
+const DEV_URL= 'https://73f9-43-239-207-244.in.ngrok.io';
 const BETA_URL= 'https://skolearn.herokuapp.com';
 
 export const ENVS = {

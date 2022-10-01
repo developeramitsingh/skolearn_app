@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, View, Text, KeyboardAvoidingView, TextInput, ScrollView, Pressable, Image } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { chatStyles } from './chatStyles';
-import { APP_COLORS, BACKEND_URL } from '../../constant/constant';
+import { APP_COLORS, BACKEND_URL, STORAGE_KEYS } from '../../constant/constant';
 import Active from '../../components/active/active';
 import { FontAwesome } from '@expo/vector-icons';
 import io from 'socket.io-client';
+import { getFromStorage } from '../../utils/utils';
 
 const Chat = ({ticketId}) => {
     //let scrollViewRef = React.useRef(null);
@@ -15,7 +16,7 @@ const Chat = ({ticketId}) => {
         supportUserName: '',
         isSupportOnline: false,
         userMsg: '',
-        userId: '1212',
+        userId: '',
         supportUserId: '',
     });
 
@@ -39,6 +40,22 @@ const Chat = ({ticketId}) => {
     ]);
 
     const [reference, setReference] = useState(null);
+
+    const getUser = async () => {
+        try {
+            const user = await getFromStorage(STORAGE_KEYS.USER);
+
+            if (!user) {
+                return;
+            }
+
+            setState((prev) => {
+                return { ...prev, userId: user.id }
+            })
+        } catch (err){
+            console.error(`errror in getUser: ${err}`);
+        }
+    }
 
     useEffect(() => {
         socketRef.current = io(BACKEND_URL);
@@ -74,7 +91,7 @@ const Chat = ({ticketId}) => {
         return () => {
             socketRef.current?.disconnect();
         }
-    }, []);
+    }, [state.supportUserId]);
 
     const handleChange = (val) => {
         setState(prev=> {
@@ -83,6 +100,7 @@ const Chat = ({ticketId}) => {
     }
 
     const handleSubmit = () => {
+        console.info({ currentUserId: state.userId });
         socketRef.current.emit('userMessage', { userId: state.userId, message: state.userMsg, supportUserId: state.supportUserId })
 
         setMessages(prev => {
