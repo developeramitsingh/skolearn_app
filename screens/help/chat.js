@@ -69,11 +69,18 @@ const Chat = ({ticketId}) => {
             callBack('Message recieved by user');
         });
 
-        socketRef.current.on('supportDisconnectAgent'+state.supportUserId, ()=> {
-            setState((prev) => {
-                return { ...prev, supportUserId: null, isSupportOnline: false, supportUserName: null }
-            })
-        })
+        // socketRef.current.on('supportDisconnectAgent'+state.supportUserId, ()=> {
+        //     setState((prev) => {
+        //         return { ...prev, supportUserId: null, isSupportOnline: false, supportUserName: null }
+        //     })
+        // })
+
+        // socketRef.current.on('offlineSupportUser', ({ userId}) => {
+        //     console.info('offlineSupportUser calledd---------->');
+        //     setState((prev) => {
+        //         return { ...prev, isSupportOnline: false, supportUserName: null }
+        //     })
+        // });
        
 
         return () => {
