@@ -6,7 +6,7 @@ import { pickImage } from '../../common/functions/commonHelper';
 import { CLOSE_MODAL } from "../../constant/constant";
 import Loader from "../loader/loader";
 
-const UploadModal = ({ data, title, modalVisible, handleModalPress, btnTxt, actionType, info }) => {
+const UploadModal = ({ data, title, modalVisible, handleModalPress, btnTxt, actionType, info, choosePhotoTxt, closeTxt }) => {
     const [uri, setUri] = useState(null);
     const [isLoading, setLoading] = useState(false);
     const [isDisabled, setDisabled] = useState(true);
@@ -40,7 +40,7 @@ const UploadModal = ({ data, title, modalVisible, handleModalPress, btnTxt, acti
                     {uri && <Image source={{ uri }} style={{ width: '90%', height: '40%' }} />}
 
                     <TouchableOpacity onPress={setPickedImage} style={modalStyles.BTN}>
-                        <Text style={COMMON_STYLES.BTN_TEXT}>Choose Photo</Text>
+                        <Text style={COMMON_STYLES.BTN_TEXT}>{choosePhotoTxt}</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity disabled={isDisabled} onPress={async () => { 
@@ -54,14 +54,14 @@ const UploadModal = ({ data, title, modalVisible, handleModalPress, btnTxt, acti
                         <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
                     </TouchableOpacity>
 
-                    <Text style={[COMMON_STYLES.BODY_TEXT, COMMON_STYLES.CENTER]}>{info}</Text>
+                    <Text style={[COMMON_STYLES.BODY_TEXT_WHITE, COMMON_STYLES.CENTER]}>{info}</Text>
                 </View>
 
                 <View style={COMMON_STYLES.ROW}>
                     <TouchableOpacity onPress={() => { 
                         handleModalPress(CLOSE_MODAL, !modalVisible)
                     }} style={modalStyles.BTN}>
-                        <Text style={COMMON_STYLES.BTN_TEXT}>Close</Text>
+                        <Text style={COMMON_STYLES.BTN_TEXT}>{closeTxt}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

@@ -56,6 +56,57 @@ export const LANGUAGES_DATA = {
             ERROR: 'गलती',
             WARNING: 'संकेत',
             ERROR_TXT: 'कुछ गलत हो गया, कृपया फिर से प्रयास करें',
+            SUCCESS: 'सफल'
+        },
+        HOME: {
+            HEADING: 'भारत का पहला ऑनलाइन छात्रवृत्ति परीक्षा मंच',
+            LOGIN_TXT: 'लॉगिन',
+            REGISTER_TXT: 'रजिस्टर',
+            TERMS_TXT: 'जारी रखकर आप इससे सहमत होते हैं',
+            TERMS_LINK: 'नियम और शर्तें',
+        },
+        LOGIN: {
+            HEADING: 'लॉगिन',
+            PLACEHOLDER: 'यहां मोबाइल टाइप करें',
+            BTN_TXT: 'लॉगिन',
+            ERRORS: {
+                USER_NOT_FOUND: 'उपयोगकर्ता नहीं मिला कृपया पहले पंजीकरण करें',
+            }
+        },
+        REGISTER: {
+            HEADING: 'रजिस्टर',
+            PLACEHOLDERS: {
+                NAME: 'यहां नाम टाइप करें',
+                MOBILE: 'यहां टाइप करें मोबाइल',
+                EMAIL: 'यहां ईमेल टाइप करें',
+                DAY: 'दिन',
+                MONTH: 'महीना',
+                YEAR: 'वर्ष',
+                REFERRAL_CODE: 'रेफ़रल कोड',
+            },
+            TERMS_TXT: 'स्वीकार करें',
+            TERMS_LINK: 'नियम और शर्तें',
+            BTN_TXT: 'रजिस्टर',
+            ERRORS: {
+                userName: 'उपयोगकर्ता नाम आवश्यक है',
+                email: 'वैध ईमेल आवश्यक है',
+                term: 'कृपया नियम और शर्तें स्वीकार करें',
+                mobile: 'मोबाइल आवश्यक है',
+                day: 'जन्म तिथि आवश्यक है',
+                month: 'जन्म तिथि आवश्यक है',
+                year: 'जन्म तिथि आवश्यक है',
+                REFERRAL_VALID: 'रेफ़रल कोड मान्य नहीं है',
+                USER_ALREADY_EXIST: 'उपयोगकर्ता का मोबाइल पहले से पंजीकृत है, कृपया लॉगिन करें',
+                EMAIL_ALREADY_EXIST: 'ईमेल आईडी पहले से मौजूद है, कृपया नई ईमेल आईडी का उपयोग करें',
+            }
+        },
+        VERIFY_OTP: {
+            HEADING: 'ओटीपी सत्यापित करें',
+            PLACEHOLDER: 'यहां ओटीपी टाइप करें',
+            BTN_TXT: 'सत्यापित करें',
+            ERRORS: {
+                OTP_VALID: 'गलत ओटीपी, कृपया सही ओटीपी दर्ज करें'
+            },
         },
         DRAWER: {
             WELCOME: 'स्वागत हे',
@@ -148,7 +199,7 @@ export const LANGUAGES_DATA = {
             ATTEMPT: 'प्रयास करें',
             TEST_FEE: 'टिकट शुल्क',
             TICKET: 'टिकट',
-            OR_1_TICKET: 'या 1 प्रयास',
+            OR_1_TICKET: 'या 1 टिकट',
             ATTEMPT_DESC: 'टेस्ट का प्रयास करने के लिए 1 निःशुल्क टिकट या वॉलेट का पैसा काट लिया जाएगा',
             ATTEMPT_NOTICE: 'सुरक्षा उद्देश्यों के लिए आपका डिवाइस कैमरा और माइक्रोफ़ोन चालू रहेगा, कृपया टेस्ट से पहले किसी भी हेडफ़ोन या हेडसेट को हटा दें',
             TEST_REQUIREMENTS: 'टेस्ट आवश्यकताएँ',
@@ -203,7 +254,11 @@ export const LANGUAGES_DATA = {
             TXN_MONEY_FAILED_TXT: 'वॉलेट में धन जोड़ने में विफल!',
             MONEY_VALIDATION: 'राशि 0 से अधिक होनी चाहिए',
             LESS_BALANCE_TO_WITHDRAW: 'वॉलेट का पैसा अपर्याप्त है!',
-            MONEY_WITHDRAW_SUCCESS: 'पैसे निकालने का अनुरोध बनाया गया!'
+            MONEY_WITHDRAW_SUCCESS: 'पैसे निकालने का अनुरोध बनाया गया!',
+            TXN_TXT: {
+                FIRST: 'रु',
+                LAST: 'जोड़ना बटुए में'
+            }
         },
         HELP: {
             TICKET: {
@@ -238,8 +293,77 @@ export const LANGUAGES_DATA = {
             PANCARD: 'पैनकार्ड',
             UPDATE_DETAIL: 'विवरण अपडेट करें',
             UPLOAD: 'अपलोड',
-            PENDING_VERFI: 'लंबित सत्यापन',
-            STUDENT_DOC: 'छात्र दस्तावेज़'
+            PENDING_VERFI: 'अपूर्ण सत्यापन',
+            STUDENT_DOC: 'छात्र दस्तावेज़',
+            ENTER_FULL_NAME: 'अपना पूरा नाम दर्ज करें',
+            CHOOSE_PHOTO: 'फोटो चुनें',
+            SUCCESS_COMMON: {
+                SUCCESS_BANK: 'बैंक फ़ोटो सफलतापूर्वक अपडेट किया गया!',
+                SUCCESS_PAN: 'पैन फ़ोटो सफलतापूर्वक अपडेट किया गया!',
+                SUCCESS_ID: 'छात्र आईडी फ़ोटो सफलतापूर्वक अपडेट किया गया!',
+                SUCCESS_PROFILE: 'प्रोफ़ाइल सफलतापूर्वक अपडेट की गई',
+                SUCCESS_BANK_DETAILS: 'बैंक खाता विवरण सफलतापूर्वक अपडेट किया गया!',
+                SUCCESS_PAN_DETAILS: 'पैन कार्ड का विवरण सफलतापूर्वक अपडेट किया गया!',
+            },
+            ERROR_COMMON: {
+                ERROR_UPLOAD: 'फोटो अपलोड करते समय त्रुटि।, कृपया पुन: प्रयास करें!',
+                ERROR: 'कुछ गलत हो गया, कृपया पुन: प्रयास करें!',
+                ERROR_BANK_DETAILS: 'बैंक विवरण अपडेट करते समय त्रुटि।, कृपया पुन: प्रयास करें!',
+                ERROR_PAN_DETAILS: 'पैन विवरण अपडेट करते समय त्रुटि।, कृपया पुन: प्रयास करें!',
+            },
+            STATUS: {
+                PENDING_VERIFICATION: 'सत्यापन अपूर्ण',
+                VERIFIED: 'सत्यापित',
+                FAILED: 'विफल',
+                NOT_SUBMITTED: 'सबमिट नहीं किया गया'
+            },
+            BANK_MODAL: {
+                HEADING: 'बैंक विवरण अपडेट करें',
+                ENTER_FULL_NAME: 'अपना पूरा नाम दर्ज करें',
+                ENTER_BANK_NAME: 'बैंक का नाम दर्ज करें',
+                ENTER_ACCOUNT: 'बैंक खाता संख्या दर्ज करें',
+                ENTER_IFSC: 'बैंक आईएफएससी कोड दर्ज करें',
+                ERROR_TXTS: {
+                    INIT: {
+                        userNameInBank: 'नाम आवश्यक है',
+                        bankName: 'बैंक का नाम आवश्यक है',
+                        bankAccountNum: 'बैंक खाता संख्या आवश्यक है',
+                        bankIfscCode: 'बैंक IFSC कोड आवश्यक है',
+                    },
+                    INVALID: {
+                        userNameInBank: 'नाम आवश्यक है',
+                        bankName: 'बैंक का नाम आवश्यक है',
+                        bankAccountNum: 'बैंक खाता संख्या आवश्यक है',
+                        bankIfscCode: 'बैंक IFSC कोड आवश्यक है',
+                    }
+                }
+            },
+            PAN_MODAL: {
+                HEADING: 'पैन कार्ड विवरण अपडेट करें',
+                ENTER_FULL_NAME: 'अपना पूरा नाम दर्ज करें',
+                ENTER_PAN: 'पैन कार्ड नंबर दर्ज करें',
+                ERROR_TXTS: {
+                    INIT: {
+                        userNameInPan: 'नाम आवश्यक है',
+                        panNum: 'पैन नंबर आवश्यक है',
+                    },
+                    INVALID: {
+                        userNameInPan: 'नाम आवश्यक है',
+                        panNum: 'पैन नंबर आवश्यक है',
+                    }
+                }
+            },
+            BANK_UPLOAD_MODAL: {
+                HEADING: 'बैंक पासबुक/चेक/स्टेटमेंट अपलोड करें',
+                NOTICE: 'फोटो में बैंक खाता संख्या और नाम होना चाहिए'
+            },
+            PAN_UPLOAD_MODAL: {
+                HEADING: 'पैन कार्ड अपलोड करें',
+            },
+            STUDENT_DOC_MODAL: {
+                HEADING: 'छात्र दस्तावेज अपलोड करें',
+                NOTICE: 'स्वीकृत प्रकार: वर्तमान वर्ष के छात्र आईडी कार्ड या आवेदन पत्र या संस्थान / कॉलेज / स्कूल के विवरण के लिए शुल्क पर्ची'
+            }
         }
     },
 
@@ -250,6 +374,57 @@ export const LANGUAGES_DATA = {
             NOTICE: 'Notice',
             WARNING: 'Warning',
             ERROR_TXT: 'Something went wrong, Please Try Again',
+            SUCCESS: 'Success'
+        },
+        HOME: {
+            HEADING: "India\'s First Online Scholarship Test Platform",
+            LOGIN_TXT: 'Login',
+            REGISTER_TXT: 'Register',
+            TERMS_TXT: 'By Continuing you agree to the',
+            TERMS_LINK: 'Terms and Conditions',
+        },
+        LOGIN: {
+            HEADING: 'Login',
+            PLACEHOLDER: 'Type here mobile',
+            BTN_TXT: 'Login',
+            ERRORS: {
+                USER_NOT_FOUND: 'User not found please register first',
+            }
+        },
+        REGISTER: {
+            HEADING: 'Register',
+            PLACEHOLDERS: {
+                NAME: 'Type here name',
+                MOBILE: 'Type here mobile',
+                EMAIL: 'Type here email',
+                DAY: 'Day',
+                MONTH: 'Month',
+                YEAR: 'Year',
+                REFERRAL_CODE: 'Referral Code',
+            },
+            TERMS_TXT: 'Accept',
+            TERMS_LINK: 'Terms and Conditions',
+            BTN_TXT: 'Register',
+            ERRORS: {
+                userName: 'User name is required',
+                email: 'Valid email is required',
+                term: 'Please accept terms and conditions',
+                mobile: 'Mobile is required',
+                day: 'Date of birth is required',
+                month: 'Date of birth is required',
+                year: 'Date of birth is required',
+                REFERRAL_VALID: 'Referral code is not valid',
+                USER_ALREADY_EXIST: 'User mobile is already registered, Please login',
+                EMAIL_ALREADY_EXIST: 'Email Id is already exists, please use new email id',
+            }
+        },
+        VERIFY_OTP: {
+            HEADING: 'Verify OTP',
+            PLACEHOLDER: 'Type here OTP',
+            BTN_TXT: 'Verify',
+            ERRORS: {
+                OTP_VALID: 'Incorrect OTP, please enter correct OTP'
+            }
         },
         DRAWER: {
             WELCOME: 'Welcome',
@@ -396,7 +571,11 @@ export const LANGUAGES_DATA = {
             TXN_MONEY_FAILED_TXT: 'Money addin to Wallet Failed!',
             MONEY_VALIDATION: 'Amount should be greater then 0',
             LESS_BALANCE_TO_WITHDRAW: 'Wallet money is insufficient!',
-            MONEY_WITHDRAW_SUCCESS: 'Withdraw request raised!'
+            MONEY_WITHDRAW_SUCCESS: 'Withdraw request raised!',
+            TXN_TXT: {
+                FIRST: 'Adding',
+                LAST: 'Rs. in wallet'
+            }
         },
         HELP: {
             TICKET: {
@@ -432,7 +611,74 @@ export const LANGUAGES_DATA = {
             UPDATE_DETAIL: 'Update Detail',
             UPLOAD: 'Upload',
             PENDING_VERFI: 'Pending Verfication',
-            STUDENT_DOC: 'Student Document'
+            STUDENT_DOC: 'Student Document',
+            ENTER_FULL_NAME: 'Enter Your Full Name',
+            CHOOSE_PHOTO: 'Choose Photo',
+            SUCCESS_COMMON: {
+                SUCCESS_BANK: 'Bank Photo Updated Successfully!',
+                SUCCESS_PAN: 'Pan Photo Updated Successfully!',
+                SUCCESS_ID: 'Student Id Photo Updated Successfully!',
+                SUCCESS_PROFILE: 'Profile Updated Successfully',
+                SUCCESS_BANK_DETAILS: 'Bank Account Details Updated Successfully!',
+                SUCCESS_PAN_DETAILS: 'PAN Card Details Updated Successfully!',
+            },
+            ERROR_COMMON: {
+                ERROR_UPLOAD: 'Error While Uploading Image., Please try again!',
+                ERROR: 'Something went wrong, Please try again!',
+                ERROR_BANK_DETAILS: 'Error While Updating the Bank Details., Please try again!',
+                ERROR_PAN_DETAILS: 'Error While Updating the Pan Details., Please try again!',
+            },
+            STATUS: {
+                PENDING_VERIFICATION: 'Pending Verification',
+                VERIFIED: 'Verified',
+                FAILED: 'Failed',
+                NOT_SUBMITTED: 'Not Submitted'
+            },
+            BANK_MODAL: {
+                HEADING: 'Update Bank Details',
+                ENTER_BANK_NAME: 'Enter Bank Name',
+                ENTER_ACCOUNT: 'Enter Bank Account Number',
+                ENTER_IFSC: 'Enter Bank IFSC Code',
+                ERROR_TXTS: {
+                    INIT: {
+                        userNameInBank: 'Name is required',
+                        bankName: 'Bank name is required',
+                        bankAccountNum: 'Bank account number is required',
+                        bankIfscCode: 'Bank IFSC code is required',
+                    },
+                    INVALID: {
+                        userNameInBank: 'Name is invalid',
+                        bankName: 'Bank Name is invalid',
+                        bankAccountNum: 'Bank Account Number is invalid',
+                        bankIfscCode: 'IFSC code is invalid',
+                    }
+                }
+            },
+            PAN_MODAL: {
+                HEADING: 'Update Pan Card Details',
+                ENTER_PAN: 'Enter Pan Card Number',
+                ERROR_TXTS: {
+                    INIT: {
+                        userNameInPan: 'Name is required',
+                        panNum: 'Pan number is required',
+                    },
+                    INVALID: {
+                        userNameInPan: 'Name is invalid',
+                        panNum: 'Pan Number is invalid',
+                    }
+                }
+            },
+            BANK_UPLOAD_MODAL: {
+                HEADING: 'Upload Bank Passbook/Cheque/Statement',
+                NOTICE: 'Image should contain bank account number and name'
+            },
+            PAN_UPLOAD_MODAL: {
+                HEADING: 'Upload Pan Card',
+            },
+            STUDENT_DOC_MODAL: {
+                HEADING: 'Upload Student Document',
+                NOTICE: '"Allowed types are current year student id card or fee slip or application form or details of institute/college/school'
+            }
         }
     }
 }

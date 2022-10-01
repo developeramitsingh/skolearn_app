@@ -8,8 +8,9 @@ import * as Constant from  '../../constant/constant';
 import { userService, rolesService } from '../../services/index';
 import { saveToStorage } from '../../utils/utils';
 import Loader from '../../components/loader/loader';
-import { checkAndGetIfErrorFound, checkValidEmail } from '../../common/functions/commonHelper';
+import { checkAndGetIfErrorFound, checkValidEmail, setCurrentLanguage } from '../../common/functions/commonHelper';
 import DropDownPicker from 'react-native-dropdown-picker'
+import { LANGUAGES_DATA } from '../../constant/language';
 
 const Register = ({navigation}) => {
     const [state, setState] = useState({
@@ -23,13 +24,13 @@ const Register = ({navigation}) => {
         term: false,
         referralCode: null,
         errors: {
-            userName: 'User name is required',
-            mobile: 'Mobile is required',
-            email: 'Email is required',
-            day: 'Day is required',
-            month: 'Month is required',
-            year: 'Year is required',
-            term: 'Please accept terms and conditions',
+            userName: LANGUAGES_DATA[Constant.LANGUAGES.ENGLISH]?.REGISTER?.ERRORS.userName,
+            email: LANGUAGES_DATA[Constant.LANGUAGES.ENGLISH]?.REGISTER?.ERRORS.email,
+            term: LANGUAGES_DATA[Constant.LANGUAGES.ENGLISH]?.REGISTER?.ERRORS.term,
+            mobile: LANGUAGES_DATA[Constant.LANGUAGES.ENGLISH]?.REGISTER?.ERRORS.mobile,
+            day: LANGUAGES_DATA[Constant.LANGUAGES.ENGLISH]?.REGISTER?.ERRORS.dob,
+            month: LANGUAGES_DATA[Constant.LANGUAGES.ENGLISH]?.REGISTER?.ERRORS.month,
+            year: LANGUAGES_DATA[Constant.LANGUAGES.ENGLISH]?.REGISTER?.ERRORS.year,
             referralCode: null,
         },
         error: '',
@@ -41,6 +42,7 @@ const Register = ({navigation}) => {
     const [monthOpen, setMonthOpen] = useState(false);
     const [yearOpen, setYearOpen] = useState(false);
     const [roleIdVal, setRoleId] = useState(null);
+    const [lang, setLang] = useState();
 
 
     const getRoleId = async () => {
@@ -58,7 +60,27 @@ const Register = ({navigation}) => {
         return roleId;
     }
 
+    const setErrorsForInit = async () => {
+        const langD = await setCurrentLanguage(setLang);
+        setState(prev => {
+            return {
+                ...prev,
+                errors: {
+                    ...prev.errors,
+                    userName: LANGUAGES_DATA[langD]?.REGISTER?.ERRORS.userName,
+                    email: LANGUAGES_DATA[langD]?.REGISTER?.ERRORS.email,
+                    term: LANGUAGES_DATA[langD]?.REGISTER?.ERRORS.term,
+                    mobile: LANGUAGES_DATA[langD]?.REGISTER?.ERRORS.mobile,
+                    day: LANGUAGES_DATA[langD]?.REGISTER?.ERRORS.day,
+                    month: LANGUAGES_DATA[langD]?.REGISTER?.ERRORS.month,
+                    year: LANGUAGES_DATA[langD]?.REGISTER?.ERRORS.year,
+                }
+            }
+        })
+    }
+
     useEffect(() => {
+        setErrorsForInit();
         getRoleId();
         
     }, [])
@@ -93,9 +115,22 @@ const Register = ({navigation}) => {
             //navigate to verity otp page
             navigation.navigate(Constant.ROUTES.VERIFY_OTP, { requestType: 'register' });
         } catch (err) {
-            console.error(`error while register`, err);
-            const msg = err?.response?.data?.message;
-            setState((prev) => { return {...prev, error: msg, disabled: false, isLoading: false  }});
+            
+            let msg = err?.response?.data?.message;
+            console.error(`error while register`, msg);
+
+            if (msg == 'Referral code is not valid!') {
+                msg = LANGUAGES_DATA[lang]?.REGISTER?.ERRORS?.REFERRAL_VALID;
+            } else if (msg == 'User already registered!') {
+                msg = LANGUAGES_DATA[lang]?.REGISTER?.ERRORS?.USER_ALREADY_EXIST;
+            } else if (msg == 'Email already registered!') {
+                msg = LANGUAGES_DATA[lang]?.REGISTER?.ERRORS?.EMAIL_ALREADY_EXIST;
+            }
+
+            setState((prev) => { 
+                    return {...prev, error: msg, disabled: false, isLoading: false  }
+                }
+            );
         }
     }
 
@@ -108,26 +143,27 @@ const Register = ({navigation}) => {
             if (val?.length >= 3) {
                 errors[inputName] = ''
             } else {
-                errors[inputName] = 'User name is required'
+                console.info('else part', inputName, LANGUAGES_DATA[lang]?.REGISTER?.ERRORS?.[inputName])
+                errors[inputName] = LANGUAGES_DATA[lang]?.REGISTER?.ERRORS?.[inputName];
             }
         } else if (inputName === 'mobile') {
             if (val?.length === 10) {
                 errors[inputName] = ''
             } else {
-                errors[inputName] = 'Mobile is required'
+                errors[inputName] = LANGUAGES_DATA[lang]?.REGISTER?.ERRORS?.[inputName];
             }
         } else if (inputName === 'email') {
             if (val?.length && checkValidEmail(val)) {
                 errors[inputName] = ''
             } else {
-                errors[inputName] = 'Valid Email is required'
+                errors[inputName] = LANGUAGES_DATA[lang]?.REGISTER?.ERRORS?.[inputName];
             }
         } else if (inputName === 'term') {
             val = !val;
             if (val) {
                 errors[inputName] = ''
             } else {
-                errors[inputName] = 'Please accept terms and conditions'
+                errors[inputName] = LANGUAGES_DATA[lang]?.REGISTER?.ERRORS?.[inputName];
             }
         } else if (inputName === 'day' || inputName === 'month' || inputName === 'year') {
             val = val();
@@ -136,18 +172,17 @@ const Register = ({navigation}) => {
             setYearOpen(false);
             if (val) {
                 errors[inputName] = '';
-
             } else {
-                errors[inputName] = 'Date of Birth is required';
+                errors[inputName] = LANGUAGES_DATA[lang]?.REGISTER?.ERRORS?.[inputName];
             }
         }
  
-        console.info({inputName, val});
+        console.info({inputName, val, errors });
         const {isErrorFound, errorMsg} = checkAndGetIfErrorFound(errors) || {};
         console.info({ isErrorFound, errorMsg });
 
         setState((prev) => { 
-            return {...prev, [inputName]: val, disabled: isErrorFound, errors, error: errorMsg }
+            return {...prev, [inputName]: val, disabled: isErrorFound, errors: {...prev.errors, ...errors}, error: errorMsg }
         });
     }
 
@@ -156,15 +191,15 @@ const Register = ({navigation}) => {
         <Loader isLoading={state.isLoading}/>
         <Image style ={registerStyles.logo} source={{ uri: Constant.ASSEST_URLS.LOGO }}/>
         <Text style={[COMMON_STYLES.TITLE_TEXT, { marginTop: 15 }]}>
-                Register
+            {LANGUAGES_DATA[lang]?.REGISTER?.HEADING}
         </Text>
 
         <View style={registerStyles.registerContainter}>
-            <TextInput style={COMMON_STYLES.TEXT_INPUT} placeholder="Type here Name" onChangeText={(val) => handleChange(val, 'userName')} value={state.userName}/>
+            <TextInput style={COMMON_STYLES.TEXT_INPUT} placeholder= {LANGUAGES_DATA[lang]?.REGISTER?.PLACEHOLDERS?.NAME} onChangeText={(val) => handleChange(val, 'userName')} value={state.userName}/>
 
-            <TextInput maxLength={10} style={COMMON_STYLES.TEXT_INPUT} placeholder="Type here Mobile" keyboardType="numeric" onChangeText= {(val) => handleChange(val, 'mobile')} value={state.mobile}/>
+            <TextInput maxLength={10} style={COMMON_STYLES.TEXT_INPUT} placeholder={LANGUAGES_DATA[lang]?.REGISTER?.PLACEHOLDERS?.MOBILE} keyboardType="numeric" onChangeText= {(val) => handleChange(val, 'mobile')} value={state.mobile}/>
 
-            <TextInput style={COMMON_STYLES.TEXT_INPUT} placeholder="Type here Email" onChangeText={(val) => handleChange(val, 'email')} value={state.email}/>
+            <TextInput style={COMMON_STYLES.TEXT_INPUT} placeholder={LANGUAGES_DATA[lang]?.REGISTER?.PLACEHOLDERS?.EMAIL} onChangeText={(val) => handleChange(val, 'email')} value={state.email}/>
 
             <View style={COMMON_STYLES.ROW}>
                 <DropDownPicker
@@ -183,7 +218,7 @@ const Register = ({navigation}) => {
                     textStyle={{
                       fontSize: 10                    
                     }}
-                    placeholder="Day"
+                    placeholder={LANGUAGES_DATA[lang]?.REGISTER?.PLACEHOLDERS?.DAY}
                     placeholderStyle={{
                       color: "grey",
                       fontSize: 10,
@@ -206,7 +241,7 @@ const Register = ({navigation}) => {
                     textStyle={{
                       fontSize: 10
                     }}
-                    placeholder="Month"
+                    placeholder={LANGUAGES_DATA[lang]?.REGISTER?.PLACEHOLDERS?.MONTH}
                     placeholderStyle={{
                       color: "grey",
                       fontSize: 10,
@@ -231,7 +266,7 @@ const Register = ({navigation}) => {
                       fontSize: 10,
                     }}
                     lableStyle
-                    placeholder="Year"
+                    placeholder={LANGUAGES_DATA[lang]?.REGISTER?.PLACEHOLDERS?.YEAR}
                     placeholderStyle={{
                       color: "grey",
                       fontSize: 10,
@@ -240,7 +275,7 @@ const Register = ({navigation}) => {
                   />
             </View>
             
-            <TextInput style={{ ...COMMON_STYLES.TEXT_INPUT, backgroundColor: APP_COLORS.light_grey }} placeholder="Referral Code" onChangeText={(val) => handleChange(val, 'referralCode')} value={state.referralCode}/>
+            <TextInput style={{ ...COMMON_STYLES.TEXT_INPUT, backgroundColor: APP_COLORS.light_grey }} placeholder={LANGUAGES_DATA[lang]?.REGISTER?.PLACEHOLDERS?.REFERRAL_CODE} onChangeText={(val) => handleChange(val, 'referralCode')} value={state.referralCode}/>
 
             <View style= {{flex: 0, flexDirection: 'row', alignItems: 'center'}}>
                 <Checkbox
@@ -252,12 +287,12 @@ const Register = ({navigation}) => {
                     uncheckedColor={APP_COLORS.white}
                 />
 
-                <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>Accept <Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${BACKEND_URL}/terms`)}> Terms and Conditions</Text></Text>
+                <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>{LANGUAGES_DATA[lang]?.REGISTER?.TERMS_TXT} <Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${BACKEND_URL}/terms`)}> {LANGUAGES_DATA[lang]?.REGISTER?.TERMS_LINK}</Text></Text>
             </View>
             
 
             <Pressable elevation={3} disabled={ state.disabled } onPress= {handlePress} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN]}>
-                <Text style={[COMMON_STYLES.BTN_TEXT, state.disabled && COMMON_STYLES.DISABLED_TEXT]}>Register</Text>
+                <Text style={[COMMON_STYLES.BTN_TEXT, state.disabled && COMMON_STYLES.DISABLED_TEXT]}>{LANGUAGES_DATA[lang]?.REGISTER?.BTN_TXT}</Text>
             </Pressable>
 
             <Text style={[COMMON_STYLES.ERROR_TXT]}>{state.error}</Text>

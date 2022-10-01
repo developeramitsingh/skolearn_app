@@ -132,25 +132,25 @@ const Profile = ({navigation, route}) => {
         if(actionType === 'onReferralCodeCopy') {
             copyToClipboard(state.referralCode);
             
-            showAlert('', `Referral Code Copied!: ${state.referralCode}`);
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, `${LANGUAGES_DATA[lang]?.PROFILE?.REFERRAL_CODE_COPIED}: ${state.referralCode}`);
         } else if(actionType === 'onLinkCopy') {
             copyToClipboard(SHARE_TEXT);
 
-            showAlert('', "Sharing link Copied!");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SHARING_LINK_COPIED);
         } else if(actionType === ACTION_TYPES.UPLOAD_BANK_ID) {
             console.log('uploading.... bank');
             
             const isSuccess = await uploadUserDocs('bankImg', payload, {
-                'bankStatus': 'Pending Verification', 
+                'bankStatus': 'PENDING_VERIFICATION', 
                 'isBankVerified': false 
             });
 
             if (!isSuccess) {
-                showAlert('Error', "Error While Uploading Image., Please try again!");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT?.ERROR, LANGUAGES_DATA[lang]?.PROFILE?.ERROR_COMMON?.ERROR_UPLOAD);
                 return;
             }
 
-            showAlert('Success', "Bank Photo Updated Successfully!");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SUCCESS_COMMON?.SUCCESS_BANK);
 
             setState(prev => {
                 return { ...prev, bankImg: true }
@@ -160,15 +160,15 @@ const Profile = ({navigation, route}) => {
         } else if(actionType === ACTION_TYPES.UPLOAD_PAN) {
             console.log('uploading.... pan');
             const isSuccess = await uploadUserDocs('panImg', payload, { 
-                'panStatus': 'Pending Verification',
+                'panStatus': 'PENDING_VERIFICATION',
                 'isPanVerified': false 
             });
             if (!isSuccess) {
-                showAlert('Error', "Error While Uploading Image., Please try again!");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT?.ERROR, LANGUAGES_DATA[lang]?.PROFILE?.ERROR_COMMON?.ERROR_UPLOAD);
                 return;
             }
 
-            showAlert('Success', "Pan Photo Updated Successfully!");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SUCCESS_COMMON?.SUCCESS_PAN);
 
             setState(prev => {
                 return { ...prev, panImg: true }
@@ -178,15 +178,15 @@ const Profile = ({navigation, route}) => {
         } else if(actionType === ACTION_TYPES.UPLOAD_STUDENT_ID) {
             console.log('uploading.... student doc');
             const isSuccess = await uploadUserDocs('studentIdImg', payload, { 
-                'studentIdStatus': 'Pending Verification', 
+                'studentIdStatus': 'PENDING_VERIFICATION', 
                 'isStudentIdVerified': false 
             });
             if (!isSuccess) {
-                showAlert('Error', "Error While Uploading Image., Please try again!");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT?.ERROR, LANGUAGES_DATA[lang]?.PROFILE?.ERROR_COMMON?.ERROR_UPLOAD);
                 return;
             }
 
-            showAlert('Success', "Student Id Photo Updated Successfully!");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SUCCESS_COMMON?.SUCCESS_ID);
 
             setState(prev => {
                 return { ...prev, studentIdImg: true }
@@ -199,26 +199,27 @@ const Profile = ({navigation, route}) => {
             const isSuccess = await updateUser(data);
 
             if(!isSuccess) {
-                showAlert('Error', "An Error Occured, Please try again!");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT?.ERROR, LANGUAGES_DATA[lang]?.PROFILE?.ERROR_COMMON?.ERROR);
 
                 return
             }
 
-            showAlert('Success', "Profile Updated Successfully");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SUCCESS_COMMON?.SUCCESS_PROFILE);
             setState(prev => {
                 return { ...prev, userName: payload }
             });
             setProfileEdit(false);
         } else if(actionType === ACTION_TYPES.UPDATE_BANK_DETAIL) {
             console.log('updating bank details', payload);
-            const isSuccess = await updateUserDocs({ ...payload, isBankVerified: false, bankStatus: 'Pending Verification' });
+            const isSuccess = await updateUserDocs({ ...payload, isBankVerified: false, bankStatus: 'PENDING_VERIFICATION' });
 
             if (!isSuccess) {
-                showAlert('Error', "Error While Updating the Bank Details., Please try again!");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.ERROR_COMMON?.ERROR_BANK_DETAILS);
+
                 return;
             }
 
-            showAlert('Success', "Bank Account Details Updated Successfully!");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SUCCESS_COMMON?.SUCCESS_BANK_DETAILS);
 
             setState(prev => {
                 return { ...prev, ...payload }
@@ -227,16 +228,16 @@ const Profile = ({navigation, route}) => {
             getUserDocsStatus();
         } else if(actionType === ACTION_TYPES.UPDATE_PAN_DETAIL) {
             console.log('updating pan card details', payload);
-            const isSuccess = await updateUserDocs({ ...payload, isPanVerified: false, panStatus: 'Pending Verification' });
+            const isSuccess = await updateUserDocs({ ...payload, isPanVerified: false, panStatus: 'PENDING_VERIFICATION' });
 
             if (!isSuccess) {
-                showAlert('Error', "Error While Updating the Pan Details., Please try again!");
+                showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.ERROR_COMMON?.ERROR_PAN_DETAILS);
 
                 return;
             }
 
 
-            showAlert('Success', "Pan Card Details Updated Successfully!");
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SUCCESS_COMMON?.SUCCESS_PAN_DETAILS);
 
             setState(prev => {
                 return { ...prev, panDetail: payload }
@@ -289,17 +290,23 @@ const Profile = ({navigation, route}) => {
     return (
         <SafeAreaView style={profileStyles.CONTAINER}>
             <BackBtn navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
-            <ModalWindow modalVisible={showProfileEdit} actionType='updateProfile' handleModalPress={handlePress} title="Edit User Name" btnTxt = 'Update' placeholder='Enter your new user name'/>
+            <ModalWindow modalVisible={showProfileEdit} actionType='updateProfile' handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.PROFILE?.EDIT_PROFILE} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
+            UPDATE} placeholder={LANGUAGES_DATA[lang]?.PROFILE?.EDIT_PROFILE_INPUT} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE}/>
 
-            <UploadModal data={userDocsStatus?.bankIdImgUrl} modalVisible={showBankUploadModal} actionType={ACTION_TYPES.UPLOAD_BANK_ID} handleModalPress={handlePress} title="Upload Bank Passbook/cheque/bank statement" btnTxt = 'Upload' info="Image should contain bank account number and name"/>
+            <UploadModal data={userDocsStatus?.bankIdImgUrl} modalVisible={showBankUploadModal} actionType={ACTION_TYPES.UPLOAD_BANK_ID} handleModalPress={handlePress} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
+            UPLOAD} info={LANGUAGES_DATA[lang]?.PROFILE?.BANK_UPLOAD_MODAL?.NOTICE} title={LANGUAGES_DATA[lang]?.PROFILE?.BANK_UPLOAD_MODAL?.HEADING} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE} choosePhotoTxt={LANGUAGES_DATA[lang]?.PROFILE?.CHOOSE_PHOTO}/>
 
-            <UploadModal data={userDocsStatus?.panImgUrl} modalVisible={showPanUploadModal} actionType={ACTION_TYPES.UPLOAD_PAN} handleModalPress={handlePress} title="Upload Pan Card" btnTxt = 'Upload'/>
+            <UploadModal data={userDocsStatus?.panImgUrl} modalVisible={showPanUploadModal} actionType={ACTION_TYPES.UPLOAD_PAN} handleModalPress={handlePress} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
+            UPLOAD} title={LANGUAGES_DATA[lang]?.PROFILE?.PAN_UPLOAD_MODAL?.HEADING} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE} choosePhotoTxt={LANGUAGES_DATA[lang]?.PROFILE?.CHOOSE_PHOTO}/>
 
-            <UploadModal data={userDocsStatus?.studentIdImgUrl} modalVisible={showStudentDoc} actionType={ACTION_TYPES.UPLOAD_STUDENT_ID} handleModalPress={handlePress} title="Upload Student Document" btnTxt = 'Upload' info="Allowed types are current year student id card or fee slip or application form or details of institute/college/school"/>
+            <UploadModal data={userDocsStatus?.studentIdImgUrl} modalVisible={showStudentDoc} actionType={ACTION_TYPES.UPLOAD_STUDENT_ID} handleModalPress={handlePress} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
+            UPLOAD} title={LANGUAGES_DATA[lang]?.PROFILE?.STUDENT_DOC_MODAL?.HEADING} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE} choosePhotoTxt={LANGUAGES_DATA[lang]?.PROFILE?.CHOOSE_PHOTO} info={LANGUAGES_DATA[lang]?.PROFILE?.STUDENT_DOC_MODAL?.NOTICE}/>
 
-            <ModalBankPanCard data={userDocsStatus} modalVisible={showBankDetailModal} actionType={ACTION_TYPES.UPDATE_BANK_DETAIL} handleModalPress={handlePress} title="Update Bank Account Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_BANK_DETAIL}/>
+            <ModalBankPanCard data={userDocsStatus} modalVisible={showBankDetailModal} actionType={ACTION_TYPES.UPDATE_BANK_DETAIL} handleModalPress={handlePress} modalType={ACTION_TYPES.UPDATE_BANK_DETAIL} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
+            UPDATE} title={LANGUAGES_DATA[lang]?.PROFILE?.BANK_MODAL?.HEADING} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE} placeholderTxts={LANGUAGES_DATA[lang]?.PROFILE?.BANK_MODAL} errorTxts ={LANGUAGES_DATA[lang]?.PROFILE?.BANK_MODAL?.ERROR_TXTS}/>
 
-            <ModalBankPanCard data={userDocsStatus} modalVisible={showPanDetailModal} actionType={ACTION_TYPES.UPDATE_PAN_DETAIL} handleModalPress={handlePress} title="Update Pan Card Details" btnTxt = 'Update' modalType={ACTION_TYPES.UPDATE_PAN_DETAIL}/>
+            <ModalBankPanCard data={userDocsStatus} modalVisible={showPanDetailModal} actionType={ACTION_TYPES.UPDATE_PAN_DETAIL} handleModalPress={handlePress} modalType={ACTION_TYPES.UPDATE_PAN_DETAIL} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
+            UPDATE} title={LANGUAGES_DATA[lang]?.PROFILE?.BANK_MODAL?.HEADING} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE} placeholderTxts={LANGUAGES_DATA[lang]?.PROFILE?.PAN_MODAL} errorTxts ={LANGUAGES_DATA[lang]?.PROFILE?.PAN_MODAL?.ERROR_TXTS}/>
 
             <View style={profileStyles.ROW_CENTER}>
                 <Pressable onPress={setPickedImage} style={profileStyles.PROFILE_IMG}>
@@ -358,7 +365,7 @@ const Profile = ({navigation, route}) => {
                         <Pressable elevation={1} onPress={()=> setShowBankUploadModal(!showBankUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
                             <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.PROFILE?.UPLOAD}</Text>
                         </Pressable>
-                        <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.bankStatus || 'Not Updated'}</Text>
+                        <Text style={profileStyles.BODY_TEXT}>{LANGUAGES_DATA[lang]?.PROFILE?.STATUS[userDocsStatus?.bankStatus] || LANGUAGES_DATA[lang]?.PROFILE?.STATUS?.NOT_SUBMITTED}</Text>
                     </View>
 
                     <View style={profileStyles.BOX}>
@@ -371,7 +378,7 @@ const Profile = ({navigation, route}) => {
                         <Pressable elevation={1} onPress={()=> setPanUploadModal(!showPanUploadModal)} style={COMMON_STYLES.SUB_BTN_2}>
                             <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.PROFILE?.UPLOAD}</Text>
                         </Pressable>
-                        <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.panStatus || 'Not Updated'}</Text>
+                        <Text style={profileStyles.BODY_TEXT}>{LANGUAGES_DATA[lang]?.PROFILE?.STATUS[userDocsStatus?.panStatus] || LANGUAGES_DATA[lang]?.PROFILE?.STATUS?.NOT_SUBMITTED}</Text>
                     </View>
 
                     <View style={profileStyles.BOX}>
@@ -380,7 +387,7 @@ const Profile = ({navigation, route}) => {
                         <Pressable elevation={1} onPress={()=> setStudentDocu(!showStudentDoc)} style={COMMON_STYLES.SUB_BTN_2}>
                             <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.PROFILE?.UPLOAD}</Text>
                         </Pressable>
-                        <Text style={profileStyles.BODY_TEXT}>{userDocsStatus?.studentIdStatus || 'Not Updated'}</Text>
+                        <Text style={profileStyles.BODY_TEXT}>{LANGUAGES_DATA[lang]?.PROFILE?.STATUS[userDocsStatus?.studentIdStatus] || LANGUAGES_DATA[lang]?.PROFILE?.STATUS?.NOT_SUBMITTED}</Text>
                     </View>
                 </ScrollView>
             </View>

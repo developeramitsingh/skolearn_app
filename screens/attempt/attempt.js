@@ -160,7 +160,7 @@ const Attempt = ({navigation, route }) => {
 
                             //if seats not available then exit
                             if (!seatAvailableStatus?.data?.isSeatAvailable) {
-                                showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.ATTEMPT?.SEAT_FULL);
+                                showAlert(LANGUAGES_DATA[lang]?.ALERT.NOTICE, LANGUAGES_DATA[lang]?.ATTEMPT?.SEAT_FULL);
                                 setLoading(false);
                                 setDisabled(false);
 
@@ -177,7 +177,7 @@ const Attempt = ({navigation, route }) => {
                         //if test data not found then skip the all the cases
                         if (!testQusData?.length) {
                             console.warn(`test data not found in gnerate test questions`);
-                            showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT);
+                            showAlert(LANGUAGES_DATA[lang]?.ALERT.ERROR, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT);
                             setLoading(false);
                             setDisabled(false);
 
@@ -190,16 +190,16 @@ const Attempt = ({navigation, route }) => {
                                 const ticket = freeTickets - 1;
                                 freeTicketsService.updateFreeTickets({ freeTickets: ticket });
 
-                                const txnTitle = '1 Free Ticket Deducted for Attempting the Test';
-                                //const txnTitle = LANGUAGES_DATA[lang]?.ATTEMPT?.TXN_TICKET_TXT;
+                                //const txnTitle = '1 Free Ticket Deducted for Attempting the Test';
+                                const txnTitle = LANGUAGES_DATA[lang]?.ATTEMPT?.TXN_TICKET_TXT;
                                 createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.FREE_TICKET_DEDUCTED_FOR_TEST);
                             } else if (state.walletMoney) {
                                 
                                 const balance = walletMoney - entryFee;
                                 walletService.updateWallet({ balance });
 
-                                const txnTitle = `${entryFee} Rs. Deducted from Wallet for Attempting the Test`;
-                                //const txnTitle = `${entryFee} ${LANGUAGES_DATA[lang]?.ATTEMPT?.TXN_WALLET_TXT}`;
+                                //const txnTitle = `${entryFee} Rs. Deducted from Wallet for Attempting the Test`;
+                                const txnTitle = `${entryFee} ${LANGUAGES_DATA[lang]?.ATTEMPT?.TXN_WALLET_TXT}`;
                                 createTransaction(entryFee, txnTitle, Constant.TXN_TYPE.WALLET_DEDUCTED_FOR_TEST);
                             }
                         }
@@ -220,7 +220,7 @@ const Attempt = ({navigation, route }) => {
                         console.error(`error while attempting: ${err}`);
                         setLoading(false);
                         setDisabled(false);
-                        showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT);
+                        showAlert(LANGUAGES_DATA[lang]?.ALERT.ERROR, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT);
                     }
                 }
             },

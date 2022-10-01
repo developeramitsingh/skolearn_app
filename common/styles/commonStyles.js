@@ -66,6 +66,7 @@ export const COMMON_STYLES = {
     SUB_BTN_TXT: {
         fontSize: 14,
         color: APP_COLORS.black,
+        fontWeight: 'bold'
     },
 
     TITLE_TEXT: {

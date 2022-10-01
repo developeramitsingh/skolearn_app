@@ -4,7 +4,7 @@ import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { walletStyles } from './walletStyles';
 import ModalWindow from "../../components/modals/modalWindow";
 import ModalTicket from "../../components/modals/modalTicket";
-import { CLOSE_MODAL, ACTION_TYPES, APP_ENV, ENVS, PAYTM_MERCHANT_ID, PAYTMENT_CALLBACK_BACKEND, TXN_TYPE, TXN_STATUS } from '../../constant/constant';
+import { CLOSE_MODAL, ACTION_TYPES, APP_ENV, ENVS, PAYTM_MERCHANT_ID, PAYTMENT_CALLBACK_BACKEND, TXN_TYPE, TXN_STATUS, APP_COLORS } from '../../constant/constant';
 import AllInOneSDKManager from 'paytm_allinone_react-native';
 import { freeTicketsService, paymentGatewayService, sendAppLogService, transactionService, walletService, withdrawService } from "../../services";
 import { generateOrderId } from "../../utils/utils";
@@ -91,6 +91,7 @@ const Wallet = ({ userId }) => {
 
     const createTransaction = (amount, orderId) => {
         console.info('createTransaction called');
+        const langTxt = LANGUAGES_DATA[lang]?.WALLET?.TXN_TXT;
         // if success then create a transaction entry
         const txnBody = {
             orderId,
@@ -99,7 +100,7 @@ const Wallet = ({ userId }) => {
             txnAmount: amount,
             isSuccess: false,
             status: TXN_STATUS.INITIATED,
-            txnTitle: `Adding ${amount} Rs. in wallet`,
+            txnTitle: `${langTxt?.FIRST} ${amount} ${langTxt?.LAST}`,
             txnType: TXN_TYPE.ADD_MONEY, 
             txnDate: new Date().toISOString()
         }
@@ -364,8 +365,8 @@ const Wallet = ({ userId }) => {
             </View>
 
             <View style={[COMMON_STYLES.ROW, { marginTop: 10 }]}>
-                <TouchableOpacity  onPress={()=>setAddMoney(true)} style={COMMON_STYLES.SUB_BTN_1}>
-                    <Text style={COMMON_STYLES.SUB_BTN_TXT}>{LANGUAGES_DATA[lang]?.WALLET?.ADD_MONEY}</Text>
+                <TouchableOpacity  onPress={()=>setAddMoney(true)} style={[COMMON_STYLES.SUB_BTN_1, { backgroundColor: APP_COLORS.green, minWidth: 180 }]}>
+                    <Text style={[COMMON_STYLES.SUB_BTN_TXT, { color: 'white'}]}>{LANGUAGES_DATA[lang]?.WALLET?.ADD_MONEY}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={()=> setWithdrawMoney(true)} style={COMMON_STYLES.SUB_BTN_1}>

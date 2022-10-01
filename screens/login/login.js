@@ -1,11 +1,13 @@
 import { View, Text, Image, Pressable, SafeAreaView, TextInput } from 'react-native';
 import { loginStyles } from './loginStyles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from  '../../constant/constant';
 import userService from '../../services/userService';
 import { saveToStorage } from '../../utils/utils';
 import Loader from '../../components/loader/loader';
+import { LANGUAGES_DATA } from '../../constant/language';
+import { setCurrentLanguage } from '../../common/functions/commonHelper';
 
 const Login = ({navigation}) => {
     const [state, setState] = useState({
@@ -15,6 +17,11 @@ const Login = ({navigation}) => {
         error: '',
         isLoading: false,
     });
+    const [lang, setLang] = useState();
+
+    useEffect(() => {
+        setCurrentLanguage(setLang);
+    }, []);
 
     const handlePress = async ()=> {
         if (!state.mobile) {
@@ -39,7 +46,8 @@ const Login = ({navigation}) => {
         } catch (err) {
             console.error(`error while login`, err);
             const msg = err?.response?.data?.message;
-            setState((prev) => { return {...prev, error: msg, disabled: false, isLoading: false  }});
+            console.error(`error while login`, msg);
+            setState((prev) => { return {...prev, error: LANGUAGES_DATA[lang]?.LOGIN?.ERRORS?.USER_NOT_FOUND, disabled: false, isLoading: false  }});
         }
     }
 
@@ -57,17 +65,17 @@ const Login = ({navigation}) => {
         <Loader isLoading={state.isLoading}/>
        <Image style ={loginStyles.logo} source={{ uri: Constant.ASSEST_URLS.LOGO }}/>
         <Text style={[COMMON_STYLES.TITLE_TEXT, COMMON_STYLES.MARGIN_TOP]}>
-                Login
+                {LANGUAGES_DATA[lang]?.LOGIN?.HEADING}
         </Text>
 
         <View style={loginStyles.loginContainter}>
-            <TextInput maxLength={10} style={COMMON_STYLES.TEXT_INPUT} placeholder="Type here Mobile" keyboardType="numeric" onChangeText= {handleChange} value={state.mobile}/>
+            <TextInput maxLength={10} style={COMMON_STYLES.TEXT_INPUT} placeholder={LANGUAGES_DATA[lang]?.LOGIN?.PLACEHOLDER} keyboardType="numeric" onChangeText= {handleChange} value={state.mobile}/>
 
             <Pressable elevation={3} disabled={ state.disabled } onPress= {handlePress} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN]}>
-                <Text style={[COMMON_STYLES.BTN_TEXT, state.disabled && COMMON_STYLES.DISABLED_TEXT]}>Login</Text>
+                <Text style={[COMMON_STYLES.BTN_TEXT, state.disabled && COMMON_STYLES.DISABLED_TEXT]}>{LANGUAGES_DATA[lang]?.LOGIN?.BTN_TXT}</Text>
             </Pressable>
 
-            <Text style={[COMMON_STYLES.ERROR_TXT, COMMON_STYLES.MARGIN_TOP]}>{state.error}</Text>
+            <Text style={[COMMON_STYLES.ERROR_TXT, { marginTop: 10 }]}>{state.error}</Text>
             
         </View>
       </SafeAreaView>
