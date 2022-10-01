@@ -92,7 +92,7 @@ const Chat = ({ticketId}) => {
         if(!state.userMsg?.trim()) {
             return;
         }
-        console.info({ currentUserId: state.userId, userName: state.userName });
+        console.info({ currentUserId: state.userId, userName: state.userName, supportUserId: state.supportUserId });
         socketRef.current.emit('userMessage', { userId: state.userId, userName:state.userName, message: state.userMsg, supportUserId: state.supportUserId })
 
         setMessages(prev => {
