@@ -50,7 +50,7 @@ const Chat = ({ticketId}) => {
             }
 
             setState((prev) => {
-                return { ...prev, userId: user.id }
+                return { ...prev, userId: user._id, userName: user.userName }
             })
         } catch (err){
             console.error(`errror in getUser: ${err}`);
@@ -58,6 +58,7 @@ const Chat = ({ticketId}) => {
     }
 
     useEffect(() => {
+        getUser();
         socketRef.current = io(BACKEND_URL);
 
         socketRef.current.on('supportConnected', ( {supportUserName, supportUserId }, callBack) => {
@@ -100,8 +101,8 @@ const Chat = ({ticketId}) => {
     }
 
     const handleSubmit = () => {
-        console.info({ currentUserId: state.userId });
-        socketRef.current.emit('userMessage', { userId: state.userId, message: state.userMsg, supportUserId: state.supportUserId })
+        console.info({ currentUserId: state.userId, userName: state.userName });
+        socketRef.current.emit('userMessage', { userId: state.userId, userName:state.userName, message: state.userMsg, supportUserId: state.supportUserId })
 
         setMessages(prev => {
             return [ ...prev, { txt: state.userMsg, userType: 'user', id: Math.floor(Math.random() * 10000) }]
