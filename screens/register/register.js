@@ -115,18 +115,22 @@ const Register = ({navigation}) => {
             //navigate to verity otp page
             navigation.navigate(Constant.ROUTES.VERIFY_OTP, { requestType: 'register' });
         } catch (err) {
-            console.error(`error while register`, err);
+            
             let msg = err?.response?.data?.message;
+            console.error(`error while register`, msg);
 
-            if (msg === 'Referral code is not valid!') {
+            if (msg == 'Referral code is not valid!') {
                 msg = LANGUAGES_DATA[lang]?.REGISTER?.ERRORS?.REFERRAL_VALID;
-            } else if (msg === 'User Mobile is already exist!') {
+            } else if (msg == 'User already registered!') {
                 msg = LANGUAGES_DATA[lang]?.REGISTER?.ERRORS?.USER_ALREADY_EXIST;
-            } else if (msg === 'User Email is already exist!') {
+            } else if (msg == 'Email already registered!') {
                 msg = LANGUAGES_DATA[lang]?.REGISTER?.ERRORS?.EMAIL_ALREADY_EXIST;
             }
 
-            setState((prev) => { return {...prev, error: msg, disabled: false, isLoading: false  }});
+            setState((prev) => { 
+                    return {...prev, error: msg, disabled: false, isLoading: false  }
+                }
+            );
         }
     }
 

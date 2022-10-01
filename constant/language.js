@@ -96,6 +96,8 @@ export const LANGUAGES_DATA = {
                 month: 'जन्म तिथि आवश्यक है',
                 year: 'जन्म तिथि आवश्यक है',
                 REFERRAL_VALID: 'रेफ़रल कोड मान्य नहीं है',
+                USER_ALREADY_EXIST: 'उपयोगकर्ता का मोबाइल पहले से पंजीकृत है, कृपया लॉगिन करें',
+                EMAIL_ALREADY_EXIST: 'ईमेल आईडी पहले से मौजूद है, कृपया नई ईमेल आईडी का उपयोग करें',
             }
         },
         VERIFY_OTP: {
