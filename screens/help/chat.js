@@ -73,7 +73,7 @@ const Chat = ({ticketId}) => {
             callBack("Support is online acknowledgement recieved by user");
         });
 
-        socketRef.current.on('supportMessageAgent'+state.supportUserId, ({ sid, message, time, rid}, callBack) => {
+        socketRef.current.on('supportMessageAgent'+state.supportUserId+state.userId, ({ sid, message, time, rid}, callBack) => {
             console.info(`message recieced`, message);
             setMessages(prev => {
                 return [ ...prev, { txt: message, userType: 'support', id: sid, time, rid }]
