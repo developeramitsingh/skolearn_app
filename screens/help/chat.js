@@ -50,7 +50,7 @@ const Chat = ({ticketId}) => {
             }
 
             setState((prev) => {
-                return { ...prev, userId: user._id, userName: user.userName }
+                return { ...prev, userId: user._id, userName: user.userName, roleKey: user?.roleId?.roleKey }
             })
         } catch (err){
             console.error(`errror in getUser: ${err}`);
@@ -60,6 +60,8 @@ const Chat = ({ticketId}) => {
     useEffect(() => {
         getUser();
         socketRef.current = io(BACKEND_URL);
+
+        socketRef.current.emit('userOnline', { userId: state.userId, userName:state.userName, roleKey: state.roleKey })
 
         socketRef.current.on('supportConnected', ( {supportUserName, supportUserId }, callBack) => {
             console.info(`support is online`, {supportUserName}, { supportUserId });
@@ -90,7 +92,8 @@ const Chat = ({ticketId}) => {
        
 
         return () => {
-            socketRef.current?.disconnect();
+            socketRef.current?.disconnect({userId: 123});
+            
         }
     }, [state.supportUserId]);
 
@@ -101,6 +104,9 @@ const Chat = ({ticketId}) => {
     }
 
     const handleSubmit = () => {
+        if(!state.userMsg?.trim()) {
+            return;
+        }
         console.info({ currentUserId: state.userId, userName: state.userName });
         socketRef.current.emit('userMessage', { userId: state.userId, userName:state.userName, message: state.userMsg, supportUserId: state.supportUserId })
 
