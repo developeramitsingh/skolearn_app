@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, View, Text, KeyboardAvoidingView, TextInput, ScrollView, Pressable, Image } from "react-native";
+import { SafeAreaView, View, Text, KeyboardAvoidingView, TextInput, ScrollView, Pressable, Image, Vibration } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { chatStyles } from './chatStyles';
 import { APP_COLORS, BACKEND_URL, STORAGE_KEYS } from '../../constant/constant';
@@ -52,6 +52,8 @@ const Chat = ({ticketId}) => {
             console.info(`support is online`, {supportUserName}, { supportUserId });
 
             if (!state.supportUserId) {
+                // alert user that support is online now
+                Vibration.vibrate();
                 setState((prev) => {
                     return { ...prev, supportUserName: supportUserName, supportUserId, isSupportOnline: true }
                 })
@@ -62,6 +64,7 @@ const Chat = ({ticketId}) => {
 
         socketRef.current.on('supportMessageAgent'+state.supportUserId+state.userId, ({ sid, message, time, rid}, callBack) => {
             console.info(`message recieced`, message);
+
             setMessages(prev => {
                 return [ ...prev, { txt: message, userType: 'support', id: sid, time, rid }]
             })
@@ -114,7 +117,7 @@ const Chat = ({ticketId}) => {
     return (
         <SafeAreaView style={chatStyles.CONTAINER}>
             <View style={chatStyles.statusBar}>
-                <Text style={COMMON_STYLES.BODY_TITLE}>{state.supportUserName ? state.supportUserName + ' Available' : 'Offline'}</Text>
+                <Text style={[COMMON_STYLES.BODY_TITLE, { fontWeight: 'bold' }]}>{state.supportUserName ? state.supportUserName  : 'Offline'}</Text>
                 <Active isActive={state.isSupportOnline}/>
             </View>
 
