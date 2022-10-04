@@ -8,7 +8,7 @@ export const ASSEST_URLS = {
 
 export const APP_COLORS = {
     blue: '#1E90FF',
-    appBlue: '#222957', 
+    appThemeColor: '#360173', 
     blueGreen: '#25B0B9',
     yellow: '#FFD81B',
     green: '#26d606',
@@ -18,7 +18,7 @@ export const APP_COLORS = {
     grey: '#3D3D3D',
     light_grey: '#C1C1C1',
     white: '#fff',
-    back: '#222957',
+    back: '#360173',
     black: '#000',
     black_opacity: '#00000050',
     white_opacity: '#ffffff70',
@@ -91,7 +91,7 @@ export const TEST_TYPES = {
     PRACTICE: 'practice',
 };
 
-//export const TEST_CARD_COLORS = [APP_COLORS.green, APP_COLORS.blue, APP_COLORS.blueGreen, APP_COLORS.yellow, APP_COLORS.orange, APP_COLORS.skyBlue, APP_COLORS.light_grey, APP_COLORS.back];
+//export const TEST_CARD_COLORS = [APP_COLORS.green, APP_COLORS.blue, APP_COLORS.blueGreen, APP_COLORS.yellow, APP_COLORS.orange, APP_COLORS.skyBlue, APP_COLORS.light_grey, APP_COLORS.appThemeColor];
 export const TEST_CARD_COLORS = [APP_COLORS.white, APP_COLORS.white, APP_COLORS.white, APP_COLORS.white, APP_COLORS.white, APP_COLORS.white, APP_COLORS.white, APP_COLORS.white];
 
 export const ROUTES = {

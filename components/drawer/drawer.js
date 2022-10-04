@@ -67,7 +67,7 @@ const Drawer = ({navigation, setDrawer, user }) => {
     return (
         <View elevation={10} style={[drawerStyles.DRAWER_CONT, { right: state?.drawerRight }]}>
             <View style={COMMON_STYLES.ROW_LEFT}>
-                <BackBtn color={Constant.APP_COLORS.appBlue} handler={()=> setDrawer(false)}/>
+                <BackBtn color={Constant.APP_COLORS.appThemeColor} handler={()=> setDrawer(false)}/>
                 <Text style={COMMON_STYLES.ACTIVE_USER_TEXT}>{LANGUAGES_DATA[language]?.DRAWER.WELCOME} <Text style={COMMON_STYLES.ACTIVE_USER_TEXT}>{user?.userName}</Text></Text>
             </View>
 
@@ -75,14 +75,14 @@ const Drawer = ({navigation, setDrawer, user }) => {
                 <View style={COMMON_STYLES.CARD}>
                     <Pressable style={COMMON_STYLES.CARD} onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_PROFILE)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
-                            <FontAwesome name="user-circle" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
+                            <FontAwesome name="user-circle" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appThemeColor}/>
                             <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.PROFILE}</Text>
                         </View>
                     </Pressable>
 
                     <Pressable style={COMMON_STYLES.CARD} onPress={()=> handlePress(Constant.ACTION_TYPES.OPEN_LANGUAGE)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
-                            <FontAwesome name="language" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
+                            <FontAwesome name="language" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appThemeColor}/>
                             <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.LANGUAGE}</Text>
                         </View>
                     </Pressable>
@@ -91,14 +91,14 @@ const Drawer = ({navigation, setDrawer, user }) => {
                 <View style={COMMON_STYLES.CARD}>
                     <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_ABOUT_US)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
-                            <FontAwesome name="info-circle" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
+                            <FontAwesome name="info-circle" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appThemeColor}/>
                             <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.ABOUT_US}</Text>
                         </View>
                     </Pressable>
 
                     <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_FAQ)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
-                            <FontAwesome name="question" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
+                            <FontAwesome name="question" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appThemeColor}/>
                             
                             <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.FAQ}</Text>
                         </View>
@@ -106,7 +106,7 @@ const Drawer = ({navigation, setDrawer, user }) => {
 
                     <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_TERMS_POLICY)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
-                            <MaterialIcons name="fact-check" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue} />
+                            <MaterialIcons name="fact-check" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appThemeColor} />
                             
                             <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.TERMS_COND}</Text>
                         </View>
@@ -117,21 +117,21 @@ const Drawer = ({navigation, setDrawer, user }) => {
                 <View style={COMMON_STYLES.CARD}>
                     <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_PRIVACY_POLICY)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
-                            <MaterialIcons name="privacy-tip" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
+                            <MaterialIcons name="privacy-tip" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appThemeColor}/>
                             <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.PRIVACY_POLICY}</Text>
                         </View>
                     </Pressable>
 
                     <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_REFUND_POLICY)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
-                            <FontAwesome name="money" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue}/>
+                            <FontAwesome name="money" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appThemeColor}/>
                             <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.REFUND_POLICY}</Text>
                         </View>
                     </Pressable>
 
                     <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.LOGOUT)}>
                         <View style={COMMON_STYLES.ROW_LEFT}>
-                            <MaterialIcons name="logout" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appBlue} />
+                            <MaterialIcons name="logout" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appThemeColor} />
                             <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.LOGOUT}</Text>
                         </View>
                     </Pressable>

@@ -23,7 +23,7 @@ const WebViewScreen = ({ navigation, route}) => {
 
     return (
         <View style={COMMON_STYLES.CONTAINER_LIGHT}>
-            <BackBtn color={APP_COLORS.appBlue} navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
+            <BackBtn color={APP_COLORS.appThemeColor} navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
             <WebView 
                 source={{ uri: route?.params?.webViewUrl }}
             />    

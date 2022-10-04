@@ -44,7 +44,7 @@ const LeaderBoardContent = ({data, activeTab, enrolledId, testType, LANGUAGES_DA
 
     const ListItems = ({item, forCurrentUser, isTestLive}) => {
         return (
-            <View elevation={3} key={item._id} style={[leaderBoardStyles.ROW_LEATHER_BOARD, forCurrentUser && { backgroundColor: Constant.APP_COLORS.back }]}>
+            <View elevation={3} key={item._id} style={[leaderBoardStyles.ROW_LEATHER_BOARD, forCurrentUser && { backgroundColor: Constant.APP_COLORS.appThemeColor }]}>
                 <View style={[leaderBoardStyles.BODY_LEFT_COL, !isTestLive && { width: '100%'}]}>
                     <Text style={[leaderBoardStyles.LABEL_TEXT, forCurrentUser && { color: 'white'}]}>
                         <Ionicons name="trophy" size={14} color={Constant.APP_COLORS.yellow} />{item.rank ?? '-'}</Text>

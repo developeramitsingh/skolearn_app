@@ -10,7 +10,7 @@ export const tabStyles = StyleSheet.create({
         width: '100%',
         // borderWidth: 1,
         // borderColor: '#fff',
-        backgroundColor: APP_COLORS.appBlue,
+        backgroundColor: APP_COLORS.appThemeColor,
         paddingTop: 10,
         paddingBottom: 10,
         paddingHorizontal: 10,

@@ -3,7 +3,7 @@ import {APP_COLORS} from '../../constant/constant';
 
 export const profileStyles = StyleSheet.create({
     CONTAINER: {
-        backgroundColor: APP_COLORS.appBlue,
+        backgroundColor: APP_COLORS.appThemeColor,
         flex: 1,
         paddingHorizontal: 20,
     },
@@ -50,7 +50,7 @@ export const profileStyles = StyleSheet.create({
     },
     BODY_TEXT: {
         fontSize: 10,
-        color: APP_COLORS.appBlue
+        color: APP_COLORS.appThemeColor
     },
     REFER_BOX: {
         backgroundColor: APP_COLORS.lightGrey2,

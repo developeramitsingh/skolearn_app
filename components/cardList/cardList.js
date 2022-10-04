@@ -7,7 +7,7 @@ import { ProgressBar, Colors } from 'react-native-paper';
 
 const showSubjects = ({subjects}, isHorizontal, langData)=> {
     return (
-        <View style ={[cardListStyles.ROW, { marginTop: 5, backgroundColor: Constant.APP_COLORS.lightGrey2, paddingHorizontal: 10, borderRadius: 10, paddingVertical: 1, opacity: 0.8 }]}>
+        <View style ={[cardListStyles.ROW, { marginTop: 5, paddingHorizontal: 10, borderRadius: 10, paddingVertical: 1, ...(isHorizontal ? { backgroundColor: Constant.APP_COLORS.white_opacity } : { backgroundColor: Constant.APP_COLORS.lightGrey2 })}]}>
             <Text style={cardListStyles.CARD_LABEL_HEAD}>{langData?.SUBJECTS?.TITLE}</Text>
             { subjects?.map(subject => (
                 <Text style={[cardListStyles.CARD_LABEL, !isHorizontal && cardListStyles.CARD_LABEL_VERT]}>{langData?.SUBJECTS?.[subject?.toUpperCase()]}</Text>
@@ -97,7 +97,7 @@ const CardList = (props) => {
                             </View>
 
                             <View>
-                                <ProgressBar style={{ height: 5, width: 220 }} progress={item.userEnrolled / item.userSeats} color={Colors.blueA700} visible={true}/>
+                                <ProgressBar style={{ height: 5, width: 220 }} progress={item.userEnrolled / item.userSeats} color={Constant.APP_COLORS.appThemeColor} visible={true}/>
                             </View>
                             
                             

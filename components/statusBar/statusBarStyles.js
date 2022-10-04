@@ -7,7 +7,7 @@ const statusBarStyles = StyleSheet.create({
         justifyContent: 'space-between',
         // borderWidth: 1,
         // borderColor: '#fff',
-        backgroundColor: APP_COLORS.appBlue,
+        backgroundColor: APP_COLORS.appThemeColor,
         paddingHorizontal: 20,
         paddingTop: 10,
         paddingBottom: 5,

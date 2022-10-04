@@ -47,12 +47,12 @@ export const leaderBoardStyles = StyleSheet.create({
         textAlign: 'center',
     },
     TAB_BTN_ACTIVE: {
-        borderBottomColor: APP_COLORS.appBlue,
+        borderBottomColor: APP_COLORS.appThemeColor,
         borderBottomWidth: 4,
         backgroundColor: APP_COLORS.yellow
     },
     TAB_BTN_TEXT_ACTIVE: {
-        color: APP_COLORS.appBlue,
+        color: APP_COLORS.appThemeColor,
     },
     BODY_LEFT_COL: {
         justifyContent: 'space-between',

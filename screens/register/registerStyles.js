@@ -6,7 +6,7 @@ export const registerStyles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        backgroundColor: APP_COLORS.back,
+        backgroundColor: APP_COLORS.appThemeColor,
     },
     logo: {
         marginTop: '5%',

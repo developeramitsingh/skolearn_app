@@ -1,13 +1,13 @@
 import {APP_COLORS} from '../../constant/constant';
 export const COMMON_STYLES = {
     CONTAINER: {
-        backgroundColor: APP_COLORS.back,
+        backgroundColor: APP_COLORS.appThemeColor,
         flex: 1,
         paddingTop: 0,
         paddingHorizontal: 15,
     },
     CONTAINER_BLUE: {
-        backgroundColor: APP_COLORS.appBlue,
+        backgroundColor: APP_COLORS.appThemeColor,
         flex: 1,
         paddingTop: 0,
         paddingHorizontal: 15,
@@ -84,7 +84,7 @@ export const COMMON_STYLES = {
     },
 
     BODY_TEXT:  {
-        color: APP_COLORS.appBlue,
+        color: APP_COLORS.appThemeColor,
         fontSize: 12,
     },
     BODY_TEXT_WHITE:  {
@@ -96,7 +96,7 @@ export const COMMON_STYLES = {
         fontSize: 12,
     },
     BODY_TITLE:  {
-        color: APP_COLORS.appBlue,
+        color: APP_COLORS.appThemeColor,
         fontSize: 12,
         
     },
@@ -111,7 +111,7 @@ export const COMMON_STYLES = {
         
     },
     BODY_HEADING_1:  {
-        color: APP_COLORS.appBlue,
+        color: APP_COLORS.appThemeColor,
         fontSize: 28,
         
     },

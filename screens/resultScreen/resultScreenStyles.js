@@ -4,7 +4,7 @@ import { APP_COLORS } from '../../constant/constant';
 export const resultScreenStyles = StyleSheet.create({
     CONTAINER: {
         flex: 1,
-        backgroundColor: APP_COLORS.appBlue,
+        backgroundColor: APP_COLORS.appThemeColor,
         paddingHorizontal: 10,
     },
     LEATHER_BOARD_CONT_LIGHT: {
@@ -45,9 +45,9 @@ export const resultScreenStyles = StyleSheet.create({
         textAlign: 'center',
     },
     TAB_BTN_ACTIVE: {
-        borderBottomColor: APP_COLORS.appBlue,
+        borderBottomColor: APP_COLORS.appThemeColor,
         borderBottomWidth: 4,
-        backgroundColor: APP_COLORS.appBlue
+        backgroundColor: APP_COLORS.appThemeColor
     },
     TAB_BTN_TEXT_ACTIVE: {
         color: APP_COLORS.white,

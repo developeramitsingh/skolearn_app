@@ -6,7 +6,7 @@ export const verifyOtpStyles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        backgroundColor: APP_COLORS.appBlue,
+        backgroundColor: APP_COLORS.appThemeColor,
     },
     logo: {
         marginTop: '20%',

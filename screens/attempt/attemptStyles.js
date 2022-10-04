@@ -3,7 +3,7 @@ import { APP_COLORS } from '../../constant/constant';
 export const attemptStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: APP_COLORS.appBlue,
+        backgroundColor: APP_COLORS.appThemeColor,
         paddingHorizontal: 10,
         paddingBottom: 10,
         justifyContent: 'flex-start'
@@ -40,6 +40,6 @@ export const attemptStyles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 50,
         alignSelf: 'center',
-        backgroundColor: APP_COLORS.appBlue,
+        backgroundColor: APP_COLORS.appThemeColor,
     }
 })

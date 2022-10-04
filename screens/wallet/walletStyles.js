@@ -23,7 +23,7 @@ export const walletStyles = StyleSheet.create({
         marginVertical: 10,
     },
     CARD_TEXT: {
-        color: APP_COLORS.appBlue,
+        color: APP_COLORS.appThemeColor,
         fontSize: 10,
         //marginVertical: 2,
     },

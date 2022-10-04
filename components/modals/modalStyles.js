@@ -5,7 +5,7 @@ export const modalStyles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-around",
         alignItems: "center",
-        backgroundColor: APP_COLORS.appBlue,
+        backgroundColor: APP_COLORS.appThemeColor,
         paddingTop: 70,
         paddingHorizontal: 20,
       },
@@ -13,7 +13,7 @@ export const modalStyles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: APP_COLORS.appBlue,
+        backgroundColor: APP_COLORS.appThemeColor,
         paddingHorizontal: 20,
       },
       ROW_SPREAD: {

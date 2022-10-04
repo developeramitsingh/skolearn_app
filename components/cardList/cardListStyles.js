@@ -67,30 +67,30 @@ const cardListStyles = StyleSheet.create({
     },
     TITLE: {
         fontSize: 14,
-        color: APP_COLORS.appBlue,
+        color: APP_COLORS.appThemeColor,
         //paddingVertical: 10,
         flexWrap: 'wrap',
         fontWeight: 'bold'
     },
     LABEL_TEXT: {
         fontSize: 10,
-        color: APP_COLORS.appBlue,
+        color: APP_COLORS.appThemeColor,
         textAlign: 'center',
     },
     LABEL_TEXT_BODY: {
         fontSize: 8,
-        color: APP_COLORS.appBlue,
+        color: APP_COLORS.appThemeColor,
         textAlign: 'center',
         fontWeight: 'bold'
     },
     FEE: {        
         fontSize: 16,
-        color: APP_COLORS.appBlue,
+        color: APP_COLORS.appThemeColor,
         textAlign: 'center',
         fontWeight: 'bold'
     },
     CARD_BTN: {
-        backgroundColor: APP_COLORS.appBlue,
+        backgroundColor: APP_COLORS.appThemeColor,
         paddingHorizontal: 20,
         paddingVertical: 10,
         borderRadius: 15,
@@ -115,7 +115,7 @@ const cardListStyles = StyleSheet.create({
         fontSize: 8,
         fontWeight: 'bold',
         //backgroundColor: APP_COLORS.lightYellow,
-        //color: APP_COLORS.appBlue,
+        //color: APP_COLORS.appThemeColor,
         //paddingRight: 5,
         //paddingVertical: 2.5,
         //marginRight: 5,
@@ -125,7 +125,7 @@ const cardListStyles = StyleSheet.create({
     CARD_LABEL: {
         fontSize: 8,
         // backgroundColor: APP_COLORS.lightYellow,
-        // color: APP_COLORS.appBlue,
+        // color: APP_COLORS.appThemeColor,
         // paddingHorizontal: 8,
         // paddingVertical: 2,
         // marginRight: 5,
@@ -134,7 +134,7 @@ const cardListStyles = StyleSheet.create({
     },
     CARD_LABEL_VERT: {
         //backgroundColor: APP_COLORS.lightBlue,
-        //color: APP_COLORS.appBlue,
+        //color: APP_COLORS.appThemeColor,
         //opacity: 0.8
     },
     CARD_TITLE_CONT: {
