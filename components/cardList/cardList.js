@@ -1,12 +1,13 @@
+import * as React from 'react';
 import { FlatList, View, Text, Pressable } from "react-native";
 import cardListStyles from "./cardListStyles";
 import { FontAwesome } from '@expo/vector-icons';
 import * as Constant from '../../constant/constant';
-import { LANGUAGES_DATA } from "../../constant/language";
+import { ProgressBar, Colors } from 'react-native-paper';
 
 const showSubjects = ({subjects}, isHorizontal, langData)=> {
     return (
-        <View style ={[cardListStyles.ROW_LEFT, { marginTop: 5 }]}>
+        <View style ={[cardListStyles.ROW, { marginTop: 5, backgroundColor: Constant.APP_COLORS.lightGrey2, paddingHorizontal: 10, borderRadius: 10, paddingVertical: 1, opacity: 0.8 }]}>
             <Text style={cardListStyles.CARD_LABEL_HEAD}>{langData?.SUBJECTS?.TITLE}</Text>
             { subjects?.map(subject => (
                 <Text style={[cardListStyles.CARD_LABEL, !isHorizontal && cardListStyles.CARD_LABEL_VERT]}>{langData?.SUBJECTS?.[subject?.toUpperCase()]}</Text>
@@ -58,37 +59,23 @@ const CardList = (props) => {
         return (
             <View elevation={1} key={item.enrolledId ||item._id} style ={[isHorizontal ? cardListStyles.CARD_HORIZONTAL : {...cardListStyles.CARD_VERTICAL }, isMyTest && { paddingBottom: 0 }]}>
                 
-                <View style ={cardListStyles.ROW}>
+                <View style ={[cardListStyles.ROW, cardListStyles.CARD_TITLE_CONT, !isHorizontal && cardListStyles.CARD_TITLE_CONT_VERTICAL ]}>
                     <View style={[cardListStyles.COL_LEFT, isHorizontal && { maxWidth: 200 }, isPractice && { maxWidth: '100%'}]}>
                         <Text style={cardListStyles.TITLE}>{item.testName}</Text>
                     </View>
                     { 
                         difficultyLevel &&
-                        <View style={[cardListStyles.COL_RIGHT, isHorizontal && { backgroundColor: 'white' }]}>
+                        <View style={[cardListStyles.COL_RIGHT]}>
                             <Text style={cardListStyles.LABEL_TEXT}>{difficultyLevel}</Text>
                             <Text style={cardListStyles.LABEL_TEXT_BODY}>{difficultiLevelVal}</Text>
                         </View>
                     }
                 </View>
 
-                <View style ={cardListStyles.ROW}>
+                <View style ={[cardListStyles.ROW, { justifyContent: 'space-around'}]}>
                     { 
                         (isLive || isMyTest) &&
                         <>
-                            <View style = {cardListStyles.COL_RIGHT_SUB}>
-                                <View>
-                                    <FontAwesome name="user-circle" size={18} style={{ marginRight: 5}} color={isHorizontal ? Constant.APP_COLORS.white : Constant.APP_COLORS.lightBlue} />
-                                </View>
-                                
-                                <View>
-                                    <Text style={cardListStyles.LABEL_TEXT}>{langData?.STUDENT_JOINED}</Text>
-                                    {
-                                        testType !== Constant.TEST_TYPES.PRACTICE 
-                                            ? <Text style={cardListStyles.LABEL_TEXT}>{item.userEnrolled}/{item.userSeats}</Text>
-                                            : <Text style={cardListStyles.LABEL_TEXT}>{item.userEnrolled}</Text>
-                                    }
-                                </View>
-                            </View>   
                             <View>
                                 <Text style={cardListStyles.LABEL_TEXT}>{langData?.TEST_FEE}</Text>
                                 <Text style={cardListStyles.FEE}>{item?.testType !== Constant.TEST_TYPES.PRACTICE ? item.entryFee : 0 } {langData?.RS}</Text>
@@ -96,11 +83,34 @@ const CardList = (props) => {
                         </>
                     }
                     <View>
-                        <Pressable elevation={2} onPress={() => props?.handleBtnPress(item._id, item.enrolledId)} style= {btnStyle.btn}>
+                        <Pressable elevation={5} onPress={() => props?.handleBtnPress(item._id, item.enrolledId)} style= {btnStyle.btn}>
                             <Text style = {btnStyle.btnTxt}>{btnText}</Text>
                         </Pressable>
                     </View>
                 </View>
+
+                { 
+                        (isLive || isMyTest) &&
+                        <View style={[cardListStyles.ROW]}>
+                            <View>
+                                <FontAwesome name="user-circle" size={14} style={{ marginRight: 5}} color={isHorizontal ? Constant.APP_COLORS.white : Constant.APP_COLORS.lightBlue} />
+                            </View>
+
+                            <View>
+                                <ProgressBar style={{ height: 5, width: 220 }} progress={item.userEnrolled / item.userSeats} color={Colors.blueA700} visible={true}/>
+                            </View>
+                            
+                            
+                            <View>
+                                {
+                                    testType !== Constant.TEST_TYPES.PRACTICE 
+                                        ? <Text style={cardListStyles.LABEL_TEXT}>{item.userEnrolled}/{item.userSeats}</Text>
+                                        : <Text style={cardListStyles.LABEL_TEXT}>{item.userEnrolled}</Text>
+                                }
+                            </View>
+                        </View>
+
+                }
 
                 {
                     item.subjects?.length 
