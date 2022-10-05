@@ -582,7 +582,7 @@ export const LANGUAGES_DATA = {
             ENTER_AMOUNT_TO_WITHDRAW: 'Enter Amount To Withdraw',
             TXN_PENDING_TXT: 'The transaction is successful! However, we are still verifying your payment from the bank. We will notify you once done',
             TXN_MONEY_SUCCESS_TXT: 'Money Added to Wallet Successfully!',
-            TXN_MONEY_FAILED_TXT: 'Money addin to Wallet Failed!',
+            TXN_MONEY_FAILED_TXT: 'Money adding to Wallet Failed!',
             MONEY_VALIDATION: 'Amount should be greater then 0',
             LESS_BALANCE_TO_WITHDRAW: 'Wallet money is insufficient!',
             MONEY_WITHDRAW_SUCCESS: 'Withdraw request raised!',
