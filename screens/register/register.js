@@ -1,4 +1,4 @@
-import { View, Text, Image, Pressable, SafeAreaView, TextInput, Linking } from 'react-native';
+import { View, Text, Image, Pressable, SafeAreaView, TextInput, Linking, KeyboardAvoidingView, Platform } from 'react-native';
 import { registerStyles } from './registerStyles';
 import { useState, useEffect } from 'react';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
@@ -187,6 +187,7 @@ const Register = ({navigation}) => {
     }
 
   return (
+    <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={registerStyles.container} enabled>
       <SafeAreaView style={registerStyles.container}>
         <Loader isLoading={state.isLoading}/>
         <Image style ={registerStyles.logo} source={{ uri: Constant.ASSEST_URLS.LOGO }}/>
@@ -298,6 +299,7 @@ const Register = ({navigation}) => {
             <Text style={[COMMON_STYLES.ERROR_TXT]}>{state.error}</Text>
         </View>
       </SafeAreaView>
+      </KeyboardAvoidingView>
   )
 }
 

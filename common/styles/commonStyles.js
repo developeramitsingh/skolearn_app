@@ -31,9 +31,8 @@ export const COMMON_STYLES = {
         color: '#000',
         backgroundColor: '#fff',
         textAlign: 'center',
-        fontSize: 20,
-        paddingTop: 8,
-        paddingBottom: 8,
+        fontSize: 16,
+        paddingVertical: 5,
         borderRadius: 40,
         marginTop: '4%',
         marginBottom: '4%',
@@ -266,7 +265,8 @@ export const COMMON_STYLES = {
     },
     ERROR_TXT: {
         color: APP_COLORS.red,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        paddingVertical: 5
     },
     LOADER_CONT: {
         flex: 1,
