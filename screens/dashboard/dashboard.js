@@ -11,6 +11,7 @@ import FooterIconBar from '../../components/footerIconBar/footerIconBar';
 import dashboardStyles from './dashboardStyles';
 import Wallet from '../wallet/wallet';
 import Index from '../help/index';
+import Profile from '../profile/profile';
 import { saveToStorage, getFromStorage } from '../../utils/utils';
 import { userService, notificationsService } from '../../services';
 import { LANGUAGES_DATA } from '../../constant/language';
@@ -130,6 +131,9 @@ const Dashboard = ({navigation, route }) => {
                 : route?.params?.activeScreen === Constant.SCREENS.WALLET 
                     || state.activeScreen === Constant.SCREENS.WALLET 
                 ? <Wallet userId ={ route?.params?.user?._id || state.user?._id}/>
+                : route?.params?.activeScreen === Constant.SCREENS.WALLET 
+                || state.activeScreen === Constant.SCREENS.PROFILE 
+                ? <Profile navigation={navigation} route={{ params: { user: route?.params?.user || state.user } }}/>
                 : <Index/>
 
             }

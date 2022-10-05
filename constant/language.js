@@ -134,6 +134,7 @@ export const LANGUAGES_DATA = {
             HOME: 'होम',
             WALLET: 'वॉलेट',
             HELP: 'मदद',
+            PROFILE: 'प्रोफाइल',
         },
         
         DASHBOARD:{
@@ -459,6 +460,7 @@ export const LANGUAGES_DATA = {
             HOME: 'Home',
             WALLET: 'Wallet',
             HELP: 'Help',
+            PROFILE: 'Profile',
         },
         DASHBOARD:{
             [Constant.SCREENS.TEST_LIST]: {

@@ -36,6 +36,7 @@ export const ASSEST_URLS = {
 export const APP_COLORS = {
     blue: '#1E90FF',
     appThemeColor: '#360173', 
+    lightAppThemeColor: '#e4ccff', 
     blueGreen: '#25B0B9',
     yellow: '#FFD81B',
     green: '#26d606',
@@ -143,6 +144,7 @@ export const SCREENS = {
     TEST_LIST: 'TestLists',
     WALLET: 'Wallet',
     HELP: 'Help',
+    PROFILE: 'Profile'
 };
 
 export const TEST_TIME_LIMIT = 5;
