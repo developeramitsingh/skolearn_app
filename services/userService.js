@@ -74,6 +74,18 @@ class UserService {
         return axios.post(option);
     }
 
+    async resendOtp() {
+        const otpToken = await getFromStorage(STORAGE_KEYS.OTP_TOKEN);
+        const option = {
+            url: `${BACKEND_URL}/resendotp`,
+            headers: {
+                'Authorization': `Bearer ${otpToken}`
+            }
+        };
+
+        return axios.get(option);
+    }
+
      getAllUsers() {
         const option = {
             url: `${BACKEND_URL}/users`,

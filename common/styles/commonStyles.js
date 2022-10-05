@@ -268,6 +268,11 @@ export const COMMON_STYLES = {
         alignSelf: 'center',
         paddingVertical: 5
     },
+    SUCCESS_TXT: {
+        color: APP_COLORS.green,
+        alignSelf: 'center',
+        paddingVertical: 5
+    },
     LOADER_CONT: {
         flex: 1,
         justifyContent: 'center',

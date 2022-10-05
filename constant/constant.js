@@ -163,6 +163,8 @@ export const STORAGE_KEYS = {
     ALERT_READ_CACHE: 'alert-read-cache',
 
     CURRENT_LANGUAGE: 'current-language',
+
+    OTP_RESEND_COUNT: 'otp-resend-count',
 }
 
 export const LANGUAGES = {

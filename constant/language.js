@@ -104,8 +104,15 @@ export const LANGUAGES_DATA = {
             HEADING: 'ओटीपी सत्यापित करें',
             PLACEHOLDER: 'यहां ओटीपी टाइप करें',
             BTN_TXT: 'सत्यापित करें',
+            RESEND_TXT: 'ओटीपी दोबारा भेजें',
+            OK: 'ठीक है',
             ERRORS: {
-                OTP_VALID: 'गलत ओटीपी, कृपया सही ओटीपी दर्ज करें'
+                OTP_VALID: 'गलत ओटीपी, कृपया सही ओटीपी दर्ज करें',
+                OTP_RESENT_1: 'कृपया 1 मिनट के बाद पुन: भेजें',
+                OTP_RESENT_2: 'कृपया 15 मिनट के बाद पुन: भेजें',
+            },
+            SUCCESS: {
+                OTP_RESENT: 'ओटीपी फिर से भेजा गया सफल!',
             },
         },
         DRAWER: {
@@ -422,9 +429,16 @@ export const LANGUAGES_DATA = {
             HEADING: 'Verify OTP',
             PLACEHOLDER: 'Type here OTP',
             BTN_TXT: 'Verify',
+            RESEND_TXT: 'Resend OTP',
+            OK: 'Ok',
             ERRORS: {
-                OTP_VALID: 'Incorrect OTP, please enter correct OTP'
-            }
+                OTP_VALID: 'Incorrect OTP, please enter correct OTP',
+                OTP_RESENT_1: 'Please resend after 1 minute',
+                OTP_RESENT_2: 'Please resent after 15 minutes',
+            },
+            SUCCESS: {
+                OTP_RESENT: 'OTP Resent Successfull!',
+            },
         },
         DRAWER: {
             WELCOME: 'Welcome',

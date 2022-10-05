@@ -1,11 +1,11 @@
-import { View, Text, Image, Pressable, SafeAreaView, TextInput } from 'react-native';
+import { View, Text, Image, Pressable, SafeAreaView, TextInput, Alert } from 'react-native';
 import { verifyOtpStyles } from './verifyOtpStyles';
 import { useEffect, useState } from 'react';
 
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from  '../../constant/constant';
 import userService from '../../services/userService';
-import { saveToStorage } from '../../utils/utils';
+import { getFromStorage, saveToStorage } from '../../utils/utils';
 import Loader from '../../components/loader/loader';
 import { LANGUAGES_DATA } from '../../constant/language';
 import { setCurrentLanguage } from '../../common/functions/commonHelper';
@@ -57,6 +57,56 @@ const VerifyOtp = ({navigation, route }) => {
         }
     }
 
+    const handleResendOtp = async () => {
+        try {
+            setState(prev => {
+                return { ...prev, infoMsg: '' }
+            });
+
+            let { resendCount, lastSentTime } = await getFromStorage(Constant.STORAGE_KEYS.OTP_RESEND_COUNT) || {}; 
+            const currentTime = new Date().getTime();
+
+            console.info({ resendCount, lastSentTime, currentTime });
+
+            // stop user for calling the resend api if sent before lessthan 1 minute 
+            if ((+lastSentTime + 60000) > +currentTime && resendCount && resendCount < 3) {
+                Alert.alert('', LANGUAGES_DATA[lang]?.VERIFY_OTP?.ERRORS?.OTP_RESENT_1, [
+                    {
+                        text: LANGUAGES_DATA[lang]?.VERIFY_OTP?.OK
+                    }
+                ]);
+                return;
+            }
+
+            // stop user for calling the resend api if sent count 3 and before 15 minutes
+            if (resendCount && resendCount === 3 && (+lastSentTime + 6000) > +currentTime) {
+                Alert.alert('', LANGUAGES_DATA[lang]?.VERIFY_OTP?.ERRORS?.OTP_RESENT_2, [
+                    {
+                        text: LANGUAGES_DATA[lang]?.VERIFY_OTP?.OK
+                    }
+                ]);
+                return;
+            }
+            const data = await userService.resendOtp();
+
+            //save the otp token to storage
+            saveToStorage(Constant.STORAGE_KEYS.OTP_TOKEN, data?.otpToken);
+
+            if (resendCount === 3) {
+                resendCount = 0;
+            }
+            //save the otp resend count and time
+            saveToStorage(Constant.STORAGE_KEYS.OTP_RESEND_COUNT, { resendCount: resendCount ? resendCount + 1 : 1, lastSentTime: new Date().getTime() })
+
+            setState(prev => {
+                return { ...prev, infoMsg: LANGUAGES_DATA[lang]?.VERIFY_OTP?.SUCCESS?.OTP_RESENT}
+            });
+            
+        } catch (err) {
+            console.error(`error in handleResendOtp: ${err}`);
+        }
+    }
+
     const handleChange = (val) => {
         let disabled = true;
         if (val.length === 6) {
@@ -84,7 +134,12 @@ const VerifyOtp = ({navigation, route }) => {
                 <Text style={[COMMON_STYLES.BTN_TEXT, state.disabled && COMMON_STYLES.DISABLED_TEXT]}>{LANGUAGES_DATA[lang]?.VERIFY_OTP?.BTN_TXT}</Text>
             </Pressable>
 
+            <Pressable elevation={3} onPress= {handleResendOtp} style={[COMMON_STYLES.SUB_BTN_2, { maxWidth: 150, alignSelf: 'center', marginTop: 10 }]}>
+                <Text style={[COMMON_STYLES.SUB_BTN_TXT_1]}>{LANGUAGES_DATA[lang]?.VERIFY_OTP?.RESEND_TXT}</Text>
+            </Pressable>
+
             <Text style={[COMMON_STYLES.ERROR_TXT, COMMON_STYLES.MARGIN_TOP]}>{state.error}</Text>
+            <Text style={[COMMON_STYLES.SUCCESS_TXT, COMMON_STYLES.MARGIN_TOP]}>{state.infoMsg}</Text>
             
         </View>
       </SafeAreaView>
