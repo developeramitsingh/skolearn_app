@@ -3,7 +3,7 @@ import * as Updates from 'expo-updates';
 export const APP_VERSION = '1.0.0';
 
 export const ASSEST_URLS = {
-    LOGO: 'https://ik.imagekit.io/nwxotnqhh/logo.png',
+    LOGO: 'https://ik.imagekit.io/nwxotnqhh/logo.png?ik-sdk-version=javascript-1.4.3&updatedAt=1664917053868',
 };
 
 export const APP_COLORS = {

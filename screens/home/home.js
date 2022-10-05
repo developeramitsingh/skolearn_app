@@ -15,6 +15,7 @@ import { sendAppLogService, userService } from '../../services/index';
 
 import Loader from '../../components/loader/loader';
 import { LANGUAGES_DATA } from '../../constant/language';
+import Slideshow from '../../components/slideshow/slideshow';
 
 //push notification functions
 Notifications.setNotificationHandler({
@@ -113,12 +114,15 @@ const Home = ({navigation}) => {
   return (
       <SafeAreaView style={homeStyles.container}>
           <Loader isLoading={isLoading}/>
-          <ImageBackground source={backImage} style={homeStyles.backImage}>
+          <ImageBackground source={{ uri: 'https://ik.imagekit.io/nwxotnqhh/splashfinal_BnUFAQxRr.png?ik-sdk-version=javascript-1.4.3&updatedAt=1664917251827'}} style={homeStyles.backImage}>
             <View style ={homeStyles.tagLineView}>
                 <Text style={homeStyles.tagLine}>
                   {LANGUAGES_DATA[lang]?.HOME?.HEADING}
                 </Text>
             </View>
+
+            {/* <Slideshow/> */}
+            
 
             <View style={homeStyles.loginBtnContainter}>
                 <Pressable elevation={3} handlePress={() => handlePress('login')} onPressOut={() => handlePress('login')} onPressIn={() => handlePress('login')} onPress= {handlePress} style={COMMON_STYLES.BTN_1}>
@@ -130,7 +134,7 @@ const Home = ({navigation}) => {
                 </Pressable>
             </View>
 
-            <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>{LANGUAGES_DATA[lang]?.HOME?.TERMS_TXT}<Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${Constant.BACKEND_URL}/terms`)}> {LANGUAGES_DATA[lang]?.HOME?.TERMS_LINK}</Text></Text>
+            {/* <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>{LANGUAGES_DATA[lang]?.HOME?.TERMS_TXT}<Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${Constant.BACKEND_URL}/terms`)}> {LANGUAGES_DATA[lang]?.HOME?.TERMS_LINK}</Text></Text> */}
         </ImageBackground>
       </SafeAreaView>
   )

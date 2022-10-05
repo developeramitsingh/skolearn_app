@@ -14,14 +14,14 @@ export const homeStyles = StyleSheet.create({
         alignItems: 'center',
     },
     tagLine: {
-        color: '#fff',
-        fontSize: 30,
+        color: APP_COLORS.appThemeColor,
+        fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: '80%',
+        marginTop: '50%',
     },
     loginBtnContainter: {
-        marginTop: '20%',
+        marginTop: '10%',
         width: '85%',
     },
 
