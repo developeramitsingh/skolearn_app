@@ -204,11 +204,9 @@ const Register = ({navigation}) => {
 
             <View style={COMMON_STYLES.ROW}>
                 <DropDownPicker
-                    items={[
-                          {label: '1', value: '1'},
-                          {label: '2', value: '2'},
-                          {label: '3', value: '3'},
-                    ]}
+                    items={Constant.DOB.DAYS?.map(day => {
+                        return { label: day, value: day }
+                    })}
                     open={dayOpen}
                     setOpen={() => setDayOpen(!dayOpen)}
                     value={state.day}
@@ -227,11 +225,7 @@ const Register = ({navigation}) => {
                     dropDownContainerStyle={COMMON_STYLES.DROPDOWN_BOX}
                   />
                   <DropDownPicker
-                    items={[
-                          {label: 'Jan', value: '1'},
-                          {label: 'Feb', value: '2'},
-                          {label: 'Mar', value: '3'},
-                    ]}
+                    items={Constant.DOB.MONTHS}
                     open={monthOpen}
                     setOpen={() => setMonthOpen(!monthOpen)}
                     value={state.month}
@@ -250,11 +244,9 @@ const Register = ({navigation}) => {
                     dropDownContainerStyle={COMMON_STYLES.DROPDOWN_BOX}
                   />
                   <DropDownPicker
-                    items={[
-                          {label: '1993', value: '1993'},
-                          {label: '2000', value: '2000'},
-                          {label: '2001', value: '2001'},
-                    ]}
+                    items={Constant.DOB.YEARS()?.map(year => {
+                        return { label: year, value: year }
+                    })}
                     open={yearOpen}
                     setOpen={() => setYearOpen(!yearOpen)}
                     value={state.year}
