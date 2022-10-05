@@ -136,8 +136,8 @@ const VerifyOtp = ({navigation, route }) => {
                 <Text style={[COMMON_STYLES.BTN_TEXT, state.disabled && COMMON_STYLES.DISABLED_TEXT]}>{LANGUAGES_DATA[lang]?.VERIFY_OTP?.BTN_TXT}</Text>
             </Pressable>
 
-            <Pressable elevation={3} onPress= {handleResendOtp} style={[COMMON_STYLES.SUB_BTN_2, { maxWidth: 150, alignSelf: 'center', marginTop: 10 }]}>
-                <Text style={[COMMON_STYLES.SUB_BTN_TXT_1]}>{LANGUAGES_DATA[lang]?.VERIFY_OTP?.RESEND_TXT}</Text>
+            <Pressable elevation={5} onPress= {handleResendOtp} style={[COMMON_STYLES.SUB_BTN_2, { maxWidth: 150, alignSelf: 'center', marginTop: 10, backgroundColor: Constant.APP_COLORS.back, borderColor: 'white', borderWidth: 0.2 }]}>
+                <Text style={[COMMON_STYLES.SUB_BTN_TXT_1, { color: 'white' }]}>{LANGUAGES_DATA[lang]?.VERIFY_OTP?.RESEND_TXT}</Text>
             </Pressable>
 
             <Text style={[COMMON_STYLES.ERROR_TXT]}>{state.error}</Text>
