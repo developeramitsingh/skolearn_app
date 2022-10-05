@@ -9,6 +9,14 @@ export const saveToStorage = async (key, data) => {
     } 
 }
 
+export const removeFromStorage = async (key) => {
+    try {
+        await AsyncStorage.removeItem(key);
+    } catch (err) {
+        console.error(`error in removeFromStorage`, err);
+    } 
+}
+
 export const appendToSavedStorage = async (key, data) => {
     try {
         //getting existing data for key

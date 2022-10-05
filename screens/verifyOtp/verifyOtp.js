@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from  '../../constant/constant';
 import userService from '../../services/userService';
-import { getFromStorage, saveToStorage } from '../../utils/utils';
+import { getFromStorage, removeFromStorage, saveToStorage } from '../../utils/utils';
 import Loader from '../../components/loader/loader';
 import { LANGUAGES_DATA } from '../../constant/language';
 import { setCurrentLanguage } from '../../common/functions/commonHelper';
@@ -55,6 +55,8 @@ const VerifyOtp = ({navigation, route }) => {
             const msg = err?.response?.data?.message;
             setState((prev) => { return {...prev, error: LANGUAGES_DATA[lang]?.VERIFY_OTP?.ERRORS?.OTP_VALID, disabled: false, isLoading: false }});
         }
+
+        removeFromStorage(Constant.STORAGE_KEYS.OTP_RESEND_COUNT);
     }
 
     const handleResendOtp = async () => {
@@ -138,8 +140,8 @@ const VerifyOtp = ({navigation, route }) => {
                 <Text style={[COMMON_STYLES.SUB_BTN_TXT_1]}>{LANGUAGES_DATA[lang]?.VERIFY_OTP?.RESEND_TXT}</Text>
             </Pressable>
 
-            <Text style={[COMMON_STYLES.ERROR_TXT, COMMON_STYLES.MARGIN_TOP]}>{state.error}</Text>
-            <Text style={[COMMON_STYLES.SUCCESS_TXT, COMMON_STYLES.MARGIN_TOP]}>{state.infoMsg}</Text>
+            <Text style={[COMMON_STYLES.ERROR_TXT]}>{state.error}</Text>
+            <Text style={[COMMON_STYLES.SUCCESS_TXT]}>{state.infoMsg}</Text>
             
         </View>
       </SafeAreaView>
