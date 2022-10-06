@@ -280,7 +280,7 @@ const Register = ({navigation}) => {
                     uncheckedColor={APP_COLORS.white}
                 />
 
-                <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>{LANGUAGES_DATA[lang]?.REGISTER?.TERMS_TXT} <Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${BACKEND_URL}/terms`)}> {LANGUAGES_DATA[lang]?.REGISTER?.TERMS_LINK}</Text></Text>
+                <Text style={COMMON_STYLES.BODY_TEXT_WHITE}>{LANGUAGES_DATA[lang]?.REGISTER?.TERMS_TXT} <Text style={COMMON_STYLES.LINK_TEXT} onPress={()=>Linking.openURL(`${BACKEND_URL}/policy/${Constant.POLICY.TERMS_COND}`)}> {LANGUAGES_DATA[lang]?.REGISTER?.TERMS_LINK}</Text></Text>
             </View>
             
 

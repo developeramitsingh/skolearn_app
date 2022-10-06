@@ -59,8 +59,8 @@ export const APP_COLORS = {
 };
 
 const PROD_URL= 'https://skolearn.herokuapp.com';
-const STAGE_URL= 'https://98f7-2405-204-1122-2d14-248f-5df0-e5cc-cd92.in.ngrok.io';
-const DEV_URL= 'https://98f7-2405-204-1122-2d14-248f-5df0-e5cc-cd92.in.ngrok.io';
+const STAGE_URL= 'https://skolearn.herokuapp.com';
+const DEV_URL= 'https://skolearn.herokuapp.com';
 const BETA_URL= 'https://skolearn.herokuapp.com';
 
 export const ENVS = {
