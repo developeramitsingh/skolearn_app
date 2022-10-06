@@ -160,11 +160,11 @@ const Drawer = ({navigation, setDrawer, user }) => {
                     <View style={COMMON_STYLES.ROW_COLUMN_LEFT}>
                         <Image source={{ uri: Constant.ASSEST_URLS.LOGO }} style={{height: 28, width: 80}}/>
                         <Text style={[COMMON_STYLES.BODY_TEXT, { marginVertical: 2, fontWeight: 'bold'}]}>
-                            Skolearn India
+                            Skolearn
                         </Text>
 
                         <Text style={[COMMON_STYLES.BODY_TEXT]}>
-                            ABC Address, New Delhi
+                            H. 111, Street 7, Shiv Encalve, Part - 1, Faridabad, Haryana - 121003
                         </Text>
 
                         <Text style={[COMMON_STYLES.BODY_TEXT]}>
@@ -172,7 +172,7 @@ const Drawer = ({navigation, setDrawer, user }) => {
                         </Text>
 
                         <Text style={[COMMON_STYLES.BODY_TEXT]}>                           
-                            Contact: +91-011-0111-021
+                            Contact: +91-9968470534
                         </Text>
                     </View>
                 </View>
