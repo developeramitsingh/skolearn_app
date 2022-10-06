@@ -109,8 +109,13 @@ const PAYTM_MERCHANT_ID_PROD = 'ivIILa37249090069885';
 export const PAYTM_MERCHANT_ID = APP_ENV === ENVS.PROD ?  PAYTM_MERCHANT_ID_PROD: PAYTM_MERCHANT_ID_TEST;
 export const PAYTMENT_CALLBACK_BACKEND = `${BACKEND_URL}/paytm-callback-url`;
 
-export const PAGES_LINK = {
-  ABOUT_US: `${BACKEND_URL}/admin`
+export const POLICY = {
+  ABOUT_US: 'about-us',
+  FAQ: 'faq',
+  TERMS_COND: 'terms-and-conditions',
+  PRIVACY_POLICY: 'privacy-policy',
+  REFUND_POLICY: 'refund-policy',
+  HOW_TO_ATTEMPT_TEST: 'how-to-attempt-test'
 }
 
 
@@ -173,7 +178,7 @@ export const ACTION_TYPES = {
     OPEN_TERMS_POLICY: 'openTermsPolicy',
     OPEN_PRIVACY_POLICY: 'openPrivacyPolicy',
     OPEN_REFUND_POLICY: 'openRefundPolicy',
-    OPEN_HOW_TO_GET_SCHOLARSHIP: 'openHowToGetScholarship',
+    OPEN_HOW_TO_ATTEMPT_TEST: 'openHowToAttemptTest',
     LOGOUT: 'logout',
 };
 

@@ -6,7 +6,7 @@ import { ScrollView, Text, View, Image, NativeModules,
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
 import { drawerStyles } from './drawerStyles';
 import * as Constant from '../../constant/constant';
-import {FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import {FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import BackBtn from '../../components/backBtn/backBtn';
 import { useEffect, useRef, useState } from "react";
 import { userService } from '../../services';
@@ -35,11 +35,21 @@ const Drawer = ({navigation, setDrawer, user }) => {
     }, [user]);
 
     const handlePress = async (actionType) => {
-        
+        const url = Constant.BACKEND_URL;
         if (actionType === Constant.ACTION_TYPES.OPEN_PROFILE) {
             navigation.navigate(Constant.ROUTES.PROFILE, { user });
+        } else if (actionType === Constant.ACTION_TYPES.OPEN_HOW_TO_ATTEMPT_TEST) {
+            navigation.navigate(Constant.ROUTES.WEB_VIEW, { webViewUrl: `${url}/policy/${Constant.POLICY.HOW_TO_ATTEMPT_TEST}` });
         } else if (actionType === Constant.ACTION_TYPES.OPEN_ABOUT_US) {
-            navigation.navigate(Constant.ROUTES.WEB_VIEW, { webViewUrl: Constant.PAGES_LINK.ABOUT_US });
+            navigation.navigate(Constant.ROUTES.WEB_VIEW, { webViewUrl: `${url}/policy/${Constant.POLICY.ABOUT_US}` });
+        } else if (actionType === Constant.ACTION_TYPES.OPEN_FAQ) {
+            navigation.navigate(Constant.ROUTES.WEB_VIEW, { webViewUrl: `${url}/policy/${Constant.POLICY.FAQ}` });
+        } else if (actionType === Constant.ACTION_TYPES.OPEN_TERMS_POLICY) {
+            navigation.navigate(Constant.ROUTES.WEB_VIEW, { webViewUrl: `${url}/policy/${Constant.POLICY.TERMS_COND}` });
+        } else if (actionType === Constant.ACTION_TYPES.OPEN_PRIVACY_POLICY) {
+            navigation.navigate(Constant.ROUTES.WEB_VIEW, { webViewUrl: `${url}/policy/${Constant.POLICY.PRIVACY_POLICY}` });
+        } else if (actionType === Constant.ACTION_TYPES.OPEN_REFUND_POLICY) {
+            navigation.navigate(Constant.ROUTES.WEB_VIEW, { webViewUrl: `${url}/policy/${Constant.POLICY.REFUND_POLICY}` });
         } else if (actionType === Constant.ACTION_TYPES.LOGOUT) {
             userService.dologout(navigation, { calledFrom: 'drawer' });
         } else if (actionType === Constant.ACTION_TYPES.OPEN_LANGUAGE) {
@@ -84,6 +94,15 @@ const Drawer = ({navigation, setDrawer, user }) => {
                         <View style={COMMON_STYLES.ROW_LEFT}>
                             <FontAwesome name="language" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appThemeColor}/>
                             <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.LANGUAGE}</Text>
+                        </View>
+                    </Pressable>
+                </View>
+
+                <View style={COMMON_STYLES.CARD}>
+                    <Pressable style={COMMON_STYLES.CARD} onPress= {()=> handlePress(Constant.ACTION_TYPES.OPEN_HOW_TO_ATTEMPT_TEST)}>
+                        <View style={COMMON_STYLES.ROW_LEFT}>
+                            <MaterialCommunityIcons name="head-lightbulb-outline" size={20} style={drawerStyles.TAB_ICON_WIDTH} color={Constant.APP_COLORS.appThemeColor} />
+                            <Text style={drawerStyles.TAB_TEXT}>{LANGUAGES_DATA[language]?.DRAWER?.HOW_TO_ATTEMPT_TEST}</Text>
                         </View>
                     </Pressable>
                 </View>

@@ -128,6 +128,7 @@ export const LANGUAGES_DATA = {
             TERMS_COND: 'नियम और शर्तें',
             PRIVACY_POLICY: 'गोपनीयता नीति',
             REFUND_POLICY: 'धनवापसी नीति',
+            HOW_TO_ATTEMPT_TEST: 'टेस्ट का प्रयास कैसे करें',
             LOGOUT: 'लॉगआउट',
         },
         FOOTER_ICON_BAR: {
@@ -454,6 +455,7 @@ export const LANGUAGES_DATA = {
             TERMS_COND: 'Terms & Conditions',
             PRIVACY_POLICY: 'Privacy Policy',
             REFUND_POLICY: 'Refund Policy',
+            HOW_TO_ATTEMPT_TEST: 'How to Attempt Test',
             LOGOUT: 'logout',
         },
         FOOTER_ICON_BAR: {
