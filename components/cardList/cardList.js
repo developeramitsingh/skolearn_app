@@ -96,8 +96,10 @@ const CardList = (props) => {
                                 <FontAwesome name="user-circle" size={14} style={{ marginRight: 5}} color={isHorizontal ? Constant.APP_COLORS.white : Constant.APP_COLORS.lightBlue} />
                             </View>
 
+                            {console.info({ enro: item.userEnrolled,  sear: item.userSeats, total: item.userEnrolled / item.userSeats })}
+
                             <View>
-                                <ProgressBar style={{ height: 5, width: 220 }} progress={item.userEnrolled / item.userSeats} color={Constant.APP_COLORS.appThemeColor} visible={true}/>
+                                <ProgressBar style={{ height: 5, width: 220 }} progress={item.userSeats ? (item.userEnrolled / item.userSeats)?.toFixed(1) : 0 } color={Constant.APP_COLORS.appThemeColor}/>
                             </View>
                             
                             
