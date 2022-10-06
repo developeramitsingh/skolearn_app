@@ -133,7 +133,7 @@ const Dashboard = ({navigation, route }) => {
                 ? <Wallet userId ={ route?.params?.user?._id || state.user?._id}/>
                 : route?.params?.activeScreen === Constant.SCREENS.WALLET 
                 || state.activeScreen === Constant.SCREENS.PROFILE 
-                ? <Profile navigation={navigation} route={{ params: { user: route?.params?.user || state.user } }}/>
+                ? <Profile navigation={navigation} route={{ params: { user: route?.params?.user || state.user, isBackButtonHide: true } }}/>
                 : <Index/>
 
             }

@@ -289,7 +289,12 @@ const Profile = ({navigation, route}) => {
 
     return (
         <SafeAreaView style={profileStyles.CONTAINER}>
-            <BackBtn navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
+            { 
+                !route?.params?.isBackButtonHide 
+                    ? <BackBtn navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
+                    : null
+            }
+            
             <ModalWindow modalVisible={showProfileEdit} actionType='updateProfile' handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.PROFILE?.EDIT_PROFILE} btnTxt = {LANGUAGES_DATA[lang]?.PROFILE?.
             UPDATE} placeholder={LANGUAGES_DATA[lang]?.PROFILE?.EDIT_PROFILE_INPUT} closeTxt={LANGUAGES_DATA[lang]?.PROFILE?.CLOSE}/>
 
