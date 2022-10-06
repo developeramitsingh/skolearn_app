@@ -49,6 +49,7 @@ export const APP_COLORS = {
     back: '#360173',
     black: '#000',
     black_opacity: '#00000050',
+    black_opacity_90: '#00000090',
     white_opacity: '#ffffff70',
     grey_opacity: '#ffffff20',
     red: '#fc0303',

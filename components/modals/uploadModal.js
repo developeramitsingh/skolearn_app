@@ -34,35 +34,37 @@ const UploadModal = ({ data, title, modalVisible, handleModalPress, btnTxt, acti
             statusBarTranslucent={true}
         >
             <View style={modalStyles.container}>
-                <Text style={modalStyles.modalTitle}>{title}</Text>
+                <View style={[modalStyles.CONT_INNER, { flex: 1 }]}>
+                    <Text style={modalStyles.modalTitle}>{title}</Text>
 
-                <View style={modalStyles.ROW}>
-                    {uri && <Image source={{ uri }} style={{ width: '90%', height: '40%' }} />}
+                    <View style={modalStyles.ROW}>
+                        {uri && <Image source={{ uri }} style={{ width: 200, height: 200 }} />}
 
-                    <TouchableOpacity onPress={setPickedImage} style={modalStyles.BTN}>
-                        <Text style={COMMON_STYLES.BTN_TEXT}>{choosePhotoTxt}</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={setPickedImage} style={modalStyles.BTN}>
+                            <Text style={COMMON_STYLES.BTN_TEXT}>{choosePhotoTxt}</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity disabled={isDisabled} onPress={async () => { 
-                        setDisabled(true);
-                        setLoading(true);
-                        await handleModalPress(actionType, uri);
-                        setDisabled(false);
-                        setLoading(false);
-                    }} style={[modalStyles.BTN, isDisabled && COMMON_STYLES.DISABLED_BTN]}>
-                        <Loader isLoading={isLoading}/>
-                        <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity disabled={isDisabled} onPress={async () => { 
+                            setDisabled(true);
+                            setLoading(true);
+                            await handleModalPress(actionType, uri);
+                            setDisabled(false);
+                            setLoading(false);
+                        }} style={[modalStyles.BTN, isDisabled && COMMON_STYLES.DISABLED_BTN]}>
+                            <Loader isLoading={isLoading}/>
+                            <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
+                        </TouchableOpacity>
 
-                    <Text style={[COMMON_STYLES.BODY_TEXT_WHITE, COMMON_STYLES.CENTER]}>{info}</Text>
-                </View>
+                        <Text style={[COMMON_STYLES.BODY_TEXT_WHITE, COMMON_STYLES.CENTER]}>{info}</Text>
+                    </View>
 
-                <View style={COMMON_STYLES.ROW}>
-                    <TouchableOpacity onPress={() => { 
-                        handleModalPress(CLOSE_MODAL, !modalVisible)
-                    }} style={modalStyles.BTN}>
-                        <Text style={COMMON_STYLES.BTN_TEXT}>{closeTxt}</Text>
-                    </TouchableOpacity>
+                    <View style={COMMON_STYLES.ROW}>
+                        <TouchableOpacity onPress={() => { 
+                            handleModalPress(CLOSE_MODAL, !modalVisible)
+                        }} style={modalStyles.BTN}>
+                            <Text style={COMMON_STYLES.BTN_TEXT}>{closeTxt}</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         </Modal>

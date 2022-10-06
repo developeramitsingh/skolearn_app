@@ -258,7 +258,7 @@ export const COMMON_STYLES = {
         marginVertical: 5
     },
     DISABLED_BTN: {
-        backgroundColor: APP_COLORS.grey,
+        backgroundColor: APP_COLORS.light_grey,
     },
     DISABLED_TXT: {
         color: APP_COLORS.white,

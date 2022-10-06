@@ -164,33 +164,35 @@ const ModalBankPanCard = ({ data, title, modalVisible, handleModalPress, btnTxt,
             statusBarTranslucent={true}
         >
             <View style={modalStyles.CONT_CENTER}>
-                <Text style={modalStyles.modalTitle}>{title}</Text>
-                <Text style={COMMON_STYLES.ERROR_TXT}>{state.error}</Text>
+                <View style={modalStyles.CONT_INNER}>
+                    <Text style={modalStyles.modalTitle}>{title}</Text>
+                    <Text style={COMMON_STYLES.ERROR_TXT}>{state.error}</Text>
 
-                { modalType === ACTION_TYPES.UPDATE_BANK_DETAIL 
-                    ? bankInputs()
-                    : modalType === ACTION_TYPES.UPDATE_PAN_DETAIL 
-                    ? panInputs()
-                    : null
-                }
+                    { modalType === ACTION_TYPES.UPDATE_BANK_DETAIL 
+                        ? bankInputs()
+                        : modalType === ACTION_TYPES.UPDATE_PAN_DETAIL 
+                        ? panInputs()
+                        : null
+                    }
 
-                <View style={modalStyles.ROW_SPREAD}>
-                    <Pressable disabled={ state.disabled } onPress={async () => {
-                        setState((prev)=> { return {...prev, disabled: true }})
-                        setLoading(true);
-                        await handleModalPress(actionType, state);
-                        setState((prev)=> { return {...prev, disabled: false }})
-                        setLoading(false);
-                    }} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN]}>
-                        <Loader isLoading={isLoading}/>
-                        <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
-                    </Pressable>
-                </View>
+                    <View style={modalStyles.ROW_SPREAD}>
+                        <Pressable disabled={ state.disabled } onPress={async () => {
+                            setState((prev)=> { return {...prev, disabled: true }})
+                            setLoading(true);
+                            await handleModalPress(actionType, state);
+                            setState((prev)=> { return {...prev, disabled: false }})
+                            setLoading(false);
+                        }} style={[COMMON_STYLES.BTN_1, state.disabled && COMMON_STYLES.DISABLED_BTN, { minWidth: '100%'}]}>
+                            <Loader isLoading={isLoading}/>
+                            <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
+                        </Pressable>
+                    </View>
 
-                <View style={COMMON_STYLES.ROW}>
-                    <TouchableOpacity onPress={() => handleModalPress(CLOSE_MODAL)} style={COMMON_STYLES.SUB_BTN_1}>
-                        <Text style={COMMON_STYLES.SUB_BTN_TXT}>{closeTxt}</Text>
-                    </TouchableOpacity>
+                    <View style={COMMON_STYLES.ROW}>
+                        <TouchableOpacity onPress={() => handleModalPress(CLOSE_MODAL)} style={COMMON_STYLES.SUB_BTN_1}>
+                            <Text style={COMMON_STYLES.SUB_BTN_TXT}>{closeTxt}</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         </Modal>

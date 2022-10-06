@@ -5,16 +5,25 @@ export const modalStyles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-around",
         alignItems: "center",
-        backgroundColor: APP_COLORS.appThemeColor,
+        backgroundColor: APP_COLORS.black_opacity_90,
         paddingTop: 70,
         paddingHorizontal: 20,
       },
       CONT_CENTER: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: APP_COLORS.appThemeColor,
+        //alignItems: "center",
+        backgroundColor: APP_COLORS.black_opacity_90,
         paddingHorizontal: 20,
+      },
+      CONT_INNER: {
+        //flex: 1,
+        justifyContent: "space-around",
+        alignItems: "center",
+        backgroundColor: APP_COLORS.white,
+        alignSelf: 'center',
+        borderRadius: 10,
+        padding: 30,
       },
       ROW_SPREAD: {
         justifyContent: 'space-between',
@@ -37,12 +46,15 @@ export const modalStyles = StyleSheet.create({
       modalTitle: {
         //marginBottom: 15,
         textAlign: "center",
-        fontSize: 30,
-        color: APP_COLORS.white,
+        fontSize: 24,
+        color: APP_COLORS.appThemeColor,
         marginBottom: 20,
+        fontWeight: 'bold'
       },
       TEXT_INPUT: {
         //color: '#000',
+        borderWidth: 1,
+        borderColor: APP_COLORS.light_grey,
         backgroundColor: APP_COLORS.white,
         textAlign: 'center',
         fontSize: 14,
@@ -51,9 +63,13 @@ export const modalStyles = StyleSheet.create({
         borderRadius: 20,
         //marginBottom: '8%',
         //backgroundColor: APP_COLORS.grey,
-        width: '100%',
+        //width: '100%',
+        minWidth: '100%',
+        paddingHorizontal: 20
       },
       TEXT_INPUT_LEFT: {
+        borderWidth: 1,
+        borderColor: APP_COLORS.light_grey,
         //color: '#000',
         backgroundColor: APP_COLORS.white,
         fontSize: 14,
@@ -62,7 +78,7 @@ export const modalStyles = StyleSheet.create({
         borderRadius: 10,
         //marginBottom: '8%',
         //backgroundColor: APP_COLORS.grey,
-        //width: '100%',
+        minWidth: '100%',
       },
 
       BTN: {
@@ -71,7 +87,9 @@ export const modalStyles = StyleSheet.create({
         paddingVertical: 16,
         borderRadius: 20,
         backgroundColor: APP_COLORS.yellow,
-        width: '100%',
+        //paddingHorizontal: 30,
+        minWidth: '100%',
+        margin: 5,
       },
       MULTI_TEXT: {
         backgroundColor: 'white', minHeight: 100, maxHeight: 300, borderRadius: 10,
@@ -87,5 +105,6 @@ export const modalStyles = StyleSheet.create({
         borderColor: APP_COLORS.grey,
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 20,
       }
 });
