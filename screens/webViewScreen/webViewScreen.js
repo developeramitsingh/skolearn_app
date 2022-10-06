@@ -1,15 +1,38 @@
 import { WebView } from 'react-native-webview';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { View, BackHandler } from 'react-native';
-import { APP_COLORS, ROUTES } from '../../constant/constant';
+import { APP_COLORS, ROUTES, STORAGE_KEYS } from '../../constant/constant';
 import BackBtn from '../../components/backBtn/backBtn';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { getFromStorage } from '../../utils/utils';
 
 const WebViewScreen = ({ navigation, route}) => {
+    const [routeToGo, setRoute] = useState(null);
+    useEffect(() => {
+        (async ()=> {
+            const USER_TOKEN = await getFromStorage(STORAGE_KEYS.USER_TOKEN);
+
+            if (USER_TOKEN) {
+                setRoute(ROUTES.DASHBOARD);
+            } else {
+                setRoute(ROUTES.REGISTER);
+            }
+        })()
+    }, []);
+
     useEffect(()=> {
-        const backAction = () => {
+        const backAction = async () => {
             console.info(`backAction called in result screen`);
-            navigation.navigate(ROUTES.DASHBOARD);
+            const USER_TOKEN = await getFromStorage(STORAGE_KEYS.USER_TOKEN);
+
+            console.info({USER_TOKEN});
+
+            if (USER_TOKEN) {
+                navigation.goBack();
+            } else {
+                navigation.navigate(ROUTES.REGISTER);
+            }
+            
             return true;
           };
       
@@ -23,7 +46,7 @@ const WebViewScreen = ({ navigation, route}) => {
 
     return (
         <View style={COMMON_STYLES.CONTAINER_LIGHT}>
-            <BackBtn color={APP_COLORS.appThemeColor} navigation={navigation} routeToGo={ROUTES.DASHBOARD}/>
+            <BackBtn color={APP_COLORS.appThemeColor} navigation={navigation} routeToGo={routeToGo}/>
             <WebView 
                 source={{ uri: route?.params?.webViewUrl }}
             />    
