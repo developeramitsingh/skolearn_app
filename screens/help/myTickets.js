@@ -6,7 +6,7 @@ import ModalTicket from '../../components/modals/modalTicket';
 import { CLOSE_MODAL, ACTION_TYPES } from '../../constant/constant';
 import { setCurrentLanguage } from '../../common/functions/commonHelper';
 import { LANGUAGES_DATA, TICKET_STATUSES } from '../../constant/language';
-import { ticketsRaisedService } from '../../services';
+import { sendAppLogService, ticketsRaisedService } from '../../services';
 
 const MyTickets = ({handleOpenTicket}) => {
     const [tickets, setTickets] = useState([]);
@@ -36,6 +36,8 @@ const MyTickets = ({handleOpenTicket}) => {
     
     const raiseNewTicket = async (data) => {
         try {
+            console.info('raiseNewTicket called');
+            sendAppLogService.sendAppLogs({ msg: 'raised new ticket called'});
             const formData = new FormData();
 
             formData.append('imgFile', {
@@ -49,6 +51,8 @@ const MyTickets = ({handleOpenTicket}) => {
             }
 
             await ticketsRaisedService.createTicketsRaised(formData); 
+            console.info(`tickets raised`);
+            sendAppLogService.sendAppLogs({ msg: 'raised ticket'});
         } catch (err) {
             console.error(`error in raiseNewTicket: ${err}`);
         }
