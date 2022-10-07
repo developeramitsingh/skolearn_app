@@ -10,6 +10,7 @@ const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
     const [state, setState] = useState({
         subject: '',
         message: '',
+        ticketImg: '',
     });
 
     const handleChange = (key, val) => {

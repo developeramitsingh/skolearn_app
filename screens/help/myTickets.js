@@ -6,39 +6,58 @@ import ModalTicket from '../../components/modals/modalTicket';
 import { CLOSE_MODAL, ACTION_TYPES } from '../../constant/constant';
 import { setCurrentLanguage } from '../../common/functions/commonHelper';
 import { LANGUAGES_DATA, TICKET_STATUSES } from '../../constant/language';
+import { ticketsRaisedService } from '../../services';
 
 const MyTickets = ({handleOpenTicket}) => {
-    const [state, setState] = useState({
-        allTickets: [{
-            id: 1,
-            ticketSubject: "Not able to open test",
-            status: 'open',
-            createdAt: new Date().toISOString(),
-        },
-        {
-            id: 2,
-            ticketSubject: "Not able to open test",
-            status: 'open',
-            createdAt: new Date().toISOString(),
-        },
-        {
-            id: 3,
-            ticketSubject: "Not able to open test",
-            status: 'open',
-            createdAt: new Date().toISOString(),
-        }],
-    });
+    const [tickets, setTickets] = useState([]);
     const [lang, setLang] = useState();
+    const [createTicketModal, setCreateTicket] = useState(false);
+
+    const getAllRaisedTickets = async () => {
+        try {
+            const allTickets = await ticketsRaisedService.getAllTicketsRaised('{}', []);
+
+            console.info({ data: allTickets?.data })
+
+            if (allTickets?.data) {
+                setTickets(allTickets?.data);
+            }
+            
+        } catch (err) {
+            console.error(`error in getAllRaisedTickets: ${err}`);
+        }
+    }
 
     useEffect(()=> {
         setCurrentLanguage(setLang);
+        getAllRaisedTickets();
     }, []);
 
-    const [createTicketModal, setCreateTicket] = useState(false);
+    
+    const raiseNewTicket = async (data) => {
+        try {
+            const formData = new FormData();
 
-    const handlePress = (actionType, payload) => {
+            formData.append('imgFile', {
+                name: `image_UserId:${route?.params?.user?._id}.jpeg`,
+                uri: data.ticketImg,
+                type: "image/jpeg",
+            });
+
+            for (const key in data) {
+                formData.append(key, data[key]);
+            }
+
+            await ticketsRaisedService.createTicketsRaised(formData); 
+        } catch (err) {
+            console.error(`error in raiseNewTicket: ${err}`);
+        }
+    }
+
+    const handlePress = async (actionType, payload) => {
         if(actionType === ACTION_TYPES.CREATE_TICKET) {
             console.info('createTicket');
+            await raiseNewTicket(payload);
             //call api to create ticket entry
             setCreateTicket(false);
         } else if(actionType === CLOSE_MODAL) {
@@ -49,15 +68,15 @@ const MyTickets = ({handleOpenTicket}) => {
         }
     };
 
-    const allTickets = state.allTickets?.map(ticket => {
+    const allTickets = tickets?.map(ticket => {
         return (
-            <Pressable key={ticket.id} style={COMMON_STYLES.CARD} onPress={()=>handlePress(ACTION_TYPES.OPEN_TICKET, ticket.id)}>
+            <Pressable key={ticket._id} style={COMMON_STYLES.CARD} onPress={()=>handlePress(ACTION_TYPES.OPEN_TICKET, ticket._id)}>
                 <View style={myTicketsStyles.ROW}>
-                    <Text style={COMMON_STYLES.BODY_TITLE}>{ticket.ticketSubject}</Text>
+                    <Text style={COMMON_STYLES.BODY_TITLE}>{ticket.subject}</Text>
                     <Text style={COMMON_STYLES.BODY_TEXT}>{TICKET_STATUSES[lang]?.[ticket.status]}</Text>
                 </View>
                 <View style={myTicketsStyles.ROW}>
-                    <Text style={COMMON_STYLES.BODY_TEXT}>{LANGUAGES_DATA[lang]?.HELP?.TICKET?.TICKET_ID} {ticket.id}</Text>
+                    <Text style={COMMON_STYLES.BODY_TEXT}>{LANGUAGES_DATA[lang]?.HELP?.TICKET?.TICKET_ID} {ticket._id}</Text>
                     
                 </View>
 
