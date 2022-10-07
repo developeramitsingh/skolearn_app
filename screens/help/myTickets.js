@@ -8,7 +8,7 @@ import { setCurrentLanguage } from '../../common/functions/commonHelper';
 import { LANGUAGES_DATA, TICKET_STATUSES } from '../../constant/language';
 import { sendAppLogService, ticketsRaisedService } from '../../services';
 
-const MyTickets = ({handleOpenTicket}) => {
+const MyTickets = ({handleOpenTicket, user }) => {
     const [tickets, setTickets] = useState([]);
     const [lang, setLang] = useState();
     const [createTicketModal, setCreateTicket] = useState(false);
@@ -41,7 +41,7 @@ const MyTickets = ({handleOpenTicket}) => {
             const formData = new FormData();
 
             formData.append('imgFile', {
-                name: `image_UserId:${route?.params?.user?._id}.jpeg`,
+                name: `image_UserId:${user?._id}.jpeg`,
                 uri: data.ticketImg,
                 type: "image/jpeg",
             });
@@ -49,6 +49,10 @@ const MyTickets = ({handleOpenTicket}) => {
             for (const key in data) {
                 formData.append(key, data[key]);
             }
+
+            console.info({ formData });
+            console.info('createTicketsRaised called');
+            sendAppLogService.sendAppLogs({ msg: 'createTicketsRaised called'});
 
             await ticketsRaisedService.createTicketsRaised(formData); 
             console.info(`tickets raised`);
@@ -62,6 +66,9 @@ const MyTickets = ({handleOpenTicket}) => {
         if(actionType === ACTION_TYPES.CREATE_TICKET) {
             console.info('createTicket');
             await raiseNewTicket(payload);
+            setTickets((prev) => {
+                return [...prev, { ...payload }];
+            })
             //call api to create ticket entry
             setCreateTicket(false);
         } else if(actionType === CLOSE_MODAL) {
