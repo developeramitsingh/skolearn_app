@@ -56,7 +56,8 @@ export const LANGUAGES_DATA = {
             ERROR: 'गलती',
             WARNING: 'संकेत',
             ERROR_TXT: 'कुछ गलत हो गया, कृपया फिर से प्रयास करें',
-            SUCCESS: 'सफल'
+            SUCCESS: 'सफल',
+            CLOSE: 'बंद करें',
         },
         HOME: {
             HEADING: 'भारत का पहला ऑनलाइन छात्रवृत्ति परीक्षा मंच',
@@ -279,6 +280,7 @@ export const LANGUAGES_DATA = {
                 UPLOAD_TXT: 'फ़ोटो अपलोड करें (यदि कोई हो)',
                 RAISED_TICKETS: 'बनाए गए टिकट',
                 TICKET_ID: 'टिकट आईडी',
+                TICKET_CREATION_SUCCESS: 'टिकट सफलतापूर्वक बनाया गया!',
             }
         }, 
         NOTIFICATIONS: {
@@ -383,7 +385,8 @@ export const LANGUAGES_DATA = {
             NOTICE: 'Notice',
             WARNING: 'Warning',
             ERROR_TXT: 'Something went wrong, Please Try Again',
-            SUCCESS: 'Success'
+            SUCCESS: 'Success',
+            CLOSE: 'Close',
         },
         HOME: {
             HEADING: "India\'s First Online Scholarship Test Platform",
@@ -605,6 +608,7 @@ export const LANGUAGES_DATA = {
                 UPLOAD_TXT: 'Upload image (if Any)',
                 RAISED_TICKETS: 'Raised Tickets',
                 TICKET_ID: 'Ticket Id',
+                TICKET_CREATION_SUCCESS: 'Ticket Raised Successfully!',
             }
         },
         NOTIFICATIONS: {

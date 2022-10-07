@@ -1,5 +1,5 @@
 import { myTicketsStyles } from './myTicketsStyles'; 
-import { View, Text, ScrollView, Pressable } from 'react-native'
+import { View, Text, ScrollView, Pressable, Alert } from 'react-native'
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { useEffect, useState } from 'react';
 import ModalTicket from '../../components/modals/modalTicket';
@@ -7,15 +7,19 @@ import { CLOSE_MODAL, ACTION_TYPES } from '../../constant/constant';
 import { setCurrentLanguage } from '../../common/functions/commonHelper';
 import { LANGUAGES_DATA, TICKET_STATUSES } from '../../constant/language';
 import { sendAppLogService, ticketsRaisedService } from '../../services';
+import Loader from '../../components/loader/loader';
 
 const MyTickets = ({handleOpenTicket, user }) => {
     const [tickets, setTickets] = useState([]);
     const [lang, setLang] = useState();
     const [createTicketModal, setCreateTicket] = useState(false);
+    const [isLoading, setLoading] = useState(false);
 
     const getAllRaisedTickets = async () => {
         try {
+            setLoading(true);
             const allTickets = await ticketsRaisedService.getAllTicketsRaised('{}', []);
+            setLoading(false);
 
             console.info({ data: allTickets?.data })
 
@@ -57,8 +61,18 @@ const MyTickets = ({handleOpenTicket, user }) => {
             await ticketsRaisedService.createTicketsRaised(formData); 
             console.info(`tickets raised`);
             sendAppLogService.sendAppLogs({ msg: 'raised ticket'});
+            Alert.alert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.HELP?.TICKET?.TICKET_CREATION_SUCCESS, [
+                {
+                    text: LANGUAGES_DATA[lang]?.ALERT?.CLOSE
+                }
+            ]);
         } catch (err) {
             console.error(`error in raiseNewTicket: ${err}`);
+            Alert.alert(LANGUAGES_DATA[lang]?.ALERT?.ERROR, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT, [
+                {
+                    text: LANGUAGES_DATA[lang]?.ALERT?.CLOSE
+                }
+            ]);
         }
     }
 
@@ -100,6 +114,7 @@ const MyTickets = ({handleOpenTicket, user }) => {
 
     return (
         <View style = { myTicketsStyles.CONTAINER }>
+            <Loader isLoading={isLoading}/>
             <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE_NEW_TICKET} actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = {LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE} placeholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_SUBJECT} fullMsgPlaceholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_FULL_MESSAGE} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CANCEL} uploadTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.UPLOAD_TXT}/>
 
             <View style= {myTicketsStyles.ROW_CENTER}>
