@@ -4,7 +4,7 @@ import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { useEffect, useState } from 'react';
 import ModalTicket from '../../components/modals/modalTicket';
 import { CLOSE_MODAL, ACTION_TYPES, ROUTES } from '../../constant/constant';
-import { setCurrentLanguage } from '../../common/functions/commonHelper';
+import { raiseNewTicket, setCurrentLanguage } from '../../common/functions/commonHelper';
 import { LANGUAGES_DATA, TICKET_STATUSES } from '../../constant/language';
 import { sendAppLogService, ticketsRaisedService } from '../../services';
 import Loader from '../../components/loader/loader';
@@ -40,49 +40,10 @@ const MyTickets = ({ user, navigation }) => {
         getAllRaisedTickets();
     }, []);
 
-    
-    const raiseNewTicket = async (data) => {
-        try {
-            console.info('raiseNewTicket called');
-            sendAppLogService.sendAppLogs({ msg: 'raised new ticket called'});
-            const form = new FormData();
-
-            if(data.ticketImg) {
-                form.append('imgFile', {
-                    name: `image_UserId:${user?._id}.jpeg`,
-                    uri: data.ticketImg,
-                    type: "image/jpeg",
-                });
-            }
-
-            form.append('subject', data['subject']);
-            form.append('message', `{ "message": "${data['message']}", "userType": "appUser"}` );
-
-            console.info('createTicketsRaised called');
-            sendAppLogService.sendAppLogs({ msg: 'createTicketsRaised called'});
-
-            await ticketsRaisedService.createTicketsRaised(form); 
-            console.info(`tickets raised`);
-            sendAppLogService.sendAppLogs({ msg: 'raised ticket'});
-            Alert.alert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.HELP?.TICKET?.TICKET_CREATION_SUCCESS, [
-                {
-                    text: LANGUAGES_DATA[lang]?.ALERT?.CLOSE
-                }
-            ]);
-        } catch (err) {
-            console.error(`error in raiseNewTicket: ${err}`);
-            Alert.alert(LANGUAGES_DATA[lang]?.ALERT?.ERROR, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT, [
-                {
-                    text: LANGUAGES_DATA[lang]?.ALERT?.CLOSE
-                }
-            ]);
-        }
-    }
-
     const handlePress = async (actionType, payload) => {
         if(actionType === ACTION_TYPES.CREATE_TICKET) {
             console.info('createTicket');
-            await raiseNewTicket(payload);
+            await raiseNewTicket(payload, lang, user?._id);
             getAllRaisedTickets();
             //call api to create ticket entry
             setCreateTicket(false);

@@ -8,11 +8,12 @@ import { Entypo } from '@expo/vector-icons';
 import { LANGUAGES_DATA } from "../../constant/language";
 import Loader from "../loader/loader";
 
-const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, fullMsgPlaceholder, closeTxt, uploadTxt, errorTxts, user }) => {
+const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, fullMsgPlaceholder, closeTxt, uploadTxt, errorTxts, txnId }) => {
     const [state, setState] = useState({
         subject: '',
         message: '',
         ticketImg: '',
+        txnId: '',
         errors: {
             subject: errorTxts?.['subject'],
             message: errorTxts?.['message'],
@@ -132,7 +133,7 @@ const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
                         <TouchableOpacity disabled={disabled} onPress={async () => { 
                             setLoading(true);
                             setDisabled(true);
-                            await handleModalPress(actionType, state) 
+                            await handleModalPress(actionType, { ...state, txnId }) 
                             setDisabled(true);
                             setLoading(false);
                         }} style={[COMMON_STYLES.SUB_BTN_1, { minWidth: '100%'}, disabled && COMMON_STYLES.DISABLED_BTN]}>

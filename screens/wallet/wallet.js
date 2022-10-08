@@ -10,7 +10,7 @@ import { freeTicketsService, paymentGatewayService, sendAppLogService, transacti
 import { generateOrderId } from "../../utils/utils";
 import Loader from '../../components/loader/loader';
 import { LANGUAGES_DATA, TXN_STATUSES } from '../../constant/language';
-import { setCurrentLanguage } from '../../common/functions/commonHelper';
+import { raiseNewTicket, setCurrentLanguage } from '../../common/functions/commonHelper';
 
 const Wallet = ({ userId }) => {
     const [walletBalance, setWalletBalance] = useState(0);
@@ -24,6 +24,7 @@ const Wallet = ({ userId }) => {
     const [isDisabled, setDisabled] = useState(true);
     const [errOccured, setErrorOccured] = useState(false);
     const [lang, setLang] = useState();
+    const [txnId, setTxnId] = useState(null);
 
     const getWalletBalance = async () => {
         try {
@@ -304,7 +305,7 @@ const Wallet = ({ userId }) => {
         } else if(actionType === ACTION_TYPES.CREATE_TICKET) {
             console.info('createTicket');
             //call api to create ticket entry
-            await setCreateTicket(false);
+            await raiseNewTicket(payload, lang, userUserId);
         }  else if(actionType === CLOSE_MODAL) {
             console.info('modal closed');
             setAddMoney(false);
@@ -330,7 +331,10 @@ const Wallet = ({ userId }) => {
                     </View>
         
                     <View style={walletStyles.RIGHT_COL}>
-                        <TouchableOpacity onPress ={() => setCreateTicket(true)} style={COMMON_STYLES.SUB_BTN_2}>
+                        <TouchableOpacity onPress ={() => {
+                            setTxnId(item._id);
+                            setCreateTicket(true)
+                        }} style={COMMON_STYLES.SUB_BTN_2}>
                             <Text style={COMMON_STYLES.SUB_BTN_TXT_2}>{LANGUAGES_DATA[lang]?.WALLET?.RAISE_TICKET}</Text>
                         </TouchableOpacity>
 
@@ -350,7 +354,7 @@ const Wallet = ({ userId }) => {
 
             <ModalWindow modalVisible={showWithdrawMoney} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.WALLET?.REQUEST_WITHDRAW_MONEY} keyboardType='numeric'  actionType= "withdraw"  btnTxt = {LANGUAGES_DATA[lang]?.WALLET?.WITHDRAW} placeholder={LANGUAGES_DATA[lang]?.WALLET?.ENTER_AMOUNT_TO_WITHDRAW} closeTxt={LANGUAGES_DATA[lang]?.WALLET?.CLOSE}/>
 
-            <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE_NEW_TICKET} actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = {LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE} placeholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_SUBJECT} fullMsgPlaceholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_FULL_MESSAGE} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CANCEL} uploadTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.UPLOAD_TXT}/>
+            <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE_NEW_TICKET} actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = {LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE} placeholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_SUBJECT} fullMsgPlaceholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_FULL_MESSAGE} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CANCEL} uploadTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.UPLOAD_TXT} txnId ={txnId} lang={lang}/>
 
             <View style={{...COMMON_STYLES.ROW_CENTER, marginTop: 20 }}>
                 <Text style={COMMON_STYLES.BODY_TITLE_WHITE}>{LANGUAGES_DATA[lang]?.WALLET?.TOTAL_BALANCE}</Text>

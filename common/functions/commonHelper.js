@@ -1,9 +1,10 @@
 import { Alert, Share } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import * as ImagePicker from 'expo-image-picker';
-import { sendAppLogService, userService } from '../../services';
+import { sendAppLogService, ticketsRaisedService, userService } from '../../services';
 import { getFromStorage, saveToStorage } from '../../utils/utils';
 import { LANGUAGES, STORAGE_KEYS } from '../../constant/constant';
+import { LANGUAGES_DATA } from '../../constant/language';
 
 export const onShare = async (sharingData) => {
     try {
@@ -139,4 +140,46 @@ export const setCurrentLanguage = async (callBack) => {
   callBack(lang || LANGUAGES.ENGLISH);
 
   return lang;
+}
+
+export const raiseNewTicket = async (data, lang, userId) => {
+  try {
+      console.info('raiseNewTicket called');
+      sendAppLogService.sendAppLogs({ msg: 'raised new ticket called'});
+      const form = new FormData();
+
+      if(data.ticketImg) {
+          form.append('imgFile', {
+              name: `image_UserId:${userId}.jpeg`,
+              uri: data.ticketImg,
+              type: "image/jpeg",
+          });
+      }
+
+      form.append('subject', data['subject']);
+      form.append('message', `{ "message": "${data['message']}", "userType": "appUser"}` );
+
+      if(data.txnId) {
+        form.append('txnId', data['txnId']);
+      }
+
+      console.info('createTicketsRaised called');
+      sendAppLogService.sendAppLogs({ msg: 'createTicketsRaised called'});
+
+      await ticketsRaisedService.createTicketsRaised(form); 
+      console.info(`tickets raised`);
+      sendAppLogService.sendAppLogs({ msg: 'raised ticket'});
+      Alert.alert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.HELP?.TICKET?.TICKET_CREATION_SUCCESS, [
+          {
+              text: LANGUAGES_DATA[lang]?.ALERT?.CLOSE
+          }
+      ]);
+  } catch (err) {
+      console.error(`error in raiseNewTicket: ${err}`);
+      Alert.alert(LANGUAGES_DATA[lang]?.ALERT?.ERROR, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT, [
+          {
+              text: LANGUAGES_DATA[lang]?.ALERT?.CLOSE
+          }
+      ]);
+  }
 }
