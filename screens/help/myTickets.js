@@ -117,11 +117,15 @@ const MyTickets = ({ user, navigation }) => {
     return (
         <View style = { myTicketsStyles.CONTAINER }>
             <Loader isLoading={isLoading}/>
-            <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE_NEW_TICKET} actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = {LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE} placeholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_SUBJECT} fullMsgPlaceholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_FULL_MESSAGE} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CANCEL} uploadTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.UPLOAD_TXT} errorTxts={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ERRORS}/>
+            {
+                createTicketModal 
+                ? <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE_NEW_TICKET} actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = {LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE} placeholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_SUBJECT} fullMsgPlaceholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_FULL_MESSAGE} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CANCEL} uploadTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.UPLOAD_TXT} errorTxts={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ERRORS} maxLength={50}/>
+                : null
+            }
 
             {
                 ticketWindow 
-                ? <ModalTicketWindow modalVisible={ticketWindow} handleModalPress={handlePress} actionType= {ACTION_TYPES.OPEN_TICKET_WINDOW} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CLOSE} ticketId={ticketId} user={user}/>
+                ? <ModalTicketWindow modalVisible={ticketWindow} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.HELP?.TICKET?.TICKET_WINDOW} actionType= {ACTION_TYPES.OPEN_TICKET_WINDOW} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CLOSE} ticketId={ticketId} user={user}/>
                 : null
             }
             

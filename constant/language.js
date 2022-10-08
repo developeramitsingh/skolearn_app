@@ -273,6 +273,7 @@ export const LANGUAGES_DATA = {
         HELP: {
             TICKET: {
                 CREATE_NEW_TICKET: 'नया टिकट बनाएं',
+                TICKET_WINDOW: 'टिकट स्क्रीन',
                 ENTER_SUBJECT: 'विषय दर्ज करें',
                 ENTER_FULL_MESSAGE: 'यहां पूरा संदेश दर्ज करें',
                 CREATE: 'बनाएं',
@@ -606,6 +607,7 @@ export const LANGUAGES_DATA = {
         HELP: {
             TICKET: {
                 CREATE_NEW_TICKET: 'Raise New Ticket',
+                TICKET_WINDOW: 'Ticket Window',
                 ENTER_SUBJECT: 'Enter Subject',
                 ENTER_FULL_MESSAGE: 'Enter Full Message Here',
                 CREATE: 'Create',

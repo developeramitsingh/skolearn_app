@@ -44,8 +44,12 @@ const ModalTicketWindow = ({ title, modalVisible, handleModalPress, btnTxt, plac
             transparent={false}
             visible={modalVisible}
         > 
-            <View style={{ padding: 10, flex: 1 }}>
-                <AntDesign name="close" size={32} color= {APP_COLORS.appThemeColor} style={{ alignSelf: 'flex-end' }} />
+            <View style={{ padding: 10, flex: 1}}>
+                <View style={[COMMON_STYLES.ROW, { borderBottomColor: APP_COLORS.light_grey, borderBottomWidth: 1 }]}>
+                    <Text style={COMMON_STYLES.BODY_HEADING_2}>{title}</Text>
+                    <AntDesign name="close" size={32} color= {APP_COLORS.appThemeColor} style={{ alignSelf: 'flex-end' }} onPress={() => handleModalPress(CLOSE_MODAL)}/>
+                </View>
+                
                 <Loader isLoading={isLoading}/>
                 <View style={[COMMON_STYLES.ROW_CENTER, { padding: 10 }]}>
                     <Text style={COMMON_STYLES.BODY_TITLE}>{ticket.subject}</Text>
