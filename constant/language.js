@@ -265,6 +265,8 @@ export const LANGUAGES_DATA = {
             MONEY_VALIDATION: 'राशि 0 से अधिक होनी चाहिए',
             LESS_BALANCE_TO_WITHDRAW: 'वॉलेट का पैसा अपर्याप्त है!',
             MONEY_WITHDRAW_SUCCESS: 'पैसे निकालने का अनुरोध बनाया गया!',
+            INCOMPLETE_DOCUMENTS: 'दस्तावेज़ सबमिट नहीं किए गए हैं! कृपया प्रोफ़ाइल अनुभाग में दस्तावेज़ जमा करें',
+            UNVERIFIED_DOCUMENTS: 'दस्तावेज अभी तक सत्यापित नहीं या अपूर्ण हैं, कृपया दस्तावेजों की जांच करें या सत्यापन पूर्ण होने की प्रतीक्षा करें',
             TXN_TXT: {
                 FIRST: 'रु',
                 LAST: 'जोड़ना बटुए में'
@@ -599,6 +601,8 @@ export const LANGUAGES_DATA = {
             MONEY_VALIDATION: 'Amount should be greater then 0',
             LESS_BALANCE_TO_WITHDRAW: 'Wallet money is insufficient!',
             MONEY_WITHDRAW_SUCCESS: 'Withdraw request raised!',
+            INCOMPLETE_DOCUMENTS: 'Documents are not submitted! Please submit the documents in Profile section',
+            UNVERIFIED_DOCUMENTS: 'Docuemnts are not verified yet or incomplete, Please check the documents or wait for verification complete',
             TXN_TXT: {
                 FIRST: 'Adding',
                 LAST: 'Rs. in wallet'

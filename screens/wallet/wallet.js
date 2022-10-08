@@ -292,6 +292,10 @@ const Wallet = ({ userId }) => {
             showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.WALLET?.MONEY_WITHDRAW_SUCCESS);
         } catch (err) {
             console.error(`error in withDrawAmount of wallet: ${err}`);
+            const errorMsg = err?.response?.data?.statusCode;
+            console.info({ errorMsg });
+
+            showAlert(LANGUAGES_DATA[lang]?.ALERT?.NOTICE, LANGUAGES_DATA[lang]?.WALLET?.[errorMsg]);
         }
         setWithdrawMoney(false);
     }
