@@ -134,7 +134,7 @@ const Dashboard = ({navigation, route }) => {
                 : route?.params?.activeScreen === Constant.SCREENS.WALLET 
                 || state.activeScreen === Constant.SCREENS.PROFILE 
                 ? <Profile navigation={navigation} route={{ params: { user: route?.params?.user || state.user, isBackButtonHide: true } }}/>
-                : <Index/>
+                : <Index navigation={navigation}/>
 
             }
             <FooterIconBar setActiveScreen ={setActiveScreen} langData={LANGUAGES_DATA?.[route?.params?.lang || lang]?.FOOTER_ICON_BAR}/>

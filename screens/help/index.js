@@ -8,7 +8,7 @@ import { HELP_TABS, HELP_TAB_TYPE, SCREENS, STORAGE_KEYS } from '../../constant/
 import Tabs from '../../components/tabs/tabs';
 import { getFromStorage } from "../../utils/utils";
 
-const Index = () => {
+const Index = ({ navigation }) => {
     const [activeTab, setActiveTab] = useState(HELP_TAB_TYPE.MY_TICKET);
     const [user, setUser] = useState(null);
 
@@ -41,7 +41,7 @@ const Index = () => {
             {
                 activeTab === HELP_TAB_TYPE.LIVE_CHAT 
                     ? <Chat ticketId={ticketId}/>
-                    : <MyTickets user={user}/>
+                    : <MyTickets user={user} navigation={navigation}/>
             }
         </View>
     )

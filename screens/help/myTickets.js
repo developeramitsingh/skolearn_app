@@ -3,14 +3,14 @@ import { View, Text, ScrollView, Pressable, Alert } from 'react-native'
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { useEffect, useState } from 'react';
 import ModalTicket from '../../components/modals/modalTicket';
-import { CLOSE_MODAL, ACTION_TYPES } from '../../constant/constant';
+import { CLOSE_MODAL, ACTION_TYPES, ROUTES } from '../../constant/constant';
 import { setCurrentLanguage } from '../../common/functions/commonHelper';
 import { LANGUAGES_DATA, TICKET_STATUSES } from '../../constant/language';
 import { sendAppLogService, ticketsRaisedService } from '../../services';
 import Loader from '../../components/loader/loader';
 import ModalTicketWindow from '../../components/modals/modalTicketWindow';
 
-const MyTickets = ({ user }) => {
+const MyTickets = ({ user, navigation }) => {
     const [tickets, setTickets] = useState([]);
     const [lang, setLang] = useState();
     const [createTicketModal, setCreateTicket] = useState(false);
@@ -56,7 +56,7 @@ const MyTickets = ({ user }) => {
             }
 
             form.append('subject', data['subject']);
-            form.append('message', { message: data['message'], userType: 'appUser'} );
+            form.append('message', `{ "message": "${data['message']}", "userType": "appUser"}` );
 
             console.info('createTicketsRaised called');
             sendAppLogService.sendAppLogs({ msg: 'createTicketsRaised called'});
@@ -119,7 +119,12 @@ const MyTickets = ({ user }) => {
             <Loader isLoading={isLoading}/>
             <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE_NEW_TICKET} actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = {LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE} placeholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_SUBJECT} fullMsgPlaceholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_FULL_MESSAGE} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CANCEL} uploadTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.UPLOAD_TXT} errorTxts={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ERRORS}/>
 
-            <ModalTicketWindow modalVisible={ticketWindow} handleModalPress={handlePress} actionType= {ACTION_TYPES.OPEN_TICKET_WINDOW} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CLOSE} ticketId={ticketId} user={user}/>
+            {
+                ticketWindow 
+                ? <ModalTicketWindow modalVisible={ticketWindow} handleModalPress={handlePress} actionType= {ACTION_TYPES.OPEN_TICKET_WINDOW} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CLOSE} ticketId={ticketId} user={user}/>
+                : null
+            }
+            
 
             <View style= {myTicketsStyles.ROW_CENTER}>
                 <Pressable elevation={3} onPress={()=> setCreateTicket(true)} style={COMMON_STYLES.SUB_BTN_1}>
