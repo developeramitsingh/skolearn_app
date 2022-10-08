@@ -83,10 +83,12 @@ export const chatStyles = StyleSheet.create({
         alignSelf: 'flex-start',
         ...CHAT_BORDER.SUPPORT,
         backgroundColor: APP_COLORS.grey,
+        marginLeft: 10,
     },
     chatMsgBlockUser: {
         alignSelf: 'flex-end',
         ...CHAT_BORDER.USER,
+        marginRight: 10,
     },
     chatImgSupport: {
         alignSelf: 'flex-start',
@@ -101,9 +103,19 @@ export const chatStyles = StyleSheet.create({
         width: 150,
         height: 100,
         alignSelf: 'flex-end',
+        justifyContent: 'flex-end',
         ...CHAT_BORDER.USER,
-        borderColor: APP_COLORS.white,
-        borderWidth: 2,
+        borderColor: APP_COLORS.light_grey,
+        borderWidth: 1,
+    },
+    userImg: {
+        width: 50,
+        height: 50,
+        borderRadius: 100,
+        borderColor: APP_COLORS.light_grey,
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 
 });

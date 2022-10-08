@@ -8,12 +8,15 @@ import { setCurrentLanguage } from '../../common/functions/commonHelper';
 import { LANGUAGES_DATA, TICKET_STATUSES } from '../../constant/language';
 import { sendAppLogService, ticketsRaisedService } from '../../services';
 import Loader from '../../components/loader/loader';
+import ModalTicketWindow from '../../components/modals/modalTicketWindow';
 
-const MyTickets = ({handleOpenTicket, user }) => {
+const MyTickets = ({ user }) => {
     const [tickets, setTickets] = useState([]);
     const [lang, setLang] = useState();
     const [createTicketModal, setCreateTicket] = useState(false);
+    const [ticketWindow, setTicketWindow] = useState(false);
     const [isLoading, setLoading] = useState(false);
+    const [ticketId, setTicketId] = useState(null);
 
     const getAllRaisedTickets = async () => {
         try {
@@ -53,7 +56,7 @@ const MyTickets = ({handleOpenTicket, user }) => {
             }
 
             form.append('subject', data['subject']);
-            form.append('message', data['message']);
+            form.append('message', { message: data['message'], userType: 'appUser'} );
 
             console.info('createTicketsRaised called');
             sendAppLogService.sendAppLogs({ msg: 'createTicketsRaised called'});
@@ -87,9 +90,11 @@ const MyTickets = ({handleOpenTicket, user }) => {
             setCreateTicket(false);
         } else if(actionType === CLOSE_MODAL) {
             setCreateTicket(false);
+            setTicketWindow(false);
         } else if(actionType === ACTION_TYPES.OPEN_TICKET) {
             console.info({ openticket: payload });
-            handleOpenTicket(payload);
+            setTicketId(payload);
+            setTicketWindow(true);
         }
     };
 
@@ -99,7 +104,7 @@ const MyTickets = ({handleOpenTicket, user }) => {
             <Pressable key={ticket._id} style={COMMON_STYLES.CARD} onPress={()=>handlePress(ACTION_TYPES.OPEN_TICKET, ticket._id)}>
                 <View style={myTicketsStyles.ROW}>
                     <Text style={COMMON_STYLES.BODY_TITLE}>{ticket.subject}</Text>
-                    <Text style={COMMON_STYLES.BODY_TITLE}>{TICKET_STATUSES[lang]?.[ticket.status?.toLowerCase()]}</Text>
+                    <Text style={COMMON_STYLES.BODY_TEXT}>{TICKET_STATUSES[lang]?.[ticket.status?.toLowerCase()]}</Text>
                 </View>
 
                 <View style={myTicketsStyles.ROW}>
@@ -114,6 +119,8 @@ const MyTickets = ({handleOpenTicket, user }) => {
             <Loader isLoading={isLoading}/>
             <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE_NEW_TICKET} actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = {LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE} placeholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_SUBJECT} fullMsgPlaceholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_FULL_MESSAGE} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CANCEL} uploadTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.UPLOAD_TXT} errorTxts={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ERRORS}/>
 
+            <ModalTicketWindow modalVisible={ticketWindow} handleModalPress={handlePress} actionType= {ACTION_TYPES.OPEN_TICKET_WINDOW} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CLOSE} ticketId={ticketId} user={user}/>
+
             <View style= {myTicketsStyles.ROW_CENTER}>
                 <Pressable elevation={3} onPress={()=> setCreateTicket(true)} style={COMMON_STYLES.SUB_BTN_1}>
                     <Text style={COMMON_STYLES.SUB_BTN_TXT}>{LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE_NEW_TICKET}</Text>
@@ -121,7 +128,7 @@ const MyTickets = ({handleOpenTicket, user }) => {
             </View>
 
             <View style={[myTicketsStyles.ROW, { paddingVertical: 10}]}>
-                <Text style={COMMON_STYLES.BODY_TITLE}>{LANGUAGES_DATA[lang]?.HELP?.TICKET?.RAISED_TICKETS}</Text>
+                <Text style={COMMON_STYLES.BODY_HEADING_2}>{LANGUAGES_DATA[lang]?.HELP?.TICKET?.RAISED_TICKETS}</Text>
             </View>
             <View style={COMMON_STYLES.SEPARATOR}></View>
             <ScrollView style={myTicketsStyles.CONTAINER}>

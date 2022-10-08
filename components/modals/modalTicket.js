@@ -8,7 +8,7 @@ import { Entypo } from '@expo/vector-icons';
 import { LANGUAGES_DATA } from "../../constant/language";
 import Loader from "../loader/loader";
 
-const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, fullMsgPlaceholder, closeTxt, uploadTxt, errorTxts }) => {
+const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, fullMsgPlaceholder, closeTxt, uploadTxt, errorTxts, user }) => {
     const [state, setState] = useState({
         subject: '',
         message: '',

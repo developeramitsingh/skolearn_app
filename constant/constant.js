@@ -179,6 +179,7 @@ export const ACTION_TYPES = {
     OPEN_PRIVACY_POLICY: 'openPrivacyPolicy',
     OPEN_REFUND_POLICY: 'openRefundPolicy',
     OPEN_HOW_TO_ATTEMPT_TEST: 'openHowToAttemptTest',
+    
     LOGOUT: 'logout',
 };
 

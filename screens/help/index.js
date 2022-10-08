@@ -10,7 +10,6 @@ import { getFromStorage } from "../../utils/utils";
 
 const Index = () => {
     const [activeTab, setActiveTab] = useState(HELP_TAB_TYPE.MY_TICKET);
-    const [ticketId, setTicketId] = useState(null);
     const [user, setUser] = useState(null);
 
     const getUser = async () => {
@@ -35,11 +34,6 @@ const Index = () => {
         setActiveTab(tabKey);
     }
 
-    const handleOpenTicket = (ticketId) => {
-        setActiveTab(HELP_TAB_TYPE.LIVE_CHAT);
-        setTicketId(ticketId);
-    }
-
     return (
         <View style={indexStyles.CONTAINER}>
             <Tabs tabList={ HELP_TABS } screen='DASHBOARD' tabsIn={SCREENS.HELP} activeTab = {activeTab} setActiveTab={handleChangeTab}/>
@@ -47,7 +41,7 @@ const Index = () => {
             {
                 activeTab === HELP_TAB_TYPE.LIVE_CHAT 
                     ? <Chat ticketId={ticketId}/>
-                    : <MyTickets handleOpenTicket={handleOpenTicket} user={user}/>
+                    : <MyTickets user={user}/>
             }
         </View>
     )
