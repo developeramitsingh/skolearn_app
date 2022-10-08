@@ -45,7 +45,7 @@ const ModalTicketWindow = ({ title, modalVisible, handleModalPress, btnTxt, plac
             visible={modalVisible}
         > 
             <View style={{ padding: 10, flex: 1 }}>
-                <AntDesign name="close" size={32} color= {APP_COLORS.} style={{ alignSelf: 'flex-end' }} />
+                <AntDesign name="close" size={32} color= {APP_COLORS.appThemeColor} style={{ alignSelf: 'flex-end' }} />
                 <Loader isLoading={isLoading}/>
                 <View style={[COMMON_STYLES.ROW_CENTER, { padding: 10 }]}>
                     <Text style={COMMON_STYLES.BODY_TITLE}>{ticket.subject}</Text>
