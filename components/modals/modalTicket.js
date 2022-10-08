@@ -1,22 +1,65 @@
 import { View, Modal, Text, TouchableOpacity, TouchableWithoutFeedback, Image, TextInput } from "react-native"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { modalStyles } from  './modalStyles';
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
 import { APP_COLORS, CLOSE_MODAL} from '../../constant/constant';
-import { pickImage } from '../../common/functions/commonHelper';
+import { checkAndGetIfErrorFound, pickImage } from '../../common/functions/commonHelper';
 import { Entypo } from '@expo/vector-icons';
+import { LANGUAGES_DATA } from "../../constant/language";
+import Loader from "../loader/loader";
 
-const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, fullMsgPlaceholder, closeTxt, uploadTxt }) => {
+const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, fullMsgPlaceholder, closeTxt, uploadTxt, errorTxts }) => {
     const [state, setState] = useState({
         subject: '',
         message: '',
         ticketImg: '',
+        errors: {
+            subject: errorTxts?.['subject'],
+            message: errorTxts?.['message'],
+        },
+        errorMsg: '',
     });
 
+    const [isLoading, setLoading] = useState(false);
+    const [disabled, setDisabled] = useState(true);
+
+    useEffect(()=> {
+        setState((prev) => {
+            return { ...prev, errors: { 
+                subject: errorTxts?.['subject'],
+                message: errorTxts?.['message'] 
+            }};
+        });
+    }, [errorTxts]);
+
     const handleChange = (key, val) => {
-        console.info(val);
+        const errors = { ...state.errors };
+        
+
+        if(key === 'subject') {
+            if (val) {
+                errors[key] = '';
+            } else {
+                console.info('errorTxts[key]', errorTxts[key]);
+                errors[key] = errorTxts[key];
+            }
+        } else if(key === 'message') {
+            if (val) {
+                errors[key] = '';
+            } else {
+                console.info('errorTxts[key]', errorTxts[key]);
+                errors[key] = errorTxts[key];
+            }
+        }
+
+        console.info({ errorTxts, errors })
+
+        const {isErrorFound, errorMsg} = checkAndGetIfErrorFound(errors) || {};
+
+        console.info(val, { isErrorFound, errorMsg });
+        setDisabled(isErrorFound);
         setState(prev => {
-            return { ...prev, [key]: val, };
+            return { ...prev, [key]: val, errorMsg, errors };
         })
 
     }
@@ -44,6 +87,7 @@ const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
             <View style={[modalStyles.CONT_CENTER, { backgroundColor: APP_COLORS.appThemeColor }]}>
                 <View style={modalStyles.CONT_INNER}>
                     <Text style={modalStyles.modalTitle}>{title}</Text>
+                    <Text style={COMMON_STYLES.ERROR_TXT}>{state.errorMsg}</Text>
 
                     <View style={modalStyles.ROW_SPREAD}>
                         <TextInput 
@@ -86,7 +130,14 @@ const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
                     </View>
 
                     <View style={modalStyles.ROW_SPREAD}>
-                        <TouchableOpacity onPress={() => handleModalPress(actionType, state)} style={[COMMON_STYLES.SUB_BTN_1, { minWidth: '100%'}]}>
+                        <TouchableOpacity disabled={disabled} onPress={async () => { 
+                            setLoading(true);
+                            setDisabled(true);
+                            await handleModalPress(actionType, state) 
+                            setDisabled(true);
+                            setLoading(false);
+                        }} style={[COMMON_STYLES.SUB_BTN_1, { minWidth: '100%'}, disabled && COMMON_STYLES.DISABLED_BTN]}>
+                            <Loader isLoading={isLoading}/>
                             <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
                         </TouchableOpacity>
                     </View>

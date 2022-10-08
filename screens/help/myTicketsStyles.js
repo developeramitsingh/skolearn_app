@@ -7,14 +7,15 @@ export const myTicketsStyles = StyleSheet.create({
         flex: 1,
         //alignItems: 'center',
         width: '100%',
-        backgroundColor: APP_COLORS.white
+        backgroundColor: APP_COLORS.white,
+        paddingHorizontal: 10,
     },
     ROW: {
         justifyContent: 'space-between',
         flexDirection: 'row',
         width: '100%',
         alignItems: 'center',
-        paddingHorizontal: 10,
+        //paddingHorizontal: 10,
         paddingVertical: 2,
     },
     ROW_CENTER: {

@@ -96,7 +96,8 @@ export const COMMON_STYLES = {
     },
     BODY_TITLE:  {
         color: APP_COLORS.appThemeColor,
-        fontSize: 12,
+        fontSize: 14,
+        fontWeight: 'bold'
         
     },
     BODY_TITLE_WHITE:  {
@@ -251,7 +252,7 @@ export const COMMON_STYLES = {
         borderRadius: 10,
         paddingHorizontal: 5,
         paddingVertical: 5,
-        marginHorizontal: 10,
+        //marginHorizontal: 10,
         backgroundColor: APP_COLORS.white,
         borderBottomColor: APP_COLORS.light_grey,
         borderBottomWidth: 0.5,

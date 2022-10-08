@@ -281,6 +281,10 @@ export const LANGUAGES_DATA = {
                 RAISED_TICKETS: 'बनाए गए टिकट',
                 TICKET_ID: 'टिकट आईडी',
                 TICKET_CREATION_SUCCESS: 'टिकट सफलतापूर्वक बनाया गया!',
+                ERRORS: {
+                    subject: 'विषय आवश्यक है',
+                    message: 'संदेश आवश्यक है'
+                }
             }
         }, 
         NOTIFICATIONS: {
@@ -609,6 +613,10 @@ export const LANGUAGES_DATA = {
                 RAISED_TICKETS: 'Raised Tickets',
                 TICKET_ID: 'Ticket Id',
                 TICKET_CREATION_SUCCESS: 'Ticket Raised Successfully!',
+                ERRORS: {
+                    subject: 'Subject is Required',
+                    message: 'Message is Required'
+                }
             }
         },
         NOTIFICATIONS: {

@@ -59,8 +59,8 @@ export const APP_COLORS = {
 };
 
 const PROD_URL= 'https://skolearn.herokuapp.com';
-const STAGE_URL= 'https://ba50-2405-204-3085-da48-fd8a-8fc1-8d21-d3.in.ngrok.io';
-const DEV_URL= 'https://ba50-2405-204-3085-da48-fd8a-8fc1-8d21-d3.in.ngrok.io';
+const STAGE_URL= 'https://4e88-2409-4050-2e0a-42e7-25b0-a9ee-effb-c272.in.ngrok.io';
+const DEV_URL= 'https://4e88-2409-4050-2e0a-42e7-25b0-a9ee-effb-c272.in.ngrok.io';
 const BETA_URL= 'https://skolearn.herokuapp.com';
 
 export const ENVS = {

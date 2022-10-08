@@ -99,10 +99,10 @@ export const modalStyles = StyleSheet.create({
         height: 80,
       },
       IMG_UPLOAD_PLACE: {
-        borderWidth: 2,
+        borderWidth: 1,
         borderRadius: 10,
         paddingVertical: 5,
-        borderColor: APP_COLORS.grey,
+        borderColor: APP_COLORS.light_grey,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,

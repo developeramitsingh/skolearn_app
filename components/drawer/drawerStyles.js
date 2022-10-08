@@ -13,7 +13,7 @@ export const drawerStyles = StyleSheet.create({
         width: '100%',
         height: '100%',
         zIndex: 10,
-        paddingVertical: 20,
+        padding: 20,
     },
 
     TAB_TEXT: {

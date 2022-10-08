@@ -18,7 +18,7 @@ const MyTickets = ({handleOpenTicket, user }) => {
     const getAllRaisedTickets = async () => {
         try {
             setLoading(true);
-            const allTickets = await ticketsRaisedService.getAllTicketsRaised('{}', []);
+            const allTickets = await ticketsRaisedService.getAllTicketsRaised('{}', ['_id', 'subject', 'status', 'createdAt']);
             setLoading(false);
 
             console.info({ data: allTickets?.data })
@@ -42,23 +42,23 @@ const MyTickets = ({handleOpenTicket, user }) => {
         try {
             console.info('raiseNewTicket called');
             sendAppLogService.sendAppLogs({ msg: 'raised new ticket called'});
-            const formData = new FormData();
+            const form = new FormData();
 
-            formData.append('imgFile', {
-                name: `image_UserId:${user?._id}.jpeg`,
-                uri: data.ticketImg,
-                type: "image/jpeg",
-            });
-
-            for (const key in data) {
-                formData.append(key, data[key]);
+            if(data.ticketImg) {
+                form.append('imgFile', {
+                    name: `image_UserId:${user?._id}.jpeg`,
+                    uri: data.ticketImg,
+                    type: "image/jpeg",
+                });
             }
 
-            console.info({ formData });
+            form.append('subject', data['subject']);
+            form.append('message', data['message']);
+
             console.info('createTicketsRaised called');
             sendAppLogService.sendAppLogs({ msg: 'createTicketsRaised called'});
 
-            await ticketsRaisedService.createTicketsRaised(formData); 
+            await ticketsRaisedService.createTicketsRaised(form); 
             console.info(`tickets raised`);
             sendAppLogService.sendAppLogs({ msg: 'raised ticket'});
             Alert.alert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.HELP?.TICKET?.TICKET_CREATION_SUCCESS, [
@@ -81,7 +81,7 @@ const MyTickets = ({handleOpenTicket, user }) => {
             console.info('createTicket');
             await raiseNewTicket(payload);
             setTickets((prev) => {
-                return [...prev, { ...payload }];
+                return [...prev, { ...payload, messages: [ { message: payload.message } ], status: 'Open' }];
             })
             //call api to create ticket entry
             setCreateTicket(false);
@@ -94,15 +94,12 @@ const MyTickets = ({handleOpenTicket, user }) => {
     };
 
     const allTickets = tickets?.map(ticket => {
+        console.info({ ticket })
         return (
             <Pressable key={ticket._id} style={COMMON_STYLES.CARD} onPress={()=>handlePress(ACTION_TYPES.OPEN_TICKET, ticket._id)}>
                 <View style={myTicketsStyles.ROW}>
                     <Text style={COMMON_STYLES.BODY_TITLE}>{ticket.subject}</Text>
-                    <Text style={COMMON_STYLES.BODY_TEXT}>{TICKET_STATUSES[lang]?.[ticket.status]}</Text>
-                </View>
-                <View style={myTicketsStyles.ROW}>
-                    <Text style={COMMON_STYLES.BODY_TEXT}>{LANGUAGES_DATA[lang]?.HELP?.TICKET?.TICKET_ID} {ticket._id}</Text>
-                    
+                    <Text style={COMMON_STYLES.BODY_TITLE}>{TICKET_STATUSES[lang]?.[ticket.status?.toLowerCase()]}</Text>
                 </View>
 
                 <View style={myTicketsStyles.ROW}>
@@ -115,7 +112,7 @@ const MyTickets = ({handleOpenTicket, user }) => {
     return (
         <View style = { myTicketsStyles.CONTAINER }>
             <Loader isLoading={isLoading}/>
-            <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE_NEW_TICKET} actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = {LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE} placeholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_SUBJECT} fullMsgPlaceholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_FULL_MESSAGE} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CANCEL} uploadTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.UPLOAD_TXT}/>
+            <ModalTicket modalVisible={createTicketModal} handleModalPress={handlePress} title={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE_NEW_TICKET} actionType= {ACTION_TYPES.CREATE_TICKET} btnTxt = {LANGUAGES_DATA[lang]?.HELP?.TICKET?.CREATE} placeholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_SUBJECT} fullMsgPlaceholder={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ENTER_FULL_MESSAGE} closeTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.CANCEL} uploadTxt={LANGUAGES_DATA[lang]?.HELP?.TICKET?.UPLOAD_TXT} errorTxts={LANGUAGES_DATA[lang]?.HELP?.TICKET?.ERRORS}/>
 
             <View style= {myTicketsStyles.ROW_CENTER}>
                 <Pressable elevation={3} onPress={()=> setCreateTicket(true)} style={COMMON_STYLES.SUB_BTN_1}>
@@ -123,9 +120,10 @@ const MyTickets = ({handleOpenTicket, user }) => {
                 </Pressable>
             </View>
 
-            <View style={myTicketsStyles.ROW}>
+            <View style={[myTicketsStyles.ROW, { paddingVertical: 10}]}>
                 <Text style={COMMON_STYLES.BODY_TITLE}>{LANGUAGES_DATA[lang]?.HELP?.TICKET?.RAISED_TICKETS}</Text>
             </View>
+            <View style={COMMON_STYLES.SEPARATOR}></View>
             <ScrollView style={myTicketsStyles.CONTAINER}>
                 {allTickets}
             </ScrollView>
