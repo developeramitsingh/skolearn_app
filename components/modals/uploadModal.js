@@ -37,7 +37,7 @@ const UploadModal = ({ data, title, modalVisible, handleModalPress, btnTxt, acti
                 <View style={[modalStyles.CONT_INNER, { flex: 1 }]}>
                     <Text style={modalStyles.modalTitle}>{title}</Text>
 
-                    <View style={modalStyles.ROW}>
+                    <View style={[modalStyles.ROW]}>
                         {uri && <Image source={{ uri }} style={{ width: 200, height: 200 }} />}
 
                         <TouchableOpacity onPress={setPickedImage} style={modalStyles.BTN}>
@@ -55,7 +55,7 @@ const UploadModal = ({ data, title, modalVisible, handleModalPress, btnTxt, acti
                             <Text style={COMMON_STYLES.BTN_TEXT}>{btnTxt}</Text>
                         </TouchableOpacity>
 
-                        <Text style={[COMMON_STYLES.BODY_TEXT_WHITE, COMMON_STYLES.CENTER]}>{info}</Text>
+                        <Text style={[COMMON_STYLES.BODY_TEXT, COMMON_STYLES.CENTER]}>{info}</Text>
                     </View>
 
                     <View style={COMMON_STYLES.ROW}>

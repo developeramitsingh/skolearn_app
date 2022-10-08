@@ -23,7 +23,8 @@ export const modalStyles = StyleSheet.create({
         backgroundColor: APP_COLORS.white,
         alignSelf: 'center',
         borderRadius: 10,
-        padding: 30,
+        paddingVertical: 20,
+        paddingHorizontal: 30,
       },
       ROW_SPREAD: {
         justifyContent: 'space-between',
