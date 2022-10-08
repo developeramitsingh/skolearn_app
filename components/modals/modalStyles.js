@@ -13,7 +13,7 @@ export const modalStyles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         //alignItems: "center",
-        backgroundColor: APP_COLORS.black_opacity_90,
+        backgroundColor: APP_COLORS.appThemeColor,
         paddingHorizontal: 20,
       },
       CONT_INNER: {
