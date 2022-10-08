@@ -109,8 +109,8 @@ export const chatStyles = StyleSheet.create({
         borderWidth: 1,
     },
     userImg: {
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         borderRadius: 100,
         borderColor: APP_COLORS.light_grey,
         borderWidth: 1,

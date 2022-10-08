@@ -103,7 +103,6 @@ const ModalTicket = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
                     <View style={modalStyles.ROW_SPREAD}>
                         <View style={ modalStyles.MULTI_TEXT }>
                             <TextInput 
-                                maxLength={maxLength ? maxLength : null } 
                                 style={[modalStyles.TEXT_INPUT_LEFT, { maxHeight: 200, minHeight: 100 }]}
                                 keyboardType= {keyboardType ? keyboardType : "default"}
                                 placeholder={fullMsgPlaceholder}

@@ -8,7 +8,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import io from 'socket.io-client';
 import { getFromStorage } from '../../utils/utils';
 
-const Chat = ({ticketId}) => {
+const Chat = ({user}) => {
     //let scrollViewRef = React.useRef(null);
     const socketRef = React.useRef(null);
 
@@ -135,11 +135,13 @@ const Chat = ({ticketId}) => {
                 {
                     messages?.map((msg,idx) => {
                         const isSupportUser = msg.userType === 'support';
-                        const userStyle = chatStyles.chatMsgBlockUser;
-                        const supportStyle = chatStyles.chatMsgBlockSupport;
+                        const userStyle = {...chatStyles.chatMsgBlockUser, marginRight: 40};
+                        const supportStyle = {...chatStyles.chatMsgBlockSupport, marginLeft: 40};
 
-                        const userChatImgStyle = chatStyles.chatImgUser;
-                        const supportChatImgStyle = chatStyles.chatImgSupport;
+                        const userChatImgStyle = { ...chatStyles.chatImgUser, marginRight: 40};
+                        const supportChatImgStyle = { ...chatStyles.chatImgSupport, marginLeft: 40 };
+
+                        const alignStyle = isSupportUser ? { alignSelf: 'flex-start' }: { alignSelf: 'flex-end'}
                         return (
                             <View key={msg.id} style={{ marginBottom: 10 }}>
                                 <View style={[chatStyles.chatMsgBlock, isSupportUser ? supportStyle :  userStyle ]}>
@@ -150,6 +152,13 @@ const Chat = ({ticketId}) => {
                                     <Image source={{ uri: msg.img }} style={isSupportUser ? supportChatImgStyle : userChatImgStyle }/>
                                     : null
                                 }
+                                <View>
+                                    {
+                                        user?.profileImgThumbUrl && !isSupportUser
+                                        ? <Image elevation={5} resizeMode='stretch' style={[chatStyles?.userImg, alignStyle]} source={{ uri: user?.profileImgThumbUrl }}></Image>
+                                        : <FontAwesome name="user-circle-o" size={40} color={APP_COLORS.lightBlue} style={alignStyle}/>
+                                    }
+                                </View>
                             </View>
                         )
                     })

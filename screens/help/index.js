@@ -40,7 +40,7 @@ const Index = ({ navigation }) => {
 
             {
                 activeTab === HELP_TAB_TYPE.LIVE_CHAT 
-                    ? <Chat/>
+                    ? <Chat user={user}/>
                     : <MyTickets user={user} navigation={navigation}/>
             }
         </View>

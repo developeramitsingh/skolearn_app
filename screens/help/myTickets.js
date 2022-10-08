@@ -83,9 +83,7 @@ const MyTickets = ({ user, navigation }) => {
         if(actionType === ACTION_TYPES.CREATE_TICKET) {
             console.info('createTicket');
             await raiseNewTicket(payload);
-            setTickets((prev) => {
-                return [...prev, { ...payload, messages: [ { message: payload.message } ], status: 'Open' }];
-            })
+            getAllRaisedTickets();
             //call api to create ticket entry
             setCreateTicket(false);
         } else if(actionType === CLOSE_MODAL) {

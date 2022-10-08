@@ -58,29 +58,31 @@ const ModalTicketWindow = ({ title, modalVisible, handleModalPress, btnTxt, plac
                 <ScrollView showsVerticalScrollIndicator={true}>
                     {
                         ticket?.messages?.map((msg,idx) => {
-                            const isSupportUser = msg.userType === 'support';
-                            const userStyle = chatStyles.chatMsgBlockUser;
-                            const supportStyle = chatStyles.chatMsgBlockSupport;
+                            const isSupportUser = msg.userType === 'suportUser';
+                            const userStyle = {...chatStyles.chatMsgBlockUser, marginRight: 30};
+                            const supportStyle = {...chatStyles.chatMsgBlockSupport, marginLeft: 30};
 
-                            const userChatImgStyle = chatStyles.chatImgUser;
-                            const supportChatImgStyle = chatStyles.chatImgSupport;
+                            const userChatImgStyle = { ...chatStyles.chatImgUser, marginRight: 30};
+                            const supportChatImgStyle = { ...chatStyles.chatImgSupport, marginLeft: 30 };
+
+                            const alignStyle = isSupportUser ? { alignSelf: 'flex-start' }: { alignSelf: 'flex-end'}
 
                             return (
                                 <View key={idx} style={{ marginBottom: 10 }}>
                                     {
                                         msg.imageUrlThumb ?
-                                        <Image resizeMode='cover' source={{ uri: msg.imageUrlThumb }} style={isSupportUser ? supportChatImgStyle : userChatImgStyle }/>
+                                        <Image resizeMode='cover' source={{ uri: msg.imageUrlThumb }} style={[isSupportUser ? supportChatImgStyle : userChatImgStyle ]}/>
                                         : null
                                     }
-                                    <View style={COMMON_STYLES.ROW_RIGHT}>
+                                    <View>
                                         <View style={[chatStyles.chatMsgBlock, isSupportUser ? supportStyle :  userStyle ]}>
                                             <Text style={ isSupportUser ? COMMON_STYLES.BODY_TEXT_WHITE : COMMON_STYLES.BODY_TEXT_WHITE }>{msg.message}</Text>
                                         </View>
                                         <View>
                                             {
                                                 user?.profileImgThumbUrl 
-                                                ? <Image elevation={5} resizeMode='stretch' style={chatStyles?.userImg} source={{ uri: user?.profileImgThumbUrl }}></Image>
-                                                : <FontAwesome name="user-circle-o" size={60} color={APP_COLORS.lightGrey2} />
+                                                ? <Image elevation={5} resizeMode='stretch' style={[chatStyles?.userImg, alignStyle]} source={{ uri: user?.profileImgThumbUrl }}></Image>
+                                                : <FontAwesome name="user-circle-o" size={60} color={APP_COLORS.lightGrey2} style={alignStyle}/>
                                             }
                                         </View>
                                     </View>
