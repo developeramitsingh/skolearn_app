@@ -164,7 +164,7 @@ const Drawer = ({navigation, setDrawer, user }) => {
                         </Text>
 
                         <Text style={[COMMON_STYLES.BODY_TEXT]}>
-                            H. 111, Street 7, Shiv Encalve, Part - 1, Faridabad, Haryana - 121003
+                            H. 111, Street 7, Shiv Enclave, Part - 1, Faridabad, Haryana - 121003
                         </Text>
 
                         <Text style={[COMMON_STYLES.BODY_TEXT]}>
