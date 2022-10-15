@@ -60,13 +60,14 @@ const PracticeTestsList = ({navigation, testGroup})=> {
     if (!practiceTestsData?.length) {
         return (
             <View style={[COMMON_STYLES.CONTAINER_LIGHT_ALL_CENTER, { borderTopLeftRadius: 10, borderTopRightRadius: 10 }]}>
-                <Text style={[COMMON_STYLES.BODY_TITLE, { textAlign: 'center'}]}>No Data Found</Text>
+                <Loader isLoading={isLoading}/>
+                <Text style={[COMMON_STYLES.BODY_TITLE, { textAlign: 'center'}]}>{ testGroup ? LANGUAGES_DATA[lang]?.COMMON?.NO_DATA : LANGUAGES_DATA[lang]?.COMMON?.FETCHING_DATA }</Text>
             </View>
         )
     }
 
     return (
-        <View style={testListsStyles.BACK_PANEL}>
+        <View style={{ flex: 1 }}>
             <Loader isLoading={isLoading}/>
             <Text style={testListsStyles.HEADING}>{LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.PRACTICE]?.PRACTICE_TESTS}</Text>
             <View style={[COMMON_STYLES.SEPARATOR, { marginHorizontal: 15 }]}></View>

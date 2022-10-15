@@ -1,4 +1,4 @@
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, Image, ScrollView, Pressable } from 'react-native';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from '../../constant/constant';
 import { useEffect, useState, useRef, useCallback } from 'react';
@@ -15,8 +15,9 @@ import Profile from '../profile/profile';
 import { saveToStorage, getFromStorage } from '../../utils/utils';
 import { userService, notificationsService } from '../../services';
 import { LANGUAGES_DATA } from '../../constant/language';
-import { setCurrentLanguage } from '../../common/functions/commonHelper';
+import { onShare, setCurrentLanguage } from '../../common/functions/commonHelper';
 import ScrollTabs from '../../components/scrollTabs/scrollTabs';
+import Slideshow from '../../components/slideshow/slideshow';
 
 const Dashboard = ({navigation, route }) => {
     const [state, setState] = useState({
@@ -118,21 +119,26 @@ const Dashboard = ({navigation, route }) => {
 
         return (
             <>
+                <ScrollView style={{ maxHeight: '8%' }} horizontal={true}>
+                    <Pressable onPress={()=> onShare(Constant.SHARE_TEXT(state?.user?.referralCode))} style={{ paddingHorizontal: 20, marginVertical: 10, width: 360 }}>
+                        <Image source={{ uri: Constant.ASSEST_URLS.REFERRAL_IMAGE }} style={{height: 40, width: '100%', borderRadius: 10 }}/>
+                    </Pressable>
+                 </ScrollView>
                 <Tabs tabList = { Constant.DASHBOARD_TEST_TABS } activeTab = {route?.params?.activeTab || state.activeTab} setActiveTab={setActiveTab} screen='DASHBOARD' tabsIn={Constant.SCREENS.TEST_LIST}/>
-
+                
                  {
                     !isMyTestActive 
-                    ? <ScrollTabs tabList = { Constant.DASHBOARD_TEST_GROUP_TABS } activeTab = { state.testGroup || Constant.TEST_GROUPS.GENERAL.KEY } setActiveTab={settestGroup} screen='DASHBOARD' tabsIn={Constant.SCREENS.TEST_LIST}/>
+                    ? <ScrollTabs tabList = { Constant.DASHBOARD_TEST_GROUP_TABS } activeTab = { state.testGroup || Constant.TEST_GROUPS.GENERAL.VALUE } setActiveTab={settestGroup} screen='DASHBOARD' tabsIn={Constant.SCREENS.TEST_LIST}/>
                     : null
                  }
 
-                <View style={[COMMON_STYLES.CONTAINER ]}>
+                <View style={[COMMON_STYLES.CONTAINER_LIGHT ]}>
                     {
                         isLiveActive
-                        ? <LiveTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation} testGroup={state.testGroup}/>
+                        ? <LiveTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation} testGroup={state.testGroup || Constant.TEST_GROUPS.GENERAL.VALUE}/>
                         : isMyTestActive
                         ? <MyTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation}/>
-                        : <PracticeTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation} testGroup={state.testGroup}/>
+                        : <PracticeTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation} testGroup={state.testGroup || Constant.TEST_GROUPS.GENERAL.VALUE}/>
                     
                     }
                 </View>

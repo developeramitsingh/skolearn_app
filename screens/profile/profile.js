@@ -134,7 +134,7 @@ const Profile = ({navigation, route}) => {
             
             showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, `${LANGUAGES_DATA[lang]?.PROFILE?.REFERRAL_CODE_COPIED}: ${state.referralCode}`);
         } else if(actionType === 'onLinkCopy') {
-            copyToClipboard(SHARE_TEXT);
+            copyToClipboard(SHARE_TEXT(state?.referralCode));
 
             showAlert(LANGUAGES_DATA[lang]?.ALERT?.SUCCESS, LANGUAGES_DATA[lang]?.PROFILE?.SHARING_LINK_COPIED);
         } else if(actionType === ACTION_TYPES.UPLOAD_BANK_ID) {
@@ -336,8 +336,12 @@ const Profile = ({navigation, route}) => {
                 </View>
                 
                 <View style={profileStyles.ROW_CENTER}>
-                    <Pressable elevation={2} onPress={()=>onShare(SHARE_TEXT)} style={[COMMON_STYLES.BTN_1, { width: '100%', backgroundColor: APP_COLORS.blueGreen }]}>
+                    {/* <Pressable elevation={2} onPress={()=>onShare(SHARE_TEXT)} style={[COMMON_STYLES.BTN_1, { width: '100%', backgroundColor: APP_COLORS.blueGreen }]}>
                         <Text style={[COMMON_STYLES.SUB_BTN_TXT, { color: 'white', fontWeight: 'bold'}]}>{LANGUAGES_DATA[lang]?.PROFILE?.REFER_TXT}</Text>
+                    </Pressable> */}
+
+                    <Pressable onPress={()=>onShare(SHARE_TEXT(state?.referralCode))} style={{  marginVertical: 10, width: 300, overflow: 'hidden', borderWidth: 0.5, borderColor: APP_COLORS.light_grey, borderRadius: 5 }}>
+                        <Image source={{ uri: 'https://ik.imagekit.io/nwxotnqhh/referralImg_NCrTW_FPM.jpeg'}} style={{height: 42, width: '100%', borderRadius: 10 }}/>
                     </Pressable>
 
                     <View style={[COMMON_STYLES.ROW_COLUMN, profileStyles.REFER_BOX]}>

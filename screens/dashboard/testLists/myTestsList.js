@@ -42,7 +42,7 @@ const MyTestsList = ({navigation})=> {
         navigation.navigate(Constant.ROUTES.RESULT_SCREEN, { testId: id, enrolledId });
     }
     return (
-        <View style={testListsStyles.BACK_PANEL}>
+        <View style={ { flex: 1 }}>
             <Loader isLoading={isLoading}/>
             <Text style={testListsStyles.HEADING}>{LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.MY_TEST]?.TEST_COMPLETED}</Text>
             <View style={[COMMON_STYLES.SEPARATOR, { marginHorizontal: 15 }]}></View>

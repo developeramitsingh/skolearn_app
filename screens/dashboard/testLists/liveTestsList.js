@@ -94,22 +94,23 @@ const LiveTestsList = ({navigation, userId, testGroup })=> {
     if (!megaliveDataList?.length && !liveDataList?.length) {
         return (
             <View style={[COMMON_STYLES.CONTAINER_LIGHT_ALL_CENTER, { borderTopLeftRadius: 10, borderTopRightRadius: 10 }]}>
-                <Text style={[COMMON_STYLES.BODY_TITLE, { textAlign: 'center'}]}>No Data Found</Text>
+                <Loader isLoading={isLoading}/>
+                <Text style={[COMMON_STYLES.BODY_TITLE, { textAlign: 'center'}]}>{ testGroup ? LANGUAGES_DATA[lang]?.COMMON?.NO_DATA : LANGUAGES_DATA[lang]?.COMMON?.FETCHING_DATA }</Text>
             </View>
         )
     }
     
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, paddingTop: 10 }}>
             <Loader isLoading={isLoading}/>
-            <Text style={testListsStyles.HEADING_WHITE}>{LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.MEGA_SCHOLAR}</Text>
+            {/* <Text style={testListsStyles.HEADING_WHITE}>{LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.MEGA_SCHOLAR}</Text> */}
             <CardList testType={Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={{ flex: 0 }} dataList={megaliveDataList} horizontal = {true} langData={
                 LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.CARDS
             }/>
-            <View style={COMMON_STYLES.SEPARATOR}></View>
+            <View style={{ marginVertical: 5 }}></View>
 
-            <Text style={testListsStyles.HEADING_WHITE}>{LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.SCHOLAR_EVERYONE}</Text>
-            <CardList testType={ Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={testListsStyles.BACK_PANEL} dataList={liveDataList} horizontal = {false} langData={
+            {/* <Text style={testListsStyles.HEADING_WHITE}>{LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.SCHOLAR_EVERYONE}</Text> */}
+            <CardList testType={ Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={{}} dataList={liveDataList} horizontal = {false} langData={
                 LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.CARDS
             }/>
         </View>

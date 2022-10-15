@@ -57,7 +57,7 @@ const CardList = (props) => {
         };
 
         return (
-            <View elevation={1} key={item.enrolledId ||item._id} style ={[isHorizontal ? cardListStyles.CARD_HORIZONTAL : {...cardListStyles.CARD_VERTICAL }, isMyTest && { paddingBottom: 0 }]}>
+            <View elevation={5} key={item.enrolledId ||item._id} style ={[isHorizontal ? cardListStyles.CARD_HORIZONTAL : {...cardListStyles.CARD_VERTICAL }, isMyTest && { paddingBottom: 0 }]}>
                 
                 <View style ={[cardListStyles.ROW, cardListStyles.CARD_TITLE_CONT, !isHorizontal && cardListStyles.CARD_TITLE_CONT_VERTICAL ]}>
                     <View style={[cardListStyles.COL_LEFT, isHorizontal && { maxWidth: 200 }, isPractice && { maxWidth: '100%'}]}>

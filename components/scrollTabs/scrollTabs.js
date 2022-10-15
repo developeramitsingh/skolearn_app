@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import {View, Pressable, Text, ScrollView} from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import {View, Pressable, Text, ScrollView, Animated} from 'react-native';
 
 import { scrollTabStyles } from './scrollTabStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
@@ -7,6 +7,7 @@ import { LANGUAGES_DATA } from '../../constant/language';
 import { setCurrentLanguage } from '../../common/functions/commonHelper';
 
 const ScrollTabs = ({ tabList, activeTab, setActiveTab, tabsIn, screen }) => {
+    const offset = useRef(new Animated.Value(0)).current;
     const [state, setState] = useState({
         activeTab: '',
     });
@@ -28,7 +29,10 @@ const ScrollTabs = ({ tabList, activeTab, setActiveTab, tabsIn, screen }) => {
         setActiveTab(key);
     }
     return(
-        <ScrollView style={scrollTabStyles.SUB_CONT} horizontal={true} showsHorizontalScrollIndicator={false}>
+        <ScrollView style={scrollTabStyles.SUB_CONT} horizontal={true} showsHorizontalScrollIndicator={false} onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: offset } } }],
+            { useNativeDriver: false }
+          )}>
             {tabList.map(tab => {
                 return(
                     <Pressable onPress={() => handlePress(tab.key)} style={{...scrollTabStyles.BODY_TABS, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE_TAB : {})}} key={tab.key}>

@@ -50,6 +50,10 @@ export const TICKET_STATUSES = {
 };
 export const LANGUAGES_DATA = {
     [Constant.LANGUAGES.HINDI]: {
+        COMMON: {
+            NO_DATA: 'कोई डेटा नहीं मिला',
+            FETCHING_DATA: 'डेटा प्राप्त करना',
+        },
         ALERT: {
             INFO: 'जानकारी',
             NOTICE: 'सूचना',
@@ -147,20 +151,20 @@ export const LANGUAGES_DATA = {
                     [Constant.DASHBOARD_TEST_TABS[2].key]: 'अभ्यास टेस्ट',
                 },
                 CAT_TABS: {
-                    [Constant.TEST_GROUPS.GENERAL.KEY]: 'सामान्य',
-                    [Constant.TEST_GROUPS.HIGH_SCHOOL.KEY]: '10वीं',
-                    [Constant.TEST_GROUPS.INTER.KEY]: '12वीं',
-                    [Constant.TEST_GROUPS.SSC.KEY]: 'एसएससी',
-                    [Constant.TEST_GROUPS.RAILWAY.KEY]: 'रेलवे',
-                    [Constant.TEST_GROUPS.BANK.KEY]: 'बैंक',
-                    [Constant.TEST_GROUPS.GRADUATION.KEY]: 'स्नातक',
-                    [Constant.TEST_GROUPS.PCS.KEY]: 'पीसीएस',
-                    [Constant.TEST_GROUPS.UPSC.KEY]: 'यूपीएससी',
-                    [Constant.TEST_GROUPS.JEE.KEY]: 'जेईई',
-                    [Constant.TEST_GROUPS.NDA.KEY]: 'एनडीए',
-                    [Constant.TEST_GROUPS.CAT.KEY]: 'कैट',
-                    [Constant.TEST_GROUPS.TGT.KEY]: 'टीजीटी',
-                    [Constant.TEST_GROUPS.PGT.KEY]: 'पीजीटी',
+                    [Constant.TEST_GROUPS.GENERAL.VALUE]: 'सामान्य',
+                    [Constant.TEST_GROUPS.HIGH_SCHOOL.VALUE]: '10वीं',
+                    [Constant.TEST_GROUPS.INTER.VALUE]: '12वीं',
+                    [Constant.TEST_GROUPS.SSC.VALUE]: 'एसएससी',
+                    [Constant.TEST_GROUPS.RAILWAY.VALUE]: 'रेलवे',
+                    [Constant.TEST_GROUPS.BANK.VALUE]: 'बैंक',
+                    [Constant.TEST_GROUPS.GRADUATION.VALUE]: 'स्नातक',
+                    [Constant.TEST_GROUPS.PCS.VALUE]: 'पीसीएस',
+                    [Constant.TEST_GROUPS.UPSC.VALUE]: 'यूपीएससी',
+                    [Constant.TEST_GROUPS.JEE.VALUE]: 'जेईई',
+                    [Constant.TEST_GROUPS.NDA.VALUE]: 'एनडीए',
+                    [Constant.TEST_GROUPS.CAT.VALUE]: 'कैट',
+                    [Constant.TEST_GROUPS.TGT.VALUE]: 'टीजीटी',
+                    [Constant.TEST_GROUPS.PGT.VALUE]: 'पीजीटी',
                 },
                 [Constant.TEST_TYPES.LIVE]: {
                     MEGA_SCHOLAR: 'मेगा छात्रवृत्ति',
@@ -403,6 +407,10 @@ export const LANGUAGES_DATA = {
     },
 
     [Constant.LANGUAGES.ENGLISH]: {
+        COMMON: {
+            NO_DATA: 'No Data Found',
+            FETCHING_DATA: 'Fetching Data',
+        },
         ALERT: {
             INFO: 'Info',
             ERROR: 'Error',

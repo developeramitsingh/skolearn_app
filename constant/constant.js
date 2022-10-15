@@ -31,12 +31,13 @@ export const DOB = {
 export const ASSEST_URLS = {
     LOGO: 'https://ik.imagekit.io/nwxotnqhh/logo.png?ik-sdk-version=javascript-1.4.3&updatedAt=1664917053868',
     HOME: 'https://ik.imagekit.io/nwxotnqhh/splashfinal_BnUFAQxRr.png?ik-sdk-version=javascript-1.4.3&updatedAt=1664917251827',
+    REFERRAL_IMAGE: 'https://ik.imagekit.io/nwxotnqhh/referralImg_NCrTW_FPM.jpeg',
 };
 
 export const APP_COLORS = {
     blue: '#1E90FF',
     appThemeColor: '#360173', 
-    lightAppThemeColor: '#e4ccff', 
+    lightAppThemeColor: '#eadcfc', 
     blueGreen: '#25B0B9',
     yellow: '#FFD81B',
     green: '#26d606',
@@ -50,6 +51,8 @@ export const APP_COLORS = {
     black: '#000',
     black_opacity: '#00000050',
     black_opacity_90: '#00000090',
+    voilet: '#1a0336',
+    voilet_dark: '#290238',
     white_opacity: '#ffffff70',
     grey_opacity: '#ffffff20',
     red: '#fc0303',
@@ -262,8 +265,9 @@ export const NOTIFICATION_DATA_KEYS = {
   ROUTE: 'route'
 }
 
-export const SHARE_TEXT = `Join me on Skolearn to get Scholarship at no cost.
-Create your free account by using this link here: https://skolearn.com/download`;
+export const SHARE_TEXT = (code) => {
+  return `Join me on Skolearn to get Scholarship at no cost for your tution fee. Use my referral Code to get 1 free ticket: Code: ${code}. Create your account free by using this link here: https://skolearn.com`
+};
 
 export const TXN_STATUS = {
   SUCCESS: 'success',

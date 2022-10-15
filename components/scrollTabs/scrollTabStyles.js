@@ -25,7 +25,7 @@ export const scrollTabStyles = StyleSheet.create({
         marginVertical: 0,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: APP_COLORS.black_opacity_90,
+        backgroundColor: APP_COLORS.voilet,
     },
     BODY_TABS_TEXT:  {
         color: APP_COLORS.light_grey,
