@@ -28,10 +28,10 @@ const ScrollTabs = ({ tabList, activeTab, setActiveTab, tabsIn, screen }) => {
         setActiveTab(key);
     }
     return(
-        <ScrollView style={scrollTabStyles.SUB_CONT} horizontal={true}>
+        <ScrollView style={scrollTabStyles.SUB_CONT} horizontal={true} showsHorizontalScrollIndicator={false}>
             {tabList.map(tab => {
                 return(
-                    <Pressable elevation={3} onPress={() => handlePress(tab.key)} style={{...scrollTabStyles.BODY_TABS, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE_TAB : {})}} key={tab.key}>
+                    <Pressable onPress={() => handlePress(tab.key)} style={{...scrollTabStyles.BODY_TABS, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE_TAB : {})}} key={tab.key}>
                         <Text style={{...scrollTabStyles.BODY_TABS_TEXT, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE_TEXT_TAB : {})}}>{LANGUAGES_DATA[lang]?.[screen]?.[tabsIn]?.CAT_TABS?.[tab.key]}</Text>
                     </Pressable>
                 )

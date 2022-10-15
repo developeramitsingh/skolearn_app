@@ -140,13 +140,13 @@ export const COMMON_STYLES = {
     },
 
     ACTIVE_TAB: {
-        backgroundColor: APP_COLORS.appThemeColor,
-        borderColor: APP_COLORS.yellow,
-        borderWidth: 1, 
+        backgroundColor: APP_COLORS.black,
+        // borderColor: APP_COLORS.yellow,
+        // borderWidth: 1, 
     },
     
     ACTIVE_TEXT_TAB: {
-        color: APP_COLORS.yellow,
+        color: APP_COLORS.blueGreen,
     },
     BODY_TABS_TEXT:  {
         color: APP_COLORS.white,
