@@ -1,7 +1,7 @@
 import { SafeAreaView, View } from 'react-native';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import * as Constant from '../../constant/constant';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import Tabs from '../../components/tabs/tabs';
 import StatusBar from '../../components/statusBar/statusBar';
 import LiveTestsList from '../dashboard/testLists/liveTestsList';
@@ -16,6 +16,7 @@ import { saveToStorage, getFromStorage } from '../../utils/utils';
 import { userService, notificationsService } from '../../services';
 import { LANGUAGES_DATA } from '../../constant/language';
 import { setCurrentLanguage } from '../../common/functions/commonHelper';
+import ScrollTabs from '../../components/scrollTabs/scrollTabs';
 
 const Dashboard = ({navigation, route }) => {
     const [state, setState] = useState({
@@ -54,7 +55,7 @@ const Dashboard = ({navigation, route }) => {
 
     },  [route?.params?.activeTab, route?.params?.activeScreen, route?.params?.user]);
 
-    const setActiveTab = (key) => {
+    const setActiveTab = useCallback((key) => {
         if(route?.params?.activeTab) {
             route.params.activeTab = null;
         }
@@ -62,16 +63,16 @@ const Dashboard = ({navigation, route }) => {
         setState(prev => {
             return { ...prev, activeTab: key }
         })
-    }
+    }, [state.activeTab, route?.params?.activeTab]);
 
-    const setActiveScreen = (screenKey) => {
+    const setActiveScreen = useCallback((screenKey) => {
         if(route?.params?.activeScreen) {
             route.params.activeScreen = null;
         }
         setState(prev => {
             return { ...prev, activeScreen: screenKey }
         })
-    }
+    }, [state.activeScreen]);
 
     const checkIfNewNotification = async () => {
         console.info(`checkIfNewNotification called`);
@@ -100,20 +101,38 @@ const Dashboard = ({navigation, route }) => {
 
     }
 
+    const settestGroup = useCallback((key) => {
+        if(route?.params?.testGroup) {
+            route.params.testGroup = null;
+        }
+
+        setState(prev => {
+            return { ...prev, testGroup: key }
+        })
+    }, [state.testGroup]);
+
+
     const TestList = () => {
+        const isLiveActive = (route?.params?.activeTab === Constant.TEST_TYPES.LIVE) ||  (!route?.params?.activeTab && state.activeTab === Constant.TEST_TYPES.LIVE);
+        const isMyTestActive = (route?.params?.activeTab === Constant.TEST_TYPES.MY_TEST) || (!route?.params?.activeTab && state.activeTab === Constant.TEST_TYPES.MY_TEST);
+
         return (
             <>
                 <Tabs tabList = { Constant.DASHBOARD_TEST_TABS } activeTab = {route?.params?.activeTab || state.activeTab} setActiveTab={setActiveTab} screen='DASHBOARD' tabsIn={Constant.SCREENS.TEST_LIST}/>
-                <View style={COMMON_STYLES.CONTAINER}>
+
+                 {
+                    !isMyTestActive 
+                    ? <ScrollTabs tabList = { Constant.DASHBOARD_TEST_GROUP_TABS } activeTab = { state.testGroup || Constant.TEST_GROUPS.GENERAL.KEY } setActiveTab={settestGroup} screen='DASHBOARD' tabsIn={Constant.SCREENS.TEST_LIST}/>
+                    : null
+                 }
+
+                <View style={[COMMON_STYLES.CONTAINER ]}>
                     {
-                        (route?.params?.activeTab === Constant.TEST_TYPES.LIVE) || 
-                        (!route?.params?.activeTab && 
-                            state.activeTab === Constant.TEST_TYPES.LIVE)
-                        ? <LiveTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation}/>
-                        : (route?.params?.activeTab === Constant.TEST_TYPES.MY_TEST) || 
-                            (!route?.params?.activeTab && state.activeTab === Constant.TEST_TYPES.MY_TEST)
+                        isLiveActive
+                        ? <LiveTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation} testGroup={state.testGroup}/>
+                        : isMyTestActive
                         ? <MyTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation}/>
-                        : <PracticeTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation}/>
+                        : <PracticeTestsList userId = { route?.params?.user?._id || state.user?._id} navigation={navigation} testGroup={state.testGroup}/>
                     
                     }
                 </View>

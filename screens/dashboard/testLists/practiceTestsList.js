@@ -10,16 +10,19 @@ import Loader from '../../../components/loader/loader';
 import { LANGUAGES_DATA } from '../../../constant/language';
 import { setCurrentLanguage } from '../../../common/functions/commonHelper';
 
-const PracticeTestsList = ({navigation})=> {
+const PracticeTestsList = ({navigation, testGroup})=> {
     const [practiceTestsData, setPracticeListData] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const [lang, setLang] = useState();
 
     const getPracticeTests = async () => {
         try {
+            if (!testGroup) {
+                return;
+            }
             console.info(`getPracticeTests called`);
             setLoading(true);
-            const tests = await testService.getTests(`{ "testType": "${Constant.TEST_TYPES.PRACTICE}" }`);
+            const tests = await testService.getTests(`{ "testType": "${Constant.TEST_TYPES.PRACTICE}", "group": "${testGroup}" }`);
             setLoading(false);
             if (tests?.data?.data) {
                 setPracticeListData(tests.data.data);
@@ -32,7 +35,7 @@ const PracticeTestsList = ({navigation})=> {
     useEffect(() => {
         setCurrentLanguage(setLang);
         getPracticeTests();
-    }, []);
+    }, [testGroup]);
     
     const handleBtnPress = async (id) => {
         console.info({id});
@@ -52,6 +55,14 @@ const PracticeTestsList = ({navigation})=> {
         console.info({ isActve: data.isActive ,userEnrolled: data.userEnrolled, userSeats: data.userSeats });
 
         navigation.navigate(Constant.ROUTES.ATTEMPT, { test: data });
+    }
+
+    if (!practiceTestsData?.length) {
+        return (
+            <View style={[COMMON_STYLES.CONTAINER_LIGHT_ALL_CENTER, { borderTopLeftRadius: 10, borderTopRightRadius: 10 }]}>
+                <Text style={[COMMON_STYLES.BODY_TITLE, { textAlign: 'center'}]}>No Data Found</Text>
+            </View>
+        )
     }
 
     return (

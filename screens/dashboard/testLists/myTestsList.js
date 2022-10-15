@@ -4,7 +4,7 @@ import CardList from '../../../components/cardList/cardList';
 import testListsStyles from './testListsStyles';
 import * as Constant from '../../../constant/constant';
 import { COMMON_STYLES } from '../../../common/styles/commonStyles';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { enrolledTestsService } from '../../../services/index';
 import Loader from '../../../components/loader/loader';
 import { LANGUAGES_DATA } from '../../../constant/language';
@@ -58,4 +58,4 @@ const MyTestsList = ({navigation})=> {
     )   
 }
 
-export default MyTestsList;
+export default React.memo(MyTestsList);

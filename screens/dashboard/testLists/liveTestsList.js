@@ -4,13 +4,13 @@ import CardList from '../../../components/cardList/cardList';
 
 import testListsStyles from './testListsStyles';
 import * as Constant from '../../../constant/constant';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { testService } from '../../../services/index';
 import Loader from '../../../components/loader/loader';
 import { LANGUAGES_DATA } from '../../../constant/language';
 import { setCurrentLanguage } from '../../../common/functions/commonHelper';
 
-const LiveTestsList = ({navigation, userId })=> {
+const LiveTestsList = ({navigation, userId, testGroup })=> {
     const [megaliveDataList, setMegaLiveTestList] = useState([]);
     const [liveDataList, setLiveTestList] = useState([]);
     const [isLoading, setLoading] = useState(false);
@@ -19,7 +19,11 @@ const LiveTestsList = ({navigation, userId })=> {
     const getMegaLiveDataList = async () => {
         try {
             console.info(`getMegaLiveDataList called`);
-            const tests = await testService.getTests('{ "testType": "live", "testCategory": "mega", "isActive": true }');
+            if (!testGroup) {
+                return
+            }
+
+            const tests = await testService.getTests(`{ "testType": "live", "testCategory": "mega", "isActive": true, "group": "${testGroup}" }`);
 
             if (tests?.data?.data) {
                 setMegaLiveTestList(tests.data.data);
@@ -32,7 +36,10 @@ const LiveTestsList = ({navigation, userId })=> {
     const getLiveDataList = async () => {
         try {
             console.info(`getLiveDataList called`);
-            const tests = await testService.getTests('{ "testType": "live", "testCategory": "general", "isActive": true }');
+            if (!testGroup) {
+                return
+            }
+            const tests = await testService.getTests(`{ "testType": "live", "testCategory": "general", "isActive": true, "group": "${testGroup}" }`);
 
             if (tests?.data?.data) {
                 setLiveTestList(tests.data.data);
@@ -52,7 +59,7 @@ const LiveTestsList = ({navigation, userId })=> {
     useEffect(() => {
         setCurrentLanguage(setLang);
         getAllTests();
-    }, []);
+    }, [testGroup]);
 
     const handleBtnPress = async (_id) => {
         console.info({_id});
@@ -83,6 +90,15 @@ const LiveTestsList = ({navigation, userId })=> {
         }
         
     }
+
+    if (!megaliveDataList?.length && !liveDataList?.length) {
+        return (
+            <View style={[COMMON_STYLES.CONTAINER_LIGHT_ALL_CENTER, { borderTopLeftRadius: 10, borderTopRightRadius: 10 }]}>
+                <Text style={[COMMON_STYLES.BODY_TITLE, { textAlign: 'center'}]}>No Data Found</Text>
+            </View>
+        )
+    }
+    
     return (
         <View style={{ flex: 1 }}>
             <Loader isLoading={isLoading}/>
@@ -100,4 +116,5 @@ const LiveTestsList = ({navigation, userId })=> {
     )   
 }
 
-export default LiveTestsList;
+
+export default React.memo(LiveTestsList);

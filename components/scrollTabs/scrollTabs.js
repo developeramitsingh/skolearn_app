@@ -1,13 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import {View, Pressable, Text} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {View, Pressable, Text, ScrollView} from 'react-native';
 
-import { tabStyles } from './tabStyles';
+import { scrollTabStyles } from './scrollTabStyles';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { LANGUAGES_DATA } from '../../constant/language';
-import { SCREENS } from '../../constant/constant';
 import { setCurrentLanguage } from '../../common/functions/commonHelper';
 
-const Tabs = ({ tabList, activeTab, setActiveTab, tabsIn, screen }) => {
+const ScrollTabs = ({ tabList, activeTab, setActiveTab, tabsIn, screen }) => {
     const [state, setState] = useState({
         activeTab: '',
     });
@@ -29,16 +28,16 @@ const Tabs = ({ tabList, activeTab, setActiveTab, tabsIn, screen }) => {
         setActiveTab(key);
     }
     return(
-        <View style={tabStyles.SUB_CONT}>
+        <ScrollView style={scrollTabStyles.SUB_CONT} horizontal={true}>
             {tabList.map(tab => {
                 return(
-                    <Pressable elevation={3} onPress={() => handlePress(tab.key)} style={{...COMMON_STYLES.BODY_TABS, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE : {})}} key={tab.key}>
-                        <Text style={{...COMMON_STYLES.BODY_TABS_TEXT, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE_TEXT : {})}}>{LANGUAGES_DATA[lang]?.[screen]?.[tabsIn]?.TABS?.[tab.key]}</Text>
+                    <Pressable elevation={3} onPress={() => handlePress(tab.key)} style={{...scrollTabStyles.BODY_TABS, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE_TAB : {})}} key={tab.key}>
+                        <Text style={{...scrollTabStyles.BODY_TABS_TEXT, ...( state.activeTab === tab.key ? COMMON_STYLES.ACTIVE_TEXT_TAB : {})}}>{LANGUAGES_DATA[lang]?.[screen]?.[tabsIn]?.CAT_TABS?.[tab.key]}</Text>
                     </Pressable>
                 )
             })}
-        </View>
+        </ScrollView>
     )
 }
 
-export default React.memo(Tabs);
+export default  React.memo(ScrollTabs);

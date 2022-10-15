@@ -2,7 +2,7 @@ import { View, BackHandler, Alert, Image } from 'react-native';
 import statusBarStyles from './statusBarStyles';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ROUTES } from '../../constant/constant';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Constant from  '../../constant/constant';
 import Drawer from '../../components/drawer/drawer';
 
@@ -61,4 +61,4 @@ const StatusBar = ({ navigation, isNewNotifi, user }) => {
     )
 }
 
-export default StatusBar;
+export default React.memo(StatusBar);

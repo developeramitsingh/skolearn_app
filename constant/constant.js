@@ -59,8 +59,8 @@ export const APP_COLORS = {
 };
 
 const PROD_URL= 'https://skolearn.herokuapp.com';
-const STAGE_URL= 'https://1c08-2409-4050-2e0a-42e7-6102-8230-c555-b7f3.in.ngrok.io';
-const DEV_URL= 'https://1c08-2409-4050-2e0a-42e7-6102-8230-c555-b7f3.in.ngrok.io';
+const STAGE_URL= 'https://8a8f-2409-4050-2d11-84c-4d5a-1d78-b9a4-7fea.in.ngrok.io';
+const DEV_URL= 'https://8a8f-2409-4050-2d11-84c-4d5a-1d78-b9a4-7fea.in.ngrok.io';
 const BETA_URL= 'https://skolearn.herokuapp.com';
 
 export const ENVS = {
@@ -220,6 +220,27 @@ export const DASHBOARD_TEST_TABS = [{
   key: TEST_TYPES.PRACTICE,
 }];
 
+export const TEST_GROUPS = {
+  GENERAL:  { KEY: 'GENERAL', VALUE: 'general' },
+  HIGH_SCHOOL:  { KEY: '10th', VALUE: '10th' },
+  INTER: { KEY: '12th', VALUE: '12th' },
+  SSC: { KEY: 'SSC', VALUE: 'ssc' },
+  RAILWAY: { KEY: 'Railway', VALUE: 'railway' },
+  BANK: { KEY: 'Bank', VALUE: 'bank' },
+  GRADUATION: { KEY: 'Graduation', VALUE: 'graduation' },
+  PCS: { KEY: 'PCS', VALUE: 'pcs' },
+  UPSC: { KEY: 'UPSC', VALUE: 'upsc' },
+  JEE: { KEY: 'JEE', VALUE: 'jee' },
+  NDA: { KEY: 'NDA', VALUE: 'nda' },
+  CAT: { KEY: 'CAT', VALUE: 'cat' },
+  TGT: { KEY: 'TGT', VALUE: 'tgt' },
+  PGT: { KEY: 'PGT', VALUE: 'pgt' },
+};
+
+export const DASHBOARD_TEST_GROUP_TABS = Object.keys(TEST_GROUPS).map(cat => {
+  const { KEY, VALUE } = TEST_GROUPS[cat];
+  return { name: KEY, key: VALUE };
+});
 
 export const HELP_TAB_TYPE = {
   MY_TICKET: 'my-ticket',

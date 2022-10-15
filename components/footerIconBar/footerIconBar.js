@@ -1,6 +1,6 @@
 const { View, Pressable, Text } = require("react-native")
 import {Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { APP_COLORS, ROUTES, SCREENS } from '../../constant/constant';
 import { footerIconBarStyles } from './footerIconBarStyles';
@@ -52,4 +52,4 @@ const FooterIconBar = ({ setActiveScreen, langData }) => {
     )
 }
 
-export default FooterIconBar;
+export default React.memo(FooterIconBar);

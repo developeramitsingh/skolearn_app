@@ -20,7 +20,7 @@ export const COMMON_STYLES = {
     },
 
     CONTAINER_LIGHT_ALL_CENTER: {
-        backgroundColor: APP_COLORS.white,
+        backgroundColor: APP_COLORS.backPanelColor,
         flex: 1,
         paddingTop: 0,
         paddingHorizontal: 15,
@@ -137,6 +137,16 @@ export const COMMON_STYLES = {
     },
     ACTIVE_TEXT: {
         color: APP_COLORS.black,
+    },
+
+    ACTIVE_TAB: {
+        backgroundColor: APP_COLORS.appThemeColor,
+        borderColor: APP_COLORS.yellow,
+        borderWidth: 1, 
+    },
+    
+    ACTIVE_TEXT_TAB: {
+        color: APP_COLORS.yellow,
     },
     BODY_TABS_TEXT:  {
         color: APP_COLORS.white,
