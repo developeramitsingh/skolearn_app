@@ -23,7 +23,7 @@ const LiveTestsList = ({navigation, userId, testGroup })=> {
                 return
             }
 
-            const tests = await testService.getTests(`{ "testType": "live", "testCategory": "mega", "isActive": true, "group": "${testGroup}" }`);
+            const tests = await testService.getTests(`{ "testType": "live", "testCategory": "mega", "isActive": true, "group": "${testGroup !== Constant.TEST_GROUPS.GENERAL.VALUE ? testGroup : ''}" }`);
 
             if (tests?.data?.data) {
                 setMegaLiveTestList(tests.data.data);
@@ -39,7 +39,7 @@ const LiveTestsList = ({navigation, userId, testGroup })=> {
             if (!testGroup) {
                 return
             }
-            const tests = await testService.getTests(`{ "testType": "live", "testCategory": "general", "isActive": true, "group": "${testGroup}" }`);
+            const tests = await testService.getTests(`{ "testType": "live", "testCategory": "general", "isActive": true, "group": "${testGroup !== Constant.TEST_GROUPS.GENERAL.VALUE ? testGroup : ''}" }`);
 
             if (tests?.data?.data) {
                 setLiveTestList(tests.data.data);

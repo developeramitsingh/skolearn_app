@@ -22,7 +22,7 @@ const PracticeTestsList = ({navigation, testGroup})=> {
             }
             console.info(`getPracticeTests called`);
             setLoading(true);
-            const tests = await testService.getTests(`{ "testType": "${Constant.TEST_TYPES.PRACTICE}", "group": "${testGroup}" }`);
+            const tests = await testService.getTests(`{ "testType": "${Constant.TEST_TYPES.PRACTICE}", "group": "${testGroup !== Constant.TEST_GROUPS.GENERAL.VALUE ? testGroup : ''}" }`);
             setLoading(false);
             if (tests?.data?.data) {
                 setPracticeListData(tests.data.data);
