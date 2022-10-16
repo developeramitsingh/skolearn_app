@@ -39,7 +39,7 @@ const Test = ({navigation, route}) => {
         // Here uri means the url of the video you captured
         const form = new FormData();
         form.append("File", {
-          name: `UserRecording_testId:${route?.params?.testId}.mp4`,
+          name: `UserRecording_testId_${route?.params?.testId}.mp4`,
           uri: uri,
           type: "video/mp4",
         });
