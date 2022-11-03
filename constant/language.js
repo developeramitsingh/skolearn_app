@@ -280,6 +280,15 @@ export const LANGUAGES_DATA = {
             TXN_TXT: {
                 FIRST: 'रु',
                 LAST: 'जोड़ना बटुए में'
+            },
+            CHECKOUT: {
+                HEADING: 'चेकआउट',
+                SUB_HEADING: 'समरी',
+                LEFT_LABEL_1: 'अनुरोध प्रकार',
+                RIGHT_LABEL_1: 'वॉलेट में पैसे जोड़ें',
+
+                LEFT_LABEL_2: 'कुल',
+                RIGHT_LABEL_2: 'रुपये',
             }
         },
         HELP: {
@@ -626,6 +635,15 @@ export const LANGUAGES_DATA = {
             TXN_TXT: {
                 FIRST: 'Adding',
                 LAST: 'Rs. in wallet'
+            },
+            CHECKOUT: {
+                HEADING: 'Checkout',
+                SUB_HEADING: 'Summary',
+                LEFT_LABEL_1: 'Request Type',
+                RIGHT_LABEL_1: 'Adding money to wallet',
+
+                LEFT_LABEL_2: 'Total',
+                RIGHT_LABEL_2: 'Rupees',
             }
         },
         HELP: {

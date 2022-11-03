@@ -21,6 +21,7 @@ export const scrollTabStyles = StyleSheet.create({
         //paddingHorizontal: 15,
         //paddingHorizontal: 15,
         minWidth: 80,
+        paddingHorizontal: 10,
         marginHorizontal: 5,
         marginVertical: 0,
         alignItems: 'center',

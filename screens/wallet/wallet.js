@@ -366,24 +366,24 @@ const Wallet = ({ userId }) => {
                     </TouchableOpacity>
 
                     <View style={[COMMON_STYLES.ROW_CENTER, { marginBottom: 30 }]}>
-                        <Text style={COMMON_STYLES.BODY_HEADING_1}>Checkout</Text>
+                        <Text style={COMMON_STYLES.BODY_HEADING_1}>{LANGUAGES_DATA[lang]?.WALLET?.CHECKOUT.HEADING}</Text>
                     </View>
 
                     <View style={{ backgroundColor: APP_COLORS.white, borderRadius: 10 }}>
                         <View style={[COMMON_STYLES.ROW_CENTER, { paddingTop: 10, paddingBottom: 10 }]}>
-                            <Text style={[COMMON_STYLES.BODY_TITLE, { fontSize: 16 }]}>Summary</Text>
+                            <Text style={[COMMON_STYLES.BODY_TITLE, { fontSize: 16 }]}>{LANGUAGES_DATA[lang]?.WALLET?.CHECKOUT.SUB_HEADING}</Text>
                         </View>
 
                         <View style={{ flexDirection:'row', flexWrap: 'nowrap', padding: 10}}>
                             <View style={{ width: '50%'}}>
                                 <View style={COMMON_STYLES.ROW}>
-                                    <Text style={COMMON_STYLES.BODY_TITLE}>Request Type</Text>
+                                    <Text style={COMMON_STYLES.BODY_TITLE}>{LANGUAGES_DATA[lang]?.WALLET?.CHECKOUT.LEFT_LABEL_1}</Text>
                                 </View>
                             </View>
 
                             <View style={{ width: '50%'}}>
                                 <View style={COMMON_STYLES.ROW}>
-                                    <Text style={COMMON_STYLES.BODY_TITLE}>Adding Money to Wallet</Text>
+                                    <Text style={COMMON_STYLES.BODY_TITLE}>{LANGUAGES_DATA[lang]?.WALLET?.CHECKOUT.RIGHT_LABEL_1}</Text>
                                 </View>
                             </View>
                         </View>
@@ -391,13 +391,13 @@ const Wallet = ({ userId }) => {
                         <View style={{ flexDirection:'row', flexWrap: 'nowrap', padding: 10 }}>
                             <View style={{ width: '50%'}}>
                                 <View style={COMMON_STYLES.ROW}>
-                                    <Text style={COMMON_STYLES.BODY_TITLE}>Total</Text>
+                                    <Text style={COMMON_STYLES.BODY_TITLE}>{LANGUAGES_DATA[lang]?.WALLET?.CHECKOUT.LEFT_LABEL_2}</Text>
                                 </View>
                             </View>
 
                             <View style={{ width: '50%'}}>
                                 <View style={COMMON_STYLES.ROW}>
-                                    <Text style={COMMON_STYLES.BODY_TITLE}>{showCheckout.payload} Rupees</Text>
+                                    <Text style={COMMON_STYLES.BODY_TITLE}>{showCheckout.payload} {LANGUAGES_DATA[lang]?.WALLET?.CHECKOUT.RIGHT_LABEL_2}</Text>
                                 </View>
                             </View>
                         </View>
@@ -409,7 +409,7 @@ const Wallet = ({ userId }) => {
                         await addMoney(showCheckout.payload) 
                         setLoading(false);
                         setDisabled(false);
-                    }} style={[COMMON_STYLES.BTN_1, { backgroundColor: APP_COLORS.green, marginTop: 30 }]}><Loader isLoading={isLoading}/><Text style={[COMMON_STYLES.BTN_TEXT, {color: APP_COLORS.white}]}>Checkout</Text></TouchableOpacity>
+                    }} style={[COMMON_STYLES.BTN_1, { backgroundColor: APP_COLORS.green, marginTop: 30 }]}><Loader isLoading={isLoading}/><Text style={[COMMON_STYLES.BTN_TEXT, {color: APP_COLORS.white}]}>{LANGUAGES_DATA[lang]?.WALLET?.CHECKOUT.HEADING}</Text></TouchableOpacity>
 
                 </View>
             </SafeAreaView>
