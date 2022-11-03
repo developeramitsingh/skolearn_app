@@ -20,7 +20,7 @@ export const modalStyles = StyleSheet.create({
         //flex: 1,
         justifyContent: "space-around",
         alignItems: "center",
-        backgroundColor: APP_COLORS.white,
+        backgroundColor: APP_COLORS.backPanelColor,
         alignSelf: 'center',
         borderRadius: 10,
         paddingVertical: 20,

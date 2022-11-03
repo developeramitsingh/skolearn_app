@@ -185,7 +185,6 @@ const Wallet = ({ userId }) => {
             if (!getTokenData.data.success) {
                 showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT);
 
-                setCheckout({ visible: false });
                 return;
             }
 
@@ -198,7 +197,6 @@ const Wallet = ({ userId }) => {
             if (!txnToken) {
                 showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT);
 
-                setCheckout({ visible: false });
                 return;
             }
 
@@ -236,7 +234,6 @@ const Wallet = ({ userId }) => {
                     updateTransactionStatus(orderId, userUserId, `${msgPending}::paytmTxnStatus::${paytmTxnStatus}`, TXN_STATUS.PENDING);
                     setErrorOccured(true);
 
-                    setCheckout({ visible: false });
                     return;
                 }
 
@@ -276,7 +273,6 @@ const Wallet = ({ userId }) => {
 
             showAlert(LANGUAGES_DATA[lang]?.ALERT.WARNING, LANGUAGES_DATA[lang]?.WALLET?.TXN_MONEY_FAILED_TXT);
             setErrorOccured(true);
-            setCheckout({ visible: false });
         }
     }
 
@@ -381,13 +377,13 @@ const Wallet = ({ userId }) => {
                         <View style={{ flexDirection:'row', flexWrap: 'nowrap', padding: 10}}>
                             <View style={{ width: '50%'}}>
                                 <View style={COMMON_STYLES.ROW}>
-                                    <Text style={COMMON_STYLES.BODY_TITLE}>Purchase Type</Text>
+                                    <Text style={COMMON_STYLES.BODY_TITLE}>Request Type</Text>
                                 </View>
                             </View>
 
                             <View style={{ width: '50%'}}>
                                 <View style={COMMON_STYLES.ROW}>
-                                    <Text style={COMMON_STYLES.BODY_TITLE}>Adding Money in Wallet</Text>
+                                    <Text style={COMMON_STYLES.BODY_TITLE}>Adding Money to Wallet</Text>
                                 </View>
                             </View>
                         </View>
@@ -401,7 +397,7 @@ const Wallet = ({ userId }) => {
 
                             <View style={{ width: '50%'}}>
                                 <View style={COMMON_STYLES.ROW}>
-                                    <Text style={COMMON_STYLES.BODY_TITLE}>{1} Rupees</Text>
+                                    <Text style={COMMON_STYLES.BODY_TITLE}>{showCheckout.payload} Rupees</Text>
                                 </View>
                             </View>
                         </View>
