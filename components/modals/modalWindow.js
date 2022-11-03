@@ -2,7 +2,7 @@ import { View, Modal, Text, TouchableOpacity, TextInput } from "react-native"
 import { useState } from 'react';
 import { modalStyles } from  './modalStyles';
 import { COMMON_STYLES } from "../../common/styles/commonStyles";
-import { CLOSE_MODAL} from '../../constant/constant';
+import { APP_COLORS, CLOSE_MODAL} from '../../constant/constant';
 import Loader from '../../components/loader/loader';
 
 const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholder, actionType, keyboardType, maxLength, validRegex, closeTxt }) => {
@@ -55,8 +55,8 @@ const ModalWindow = ({ title, modalVisible, handleModalPress, btnTxt, placeholde
                             setDisable(true)
                             await handleModalPress(actionType, value)
                             setDisable(false)
-                        }} style={[modalStyles.BTN, disable && COMMON_STYLES.DISABLED_BTN]}>
-                            <Text style={[COMMON_STYLES.BTN_TEXT, disable && COMMON_STYLES.DISABLED_TEXT]}>{btnTxt}</Text>
+                        }} style={[modalStyles.BTN,{ backgroundColor: APP_COLORS.green}, disable && COMMON_STYLES.DISABLED_BTN]}>
+                            <Text style={[COMMON_STYLES.BTN_TEXT_WHITE, disable && COMMON_STYLES.DISABLED_TEXT]}>{btnTxt}</Text>
                             <Loader isLoading={disable && value ? true : false}/>
                         </TouchableOpacity>
                     </View>

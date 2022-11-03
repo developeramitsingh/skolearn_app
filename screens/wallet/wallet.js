@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, View, Text, TouchableOpacity, FlatList, Alert } from "react-native";
+import { SafeAreaView, View, Text, TouchableOpacity, FlatList, Alert, Pressable } from "react-native";
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
 import { walletStyles } from './walletStyles';
 import ModalWindow from "../../components/modals/modalWindow";
@@ -11,6 +11,7 @@ import { generateOrderId } from "../../utils/utils";
 import Loader from '../../components/loader/loader';
 import { LANGUAGES_DATA, TXN_STATUSES } from '../../constant/language';
 import { raiseNewTicket, setCurrentLanguage } from '../../common/functions/commonHelper';
+import { AntDesign } from '@expo/vector-icons';
 
 const Wallet = ({ userId }) => {
     const [walletBalance, setWalletBalance] = useState(0);
@@ -18,6 +19,7 @@ const Wallet = ({ userId }) => {
     const [transactionList, setTransactionList] = useState([]);
     const [userUserId, setUserId] = useState(null);
     const [showAddMoney, setAddMoney] = useState(false);
+    const [showCheckout, setCheckout] = useState({ visible: false });
     const [showWithdrawMoney, setWithdrawMoney] = useState(false);
     const [createTicketModal, setCreateTicket] = useState(false);
     const [isLoading, setLoading] = useState(false);
@@ -183,6 +185,7 @@ const Wallet = ({ userId }) => {
             if (!getTokenData.data.success) {
                 showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT);
 
+                setCheckout({ visible: false });
                 return;
             }
 
@@ -195,6 +198,7 @@ const Wallet = ({ userId }) => {
             if (!txnToken) {
                 showAlert(LANGUAGES_DATA[lang]?.ALERT.INFO, LANGUAGES_DATA[lang]?.ALERT?.ERROR_TXT);
 
+                setCheckout({ visible: false });
                 return;
             }
 
@@ -231,6 +235,8 @@ const Wallet = ({ userId }) => {
 
                     updateTransactionStatus(orderId, userUserId, `${msgPending}::paytmTxnStatus::${paytmTxnStatus}`, TXN_STATUS.PENDING);
                     setErrorOccured(true);
+
+                    setCheckout({ visible: false });
                     return;
                 }
 
@@ -258,6 +264,7 @@ const Wallet = ({ userId }) => {
 
             setDisabled(false);
             setAddMoney(false);
+            setCheckout({ visible: false });
         } catch (err) {
             setDisabled(false);
             setLoading(false);
@@ -269,6 +276,7 @@ const Wallet = ({ userId }) => {
 
             showAlert(LANGUAGES_DATA[lang]?.ALERT.WARNING, LANGUAGES_DATA[lang]?.WALLET?.TXN_MONEY_FAILED_TXT);
             setErrorOccured(true);
+            setCheckout({ visible: false });
         }
     }
 
@@ -302,7 +310,7 @@ const Wallet = ({ userId }) => {
     const handlePress = async (actionType, payload) => {
         if (actionType === 'addMoney') {
             console.info('add money');
-            await addMoney(payload);
+            setCheckout({ visible: true, payload });
         } else if(actionType === 'withdraw') {
             console.info('withdraw');
             await withDrawAmount(payload);
@@ -315,6 +323,7 @@ const Wallet = ({ userId }) => {
             setAddMoney(false);
             setWithdrawMoney(false);
             setCreateTicket(false);
+            setCheckout({ visible: false });
         }
     };
 
@@ -349,6 +358,65 @@ const Wallet = ({ userId }) => {
             </>
         )
     };
+
+    if(showCheckout?.visible) {
+        return (
+            <SafeAreaView style={[COMMON_STYLES.CONTAINER, { justifyContent: 'center' }]}>
+
+                <View style={[{ backgroundColor: APP_COLORS.backPanelColor, borderRadius: 10, justifyContent: 'center', padding: 20 }]}>
+
+                    <TouchableOpacity onPress={() => setCheckout({ visible: false })} style={COMMON_STYLES.ROW}>
+                        <AntDesign name="arrowleft" size={28} color={APP_COLORS.appThemeColor} />
+                    </TouchableOpacity>
+
+                    <View style={[COMMON_STYLES.ROW_CENTER, { marginBottom: 30 }]}>
+                        <Text style={COMMON_STYLES.BODY_HEADING_1}>Checkout</Text>
+                    </View>
+
+                    <View style={{ backgroundColor: APP_COLORS.white, borderRadius: 10 }}>
+                        <View style={[COMMON_STYLES.ROW_CENTER, { paddingTop: 10, paddingBottom: 10 }]}>
+                            <Text style={[COMMON_STYLES.BODY_TITLE, { fontSize: 16 }]}>Summary</Text>
+                        </View>
+
+                        <View style={{ flexDirection:'row', flexWrap: 'nowrap', padding: 10}}>
+                            <View style={{ width: '50%'}}>
+                                <View style={COMMON_STYLES.ROW}>
+                                    <Text style={COMMON_STYLES.BODY_TITLE}>Purchase Type</Text>
+                                </View>
+                            </View>
+
+                            <View style={{ width: '50%'}}>
+                                <View style={COMMON_STYLES.ROW}>
+                                    <Text style={COMMON_STYLES.BODY_TITLE}>Adding Money in Wallet</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={{ flexDirection:'row', flexWrap: 'nowrap', padding: 10 }}>
+                            <View style={{ width: '50%'}}>
+                                <View style={COMMON_STYLES.ROW}>
+                                    <Text style={COMMON_STYLES.BODY_TITLE}>Total</Text>
+                                </View>
+                            </View>
+
+                            <View style={{ width: '50%'}}>
+                                <View style={COMMON_STYLES.ROW}>
+                                    <Text style={COMMON_STYLES.BODY_TITLE}>{1} Rupees</Text>
+                                </View>
+                            </View>
+                        </View>
+                    
+                    </View>
+                    <TouchableOpacity disabled={isDisabled} onPress={async () => {
+                        setLoading(true);
+                        await addMoney(showCheckout.payload) 
+                        setLoading(false);
+                    }} style={[COMMON_STYLES.BTN_1, { backgroundColor: APP_COLORS.green, marginTop: 30 }]}><Loader isLoading={isLoading}/><Text style={[COMMON_STYLES.BTN_TEXT, {color: APP_COLORS.white}]}>Checkout</Text></TouchableOpacity>
+
+                </View>
+            </SafeAreaView>
+        )
+    }
 
     
     return (

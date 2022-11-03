@@ -62,6 +62,11 @@ export const COMMON_STYLES = {
         color: APP_COLORS.black,
     },
 
+    BTN_TEXT_WHITE: {
+        fontSize: 14,
+        color: APP_COLORS.white,
+    },
+
     SUB_BTN_TXT: {
         fontSize: 14,
         color: APP_COLORS.black,
@@ -102,12 +107,12 @@ export const COMMON_STYLES = {
     },
     BODY_TITLE_WHITE:  {
         color: APP_COLORS.white,
-        fontSize: 12,
+        fontSize: 14,
         
     },
     BODY_TITLE_BLACK:  {
         color: APP_COLORS.black,
-        fontSize: 12,
+        fontSize: 14,
         
     },
     BODY_HEADING_1:  {
