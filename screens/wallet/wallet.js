@@ -407,10 +407,12 @@ const Wallet = ({ userId }) => {
                         </View>
                     
                     </View>
-                    <TouchableOpacity disabled={isDisabled} onPress={async () => {
+                    <TouchableOpacity disabled={isLoading && isDisabled} onPress={async () => {
                         setLoading(true);
+                        setDisabled(true);
                         await addMoney(showCheckout.payload) 
                         setLoading(false);
+                        setDisabled(false);
                     }} style={[COMMON_STYLES.BTN_1, { backgroundColor: APP_COLORS.green, marginTop: 30 }]}><Loader isLoading={isLoading}/><Text style={[COMMON_STYLES.BTN_TEXT, {color: APP_COLORS.white}]}>Checkout</Text></TouchableOpacity>
 
                 </View>
