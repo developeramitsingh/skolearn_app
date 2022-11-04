@@ -1,6 +1,6 @@
 import { WebView } from 'react-native-webview';
 import { COMMON_STYLES } from '../../common/styles/commonStyles';
-import { View, BackHandler } from 'react-native';
+import { View, BackHandler, Text } from 'react-native';
 import { APP_COLORS, ROUTES, STORAGE_KEYS } from '../../constant/constant';
 import BackBtn from '../../components/backBtn/backBtn';
 import { useEffect, useState } from 'react';
@@ -49,7 +49,8 @@ const WebViewScreen = ({ navigation, route}) => {
             <BackBtn color={APP_COLORS.appThemeColor} navigation={navigation} routeToGo={routeToGo}/>
             <WebView 
                 source={{ uri: route?.params?.webViewUrl }}
-            />    
+            /> 
+            <Text style={{ padding: 10 }}>https://skolearn.com is managed by Meena.</Text>   
         </View>
     )
 };

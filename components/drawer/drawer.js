@@ -184,6 +184,12 @@ const Drawer = ({navigation, setDrawer, user }) => {
                                 App Version: {Constant.APP_VERSION}
                             </Text>
                         </View>
+
+                        <View style={COMMON_STYLES.ROW_LEFT}>
+                            <Text style={COMMON_STYLES.BODY_TEXT}>
+                                https://skolearn.com is managed by Meena.
+                            </Text>
+                        </View>
                     </View>
                 </View>
             </ScrollView>
