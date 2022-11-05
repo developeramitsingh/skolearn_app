@@ -21,7 +21,7 @@ export const testStyles = StyleSheet.create({
         textAlign: 'center',
     },
     QUES_TEXT: {
-        fontSize: 14,
+        fontSize: 16,
         width: '100%',
         color: APP_COLORS.black,
     },
@@ -62,7 +62,7 @@ export const testStyles = StyleSheet.create({
     },
     quesIdxCircleTxt: {
       color: APP_COLORS.white,
-      fontSize: 14,
+      fontSize: 16,
     },
 
     /************************* Camera styles  *********************/

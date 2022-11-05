@@ -418,7 +418,7 @@ const Test = ({navigation, route}) => {
             <View style ={COMMON_STYLES.ROW_CENTER}>
                 <Text style={COMMON_STYLES.BODY_TITLE_BLACK}>{LANGUAGES_DATA[lang]?.TEST?.NO_PERMISSION}</Text>
             </View>
-        </View>;
+        </View>
     }
 
     return (
