@@ -126,11 +126,11 @@ const Dashboard = ({navigation, route }) => {
                  </ScrollView>
                 <Tabs tabList = { Constant.DASHBOARD_TEST_TABS } activeTab = {route?.params?.activeTab || state.activeTab} setActiveTab={setActiveTab} screen='DASHBOARD' tabsIn={Constant.SCREENS.TEST_LIST}/>
                 
-                 {
+                 {/* {
                     !isMyTestActive 
                     ? <ScrollTabs tabList = { Constant.DASHBOARD_TEST_GROUP_TABS } activeTab = { state.testGroup || Constant.TEST_GROUPS.GENERAL.VALUE } setActiveTab={settestGroup} screen='DASHBOARD' tabsIn={Constant.SCREENS.TEST_LIST}/>
                     : null
-                 }
+                 } */}
 
                 <View style={[COMMON_STYLES.CONTAINER_LIGHT ]}>
                     {

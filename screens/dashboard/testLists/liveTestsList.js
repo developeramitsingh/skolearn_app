@@ -104,13 +104,13 @@ const LiveTestsList = ({navigation, userId, testGroup })=> {
         <View style={{ flex: 1, paddingTop: 10 }}>
             <Loader isLoading={isLoading}/>
             {/* <Text style={testListsStyles.HEADING_WHITE}>{LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.MEGA_SCHOLAR}</Text> */}
-            <CardList testType={Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={{ flex: 0 }} dataList={megaliveDataList} horizontal = {true} langData={
+            <CardList testType={Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={{ flex: 1 }} dataList={megaliveDataList} horizontal = {true} langData={
                 LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.CARDS
             }/>
             <View style={{ marginVertical: 5 }}></View>
 
             {/* <Text style={testListsStyles.HEADING_WHITE}>{LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.SCHOLAR_EVERYONE}</Text> */}
-            <CardList testType={ Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={{}} dataList={liveDataList} horizontal = {false} langData={
+            <CardList testType={ Constant.TEST_TYPES.LIVE } handleBtnPress = {handleBtnPress} customStyle={{ flex: 2.5 }} dataList={liveDataList} horizontal = {false} langData={
                 LANGUAGES_DATA[lang]?.DASHBOARD?.[Constant.SCREENS.TEST_LIST]?.[Constant.TEST_TYPES.LIVE]?.CARDS
             }/>
         </View>

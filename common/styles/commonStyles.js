@@ -53,6 +53,7 @@ export const COMMON_STYLES = {
         marginTop: '3%',
         marginBottom: '3%',
         paddingVertical: 14,
+        paddingHorizontal: 10,
         borderRadius: 40,
         backgroundColor: APP_COLORS.white,
     },
